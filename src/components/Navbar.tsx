@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Menu, X, ShoppingCart, Search, ChevronDown, Smartphone, Laptop, Activity, Tablet, Droplet, Cpu, HardDrive, Battery, Gamepad2, Watch, Globe, Zap, Phone, MessageCircle, MapPin, Clock, Wrench, ChevronRight, Bluetooth } from 'lucide-react';
+import { Menu, X, ShoppingCart, Search, ChevronDown, Smartphone, Laptop, Activity, Tablet, Droplet, Cpu, HardDrive, Battery, Gamepad2, Watch, Globe, Zap, Phone, MessageCircle, MapPin, Clock, Wrench, ChevronRight, Bluetooth, Camera, Volume2, Layers, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from './Logo';
@@ -18,9 +18,9 @@ const navServices = [
   { to: '/battery-replacement', icon: Battery, title: 'Battery Issues', desc: 'Fast battery replacements & diagnostics' },
   { to: '/water-damage-repair', icon: Droplet, title: 'Water/Liquid Damage', desc: 'Advanced ultrasonic chemical cleaning' },
   { to: '/charging-port-repair', icon: Zap, title: 'Charging Port Problems', desc: 'Fix loose or broken charging ports' },
-  { to: '/camera-repair', icon: Smartphone, title: 'Camera Repair', desc: 'Front and rear camera lens replacements' },
-  { to: '/audio-repair', icon: Smartphone, title: 'Audio Issues', desc: 'Speaker and microphone repairs' },
-  { to: '/body-repair', icon: Smartphone, title: 'Button/Body Damage', desc: 'Housing, back glass, and button fixes' },
+  { to: '/camera-repair', icon: Camera, title: 'Camera Repair', desc: 'Front and rear camera lens replacements' },
+  { to: '/audio-repair', icon: Volume2, title: 'Audio Issues', desc: 'Speaker and microphone repairs' },
+  { to: '/body-repair', icon: Layers, title: 'Button/Body Damage', desc: 'Housing, back glass, and button fixes' },
   { to: '/software-issues', icon: Cpu, title: 'Software Issues', desc: 'OS unlocking, flashing & updates' },
   { to: '/data-recovery', icon: HardDrive, title: 'Data Recovery', desc: 'Secure retrieval for dead devices' },
 ];
@@ -201,6 +201,23 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                             );
                           })}
                         </motion.div>
+                        <div className="p-3 bg-slate-50 dark:bg-slate-750 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between">
+                          <Link 
+                            to="/services" 
+                            onClick={() => setIsRepairsOpen(false)}
+                            className="text-xs font-bold text-brand-blue dark:text-blue-400 hover:text-brand-orange dark:hover:text-brand-orange flex items-center gap-1.5 transition-colors"
+                          >
+                            <span>{isAr ? 'عرض كافة الخدمات والإصلاحات' : 'View All Services & Repairs'}</span>
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </Link>
+                          <Link 
+                            to="/estimate" 
+                            onClick={() => setIsRepairsOpen(false)}
+                            className="text-xs font-semibold text-slate-500 dark:text-slate-400 hover:text-brand-orange transition-colors"
+                          >
+                            {isAr ? 'حاسبة التكلفة الفورية ←' : 'Instant Cost Estimator →'}
+                          </Link>
+                        </div>
                         </motion.div>
                       </div>
                     )}
@@ -378,6 +395,17 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                         transition={{ duration: 0.2 }}
                         className="px-3 pb-3 pt-1 space-y-1 border-t border-slate-700/40"
                       >
+                        <Link 
+                          to="/services" 
+                          className="text-brand-orange bg-brand-orange/10 hover:bg-brand-orange/20 flex items-center justify-between px-3 py-2.5 rounded-lg text-xs font-bold transition-colors mb-1 border border-brand-orange/20"
+                          onClick={() => { setIsOpen(false); setIsRepairsOpen(false); }}
+                        >
+                          <div className="flex items-center gap-2.5">
+                            <Wrench className="w-4 h-4 text-brand-orange shrink-0" />
+                            <span>{isAr ? 'عرض كافة الخدمات والإصلاحات' : 'View All Services & Repairs'}</span>
+                          </div>
+                          <ChevronRight className="w-3.5 h-3.5 text-brand-orange" />
+                        </Link>
                         {navServices.map((service, index) => {
                           const Icon = service.icon;
                           return (

@@ -63,6 +63,9 @@ const GalleryPage = React.lazy(() => import('./pages/GalleryPage'));
 const TroubleshootingPage = React.lazy(() => import('./pages/TroubleshootingPage'));
 const ServicesPage = React.lazy(() => import('./pages/ServicesPage'));
 const SoftwareIssuesPage = React.lazy(() => import('./pages/SoftwareIssuesPage'));
+const CameraRepairPage = React.lazy(() => import('./pages/CameraRepairPage'));
+const AudioRepairPage = React.lazy(() => import('./pages/AudioRepairPage'));
+const BodyRepairPage = React.lazy(() => import('./pages/BodyRepairPage'));
 const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
 const AdminDashboardPage = React.lazy(() => import('./pages/AdminDashboardPage'));
 const ShopPage = React.lazy(() => import('./pages/ShopPage'));
@@ -74,15 +77,30 @@ const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
 // Initialize Google Analytics
 initGA();
 
-function LanguageSync() {
-  const { lang } = useParams<{ lang: string }>();
+function LanguagePathHandler() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const { language, setLanguage } = useLanguage();
 
   useEffect(() => {
-    if ((lang === 'en' || lang === 'ar') && lang !== language) {
-      setLanguage(lang);
+    const pathname = location.pathname;
+    // Check if the URL starts with /en or /ar
+    if (pathname === '/en' || pathname === '/en/') {
+      if (language !== 'en') setLanguage('en');
+      navigate('/' + location.search + location.hash, { replace: true });
+    } else if (pathname === '/ar' || pathname === '/ar/') {
+      if (language !== 'ar') setLanguage('ar');
+      navigate('/' + location.search + location.hash, { replace: true });
+    } else if (pathname.startsWith('/en/')) {
+      if (language !== 'en') setLanguage('en');
+      const cleanPath = pathname.replace(/^\/en/, '');
+      navigate(cleanPath + location.search + location.hash, { replace: true });
+    } else if (pathname.startsWith('/ar/')) {
+      if (language !== 'ar') setLanguage('ar');
+      const cleanPath = pathname.replace(/^\/ar/, '');
+      navigate(cleanPath + location.search + location.hash, { replace: true });
     }
-  }, [lang, language, setLanguage]);
+  }, [location.pathname, location.search, location.hash, language, setLanguage, navigate]);
 
   return null;
 }
@@ -97,6 +115,15 @@ function AppRoutes() {
   const [isBookingLoading, setIsBookingLoading] = useState(false);
   
   const location = useLocation();
+
+  // Normalize path if prefixed by /en or /ar so routes match immediately
+  const rawPath = location.pathname;
+  const strippedPath = rawPath.replace(/^\/(en|ar)(\/|$)/, '/');
+  const normalizedPath = strippedPath.startsWith('/') ? strippedPath : `/${strippedPath}`;
+  const effectiveLocation = {
+    ...location,
+    pathname: normalizedPath
+  };
 
   const openBooking = (serviceName?: string | any) => {
     setIsBookingLoading(true);
@@ -113,7 +140,6 @@ function AppRoutes() {
     <div className="min-h-screen bg-white dark:bg-slate-950 font-sans pb-20 md:pb-0 transition-colors duration-300">
       <CustomCursor />
       <ScrollProgressBar />
-      <LanguageSync />
       <LaunchBanner />
       <TopBar />
       <Navbar 
@@ -124,48 +150,66 @@ function AppRoutes() {
       <main>
         <AnimatePresence mode="wait">
           <Suspense fallback={<LoadingSpinner />}>
-            <Routes location={location} key={location.pathname}>
-            <Route path="/" element={<PageTransition><HomePage onBookNow={openBooking} /></PageTransition>} />
-            <Route path="/about" element={<PageTransition><AboutUsPage /></PageTransition>} />
-            <Route path="/blog" element={<PageTransition><BlogPage /></PageTransition>} />
-            <Route path="/blog/:id" element={<PageTransition><BlogPostPage /></PageTransition>} />
-            <Route path="/faq" element={<PageTransition><FAQPage /></PageTransition>} />
-            <Route path="/intake-form" element={<PageTransition><IntakeFormPage /></PageTransition>} />
-            <Route path="/phone-repair" element={<PageTransition><PhoneRepairPage onBookNow={openBooking} /></PageTransition>} />
-            <Route path="/iphone-repair" element={<PageTransition><IPhoneRepairPage onBookNow={openBooking} /></PageTransition>} />
-            <Route path="/samsung-repair" element={<PageTransition><SamsungRepairPage onBookNow={openBooking} /></PageTransition>} />
-            <Route path="/android-flagship-repair" element={<PageTransition><AndroidFlagshipRepairPage onBookNow={openBooking} /></PageTransition>} />
-            <Route path="/gaming-phone-repair" element={<PageTransition><GamingPhoneRepairPage onBookNow={openBooking} /></PageTransition>} />
-            <Route path="/apple-watch-repair" element={<PageTransition><AppleWatchRepairPage onBookNow={openBooking} /></PageTransition>} />
-            <Route path="/liquid-damage-repair" element={<PageTransition><LiquidDamageRepairPage /></PageTransition>} />
-            <Route path="/computer-repair" element={<PageTransition><ComputerRepairPage onBookNow={openBooking} /></PageTransition>} />
-            <Route path="/laptop-repair" element={<PageTransition><LaptopRepairPage onBookNow={openBooking} /></PageTransition>} />
-            <Route path="/macbook-repair" element={<PageTransition><MacBookRepairPage /></PageTransition>} />
-            <Route path="/screen-repair" element={<PageTransition><ScreenRepairPage /></PageTransition>} />
-            <Route path="/laptop-screen-repair" element={<PageTransition><LaptopScreenRepairPage onBookNow={openBooking} /></PageTransition>} />
-            <Route path="/battery-repair" element={<PageTransition><BatteryRepairPage /></PageTransition>} />
-            <Route path="/charging-port-repair" element={<PageTransition><ChargingPortRepairPage /></PageTransition>} />
-            <Route path="/logic-board-repair" element={<PageTransition><LogicBoardRepairPage onBookNow={openBooking} /></PageTransition>} />
-            <Route path="/printer-repair" element={<PageTransition><PrinterRepairPage onBookNow={openBooking} /></PageTransition>} />
-            <Route path="/tablet-repair" element={<PageTransition><TabletRepairPage onBookNow={openBooking} /></PageTransition>} />
-            <Route path="/data-recovery" element={<PageTransition><DataRecoveryPage onBookNow={openBooking} /></PageTransition>} />
-            <Route path="/track-repair" element={<PageTransition><TrackRepairPage /></PageTransition>} />
-            <Route path="/warranty" element={<PageTransition><WarrantyPolicyPage /></PageTransition>} />
-            <Route path="/privacy" element={<PageTransition><PrivacyPolicyPage /></PageTransition>} />
-            <Route path="/screen-protector" element={<PageTransition><ScreenProtectorPage onBookNow={openBooking} /></PageTransition>} />
-            <Route path="/estimate" element={<PageTransition><RepairEstimatePage onBookNow={openBooking} /></PageTransition>} />
-            <Route path="/corporate" element={<PageTransition><CorporateServicesPage /></PageTransition>} />
-            <Route path="/gallery" element={<PageTransition><GalleryPage /></PageTransition>} />
-            <Route path="/troubleshoot" element={<PageTransition><TroubleshootingPage /></PageTransition>} />
-            <Route path="/dashboard" element={<PageTransition><DashboardPage /></PageTransition>} />
-            <Route path="/admin" element={<PageTransition><AdminDashboardPage /></PageTransition>} />
-            <Route path="/shop" element={<PageTransition><ShopPage /></PageTransition>} />
-            <Route path="/contact" element={<PageTransition><ContactPage /></PageTransition>} />
-            <Route path="/reviews" element={<PageTransition><ReviewsPage /></PageTransition>} />
-            <Route path="/trade-in" element={<PageTransition><TradeInPage /></PageTransition>} />
-            <Route path="/services" element={<PageTransition><ServicesPage onBookNow={openBooking} /></PageTransition>} />
-            <Route path="/software-issues" element={<PageTransition><SoftwareIssuesPage onBookNow={openBooking} /></PageTransition>} />
-            <Route path="*" element={<PageTransition><NotFoundPage /></PageTransition>} />
+            <Routes location={effectiveLocation} key={effectiveLocation.pathname}>
+              {/* Primary Pages */}
+              <Route path="/" element={<PageTransition><HomePage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/about" element={<PageTransition><AboutUsPage /></PageTransition>} />
+              <Route path="/blog" element={<PageTransition><BlogPage /></PageTransition>} />
+              <Route path="/blog/:id" element={<PageTransition><BlogPostPage /></PageTransition>} />
+              <Route path="/faq" element={<PageTransition><FAQPage /></PageTransition>} />
+              <Route path="/intake-form" element={<PageTransition><IntakeFormPage /></PageTransition>} />
+              
+              {/* Services Hub & Repairs Catalog */}
+              <Route path="/services" element={<PageTransition><ServicesPage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/repairs" element={<PageTransition><ServicesPage onBookNow={openBooking} /></PageTransition>} />
+              
+              {/* Device Category Repair Routes */}
+              <Route path="/phone-repair" element={<PageTransition><PhoneRepairPage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/mobile-repair" element={<PageTransition><PhoneRepairPage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/iphone-repair" element={<PageTransition><IPhoneRepairPage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/samsung-repair" element={<PageTransition><SamsungRepairPage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/android-flagship-repair" element={<PageTransition><AndroidFlagshipRepairPage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/gaming-phone-repair" element={<PageTransition><GamingPhoneRepairPage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/apple-watch-repair" element={<PageTransition><AppleWatchRepairPage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/computer-repair" element={<PageTransition><ComputerRepairPage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/laptop-repair" element={<PageTransition><LaptopRepairPage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/macbook-repair" element={<PageTransition><MacBookRepairPage /></PageTransition>} />
+              <Route path="/tablet-repair" element={<PageTransition><TabletRepairPage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/printer-repair" element={<PageTransition><PrinterRepairPage onBookNow={openBooking} /></PageTransition>} />
+
+              {/* Specific Hardware Component & Issue Repairs */}
+              <Route path="/screen-repair" element={<PageTransition><ScreenRepairPage /></PageTransition>} />
+              <Route path="/cracked-screen-repair" element={<PageTransition><ScreenRepairPage /></PageTransition>} />
+              <Route path="/laptop-screen-repair" element={<PageTransition><LaptopScreenRepairPage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/battery-repair" element={<PageTransition><BatteryRepairPage /></PageTransition>} />
+              <Route path="/battery-replacement" element={<PageTransition><BatteryRepairPage /></PageTransition>} />
+              <Route path="/liquid-damage-repair" element={<PageTransition><LiquidDamageRepairPage /></PageTransition>} />
+              <Route path="/water-damage-repair" element={<PageTransition><LiquidDamageRepairPage /></PageTransition>} />
+              <Route path="/charging-port-repair" element={<PageTransition><ChargingPortRepairPage /></PageTransition>} />
+              <Route path="/camera-repair" element={<PageTransition><CameraRepairPage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/audio-repair" element={<PageTransition><AudioRepairPage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/body-repair" element={<PageTransition><BodyRepairPage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/logic-board-repair" element={<PageTransition><LogicBoardRepairPage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/data-recovery" element={<PageTransition><DataRecoveryPage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/software-issues" element={<PageTransition><SoftwareIssuesPage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/screen-protector" element={<PageTransition><ScreenProtectorPage onBookNow={openBooking} /></PageTransition>} />
+
+              {/* Estimation, Tracking, Commercial & User Utility Routes */}
+              <Route path="/estimate" element={<PageTransition><RepairEstimatePage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/repair-estimate" element={<PageTransition><RepairEstimatePage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/track-repair" element={<PageTransition><TrackRepairPage /></PageTransition>} />
+              <Route path="/troubleshoot" element={<PageTransition><TroubleshootingPage /></PageTransition>} />
+              <Route path="/corporate" element={<PageTransition><CorporateServicesPage /></PageTransition>} />
+              <Route path="/gallery" element={<PageTransition><GalleryPage /></PageTransition>} />
+              <Route path="/shop" element={<PageTransition><ShopPage /></PageTransition>} />
+              <Route path="/contact" element={<PageTransition><ContactPage /></PageTransition>} />
+              <Route path="/reviews" element={<PageTransition><ReviewsPage /></PageTransition>} />
+              <Route path="/trade-in" element={<PageTransition><TradeInPage /></PageTransition>} />
+              <Route path="/warranty" element={<PageTransition><WarrantyPolicyPage /></PageTransition>} />
+              <Route path="/privacy" element={<PageTransition><PrivacyPolicyPage /></PageTransition>} />
+              <Route path="/dashboard" element={<PageTransition><DashboardPage /></PageTransition>} />
+              <Route path="/admin" element={<PageTransition><AdminDashboardPage /></PageTransition>} />
+              <Route path="*" element={<PageTransition><NotFoundPage /></PageTransition>} />
             </Routes>
           </Suspense>
         </AnimatePresence>
@@ -215,31 +259,11 @@ export default function App() {
         <GoogleReCaptchaProvider reCaptchaKey={import.meta.env.VITE_RECAPTCHA_SITE_KEY || ''}>
           <Router>
             <Analytics />
-            <Routes>
-              <Route path="/:lang/*" element={<LanguageRouteValidator />} />
-              <Route path="*" element={<LangRedirect />} />
-            </Routes>
+            <LanguagePathHandler />
+            <AppRoutes />
           </Router>
         </GoogleReCaptchaProvider>
       </LanguageProvider>
     </ErrorBoundary>
   );
-}
-
-function LanguageRouteValidator() {
-  const { lang } = useParams<{ lang: string }>();
-  const location = useLocation();
-
-  if (lang !== 'en' && lang !== 'ar') {
-    // If the lang path segment is invalid, it might actually be a route like /faq
-    // Treat the whole pathname as the target route and prepend /en
-    return <Navigate to={`/en${location.pathname}${location.search}`} replace />;
-  }
-
-  return <AppRoutes />;
-}
-
-function LangRedirect() {
-  const location = useLocation();
-  return <Navigate to={`/en${location.pathname}${location.search}`} replace />;
 }
