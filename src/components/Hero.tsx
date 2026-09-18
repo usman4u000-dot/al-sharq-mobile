@@ -24,7 +24,7 @@ export default function Hero({ onBookNow }: HeroProps) {
   const isAr = language === 'ar';
 
   return (
-    <div className="relative bg-brand-blue dark:bg-slate-950 overflow-hidden min-h-[580px] sm:min-h-[640px] lg:min-h-[700px] flex items-center transition-colors duration-300 text-start">
+    <div className="relative bg-brand-blue dark:bg-slate-950 overflow-hidden min-h-[500px] sm:min-h-[640px] lg:min-h-[700px] flex items-center transition-colors duration-300 text-start">
       {/* Dynamic Background */}
       <div className="absolute inset-0 transition-opacity duration-1000">
         <div className="absolute inset-0 bg-gradient-to-r from-brand-blue via-brand-blue/95 to-brand-blue/75 dark:from-slate-950 dark:via-slate-950/95 dark:to-slate-950/75 z-10" />
@@ -50,27 +50,27 @@ export default function Hero({ onBookNow }: HeroProps) {
         </div>
       </div>
 
-      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16 lg:py-24 w-full grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-16 lg:py-24 w-full grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
         <div className="lg:pr-12">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-white text-xs sm:text-sm font-medium mb-4 sm:mb-6 backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-white/10 border border-white/15 text-white text-[11px] sm:text-sm font-medium mb-3 sm:mb-6 backdrop-blur-md">
               <span className="w-2 h-2 rounded-full bg-green-400 animate-ping absolute"></span>
               <span className="w-2 h-2 rounded-full bg-green-400 relative"></span>
               <span>{isAr ? 'المختبر الأكثر تطوراً في الشارقة' : "Sharjah's Most Advanced Repair Lab"}</span>
             </div>
             
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-4 sm:mb-6 tracking-tight">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-3 sm:mb-6 tracking-tight">
               {isAr ? 'خبراء إصلاح الهواتف والكمبيوتر' : 'Fast, Certified Device Repairs'} <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange via-orange-400 to-amber-300 text-2xl sm:text-3xl md:text-4xl lg:text-5xl block mt-1.5 sm:mt-2">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-orange via-orange-400 to-amber-300 text-xl sm:text-3xl md:text-4xl lg:text-5xl block mt-1 sm:mt-2">
                 {isAr ? 'إصلاح الهواتف واللابتوب في نفس اليوم' : 'Same-Day Mobile & Laptop Care in Sharjah'}
               </span>
             </h1>
             
-            <p className="text-sm sm:text-base md:text-lg text-gray-300 mb-6 sm:mb-8 max-w-xl leading-relaxed font-normal">
+            <p className="text-xs sm:text-base md:text-lg text-gray-300 mb-5 sm:mb-8 max-w-xl leading-relaxed font-normal">
               {isAr 
                 ? 'مركز الإصلاح الشامل في مويلح، الشارقة. من استبدال شاشات الآيفون وسامسونج إلى صيانة بوردات الماك بوك واستعادة البيانات المفقودة، بأعلى معايير الجودة وضمان 90 يوماً.'
                 : 'Muwaileh’s premier electronics repair center. From cracked iPhone and Samsung screens to MacBook logic board micro-soldering and secure data recovery, backed by a 90-day warranty.'}
@@ -81,19 +81,19 @@ export default function Hero({ onBookNow }: HeroProps) {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4"
+            className="flex flex-col sm:flex-row gap-2.5 sm:gap-4"
           >
             <MagneticButton 
               onClick={onBookNow}
-              className="bg-brand-orange hover:bg-orange-500 text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-bold text-base sm:text-lg transition-all shadow-[0_8px_30px_rgba(249,115,22,0.4)] flex items-center justify-center gap-2"
+              className="w-full sm:w-auto bg-brand-orange hover:bg-orange-500 text-white px-5 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base md:text-lg transition-all shadow-[0_8px_30px_rgba(249,115,22,0.4)] flex items-center justify-center gap-2 active:scale-95"
               strength={30}
             >
               <span>{isAr ? 'احجز موعد إصلاح' : 'Book a Repair'}</span>
-              <ArrowRight className={`h-5 w-5 ${isAr ? 'rotate-180' : ''}`} />
+              <ArrowRight className={`h-4 w-4 sm:h-5 sm:w-5 ${isAr ? 'rotate-180' : ''}`} />
             </MagneticButton>
             <MagneticButton 
               onClick={onBookNow}
-              className="bg-white/10 hover:bg-white/15 text-white border border-white/20 px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl font-bold text-base sm:text-lg transition-all backdrop-blur-md flex items-center justify-center gap-2"
+              className="w-full sm:w-auto bg-white/10 hover:bg-white/15 text-white border border-white/20 px-5 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base md:text-lg transition-all backdrop-blur-md flex items-center justify-center gap-2 active:scale-95"
               strength={20}
             >
               <span>{isAr ? 'حساب تكلفة الإصلاح' : 'Get Free Estimate'}</span>

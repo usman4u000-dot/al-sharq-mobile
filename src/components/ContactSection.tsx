@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Send, Mail, User, MessageSquare, FileText, Phone, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { db } from '../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 export default function ContactSection() {
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -72,8 +74,38 @@ export default function ContactSection() {
       const token = (executeRecaptcha ? await executeRecaptcha('contact_form') : 'dummy-token');
       console.log('reCAPTCHA token:', token);
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Save directly to Firestore database
+      try {
+        await addDoc(collection(db, 'inquiries'), {
+          type: 'contact_message',
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          notifyEmail: 'alsharqmobile@gmail.com',
+          status: 'unread',
+          createdAt: serverTimestamp()
+        });
+      } catch (dbErr) {
+        console.warn('Firestore contact save warning:', dbErr);
+      }
+
+      // Notify backend server targeting alsharqmobile@gmail.com
+      try {
+        await fetch('/api/contact-inquiry', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            subject: formData.subject,
+            message: formData.message,
+            targetEmail: 'alsharqmobile@gmail.com'
+          })
+        });
+      } catch (apiErr) {
+        console.warn('Server contact inquiry error:', apiErr);
+      }
       
       setIsSubmitting(false);
       setIsSuccess(true);
@@ -191,8 +223,8 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-900 dark:text-white">Email Us</h4>
-                    <a href="mailto:support@allsharq.com" className="text-gray-600 dark:text-gray-400 hover:text-brand-orange dark:hover:text-brand-orange transition-colors mt-1 block">
-                      support@allsharq.com
+                    <a href="mailto:alsharqmobile@gmail.com" className="text-gray-600 dark:text-gray-400 hover:text-brand-orange dark:hover:text-brand-orange transition-colors mt-1 block">
+                      alsharqmobile@gmail.com
                     </a>
                   </div>
                 </div>

@@ -118,8 +118,8 @@ export default function Footer({ onOpenTerms }: FooterProps) {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-xs text-gray-500 mb-0.5">Email Us</span>
-                  <a href="mailto:support@allsharq.com" className="hover:text-brand-orange transition-colors font-medium text-white">
-                    support@allsharq.com
+                  <a href="mailto:alsharqmobile@gmail.com" className="hover:text-brand-orange transition-colors font-medium text-white">
+                    alsharqmobile@gmail.com
                   </a>
                 </div>
               </li>

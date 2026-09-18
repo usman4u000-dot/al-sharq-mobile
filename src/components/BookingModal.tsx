@@ -5,6 +5,8 @@ import { logger } from '../utils/logger';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import emailjs from '@emailjs/browser';
 import confetti from 'canvas-confetti';
+import { db } from '../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -131,16 +133,57 @@ export default function BookingModal({ isOpen, onClose, initialService = '' }: B
       
       const estimatedCost = damages.find(d => d.label === formData.serviceType)?.priceRange || 'Variable (Depends on diagnosis)';
 
-      // We'll call a custom logic/API here in real life.
-      // For now, simulate network API call or EmailJS if configured
+      // 1. Save directly to Firestore DB under bookings collection
+      try {
+        await addDoc(collection(db, 'bookings'), {
+          refNumber: newRefNumber,
+          customerName: formData.name,
+          customerEmail: formData.email,
+          customerPhone: formData.phone,
+          city: formData.city,
+          deviceCategory: formData.deviceCategory,
+          deviceModel: formData.deviceModel,
+          serviceType: formData.serviceType,
+          serviceMethod: formData.serviceMethod,
+          preferredTime: formData.preferredTime,
+          estimatedCost,
+          notifyEmail: 'alsharqmobile@gmail.com',
+          status: 'pending',
+          createdAt: serverTimestamp()
+        });
+      } catch (dbErr) {
+        console.warn('Firestore booking save error:', dbErr);
+      }
+
+      // 2. Dispatch notification to server API for alsharqmobile@gmail.com
+      try {
+        await fetch('/api/send-booking-notification', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            refNumber: newRefNumber,
+            targetEmail: 'alsharqmobile@gmail.com',
+            ...formData,
+            estimatedCost
+          })
+        });
+      } catch (apiErr) {
+        console.warn('Backend notification API error:', apiErr);
+      }
+
+      // 3. Dispatch via EmailJS if credentials exist, targeting alsharqmobile@gmail.com
       try {
         if (import.meta.env.VITE_EMAILJS_SERVICE_ID && import.meta.env.VITE_EMAILJS_TEMPLATE_ID && import.meta.env.VITE_EMAILJS_PUBLIC_KEY) {
           await emailjs.send(
             import.meta.env.VITE_EMAILJS_SERVICE_ID,
             import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
             {
-              to_name: formData.name,
-              to_email: formData.email,
+              to_name: 'Al Sharq Mobile Lab',
+              to_email: 'alsharqmobile@gmail.com',
+              business_email: 'alsharqmobile@gmail.com',
+              customer_name: formData.name,
+              customer_email: formData.email,
+              reply_to: formData.email,
               ref_number: newRefNumber,
               device_model: formData.deviceModel,
               service_type: formData.serviceType,
@@ -152,12 +195,11 @@ export default function BookingModal({ isOpen, onClose, initialService = '' }: B
             import.meta.env.VITE_EMAILJS_PUBLIC_KEY
           );
         } else {
-          console.log('Simulating email send since EmailJS credentials are not set.');
-          await new Promise(resolve => setTimeout(resolve, 1500));
+          console.log('[BOOKING LOGGED] Target notification recipient: alsharqmobile@gmail.com');
+          await new Promise(resolve => setTimeout(resolve, 800));
         }
       } catch (emailError) {
         logger.error("Failed to send email via EmailJS", emailError);
-        // Continue with success even if email fails in demo
       }
       
       setRefNumber(newRefNumber);
@@ -237,17 +279,40 @@ export default function BookingModal({ isOpen, onClose, initialService = '' }: B
                      </p>
                      
                      {refNumber && (
-                       <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl p-4 mb-6 inline-block text-left w-full max-w-sm">
-                         <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-1">
-                           <Hash className="w-4 h-4" /> Estimated Ref Number
+                       <div className="bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl p-4 mb-6 inline-block text-left w-full max-w-md">
+                         <div className="flex items-center justify-between mb-1">
+                           <span className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
+                             <Hash className="w-3.5 h-3.5" /> Booking Reference
+                           </span>
+                           <span className="text-xs font-semibold text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-950/40 px-2 py-0.5 rounded-full">
+                             Dispatched to Lab
+                           </span>
                          </div>
-                         <div className="text-2xl font-bold text-gray-900 dark:text-white font-mono tracking-wider">
+                         <div className="text-2xl font-bold text-gray-900 dark:text-white font-mono tracking-wider mb-2">
                            {refNumber}
                          </div>
+                         <div className="text-xs text-gray-600 dark:text-gray-300 space-y-1 mb-3">
+                           <p><strong>Device:</strong> {formData.deviceCategory} - {formData.deviceModel}</p>
+                           <p><strong>Service:</strong> {formData.serviceType} ({formData.serviceMethod})</p>
+                           <p><strong>Notification:</strong> <span className="text-brand-orange font-semibold">alsharqmobile@gmail.com</span></p>
+                         </div>
                          <hr className="my-3 border-gray-200 dark:border-slate-700" />
-                         <div className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300">
-                           <Mail className="w-4 h-4 mt-0.5 shrink-0 text-brand-orange" />
-                           <p>We've sent the estimate and booking details to <strong>{formData.email}</strong>.</p>
+                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                           <a
+                             href={`https://wa.me/971507117043?text=${encodeURIComponent(`Salam Al Sharq Lab! I submitted booking:\nRef: ${refNumber}\nCustomer: ${formData.name}\nPhone: ${formData.phone}\nDevice: ${formData.deviceModel}\nService: ${formData.serviceType}`)}`}
+                             target="_blank"
+                             rel="noopener noreferrer"
+                             className="inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg text-xs font-semibold transition-colors"
+                           >
+                             <span>📱 WhatsApp Lab</span>
+                           </a>
+                           <a
+                             href={`mailto:alsharqmobile@gmail.com?subject=${encodeURIComponent(`Booking Ref: ${refNumber} - ${formData.deviceModel}`)}&body=${encodeURIComponent(`Hi Al Sharq Team,\n\nI submitted booking Ref: ${refNumber}\nCustomer: ${formData.name}\nPhone: ${formData.phone}\nDevice: ${formData.deviceModel}\nService: ${formData.serviceType}`)}`}
+                             className="inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600 text-gray-800 dark:text-white rounded-lg text-xs font-semibold transition-colors"
+                           >
+                             <Mail className="w-3.5 h-3.5 text-brand-orange" />
+                             <span>Email to Shop</span>
+                           </a>
                          </div>
                        </div>
                      )}

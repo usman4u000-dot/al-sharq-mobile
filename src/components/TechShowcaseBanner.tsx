@@ -63,25 +63,25 @@ export default function TechShowcaseBanner() {
   const isRtl = language === 'ar';
 
   return (
-    <section className="relative w-full py-12 sm:py-16 md:py-24 bg-slate-900 overflow-hidden">
+    <section className="relative w-full py-8 sm:py-16 md:py-24 bg-slate-900 overflow-hidden">
       {/* Background Gradients */}
-      <div className="absolute top-0 left-0 w-full h-full">
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
         <div className="absolute top-[-10%] right-[-5%] w-[60%] h-[70%] bg-brand-orange/30 rounded-full blur-[120px] mix-blend-screen" />
         <div className="absolute bottom-[-10%] left-[-5%] w-[50%] h-[60%] bg-blue-600/20 rounded-full blur-[100px] mix-blend-screen" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="bg-gradient-to-br from-[#FF5A1F] to-[#CC3A00] rounded-2xl sm:rounded-3xl md:rounded-[2.5rem] p-5 sm:p-8 md:p-12 overflow-hidden relative shadow-[0_20px_50px_rgba(255,90,31,0.3)] border border-orange-400/30 min-h-[480px] md:min-h-[600px] flex flex-col md:flex-row shadow-inner">
+        <div className="bg-gradient-to-br from-[#FF5A1F] to-[#CC3A00] rounded-2xl sm:rounded-3xl md:rounded-[2.5rem] p-4 sm:p-8 md:p-12 overflow-hidden relative shadow-[0_20px_50px_rgba(255,90,31,0.3)] border border-orange-400/30 min-h-0 md:min-h-[600px] flex flex-col md:flex-row shadow-inner">
           
           {/* Subtle noise texture */}
           <div className="absolute inset-0 opacity-20 mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
 
           {/* Huge Background Text */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[8rem] sm:text-[12rem] md:text-[20rem] font-bold text-white/5 whitespace-nowrap pointer-events-none select-none tracking-tighter mix-blend-overlay font-black">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl sm:text-[10rem] md:text-[18rem] font-bold text-white/5 whitespace-nowrap pointer-events-none select-none tracking-tighter mix-blend-overlay font-black max-w-full overflow-hidden">
             ULTRA
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center w-full relative z-10 h-full">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-12 items-center w-full relative z-10 h-full">
             
             {/* Left Content Area (Text & Specs) */}
             <div className={`flex flex-col justify-center ${isRtl ? 'order-2 md:order-2 text-right' : 'order-2 md:order-1'}`}>
@@ -91,18 +91,18 @@ export default function TechShowcaseBanner() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
               >
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/20 border border-white/30 text-white text-xs font-bold tracking-widest uppercase mb-4 sm:mb-6 backdrop-blur-md">
+                <div className="inline-flex items-center gap-2 px-3 py-1 sm:py-1.5 rounded-full bg-white/20 border border-white/30 text-white text-[11px] sm:text-xs font-bold tracking-widest uppercase mb-3 sm:mb-6 backdrop-blur-md">
                   <Zap className="w-3.5 h-3.5 text-yellow-300" /> {isRtl ? 'أحدث التقنيات' : 'Next-Gen Technology'}
                 </div>
                 
-                <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-white leading-tight mb-3 sm:mb-4 tracking-tight drop-shadow-lg">
+                <h2 className="text-2xl sm:text-4xl md:text-6xl font-black text-white leading-tight mb-2 sm:mb-4 tracking-tight drop-shadow-lg">
                   {isRtl ? 'المستقبل' : 'THE FUTURE'} <br />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-100 to-white">
                     {isRtl ? 'بين يديك الآن.' : 'IS HERE.'}
                   </span>
                 </h2>
                 
-                <p className="text-orange-100/90 text-sm sm:text-base md:text-lg font-medium mb-6 sm:mb-8 max-w-md drop-shadow-md">
+                <p className="text-orange-100/90 text-xs sm:text-base md:text-lg font-medium mb-4 sm:mb-8 max-w-md drop-shadow-md">
                   {isRtl 
                     ? 'اكتشف أداءً استثنائياً ومتانة لا تضاهى مع حلول الصيانة الاحترافية المعتمدة في الشارقة.' 
                     : 'Experience revolutionary performance, unparalleled durability, and AI-driven intelligence.'}

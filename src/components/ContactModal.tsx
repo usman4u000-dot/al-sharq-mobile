@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { X, Send, Mail, User, MessageSquare, FileText } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { db } from '../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -76,8 +78,38 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
       const token = (executeRecaptcha ? await executeRecaptcha('contact_modal') : 'dummy-token');
       console.log('reCAPTCHA token:', token);
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Save directly to Firestore database
+      try {
+        await addDoc(collection(db, 'inquiries'), {
+          type: 'contact_modal',
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          notifyEmail: 'alsharqmobile@gmail.com',
+          status: 'unread',
+          createdAt: serverTimestamp()
+        });
+      } catch (dbErr) {
+        console.warn('Firestore contact modal save warning:', dbErr);
+      }
+
+      // Notify backend server targeting alsharqmobile@gmail.com
+      try {
+        await fetch('/api/contact-inquiry', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            subject: formData.subject,
+            message: formData.message,
+            targetEmail: 'alsharqmobile@gmail.com'
+          })
+        });
+      } catch (apiErr) {
+        console.warn('Server contact modal error:', apiErr);
+      }
       
       setIsSubmitting(false);
       setIsSuccess(true);

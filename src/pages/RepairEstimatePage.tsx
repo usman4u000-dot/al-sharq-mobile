@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Calculator, CheckCircle2, MessageCircle, Calendar, ArrowRight, Loader2, Phone } from 'lucide-react';
+import { Calculator, CheckCircle2, MessageCircle, Calendar, ArrowRight, Loader2, Phone, Mail } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import Breadcrumbs from '../components/Breadcrumbs';
+import { db } from '../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 import AIProblemAnalyzer from '../components/AIProblemAnalyzer';
 import AIImageDiagnosisScanner from '../components/AIImageDiagnosisScanner';
@@ -66,8 +68,45 @@ export default function RepairEstimatePage({ onBookNow }: RepairEstimatePageProp
       const token = (executeRecaptcha ? await executeRecaptcha('repair_estimate') : 'dummy-token');
       console.log('reCAPTCHA token:', token);
       
-      // Simulate API call to save lead
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      const currentDamage = damages.find(d => d.id === formData.damage);
+
+      // Save inquiry to Firestore database
+      try {
+        await addDoc(collection(db, 'inquiries'), {
+          type: 'repair_estimate',
+          model: formData.model,
+          damage: currentDamage?.label || formData.damage,
+          estimatedPrice: currentDamage?.priceRange || 'N/A',
+          whatsapp: formData.whatsapp,
+          notifyEmail: 'alsharqmobile@gmail.com',
+          status: 'new_lead',
+          createdAt: serverTimestamp()
+        });
+      } catch (dbErr) {
+        console.warn('Firestore estimate save warning:', dbErr);
+      }
+
+      // Notify backend server for alsharqmobile@gmail.com
+      try {
+        await fetch('/api/send-booking-notification', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            refNumber: 'EST-' + Math.random().toString(36).substring(2, 7).toUpperCase(),
+            name: 'Estimate Lead',
+            email: 'alsharqmobile@gmail.com',
+            phone: formData.whatsapp,
+            deviceCategory: 'Estimate Lead',
+            deviceModel: formData.model,
+            serviceType: currentDamage?.label || formData.damage,
+            serviceMethod: 'Online Estimate',
+            estimatedCost: currentDamage?.priceRange || 'Diagnostic',
+            targetEmail: 'alsharqmobile@gmail.com'
+          })
+        });
+      } catch (apiErr) {
+        console.warn('Server notification warning:', apiErr);
+      }
       
       setStep(2); // Move to result page
     } catch (error) {
@@ -222,10 +261,13 @@ export default function RepairEstimatePage({ onBookNow }: RepairEstimatePageProp
                     Based on our current stock in Muwaileh.
                   </p>
 
-                  <div className="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-8 mb-8 inline-block min-w-[300px] border border-slate-200 dark:border-slate-700">
+                  <div className="bg-slate-50 dark:bg-slate-900/50 rounded-2xl p-8 mb-6 inline-block min-w-[300px] border border-slate-200 dark:border-slate-700">
                     <div className="text-sm text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold mb-2">Starting From</div>
                     <div className="text-4xl md:text-5xl font-bold text-brand-orange mb-2">
                       {selectedDamage?.priceRange}
+                    </div>
+                    <div className="text-xs text-green-600 dark:text-green-400 font-medium flex items-center justify-center gap-1 mt-2">
+                      <CheckCircle2 className="w-3.5 h-3.5" /> Request logged & sent to alsharqmobile@gmail.com
                     </div>
                     {selectedDamage?.id.includes('dead') || selectedDamage?.id.includes('water') ? (
                       <div className="text-sm text-brand-blue dark:text-blue-400 font-medium mt-3 bg-blue-50 dark:bg-blue-900/20 p-2 rounded-lg">

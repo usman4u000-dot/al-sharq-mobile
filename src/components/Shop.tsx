@@ -99,7 +99,7 @@ export default function Shop() {
                   Buy Now <ShoppingBag className="w-4 h-4" />
                 </button>
                 <div className="mt-3 text-center">
-                  <a href="mailto:support@allsharq.com?subject=Wholesale%20Inquiry" className="text-xs text-brand-blue dark:text-gray-400 hover:text-brand-orange dark:hover:text-brand-orange font-medium underline transition-colors">
+                  <a href="mailto:alsharqmobile@gmail.com?subject=Wholesale%20Inquiry" className="text-xs text-brand-blue dark:text-gray-400 hover:text-brand-orange dark:hover:text-brand-orange font-medium underline transition-colors">
                     Buying for a shop? Click here for Wholesale Pricing
                   </a>
                 </div>

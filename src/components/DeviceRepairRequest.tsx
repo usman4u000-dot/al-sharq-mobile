@@ -1,12 +1,29 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Send, UploadCloud, CheckCircle } from 'lucide-react';
+import { Send, UploadCloud, CheckCircle, MessageCircle } from 'lucide-react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { db } from '../firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
 export default function DeviceRepairRequest() {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    deviceType: 'smartphone',
+    deviceModel: '',
+    serviceRequired: '',
+    serialNumber: '',
+    description: ''
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,8 +38,66 @@ export default function DeviceRepairRequest() {
       const token = (executeRecaptcha ? await executeRecaptcha('device_repair_request') : 'dummy-token');
       console.log('reCAPTCHA token:', token);
 
+      const refNum = 'REQ-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+
+      // 1. Save to Firestore database
+      try {
+        await addDoc(collection(db, 'inquiries'), {
+          refNumber: refNum,
+          type: 'device_repair_request',
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          deviceType: formData.deviceType,
+          deviceModel: formData.deviceModel,
+          serviceRequired: formData.serviceRequired,
+          serialNumber: formData.serialNumber,
+          description: formData.description,
+          notifyEmail: 'alsharqmobile@gmail.com',
+          status: 'pending',
+          createdAt: serverTimestamp()
+        });
+      } catch (dbErr) {
+        console.warn('Firestore request save warning:', dbErr);
+      }
+
+      // 2. Dispatch notification to server API
+      try {
+        await fetch('/api/send-booking-notification', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            refNumber: refNum,
+            name: formData.name,
+            phone: formData.phone,
+            email: formData.email,
+            deviceCategory: formData.deviceType,
+            deviceModel: formData.deviceModel,
+            serviceType: formData.serviceRequired,
+            serviceMethod: 'Online Request Form',
+            estimatedCost: 'Custom Quote',
+            notes: formData.description,
+            targetEmail: 'alsharqmobile@gmail.com'
+          })
+        });
+      } catch (apiErr) {
+        console.warn('Server notification warning:', apiErr);
+      }
+
       setIsSubmitted(true);
-      setTimeout(() => setIsSubmitted(false), 5000);
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          deviceType: 'smartphone',
+          deviceModel: '',
+          serviceRequired: '',
+          serialNumber: '',
+          description: ''
+        });
+      }, 8000);
     } catch (error) {
       console.error('reCAPTCHA error:', error);
     } finally {
@@ -55,24 +130,44 @@ export default function DeviceRepairRequest() {
           className="bg-white dark:bg-slate-900 rounded-3xl p-8 md:p-12 shadow-2xl text-slate-900 dark:text-white"
         >
           {isSubmitted ? (
-            <div className="text-center py-16">
-              <div className="w-24 h-24 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-6">
-                <CheckCircle className="w-12 h-12" />
+            <div className="text-center py-12">
+              <div className="w-20 h-20 bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 rounded-full flex items-center justify-center mx-auto mb-6">
+                <CheckCircle className="w-10 h-10" />
               </div>
-              <h3 className="text-3xl font-bold mb-4">Request Received!</h3>
-              <p className="text-lg text-gray-600 dark:text-gray-400">
-                Thank you for reaching out. Our technicians will review your request and contact you shortly.
+              <h3 className="text-3xl font-bold mb-3">Request Received & Logged!</h3>
+              <p className="text-base text-gray-600 dark:text-gray-300 max-w-lg mx-auto mb-4">
+                Thank you, <strong>{formData.name || 'valued customer'}</strong>. Your repair details have been recorded and forwarded to our lab team at <span className="text-brand-orange font-semibold">alsharqmobile@gmail.com</span>.
               </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-6">
+                <a
+                  href={`https://wa.me/971507117043?text=${encodeURIComponent(`Salam Al Sharq Lab! I just submitted a repair request for my ${formData.deviceModel || 'device'} (${formData.serviceRequired || 'repair'}).`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl text-sm transition-colors shadow-md"
+                >
+                  <MessageCircle className="w-4 h-4" /> Message on WhatsApp (+971 50 711 7043)
+                </a>
+                <button
+                  type="button"
+                  onClick={() => setIsSubmitted(false)}
+                  className="px-6 py-3 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 rounded-xl text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                >
+                  Submit Another Device
+                </button>
+              </div>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Full Name
                   </label>
                   <input
                     type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     required
                     className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none transition-all"
                     placeholder="John Doe"
@@ -84,6 +179,9 @@ export default function DeviceRepairRequest() {
                   </label>
                   <input
                     type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
                     required
                     className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none transition-all"
                     placeholder="+971 50 000 0000"
@@ -95,6 +193,9 @@ export default function DeviceRepairRequest() {
                   </label>
                   <input
                     type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     required
                     className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none transition-all"
                     placeholder="john@example.com"
@@ -108,10 +209,12 @@ export default function DeviceRepairRequest() {
                     Device Type
                   </label>
                   <select
+                    name="deviceType"
+                    value={formData.deviceType}
+                    onChange={handleChange}
                     required
                     className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none transition-all"
                   >
-                    <option value="">Select Device Type</option>
                     <option value="smartphone">Smartphone</option>
                     <option value="tablet">Tablet</option>
                     <option value="laptop">Laptop / MacBook</option>
@@ -125,9 +228,12 @@ export default function DeviceRepairRequest() {
                   </label>
                   <input
                     type="text"
+                    name="deviceModel"
+                    value={formData.deviceModel}
+                    onChange={handleChange}
                     required
                     className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none transition-all"
-                    placeholder="e.g., iPhone 13 Pro, Galaxy S22"
+                    placeholder="e.g., iPhone 16 Pro Max, Galaxy S24 Ultra"
                   />
                 </div>
               </div>
@@ -138,6 +244,9 @@ export default function DeviceRepairRequest() {
                     Service Required
                   </label>
                   <select
+                    name="serviceRequired"
+                    value={formData.serviceRequired}
+                    onChange={handleChange}
                     required
                     className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none transition-all"
                   >
@@ -160,6 +269,9 @@ export default function DeviceRepairRequest() {
                   </label>
                   <input
                     type="text"
+                    name="serialNumber"
+                    value={formData.serialNumber}
+                    onChange={handleChange}
                     className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none transition-all"
                     placeholder="Enter serial number if known"
                   />
@@ -171,6 +283,9 @@ export default function DeviceRepairRequest() {
                   Issue Description
                 </label>
                 <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleChange}
                   required
                   rows={4}
                   className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none transition-all resize-none"

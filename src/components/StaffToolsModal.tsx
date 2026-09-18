@@ -1403,7 +1403,7 @@ Thank you for your continued trust!`;
                   <div className="mt-4 text-sm text-gray-600">
                     <p>Al Muwaileh Commercial, Sharjah, UAE</p>
                     <p>Tel: +971 50 711 7043</p>
-                    <p>Email: support@allsharq.com</p>
+                    <p>Email: alsharqmobile@gmail.com</p>
                   </div>
                 </div>
               </div>

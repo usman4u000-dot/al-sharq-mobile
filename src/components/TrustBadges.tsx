@@ -27,19 +27,19 @@ export default function TrustBadges() {
   ];
 
   return (
-    <section className="py-16 bg-white dark:bg-slate-950 border-b border-slate-100 dark:border-slate-800 transition-colors duration-300">
+    <section className="py-10 sm:py-16 bg-white dark:bg-slate-950 border-b border-slate-100 dark:border-slate-800 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-brand-blue dark:text-white mb-4 flex items-center justify-center gap-3">
-            <Shield className="w-8 h-8 text-brand-orange" />
-            The Al Sharq Mobile Phone & Computer Trading LLC (Techfix & Gidgets) Guarantee
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-2xl sm:text-3xl font-bold text-brand-blue dark:text-white mb-2 sm:mb-3 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3 text-center">
+            <Shield className="w-7 h-7 sm:w-8 sm:h-8 text-brand-orange shrink-0" />
+            <span>The Al Sharq Quality Guarantee</span>
           </h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400">
-            Why Sharjah has trusted us since 2014
+          <p className="text-sm sm:text-lg text-gray-600 dark:text-gray-400 max-w-xl mx-auto">
+            Why Sharjah device owners have trusted our Muwaileh workshop since 2014
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
           {badges.map((badge, index) => (
             <motion.div
               key={index}

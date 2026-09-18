@@ -247,13 +247,13 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                     (navigator as any).bluetooth.requestDevice({
                       acceptAllDevices: true,
                       optionalServices: ['battery_service']
-                    }).then(device => {
-                      alert(`Bluetooth 5.0 Audio connected: ${device.name || 'Unknown Audio Device'}`);
-                    }).catch(error => {
+                    }).then((device: any) => {
+                      console.log(`Bluetooth connected: ${device.name || 'Device'}`);
+                    }).catch((error: any) => {
                       console.log('Bluetooth auto-pairing cancelled or failed', error);
                     });
                   } else {
-                    alert('Bluetooth 5.0 connectivity is not supported in this environment.');
+                    console.log('Bluetooth connectivity is not supported in this browser environment.');
                   }
                 }}
                 className="p-2 hover:bg-white/10 rounded-full transition-colors relative group"

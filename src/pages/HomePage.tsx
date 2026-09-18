@@ -52,7 +52,7 @@ export default function HomePage({ onBookNow }: HomePageProps) {
         "image": "https://allsharq.com/logo.png",
         "url": "https://allsharq.com",
         "telephone": "+971507117043",
-        "email": "support@allsharq.com",
+        "email": "alsharqmobile@gmail.com",
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "Muwailah Area",

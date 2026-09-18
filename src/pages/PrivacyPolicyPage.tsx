@@ -73,7 +73,7 @@ export default function PrivacyPolicyPage() {
             <div className="mt-12 p-6 bg-brand-blue/5 dark:bg-slate-700/50 rounded-2xl border border-brand-blue/10 dark:border-slate-600">
               <h4 className="text-xl font-bold text-brand-blue dark:text-white mb-2">Contact Us About Privacy</h4>
               <p className="mb-0">
-                If you have any questions about this privacy policy or our privacy practices, please contact us at <strong>support@allsharq.com</strong>.
+                If you have any questions about this privacy policy or our privacy practices, please contact us at <strong>alsharqmobile@gmail.com</strong>.
               </p>
             </div>
           </div>

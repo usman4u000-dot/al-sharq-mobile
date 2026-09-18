@@ -29,29 +29,29 @@ interface ServicesProps {
 
 export default function Services({ onBookService }: ServicesProps) {
   return (
-    <section id="services" className="py-24 bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
+    <section id="services" className="py-12 sm:py-20 bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header Section */}
-        <div className="text-center mb-16">
-          <h2 className="text-brand-orange font-semibold tracking-wide uppercase text-sm mb-2">Our Expertise</h2>
-          <h3 className="text-3xl md:text-5xl font-bold text-brand-blue dark:text-white mb-6">Professional Tech Solutions</h3>
-          <p className="text-xl text-brand-blue/80 dark:text-gray-300 font-medium max-w-3xl mx-auto mb-4">
+        <div className="text-center mb-10 sm:mb-16">
+          <h2 className="text-brand-orange font-semibold tracking-wide uppercase text-xs sm:text-sm mb-2">Our Expertise</h2>
+          <h3 className="text-2xl sm:text-3xl md:text-5xl font-bold text-brand-blue dark:text-white mb-3 sm:mb-6">Professional Tech Solutions</h3>
+          <p className="text-base sm:text-xl text-brand-blue/80 dark:text-gray-300 font-medium max-w-3xl mx-auto mb-3">
             Positioning Al Sharq Mobile as the high-end engineering alternative to expensive agency repairs in the UAE.
           </p>
-          <p className="text-brand-grey dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xs sm:text-base text-brand-grey dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
             Whether you need an <strong>iPad repair</strong>, a <strong>MacBook repair</strong>, or a <strong>Samsung Galaxy repair</strong>, our technicians follow a rigorous diagnostic protocol. We handle everything from <strong>battery replacement</strong> and <strong>charging port repair</strong> to critical <strong><Link to="/data-recovery" className="hover:text-brand-orange transition-colors underline">data recovery</Link></strong> and <strong>water damage repair</strong>.
           </p>
         </div>
 
         {/* I. Specialized Technical Services */}
-        <div className="mb-24">
-          <div className="mb-12 text-center">
-            <h4 className="text-3xl font-bold text-brand-blue dark:text-white mb-4">I. Specialized Technical Services</h4>
-            <p className="text-lg text-brand-grey dark:text-gray-400">Precision engineering for the modern professional.</p>
+        <div className="mb-14 sm:mb-24">
+          <div className="mb-8 sm:mb-12 text-center">
+            <h4 className="text-2xl sm:text-3xl font-bold text-brand-blue dark:text-white mb-2 sm:mb-4">I. Specialized Technical Services</h4>
+            <p className="text-sm sm:text-lg text-brand-grey dark:text-gray-400">Precision engineering for the modern professional.</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
             <ServiceDetailCard 
               icon={Laptop}
               title="1. Advanced MacBook & Logic Board Repair"
