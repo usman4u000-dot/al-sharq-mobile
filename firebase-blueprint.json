@@ -1,0 +1,45 @@
+{
+  "entities": {
+    "Ticket": {
+      "title": "Repair Ticket",
+      "description": "A ticket tracking a device repair job.",
+      "type": "object",
+      "properties": {
+        "customerName": { "type": "string", "description": "Name of the customer" },
+        "device": { "type": "string", "description": "Device model and type" },
+        "issue": { "type": "string", "description": "Description of the issue" },
+        "status": { 
+          "type": "string", 
+          "enum": ["pending", "diagnosing", "waiting-for-parts", "repairing", "ready-for-pickup", "completed", "cancelled"],
+          "description": "Current status of the repair"
+        },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last update timestamp" },
+        "notes": { "type": "string", "description": "Internal notes for staff" },
+        "ticketId": { "type": "string", "description": "Unique readable ID for customer tracking" }
+      },
+      "required": ["customerName", "device", "issue", "status", "createdAt", "ticketId"]
+    },
+    "User": {
+      "title": "User",
+      "description": "A user of the application (staff or admin).",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["admin", "staff"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["email", "role"]
+    }
+  },
+  "firestore": {
+    "tickets/{ticketId}": {
+      "schema": "Ticket",
+      "description": "Collection of repair tickets"
+    },
+    "users/{userId}": {
+      "schema": "User",
+      "description": "Collection of users with roles"
+    }
+  }
+}

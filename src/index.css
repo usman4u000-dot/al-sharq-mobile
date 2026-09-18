@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-brand-blue: #0A192F; /* Deep Navy Blue (Trust) */
+  --color-brand-grey: #64748b; /* Slate Grey (Technical) */
+  --color-brand-orange: #FF5722; /* Brilliant Orange (Action) */
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  
+  --animate-infinite-scroll: infinite-scroll 40s linear infinite;
+  --animate-infinite-scroll-reverse: infinite-scroll-reverse 45s linear infinite;
+
+  @keyframes infinite-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-50% - 1rem)); }
+  }
+
+  @keyframes infinite-scroll-reverse {
+    from { transform: translateX(calc(-50% - 1rem)); }
+    to { transform: translateX(0); }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+[dir="rtl"] .text-left {
+  text-align: right !important;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left !important;
+}
+
+[dir="rtl"] .ml-auto {
+  margin-right: auto !important;
+  margin-left: unset !important;
+}
+
+[dir="rtl"] .mr-auto {
+  margin-left: auto !important;
+  margin-right: unset !important;
+}
+
+[dir="rtl"] .pl-4 {
+  padding-right: 1rem !important;
+  padding-left: unset !important;
+}
+
+[dir="rtl"] .pr-4 {
+  padding-left: 1rem !important;
+  padding-right: unset !important;
+}
+
+[dir="rtl"] .ml-4 {
+  margin-right: 1rem !important;
+  margin-left: unset !important;
+}
+
+[dir="rtl"] .mr-4 {
+  margin-left: 1rem !important;
+  margin-right: unset !important;
+}
+
+[dir="rtl"] .ml-2 {
+  margin-right: 0.5rem !important;
+  margin-left: unset !important;
+}
+
+[dir="rtl"] .mr-2 {
+  margin-left: 0.5rem !important;
+  margin-right: unset !important;
+}
+
+[dir="rtl"] .-ml-2 {
+  margin-right: -0.5rem !important;
+  margin-left: unset !important;
+}
+
+[dir="rtl"] .-mr-2 {
+  margin-left: -0.5rem !important;
+  margin-right: unset !important;
+}
+
+[dir="rtl"] .lucide-arrow-right,
+[dir="rtl"] .lucide-chevron-right,
+[dir="rtl"] .lucide-arrow-left,
+[dir="rtl"] .lucide-chevron-left {
+  --tw-scale-x: -1;
+  transform: translate(var(--tw-translate-x, 0), var(--tw-translate-y, 0)) rotate(var(--tw-rotate, 0)) skewX(var(--tw-skew-x, 0)) skewY(var(--tw-skew-y, 0)) scaleX(var(--tw-scale-x, 1)) scaleY(var(--tw-scale-y, 1));
+}

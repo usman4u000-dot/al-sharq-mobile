@@ -1,0 +1,6 @@
+{
+  "name": "Al Sharq Mobile Phone & Computer Trading LLC (Techfix & Gidgets)",
+  "description": "The premier technical authority in Sharjah for 2026. Specialized in chip-level logic board repairs, data recovery, and certified pre-owned devices.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
