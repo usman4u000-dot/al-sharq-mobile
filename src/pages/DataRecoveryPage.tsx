@@ -90,16 +90,26 @@ export default function DataRecoveryPage({ onBookNow }: DataRecoveryPageProps) {
   const structuredData = [
     {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
+      "@type": ["LocalBusiness", "ComputerStore", "RepairService"],
       "name": "Al Sharq Mobile Phone & Computer Trading LLC",
+      "legalName": "Al Sharq Mobile Phone & Computer Trading LLC",
       "image": "https://allsharq.com/logo.png",
+      "telephone": "+971507117043",
+      "email": "alsharqmobile@gmail.com",
+      "hasMap": "https://maps.app.goo.gl/WRjUv6FxCVTtZCEk8",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Muwaileh",
-        "addressLocality": "Sharjah",
+        "streetAddress": "BLDG#1017 - SHOP#2 Fire Station Road, Muwaileh - Industrial Area",
+        "addressLocality": "Muwaileh, Sharjah",
+        "addressRegion": "Sharjah",
+        "postalCode": "00000",
         "addressCountry": "AE"
       },
-      "telephone": "+971507117043"
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 25.3123,
+        "longitude": 55.4800
+      }
     },
     {
       "@context": "https://schema.org",
@@ -108,7 +118,9 @@ export default function DataRecoveryPage({ onBookNow }: DataRecoveryPageProps) {
       "serviceType": "Data Recovery",
       "provider": {
         "@type": "LocalBusiness",
-        "name": "Al Sharq Mobile Phone & Computer Trading LLC"
+        "name": "Al Sharq Mobile Phone & Computer Trading LLC",
+        "telephone": "+971507117043",
+        "hasMap": "https://maps.app.goo.gl/WRjUv6FxCVTtZCEk8"
       },
       "areaServed": {
         "@type": "City",
@@ -395,7 +407,11 @@ export default function DataRecoveryPage({ onBookNow }: DataRecoveryPageProps) {
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-        <ServiceFAQ faqs={recoveryFaqs} />
+        <ServiceFAQ 
+          title="Frequently Asked Questions - Data Recovery Sharjah"
+          pageUrl="https://allsharq.com/data-recovery"
+          faqs={recoveryFaqs} 
+        />
 
         <motion.div 
           initial={{ opacity: 0, y: 20 }}

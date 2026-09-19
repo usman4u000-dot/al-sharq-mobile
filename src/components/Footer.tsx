@@ -77,7 +77,6 @@ export default function Footer({ onOpenTerms }: FooterProps) {
               <li><Link to="/trade-in" className="hover:text-brand-orange transition-colors">Device Trade-In</Link></li>
               <li><Link to="/troubleshoot" className="hover:text-brand-orange transition-colors">Troubleshooting</Link></li>
               <li><Link to="/gallery" className="hover:text-brand-orange transition-colors">Repair Gallery</Link></li>
-              <li><Link to="/dashboard" className="hover:text-brand-orange transition-colors">Client Portal</Link></li>
             </ul>
           </div>
 

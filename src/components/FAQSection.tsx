@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
+import { getFAQPageSchema } from '../data/businessInfo';
 
 export default function FAQSection() {
   const faqs = [
     {
-      question: "Where can I find reliable iPhone repair in Sharjah for the new iPhone 17?",
-      answer: "Al Sharq Mobile is your premier destination for iPhone repair in Sharjah. Our technicians are certified to handle the latest models, including the iPhone 17 and 16 series. Whether you need a camera lens fix or a motherboard repair, we use precision tools to ensure your Apple warranty standards are maintained."
+      question: "Where can I find reliable iPhone repair in Sharjah for the new iPhone 18 and 17?",
+      answer: "Al Sharq Mobile is your premier destination for iPhone repair in Sharjah. Our technicians are certified to handle the latest models, including the iPhone 18, 17, and 16 series. Whether you need a camera lens fix, battery swap, or motherboard repair, we use precision tools to ensure factory quality standards."
     },
     {
       question: "What is the cost of mobile screen replacement in Sharjah?",
@@ -51,15 +52,11 @@ export default function FAQSection() {
 
   const faqSchema = {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": faqs.map(faq => ({
-      "@type": "Question",
-      "name": faq.question,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": faq.answer
-      }
-    }))
+    ...getFAQPageSchema(faqs, {
+      pageUrl: "https://allsharq.com/",
+      pageTitle: "Frequently Asked Questions - Al Sharq Mobile Phone & Computer Trading LLC Sharjah",
+      description: "Frequently asked questions about mobile repair, screen replacement, liquid damage recovery, and tech services in Sharjah."
+    })
   };
 
   return (

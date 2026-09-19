@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Breadcrumbs from '../components/Breadcrumbs';
+import { BUSINESS_PROVIDER_SCHEMA } from '../data/businessInfo';
 
 export default function ChargingPortRepairPage() {
   const structuredData = {
@@ -12,12 +13,9 @@ export default function ChargingPortRepairPage() {
       {
         "@type": "Service",
         "name": "Charging Port Repair Sharjah",
-        "provider": {
-          "@type": "LocalBusiness",
-          "name": "Al Sharq Mobile"
-        },
+        "provider": BUSINESS_PROVIDER_SCHEMA,
         "description": "Specializing in USB-C 4.0, Thunderbolt 5, and High-Wattage Repairs for smartphones and laptops in Sharjah.",
-        "areaServed": ["Sharjah", "Dubai"]
+        "areaServed": ["Sharjah", "Dubai", "Ajman"]
       },
       {
         "@type": "BreadcrumbList",

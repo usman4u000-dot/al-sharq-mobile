@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Breadcrumbs from '../components/Breadcrumbs';
+import { BUSINESS_PROVIDER_SCHEMA } from '../data/businessInfo';
 
 interface BodyRepairPageProps {
   onBookNow?: (service?: string) => void;
@@ -16,10 +17,7 @@ export default function BodyRepairPage({ onBookNow }: BodyRepairPageProps) {
       {
         "@type": "Service",
         "name": "Phone Housing, Back Glass & Button Repair Sharjah",
-        "provider": {
-          "@type": "LocalBusiness",
-          "name": "Al Sharq Mobile Phone & Computer Trading LLC"
-        },
+        "provider": BUSINESS_PROVIDER_SCHEMA,
         "description": "Laser back glass removal, titanium and aluminum chassis realignment, and power/volume button flex repair in Sharjah.",
         "areaServed": ["Sharjah", "Dubai", "Ajman"]
       }

@@ -59,11 +59,30 @@ export default defineConfig(({mode}) => {
       hmr: process.env.DISABLE_HMR !== 'true',
     },
     build: {
+      chunkSizeWarningLimit: 800,
       rollupOptions: {
         output: {
-          manualChunks: {
-            vendor: ['react', 'react-dom', 'react-router-dom', 'react-helmet-async'],
-            ui: ['lucide-react', 'motion/react', 'framer-motion'],
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              if (id.includes('react/') || id.includes('react-dom') || id.includes('react-router') || id.includes('react-helmet-async')) {
+                return 'framework';
+              }
+              if (id.includes('jspdf') || id.includes('html2canvas') || id.includes('html-to-image')) {
+                return 'pdf-export';
+              }
+              if (id.includes('recharts') || id.includes('d3-')) {
+                return 'charts';
+              }
+              if (id.includes('firebase')) {
+                return 'firebase-db';
+              }
+              if (id.includes('lucide-react')) {
+                return 'lucide-icons';
+              }
+              if (id.includes('motion')) {
+                return 'motion-animations';
+              }
+            }
           },
         },
       },

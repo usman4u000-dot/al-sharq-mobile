@@ -135,16 +135,26 @@ export default function LaptopRepairPage({ onBookNow }: { onBookNow: (service?: 
   const structuredData = [
     {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
+      "@type": ["LocalBusiness", "ComputerStore", "RepairService"],
       "name": "Al Sharq Mobile Phone & Computer Trading LLC",
+      "legalName": "Al Sharq Mobile Phone & Computer Trading LLC",
       "image": "https://allsharq.com/logo.png",
+      "telephone": "+971507117043",
+      "email": "alsharqmobile@gmail.com",
+      "hasMap": "https://maps.app.goo.gl/WRjUv6FxCVTtZCEk8",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Muwaileh",
-        "addressLocality": "Sharjah",
+        "streetAddress": "BLDG#1017 - SHOP#2 Fire Station Road, Muwaileh - Industrial Area",
+        "addressLocality": "Muwaileh, Sharjah",
+        "addressRegion": "Sharjah",
+        "postalCode": "00000",
         "addressCountry": "AE"
       },
-      "telephone": "+971507117043"
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 25.3123,
+        "longitude": 55.4800
+      }
     },
     {
       "@context": "https://schema.org",
@@ -153,7 +163,9 @@ export default function LaptopRepairPage({ onBookNow }: { onBookNow: (service?: 
       "serviceType": "Computer Repair",
       "provider": {
         "@type": "LocalBusiness",
-        "name": "Al Sharq Mobile Phone & Computer Trading LLC"
+        "name": "Al Sharq Mobile Phone & Computer Trading LLC",
+        "telephone": "+971507117043",
+        "hasMap": "https://maps.app.goo.gl/WRjUv6FxCVTtZCEk8"
       },
       "areaServed": {
         "@type": "City",
@@ -342,7 +354,11 @@ export default function LaptopRepairPage({ onBookNow }: { onBookNow: (service?: 
             ))}
           </div>
 
-          <ServiceFAQ faqs={laptopFaqs} />
+          <ServiceFAQ 
+            title="Frequently Asked Questions - Laptop Repair Sharjah"
+            pageUrl="https://allsharq.com/services/laptop-repair"
+            faqs={laptopFaqs} 
+          />
 
           <motion.div 
             initial={{ opacity: 0, y: 20 }}

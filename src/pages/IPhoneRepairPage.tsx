@@ -74,16 +74,26 @@ export default function IPhoneRepairPage({ onBookNow }: { onBookNow: (service?: 
   const structuredData = [
     {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
+      "@type": ["LocalBusiness", "MobilePhoneStore", "RepairService"],
       "name": "Al Sharq Mobile Phone & Computer Trading LLC",
+      "legalName": "Al Sharq Mobile Phone & Computer Trading LLC",
       "image": "https://allsharq.com/logo.png",
+      "telephone": "+971507117043",
+      "email": "alsharqmobile@gmail.com",
+      "hasMap": "https://maps.app.goo.gl/WRjUv6FxCVTtZCEk8",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Muwaileh",
-        "addressLocality": "Sharjah",
+        "streetAddress": "BLDG#1017 - SHOP#2 Fire Station Road, Muwaileh - Industrial Area",
+        "addressLocality": "Muwaileh, Sharjah",
+        "addressRegion": "Sharjah",
+        "postalCode": "00000",
         "addressCountry": "AE"
       },
-      "telephone": "+971507117043"
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 25.3123,
+        "longitude": 55.4800
+      }
     },
     {
       "@context": "https://schema.org",
@@ -92,13 +102,15 @@ export default function IPhoneRepairPage({ onBookNow }: { onBookNow: (service?: 
       "serviceType": "Smartphone Repair",
       "provider": {
         "@type": "LocalBusiness",
-        "name": "Al Sharq Mobile Phone & Computer Trading LLC"
+        "name": "Al Sharq Mobile Phone & Computer Trading LLC",
+        "telephone": "+971507117043",
+        "hasMap": "https://maps.app.goo.gl/WRjUv6FxCVTtZCEk8"
       },
       "areaServed": {
         "@type": "City",
         "name": "Sharjah"
       },
-      "description": "Expert iPhone repair in Sharjah. We fix all models including iPhone 17, 16, 15, 14, 13, and 12. Screen replacement, battery, and back glass repairs.",
+      "description": "Expert iPhone repair in Sharjah. We fix all models including iPhone 18, 17, 16, 15, 14, 13, and 12. Screen replacement, battery, and back glass repairs.",
       "offers": {
         "@type": "AggregateOffer",
         "priceCurrency": "AED",
@@ -355,7 +367,11 @@ export default function IPhoneRepairPage({ onBookNow }: { onBookNow: (service?: 
 
           {/* FAQ Section */}
           <div className="mb-20">
-            <ServiceFAQ faqs={iphoneFaqs} />
+            <ServiceFAQ 
+              title="Frequently Asked Questions - iPhone Repair Sharjah"
+              faqs={iphoneFaqs} 
+              pageUrl="https://allsharq.com/iphone-repair" 
+            />
           </div>
 
           <motion.div 

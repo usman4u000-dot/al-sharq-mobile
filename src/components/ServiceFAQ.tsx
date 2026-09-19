@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Helmet } from 'react-helmet-async';
+import { getFAQPageSchema } from '../data/businessInfo';
 
 export interface FAQItem {
   question: string;
@@ -10,9 +12,10 @@ export interface FAQItem {
 interface ServiceFAQProps {
   title?: string;
   faqs: FAQItem[];
+  pageUrl?: string;
 }
 
-export default function ServiceFAQ({ title = "Frequently Asked Questions", faqs }: ServiceFAQProps) {
+export default function ServiceFAQ({ title = "Frequently Asked Questions", faqs, pageUrl }: ServiceFAQProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const toggleFAQ = (index: number) => {
@@ -21,20 +24,20 @@ export default function ServiceFAQ({ title = "Frequently Asked Questions", faqs 
 
   const faqSchema = {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": faqs.map(faq => ({
-      "@type": "Question",
-      "name": faq.question,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": faq.answer
-      }
-    }))
+    ...getFAQPageSchema(faqs, {
+      pageUrl: pageUrl || (typeof window !== 'undefined' ? window.location.href : 'https://allsharq.com/'),
+      pageTitle: title,
+      description: `Frequently asked questions regarding ${title.toLowerCase()} at Al Sharq Mobile in Sharjah.`
+    })
   };
 
   return (
     <div className="mt-20 max-w-4xl mx-auto">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      <Helmet>
+        <script type="application/ld+json">
+          {JSON.stringify(faqSchema)}
+        </script>
+      </Helmet>
       <h2 className="text-3xl font-bold text-center text-brand-blue dark:text-white mb-10">
         {title}
       </h2>

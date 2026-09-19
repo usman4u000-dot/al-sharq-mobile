@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Breadcrumbs from '../components/Breadcrumbs';
+import ServiceFAQ from '../components/ServiceFAQ';
 
 export default function SamsungRepairPage({ onBookNow }: { onBookNow: (service?: string) => void }) {
   const sSeries2026 = [
@@ -36,16 +37,26 @@ export default function SamsungRepairPage({ onBookNow }: { onBookNow: (service?:
   const structuredData = [
     {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
+      "@type": ["LocalBusiness", "MobilePhoneStore", "RepairService"],
       "name": "Al Sharq Mobile Phone & Computer Trading LLC",
+      "legalName": "Al Sharq Mobile Phone & Computer Trading LLC",
       "image": "https://allsharq.com/logo.png",
+      "telephone": "+971507117043",
+      "email": "alsharqmobile@gmail.com",
+      "hasMap": "https://maps.app.goo.gl/WRjUv6FxCVTtZCEk8",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Muwaileh",
-        "addressLocality": "Sharjah",
+        "streetAddress": "BLDG#1017 - SHOP#2 Fire Station Road, Muwaileh - Industrial Area",
+        "addressLocality": "Muwaileh, Sharjah",
+        "addressRegion": "Sharjah",
+        "postalCode": "00000",
         "addressCountry": "AE"
       },
-      "telephone": "+971507117043"
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 25.3123,
+        "longitude": 55.4800
+      }
     },
     {
       "@context": "https://schema.org",
@@ -54,7 +65,9 @@ export default function SamsungRepairPage({ onBookNow }: { onBookNow: (service?:
       "serviceType": "Smartphone Repair",
       "provider": {
         "@type": "LocalBusiness",
-        "name": "Al Sharq Mobile Phone & Computer Trading LLC"
+        "name": "Al Sharq Mobile Phone & Computer Trading LLC",
+        "telephone": "+971507117043",
+        "hasMap": "https://maps.app.goo.gl/WRjUv6FxCVTtZCEk8"
       },
       "areaServed": {
         "@type": "City",
@@ -344,35 +357,28 @@ export default function SamsungRepairPage({ onBookNow }: { onBookNow: (service?:
 
           {/* FAQ Section */}
           <div className="mb-20">
-            <div className="text-center mb-12">
-              <h3 className="text-3xl font-bold text-brand-blue dark:text-white">Frequently Asked Questions</h3>
-              <div className="w-24 h-1 bg-brand-orange mx-auto mt-4 rounded-full"></div>
-            </div>
-            <div className="max-w-3xl mx-auto space-y-6">
-              {[
+            <ServiceFAQ 
+              title="Frequently Asked Questions - Samsung Repair"
+              pageUrl="https://allsharq.com/samsung-repair"
+              faqs={[
                 {
-                  q: "Can you fix the screen on a Samsung Galaxy Z Fold or Z Flip?",
-                  a: "Yes, we specialize in foldable screen repairs. Our lab is equipped with the necessary tools to safely remove and replace the ultra-thin glass (UTG) displays without damaging the hinge mechanism."
+                  question: "Can you fix the screen on a Samsung Galaxy Z Fold or Z Flip?",
+                  answer: "Yes, we specialize in foldable screen repairs. Our lab is equipped with the necessary tools to safely remove and replace the ultra-thin glass (UTG) displays without damaging the hinge mechanism."
                 },
                 {
-                  q: "Are your Samsung replacement parts genuine?",
-                  a: "We use high-quality OEM (Original Equipment Manufacturer) parts for Samsung repairs to ensure the best performance, especially for AMOLED displays and batteries."
+                  question: "Are your Samsung replacement parts genuine?",
+                  answer: "We use high-quality OEM (Original Equipment Manufacturer) parts and Samsung Service Packs for repairs to ensure the best performance, especially for AMOLED displays and batteries."
                 },
                 {
-                  q: "My Samsung phone is stuck on the logo screen. Can you fix it?",
-                  a: "Yes, this is often a software issue or a failing battery/logic board. We can perform a diagnostic to identify the exact cause and resolve the boot loop."
+                  question: "My Samsung phone is stuck on the logo screen. Can you fix it?",
+                  answer: "Yes, this is often a firmware issue, shorted capacitor, or a failing battery/logic board. We perform diagnostic scans to identify the exact cause and resolve the boot loop."
                 },
                 {
-                  q: "Is my device still waterproof after a repair?",
-                  a: "While we use original-spec adhesives to reseal your device, we cannot guarantee the original IP water resistance rating after the device has been opened. We recommend keeping it away from water."
+                  question: "Is my Samsung device still waterproof after a repair?",
+                  answer: "While we use original-spec laser-cut adhesives to reseal your device, we always recommend keeping any repaired electronic device away from prolonged water immersion."
                 }
-              ].map((faq, idx) => (
-                <div key={idx} className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
-                  <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{faq.q}</h4>
-                  <p className="text-gray-600 dark:text-gray-400">{faq.a}</p>
-                </div>
-              ))}
-            </div>
+              ]}
+            />
           </div>
 
           <motion.div 

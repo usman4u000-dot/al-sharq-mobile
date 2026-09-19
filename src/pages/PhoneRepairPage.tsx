@@ -7,6 +7,7 @@ import ExpressFixBanner from '../components/ExpressFixBanner';
 import LocalSEOSection from '../components/LocalSEOSection';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ServiceFAQ from '../components/ServiceFAQ';
+import { BUSINESS_PROVIDER_SCHEMA } from '../data/businessInfo';
 
 export default function PhoneRepairPage({ onBookNow }: { onBookNow: (service?: string) => void }) {
   const services = [
@@ -81,10 +82,7 @@ export default function PhoneRepairPage({ onBookNow }: { onBookNow: (service?: s
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "Phone Repair Services",
-    "provider": {
-      "@type": "LocalBusiness",
-      "name": "Al Sharq Mobile Phone & Computer Trading LLC"
-    },
+    "provider": BUSINESS_PROVIDER_SCHEMA,
     "areaServed": {
       "@type": "City",
       "name": "Sharjah"
@@ -478,7 +476,11 @@ export default function PhoneRepairPage({ onBookNow }: { onBookNow: (service?: s
             </div>
           </div>
 
-          <ServiceFAQ faqs={phoneFaqs} />
+          <ServiceFAQ 
+            title="Frequently Asked Questions - Phone Repair Sharjah"
+            pageUrl="https://allsharq.com/phone-repair"
+            faqs={phoneFaqs} 
+          />
 
           <LocalSEOSection />
 

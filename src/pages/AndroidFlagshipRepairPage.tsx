@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import ExpressFixBanner from '../components/ExpressFixBanner';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ServiceFAQ from '../components/ServiceFAQ';
+import { BUSINESS_PROVIDER_SCHEMA } from '../data/businessInfo';
 
 export default function AndroidFlagshipRepairPage({ onBookNow }: { onBookNow: (service?: string) => void }) {
   const brands = [
@@ -50,10 +51,7 @@ export default function AndroidFlagshipRepairPage({ onBookNow }: { onBookNow: (s
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "Android Flagship Repair Services",
-    "provider": {
-      "@type": "LocalBusiness",
-      "name": "Al Sharq Mobile Phone & Computer Trading LLC"
-    },
+    "provider": BUSINESS_PROVIDER_SCHEMA,
     "areaServed": {
       "@type": "City",
       "name": "Sharjah"
@@ -221,7 +219,11 @@ export default function AndroidFlagshipRepairPage({ onBookNow }: { onBookNow: (s
           </div>
 
           <div className="mb-20">
-            <ServiceFAQ faqs={androidFaqs} />
+            <ServiceFAQ 
+              title="Frequently Asked Questions - Android Flagship Repair Sharjah"
+              pageUrl="https://allsharq.com/android-repair"
+              faqs={androidFaqs} 
+            />
           </div>
 
           <motion.div 

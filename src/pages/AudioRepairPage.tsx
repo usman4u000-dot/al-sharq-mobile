@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Breadcrumbs from '../components/Breadcrumbs';
+import { BUSINESS_PROVIDER_SCHEMA } from '../data/businessInfo';
 
 interface AudioRepairPageProps {
   onBookNow?: (service?: string) => void;
@@ -16,10 +17,7 @@ export default function AudioRepairPage({ onBookNow }: AudioRepairPageProps) {
       {
         "@type": "Service",
         "name": "Smartphone & Laptop Audio Repair Sharjah",
-        "provider": {
-          "@type": "LocalBusiness",
-          "name": "Al Sharq Mobile Phone & Computer Trading LLC"
-        },
+        "provider": BUSINESS_PROVIDER_SCHEMA,
         "description": "Earpiece speaker cleaning, loud speaker replacement, and microphone audio chip micro-soldering in Sharjah.",
         "areaServed": ["Sharjah", "Dubai", "Ajman"]
       }

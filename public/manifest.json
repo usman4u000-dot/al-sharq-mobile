@@ -1,0 +1,36 @@
+{
+  "name": "Al Sharq Mobile Phone & Computer Trading LLC",
+  "short_name": "Al Sharq Mobile",
+  "description": "Premier smartphone, laptop, and MacBook repair center in Sharjah. Same-day repair, screen replacement, and genuine parts.",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0F172A",
+  "theme_color": "#F97316",
+  "lang": "en-AE",
+  "categories": [
+    "business",
+    "shopping",
+    "utilities"
+  ],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

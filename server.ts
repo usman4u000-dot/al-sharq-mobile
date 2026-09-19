@@ -1,6 +1,8 @@
 import express from 'express';
+import compression from 'compression';
 import { createServer as createViteServer } from 'vite';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import Stripe from 'stripe';
@@ -43,12 +45,30 @@ async function startServer() {
   const PORT = 3000;
 
   // Middleware
+  app.use(compression());
   app.use(express.json());
 
   // --- API Routes --- //
   
   app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', server: 'full-stack' });
+  });
+
+  // Dedicated Sitemap and Robots SEO endpoints
+  app.get('/sitemap.xml', (req, res) => {
+    const sitemapPath = process.env.NODE_ENV === 'production' && fs.existsSync(path.join(process.cwd(), 'dist', 'sitemap.xml'))
+      ? path.join(process.cwd(), 'dist', 'sitemap.xml')
+      : path.join(process.cwd(), 'public', 'sitemap.xml');
+    res.header('Content-Type', 'application/xml; charset=utf-8');
+    res.sendFile(sitemapPath);
+  });
+
+  app.get('/robots.txt', (req, res) => {
+    const robotsPath = process.env.NODE_ENV === 'production' && fs.existsSync(path.join(process.cwd(), 'dist', 'robots.txt'))
+      ? path.join(process.cwd(), 'dist', 'robots.txt')
+      : path.join(process.cwd(), 'public', 'robots.txt');
+    res.header('Content-Type', 'text/plain; charset=utf-8');
+    res.sendFile(robotsPath);
   });
 
   app.post('/api/create-checkout-session', async (req, res) => {
@@ -246,10 +266,22 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   } else {
-    // Production serving
+    // Production serving with optimized caching
     const distPath = path.join(process.cwd(), 'dist');
-    app.use(express.static(distPath));
+    app.use(express.static(distPath, {
+      maxAge: '1y',
+      immutable: true,
+      etag: true,
+      setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.html')) {
+          res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        } else if (filePath.endsWith('.xml') || filePath.endsWith('.txt')) {
+          res.setHeader('Cache-Control', 'public, max-age=3600');
+        }
+      }
+    }));
     app.get('*', (req, res) => {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
       res.sendFile(path.join(distPath, 'index.html'));
     });
   }

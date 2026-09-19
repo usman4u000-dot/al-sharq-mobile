@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ServiceFAQ from '../components/ServiceFAQ';
+import { BUSINESS_PROVIDER_SCHEMA } from '../data/businessInfo';
 
 export default function TabletRepairPage({ onBookNow }: { onBookNow: (service?: string) => void }) {
   const brands = [
@@ -98,10 +99,7 @@ export default function TabletRepairPage({ onBookNow }: { onBookNow: (service?: 
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "Tablet Repair Services",
-    "provider": {
-      "@type": "LocalBusiness",
-      "name": "Al Sharq Mobile Phone & Computer Trading LLC"
-    },
+    "provider": BUSINESS_PROVIDER_SCHEMA,
     "areaServed": {
       "@type": "City",
       "name": "Sharjah"
@@ -282,7 +280,11 @@ export default function TabletRepairPage({ onBookNow }: { onBookNow: (service?: 
 
           {/* FAQ Section */}
           <div className="mb-20">
-            <ServiceFAQ faqs={tabletFaqs.map(f => ({ question: f.q, answer: f.a }))} />
+            <ServiceFAQ 
+              title="Frequently Asked Questions - Tablet & iPad Repair Sharjah"
+              pageUrl="https://allsharq.com/tablet-repair"
+              faqs={tabletFaqs.map(f => ({ question: f.q, answer: f.a }))} 
+            />
           </div>
 
           <motion.div 

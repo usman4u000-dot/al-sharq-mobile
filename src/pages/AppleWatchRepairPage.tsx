@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import ExpressFixBanner from '../components/ExpressFixBanner';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ServiceFAQ from '../components/ServiceFAQ';
+import { BUSINESS_PROVIDER_SCHEMA } from '../data/businessInfo';
 
 export default function AppleWatchRepairPage({ onBookNow }: { onBookNow: (service?: string) => void }) {
   const services = [
@@ -58,10 +59,7 @@ export default function AppleWatchRepairPage({ onBookNow }: { onBookNow: (servic
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "Apple Watch Repair Services",
-    "provider": {
-      "@type": "LocalBusiness",
-      "name": "Al Sharq Mobile Phone & Computer Trading LLC"
-    },
+    "provider": BUSINESS_PROVIDER_SCHEMA,
     "areaServed": {
       "@type": "City",
       "name": "Sharjah"
@@ -439,7 +437,11 @@ export default function AppleWatchRepairPage({ onBookNow }: { onBookNow: (servic
           </div>
 
           <div className="mb-20">
-            <ServiceFAQ faqs={watchFaqs} />
+            <ServiceFAQ 
+              title="Frequently Asked Questions - Apple Watch Repair Sharjah"
+              pageUrl="https://allsharq.com/apple-watch-repair"
+              faqs={watchFaqs} 
+            />
           </div>
 
           <motion.div 

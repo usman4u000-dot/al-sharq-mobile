@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Breadcrumbs from '../components/Breadcrumbs';
+import { BUSINESS_PROVIDER_SCHEMA } from '../data/businessInfo';
 
 export default function BatteryRepairPage() {
   const structuredData = {
@@ -12,12 +13,9 @@ export default function BatteryRepairPage() {
       {
         "@type": "Service",
         "name": "Advanced Battery & Power Solutions Sharjah",
-        "provider": {
-          "@type": "LocalBusiness",
-          "name": "Al Sharq Mobile"
-        },
-        "description": "High-Capacity, Heat-Resistant Silicon-Carbon battery replacements for iPhone 17, Samsung S26, and MacBooks.",
-        "areaServed": ["Sharjah", "Dubai"]
+        "provider": BUSINESS_PROVIDER_SCHEMA,
+        "description": "High-Capacity, Heat-Resistant Silicon-Carbon battery replacements for iPhone 18, iPhone 17, Samsung S26, and MacBooks in Sharjah.",
+        "areaServed": ["Sharjah", "Dubai", "Ajman"]
       },
       {
         "@type": "BreadcrumbList",

@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Breadcrumbs from '../components/Breadcrumbs';
+import { BUSINESS_PROVIDER_SCHEMA } from '../data/businessInfo';
 
 interface CameraRepairPageProps {
   onBookNow?: (service?: string) => void;
@@ -16,10 +17,7 @@ export default function CameraRepairPage({ onBookNow }: CameraRepairPageProps) {
       {
         "@type": "Service",
         "name": "Smartphone & Tablet Camera Repair Sharjah",
-        "provider": {
-          "@type": "LocalBusiness",
-          "name": "Al Sharq Mobile Phone & Computer Trading LLC"
-        },
+        "provider": BUSINESS_PROVIDER_SCHEMA,
         "description": "OEM front and rear camera lens replacement, optical image stabilization (OIS) repair, and sensor replacement in Sharjah.",
         "areaServed": ["Sharjah", "Dubai", "Ajman"]
       }

@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import { logger } from '../utils/logger';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ServiceFAQ from '../components/ServiceFAQ';
+import { BUSINESS_PROVIDER_SCHEMA } from '../data/businessInfo';
 
 interface LogicBoardRepairPageProps {
   onBookNow?: (service?: string) => void;
@@ -107,10 +108,7 @@ export default function LogicBoardRepairPage({ onBookNow }: LogicBoardRepairPage
     "@context": "https://schema.org",
     "@type": "Service",
     "name": "Logic Board & Micro-Soldering Repair",
-    "provider": {
-      "@type": "LocalBusiness",
-      "name": "Al Sharq Mobile Phone & Computer Trading LLC"
-    },
+    "provider": BUSINESS_PROVIDER_SCHEMA,
     "areaServed": {
       "@type": "City",
       "name": "Sharjah"
@@ -527,7 +525,11 @@ export default function LogicBoardRepairPage({ onBookNow }: LogicBoardRepairPage
 
         {/* FAQ Section */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-          <ServiceFAQ faqs={logicBoardFaqs} />
+          <ServiceFAQ 
+            title="Frequently Asked Questions - Logic Board Repair Sharjah"
+            pageUrl="https://allsharq.com/services/logic-board-repair"
+            faqs={logicBoardFaqs} 
+          />
 
           <motion.div 
             initial={{ opacity: 0, y: 20 }}

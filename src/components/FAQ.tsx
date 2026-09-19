@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
-const faqs = [
+export const faqs = [
   // Smartphone Repair
   {
     category: 'Smartphone Repair',
@@ -103,7 +103,7 @@ const faqs = [
   {
     category: 'General Business Info',
     question: 'What are your opening hours?',
-    answer: 'We are open Saturday through Thursday from 9:00 AM to 10:00 PM. We are closed on Fridays.'
+    answer: 'We are open Saturday through Thursday from 9:00 AM to 11:00 PM, and on Friday from 4:00 PM to 11:00 PM.'
   },
   {
     category: 'General Business Info',

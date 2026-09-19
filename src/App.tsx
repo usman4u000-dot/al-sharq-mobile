@@ -6,11 +6,7 @@ import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import TopBar from './components/TopBar';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import BookingModal from './components/BookingModal';
-import StaffToolsModal from './components/StaffToolsModal';
-import TermsModal from './components/TermsModal';
 import MobileBottomNav from './components/MobileBottomNav';
-import TrackRepairModal from './components/TrackRepairModal';
 import StickyContactButton from './components/StickyContactButton';
 import LaunchBanner from './components/LaunchBanner';
 import WhatsAppWidget from './components/WhatsAppWidget';
@@ -20,13 +16,19 @@ import ExitIntentPopup from './components/ExitIntentPopup';
 import ErrorBoundary from './components/ErrorBoundary';
 import { Analytics, initGA } from './components/Analytics';
 import PageTransition from './components/PageTransition';
-import DiagnosticBot from './components/DiagnosticBot';
 import RecentActivityToast from './components/RecentActivityToast';
 import LoadingSpinner from './components/LoadingSpinner';
 import ScrollProgressBar from './components/ScrollProgressBar';
 import NetworkStatus from './components/NetworkStatus';
-import EasterEggConsole from './components/EasterEggConsole';
 import SmartBatteryBanner from './components/SmartBatteryBanner';
+
+// Lazy load heavy interactive tools and staff consoles to optimize mobile Core Web Vitals
+const BookingModal = React.lazy(() => import('./components/BookingModal'));
+const StaffToolsModal = React.lazy(() => import('./components/StaffToolsModal'));
+const TermsModal = React.lazy(() => import('./components/TermsModal'));
+const TrackRepairModal = React.lazy(() => import('./components/TrackRepairModal'));
+const DiagnosticBot = React.lazy(() => import('./components/DiagnosticBot'));
+const EasterEggConsole = React.lazy(() => import('./components/EasterEggConsole'));
 
 const HomePage = React.lazy(() => import('./pages/HomePage'));
 const AboutUsPage = React.lazy(() => import('./pages/AboutUsPage'));
@@ -65,7 +67,6 @@ const SoftwareIssuesPage = React.lazy(() => import('./pages/SoftwareIssuesPage')
 const CameraRepairPage = React.lazy(() => import('./pages/CameraRepairPage'));
 const AudioRepairPage = React.lazy(() => import('./pages/AudioRepairPage'));
 const BodyRepairPage = React.lazy(() => import('./pages/BodyRepairPage'));
-const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
 const AdminDashboardPage = React.lazy(() => import('./pages/AdminDashboardPage'));
 const ShopPage = React.lazy(() => import('./pages/ShopPage'));
 const ContactPage = React.lazy(() => import('./pages/ContactPage'));
@@ -205,7 +206,7 @@ function AppRoutes() {
               <Route path="/trade-in" element={<PageTransition><TradeInPage /></PageTransition>} />
               <Route path="/warranty" element={<PageTransition><WarrantyPolicyPage /></PageTransition>} />
               <Route path="/privacy" element={<PageTransition><PrivacyPolicyPage /></PageTransition>} />
-              <Route path="/dashboard" element={<PageTransition><DashboardPage /></PageTransition>} />
+              <Route path="/dashboard" element={<Navigate to="/" replace />} />
               <Route path="/admin" element={<PageTransition><AdminDashboardPage /></PageTransition>} />
               <Route path="*" element={<PageTransition><NotFoundPage /></PageTransition>} />
             </Routes>
@@ -216,23 +217,35 @@ function AppRoutes() {
         onOpenTerms={() => setIsTermsOpen(true)}
       />
       <WhatsAppWidget />
-      <BookingModal 
-        isOpen={isBookingOpen} 
-        onClose={() => setIsBookingOpen(false)} 
-        initialService={selectedService}
-      />
-      <StaffToolsModal
-        isOpen={isStaffToolsOpen}
-        onClose={() => setIsStaffToolsOpen(false)}
-      />
-      <TermsModal
-        isOpen={isTermsOpen}
-        onClose={() => setIsTermsOpen(false)}
-      />
-      <TrackRepairModal
-        isOpen={isTrackRepairOpen}
-        onClose={() => setIsTrackRepairOpen(false)}
-      />
+      <Suspense fallback={null}>
+        {isBookingOpen && (
+          <BookingModal 
+            isOpen={isBookingOpen} 
+            onClose={() => setIsBookingOpen(false)} 
+            initialService={selectedService}
+          />
+        )}
+        {isStaffToolsOpen && (
+          <StaffToolsModal
+            isOpen={isStaffToolsOpen}
+            onClose={() => setIsStaffToolsOpen(false)}
+          />
+        )}
+        {isTermsOpen && (
+          <TermsModal
+            isOpen={isTermsOpen}
+            onClose={() => setIsTermsOpen(false)}
+          />
+        )}
+        {isTrackRepairOpen && (
+          <TrackRepairModal
+            isOpen={isTrackRepairOpen}
+            onClose={() => setIsTrackRepairOpen(false)}
+          />
+        )}
+        <DiagnosticBot />
+        <EasterEggConsole />
+      </Suspense>
       <MobileBottomNav 
         onBookNow={() => openBooking()}
         onOpenDiagnostic={() => window.dispatchEvent(new CustomEvent('open-diagnostic-bot'))}
@@ -240,11 +253,9 @@ function AppRoutes() {
       <StickyContactButton onClick={() => setIsStaffToolsOpen(true)} />
       <CookieConsent />
       <ScrollToTopButton />
-      <DiagnosticBot />
       <RecentActivityToast />
       <ExitIntentPopup onBookNow={() => openBooking('15% Exit Discount Offer')} />
       <NetworkStatus />
-      <EasterEggConsole />
       <SmartBatteryBanner />
     </div>
   );

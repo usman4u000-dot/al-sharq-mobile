@@ -49,10 +49,16 @@ export default function HomePage({ onBookNow }: HomePageProps) {
         "@type": ["LocalBusiness", "MobilePhoneStore", "ComputerStore", "RepairService"],
         "@id": "https://allsharq.com/#localbusiness",
         "name": "Al Sharq Mobile Phone & Computer Trading LLC",
+        "legalName": "Al Sharq Mobile Phone & Computer Trading LLC",
+        "alternateName": ["Al Sharq Mobile Phone", "Techfix & Gadgets Sharjah", "Al Sharq Mobile"],
         "image": "https://allsharq.com/logo.png",
         "url": "https://allsharq.com",
         "telephone": "+971507117043",
         "email": "alsharqmobile@gmail.com",
+        "hasMap": "https://maps.app.goo.gl/WRjUv6FxCVTtZCEk8",
+        "priceRange": "$$",
+        "currenciesAccepted": "AED",
+        "paymentAccepted": "Cash, Credit Card, Debit Card, Apple Pay, Samsung Pay",
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "BLDG#1017 - SHOP#2 Fire Station Road, Muwaileh - Industrial Area",
@@ -63,9 +69,39 @@ export default function HomePage({ onBookNow }: HomePageProps) {
         },
         "geo": {
           "@type": "GeoCoordinates",
-          "latitude": 25.3129,
-          "longitude": 55.4852
+          "latitude": 25.3123,
+          "longitude": 55.4800
         },
+        "contactPoint": [
+          {
+            "@type": "ContactPoint",
+            "telephone": "+971507117043",
+            "contactType": "customer service",
+            "areaServed": "AE",
+            "availableLanguage": ["English", "Arabic", "Urdu", "Hindi"]
+          },
+          {
+            "@type": "ContactPoint",
+            "telephone": "+97165392120",
+            "contactType": "sales",
+            "areaServed": "AE",
+            "availableLanguage": ["English", "Arabic", "Urdu", "Hindi"]
+          }
+        ],
+        "areaServed": [
+          {
+            "@type": "City",
+            "name": "Muwaileh, Sharjah"
+          },
+          {
+            "@type": "City",
+            "name": "Sharjah"
+          },
+          {
+            "@type": "Country",
+            "name": "United Arab Emirates"
+          }
+        ],
         "openingHoursSpecification": [
           {
             "@type": "OpeningHoursSpecification",
@@ -88,10 +124,11 @@ export default function HomePage({ onBookNow }: HomePageProps) {
           }
         ],
         "sameAs": [
-          "https://www.facebook.com/alsharqmobile",
-          "https://www.instagram.com/alsharqmobile"
-        ],
-        "priceRange": "$$"
+          "https://maps.app.goo.gl/WRjUv6FxCVTtZCEk8",
+          "https://www.facebook.com/allsharq.com",
+          "https://www.instagram.com/allsharq.com",
+          "https://www.twitter.com/alsharq_ae"
+        ]
       }
     ]
   };

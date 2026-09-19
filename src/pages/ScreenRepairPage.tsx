@@ -5,21 +5,32 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Breadcrumbs from '../components/Breadcrumbs';
 import BeforeAfterSlider from '../components/BeforeAfterSlider';
+import ServiceFAQ from '../components/ServiceFAQ';
 
 export default function ScreenRepairPage() {
   const structuredData = [
     {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
+      "@type": ["LocalBusiness", "MobilePhoneStore", "RepairService"],
       "name": "Al Sharq Mobile Phone & Computer Trading LLC",
+      "legalName": "Al Sharq Mobile Phone & Computer Trading LLC",
       "image": "https://allsharq.com/logo.png",
+      "telephone": "+971507117043",
+      "email": "alsharqmobile@gmail.com",
+      "hasMap": "https://maps.app.goo.gl/WRjUv6FxCVTtZCEk8",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Muwaileh",
-        "addressLocality": "Sharjah",
+        "streetAddress": "BLDG#1017 - SHOP#2 Fire Station Road, Muwaileh - Industrial Area",
+        "addressLocality": "Muwaileh, Sharjah",
+        "addressRegion": "Sharjah",
+        "postalCode": "00000",
         "addressCountry": "AE"
       },
-      "telephone": "+971507117043"
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 25.3123,
+        "longitude": 55.4800
+      }
     },
     {
       "@context": "https://schema.org",
@@ -28,13 +39,15 @@ export default function ScreenRepairPage() {
       "serviceType": "Electronics Repair",
       "provider": {
         "@type": "LocalBusiness",
-        "name": "Al Sharq Mobile Phone & Computer Trading LLC"
+        "name": "Al Sharq Mobile Phone & Computer Trading LLC",
+        "telephone": "+971507117043",
+        "hasMap": "https://maps.app.goo.gl/WRjUv6FxCVTtZCEk8"
       },
       "areaServed": {
         "@type": "City",
         "name": "Sharjah"
       },
-      "description": "Expert screen repair for iPhone 17 Pro Max, Samsung S26 Ultra, and MacBook M4 Pro with 2026 Ultra-High-Nit Solutions.",
+      "description": "Expert screen repair for iPhone 18, iPhone 17 Pro Max, Samsung S26 Ultra, and MacBook M4 Pro with 2026 Ultra-High-Nit Solutions.",
       "offers": {
         "@type": "AggregateOffer",
         "priceCurrency": "AED",
@@ -321,6 +334,36 @@ export default function ScreenRepairPage() {
               </table>
             </div>
           </motion.div>
+
+          {/* FAQ Section */}
+          <div className="mb-20">
+            <ServiceFAQ 
+              title="Frequently Asked Questions - Screen Replacement"
+              pageUrl="https://allsharq.com/services/screen-repair"
+              faqs={[
+                {
+                  question: "How long does a phone screen replacement take at Al Sharq in Sharjah?",
+                  answer: "Most iPhone and Samsung screen replacements are completed within 30 to 45 minutes while you wait at our Muwaileh shop."
+                },
+                {
+                  question: "Can you fix just the cracked outer glass without replacing the OLED panel?",
+                  answer: "Yes, if your touch digitizer and AMOLED/OLED display are fully responsive without black bleeding or lines, we can perform outer glass refurbishment using OCA laminating machines, saving you up to 50% compared to a full panel replacement."
+                },
+                {
+                  question: "What is the warranty on replacement screens?",
+                  answer: "All replacement displays come with a 90-day warranty covering touch response, flickering, and manufacturing defects."
+                },
+                {
+                  question: "Will True Tone and auto-brightness work after iPhone screen replacement?",
+                  answer: "Yes, we use EEPROM programmers to read data from your original screen and transfer serials directly to the new screen, preserving True Tone and automatic brightness sensors."
+                },
+                {
+                  question: "Will my phone data be safe during screen replacement?",
+                  answer: "Yes, screen replacement is an external hardware procedure that does not touch or wipe your device storage."
+                }
+              ]}
+            />
+          </div>
 
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
