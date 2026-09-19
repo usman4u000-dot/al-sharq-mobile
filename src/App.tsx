@@ -25,7 +25,6 @@ import RecentActivityToast from './components/RecentActivityToast';
 import LoadingSpinner from './components/LoadingSpinner';
 import ScrollProgressBar from './components/ScrollProgressBar';
 import NetworkStatus from './components/NetworkStatus';
-import CustomCursor from './components/CustomCursor';
 import EasterEggConsole from './components/EasterEggConsole';
 import SmartBatteryBanner from './components/SmartBatteryBanner';
 
@@ -138,7 +137,6 @@ function AppRoutes() {
 
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950 font-sans pb-20 md:pb-0 transition-colors duration-300">
-      <CustomCursor />
       <ScrollProgressBar />
       <LaunchBanner />
       <TopBar />

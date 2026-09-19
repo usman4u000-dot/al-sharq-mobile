@@ -11,6 +11,39 @@ type Issue = string;
 const dbData = {
   "Phone": {
     "Apple": {
+      "iPhone 18 Pro Max": {
+        "Cracked or Broken Screen": "AED 1350",
+        "Battery Issues": "AED 490",
+        "Water/Liquid Damage": "Diagnostic: AED 100",
+        "Charging Port Problems": "AED 320",
+        "Camera Repair": "AED 650",
+        "Audio Issues": "AED 380",
+        "Button/Body Damage": "AED 650",
+        "Software Issues": "AED 150",
+        "Data Recovery": "From AED 500"
+      },
+      "iPhone 18 Pro": {
+        "Cracked or Broken Screen": "AED 1250",
+        "Battery Issues": "AED 450",
+        "Water/Liquid Damage": "Diagnostic: AED 100",
+        "Charging Port Problems": "AED 300",
+        "Camera Repair": "AED 600",
+        "Audio Issues": "AED 350",
+        "Button/Body Damage": "AED 600",
+        "Software Issues": "AED 150",
+        "Data Recovery": "From AED 500"
+      },
+      "iPhone 18": {
+        "Cracked or Broken Screen": "AED 950",
+        "Battery Issues": "AED 380",
+        "Water/Liquid Damage": "Diagnostic: AED 80",
+        "Charging Port Problems": "AED 280",
+        "Camera Repair": "AED 500",
+        "Audio Issues": "AED 300",
+        "Button/Body Damage": "AED 500",
+        "Software Issues": "AED 120",
+        "Data Recovery": "From AED 400"
+      },
       "iPhone 17 Pro Max": {
         "Cracked or Broken Screen": "AED 1200",
         "Battery Issues": "AED 450",

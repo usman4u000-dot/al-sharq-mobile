@@ -89,15 +89,16 @@ export default function Footer({ onOpenTerms }: FooterProps) {
                   <MapPin className="h-5 w-5 text-brand-orange" />
                 </div>
                 <div>
-                  <p className="font-semibold text-white">Al Sharq Mobile Phone</p>
+                  <p className="font-semibold text-white">Al Sharq Mobile Phone & Computer Trading LLC</p>
                   <a 
                     href="https://maps.app.goo.gl/WRjUv6FxCVTtZCEk8" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="hover:text-brand-orange transition-colors block mt-1 text-sm leading-relaxed"
                   >
-                    Muwaileh Area<br />
-                    Sharjah, UAE
+                    BLDG#1017 - SHOP#2 Fire Station Road<br />
+                    Muwaileh - Industrial Area<br />
+                    Sharjah - United Arab Emirates
                   </a>
                 </div>
               </li>

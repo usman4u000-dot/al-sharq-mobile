@@ -68,18 +68,18 @@ export default function LocalSEOSection() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-blue/90 via-brand-blue/40 to-transparent flex flex-col justify-end p-8">
                   <h3 className="text-2xl font-bold text-white mb-2">Al Sharq Mobile Phone</h3>
-                  <p className="text-blue-100 flex items-center gap-2 mb-4">
-                    <MapPin className="w-4 h-4" />
-                    Muwaileh Commercial, Sharjah, UAE
+                  <p className="text-blue-100 flex items-center gap-2 mb-4 text-xs sm:text-sm">
+                    <MapPin className="w-4 h-4 shrink-0" />
+                    BLDG#1017 - SHOP#2 Fire Station Road, Muwaileh, Sharjah
                   </p>
                   <a 
-                    href="https://maps.google.com" 
+                    href="https://maps.app.goo.gl/WRjUv6FxCVTtZCEk8" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-brand-blue rounded-xl font-bold hover:bg-gray-50 transition-colors w-fit pointer-events-auto"
                   >
                     <Navigation className="w-4 h-4" />
-                    Get Directions
+                    Get Directions (Google Maps)
                   </a>
                 </div>
               </div>

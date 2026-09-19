@@ -10,6 +10,10 @@ import PricingTable from '../components/PricingTable';
 
 export default function IPhoneRepairPage({ onBookNow }: { onBookNow: (service?: string) => void }) {
   const latestModels = [
+    "iPhone 18 Pro Max",
+    "iPhone 18 Pro",
+    "iPhone 18",
+    "iPhone 18 Plus",
     "iPhone 17 Pro Max",
     "iPhone 17 Pro",
     "iPhone 17",

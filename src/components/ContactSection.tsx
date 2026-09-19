@@ -192,10 +192,11 @@ export default function ContactSection() {
                     <MapPin className="w-6 h-6 text-brand-orange" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900 dark:text-white">Visit Us</h4>
-                    <p className="text-gray-600 dark:text-gray-400 mt-1">
-                      Al Sharq Mobile Phone & Computer Trading LLC (Techfix & Gidgets)<br />
-                      Muwailah Area, Sharjah, UAE
+                    <h4 className="font-semibold text-gray-900 dark:text-white">Visit Our Repair Workshop</h4>
+                    <p className="text-gray-600 dark:text-gray-400 mt-1 leading-relaxed">
+                      <strong>Al Sharq Mobile Phone & Computer Trading LLC</strong><br />
+                      BLDG#1017 - SHOP#2 Fire Station Road<br />
+                      Muwaileh - Industrial Area - Sharjah - United Arab Emirates
                     </p>
                   </div>
                 </div>

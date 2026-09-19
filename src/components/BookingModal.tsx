@@ -15,7 +15,7 @@ interface BookingModalProps {
 }
 
 const deviceCategories = {
-  'Mobile Phones': ['iPhone (All Series)', 'Samsung Galaxy (S/Z/A)', 'Google Pixel', 'Huawei / Xiaomi'],
+  'Mobile Phones': ['iPhone 18 / 18 Pro Series', 'iPhone (All Series)', 'Samsung Galaxy (S/Z/A)', 'Google Pixel', 'Huawei / Xiaomi'],
   'Tablets': ['iPad (Pro/Air/Mini)', 'Samsung Galaxy Tab', 'Microsoft Surface', 'Graphic Tablets'],
   'Laptops & PCs': ['MacBook (M1/M2/M3/M4)', 'Windows Laptops (Dell/HP)', 'Custom Gaming PCs', 'iMac / Mac Mini'],
   'Others': ['Other Device']

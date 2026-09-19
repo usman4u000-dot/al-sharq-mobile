@@ -55,8 +55,8 @@ export default function HomePage({ onBookNow }: HomePageProps) {
         "email": "alsharqmobile@gmail.com",
         "address": {
           "@type": "PostalAddress",
-          "streetAddress": "Muwailah Area",
-          "addressLocality": "Sharjah",
+          "streetAddress": "BLDG#1017 - SHOP#2 Fire Station Road, Muwaileh - Industrial Area",
+          "addressLocality": "Muwaileh, Sharjah",
           "addressRegion": "Sharjah",
           "postalCode": "00000",
           "addressCountry": "AE"

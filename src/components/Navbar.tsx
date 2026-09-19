@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Menu, X, ShoppingCart, Search, ChevronDown, Smartphone, Laptop, Activity, Tablet, Droplet, Cpu, HardDrive, Battery, Gamepad2, Watch, Globe, Zap, Phone, MessageCircle, MapPin, Clock, Wrench, ChevronRight, Bluetooth, Camera, Volume2, Layers, ArrowRight } from 'lucide-react';
+import { Menu, X, ShoppingCart, Search, ChevronDown, Smartphone, Laptop, Activity, Tablet, Droplet, Cpu, HardDrive, Battery, Gamepad2, Watch, Globe, Zap, Phone, MessageCircle, MapPin, Clock, Wrench, ChevronRight, Camera, Volume2, Layers, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from './Logo';
@@ -241,26 +241,6 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                 <span className="uppercase tracking-wider">{language}</span>
               </button>
               <ThemeToggle />
-              <button 
-                onClick={() => {
-                  if (typeof navigator !== 'undefined' && (navigator as any).bluetooth) {
-                    (navigator as any).bluetooth.requestDevice({
-                      acceptAllDevices: true,
-                      optionalServices: ['battery_service']
-                    }).then((device: any) => {
-                      console.log(`Bluetooth connected: ${device.name || 'Device'}`);
-                    }).catch((error: any) => {
-                      console.log('Bluetooth auto-pairing cancelled or failed', error);
-                    });
-                  } else {
-                    console.log('Bluetooth connectivity is not supported in this browser environment.');
-                  }
-                }}
-                className="p-2 hover:bg-white/10 rounded-full transition-colors relative group"
-                aria-label="Connect Bluetooth Audio"
-              >
-                <Bluetooth className="h-5 w-5 hover:text-brand-orange transition-colors" aria-hidden="true" />
-              </button>
               <button 
                 onClick={() => setIsSearchOpen(true)}
                 className="p-2 hover:bg-white/10 rounded-full transition-colors"
