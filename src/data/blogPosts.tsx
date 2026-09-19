@@ -3,6 +3,7 @@ import { seoBlogs1 } from './seoBlogs1';
 import { seoBlogs2 } from './seoBlogs2';
 import { seoBlogs3 } from './seoBlogs3';
 import { seoBlogs4 } from './seoBlogs4';
+import { seoBlogs5 } from './seoBlogs5';
 import { seoBlogsArabic } from './seoBlogsArabic';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Smartphone, Monitor, ShoppingBag, Plug } from 'lucide-react';
@@ -3335,5 +3336,6 @@ Coupled with the 2nm A19 Pro chip, the iPhone 17 Pro Max promises unprecedented 
   ...seoBlogs2,
   ...seoBlogs3,
   ...seoBlogs4,
+  ...seoBlogs5,
   ...seoBlogsArabic
 ];
