@@ -75,6 +75,7 @@ const blogFiles = [
   'src/data/seoBlogs2.tsx',
   'src/data/seoBlogs3.tsx',
   'src/data/seoBlogs4.tsx',
+  'src/data/seoBlogs5.tsx',
   'src/data/seoBlogsArabic.tsx'
 ];
 

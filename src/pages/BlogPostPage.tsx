@@ -184,20 +184,25 @@ export default function BlogPostPage() {
                   </div>
                 </div>
 
-                <div className="relative">
-                  <img loading="lazy" src={post.image} 
+                <div className="relative bg-slate-100 dark:bg-slate-800 overflow-hidden min-h-[280px] flex items-center justify-center">
+                  <img 
+                    loading="lazy"
+                    decoding="async"
+                    src={post.image} 
                     alt={post.title} 
-                    className="w-full h-auto max-h-[500px] object-cover"
+                    width={1200}
+                    height={630}
+                    className="w-full h-auto max-h-[500px] object-cover transition-opacity duration-300"
                   />
                 </div>
 
                 <div className="p-8 md:p-12 flex flex-col lg:flex-row gap-12">
                   {/* Social Share Sidebar (Desktop in article) */}
                   <div className="hidden lg:flex flex-col gap-4 sticky top-32 h-fit shrink-0">
-                    <button className="p-3 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-brand-orange dark:hover:text-brand-orange transition-colors">
+                    <button className="p-3 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-brand-orange dark:hover:text-brand-orange transition-colors" title="Share Article">
                       <Share2 className="w-5 h-5" />
                     </button>
-                    <button className="p-3 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-brand-orange dark:hover:text-brand-orange transition-colors">
+                    <button className="p-3 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-brand-orange dark:hover:text-brand-orange transition-colors" title="Bookmark">
                       <Bookmark className="w-5 h-5" />
                     </button>
                   </div>
@@ -205,7 +210,55 @@ export default function BlogPostPage() {
                   {/* Article Body */}
                   <div dir="auto" className="prose prose-lg dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 prose-headings:font-bold prose-headings:tracking-tight prose-a:text-brand-orange hover:prose-a:text-orange-600 prose-img:rounded-2xl">
                     {typeof post.content === 'string' ? (
-                      <Markdown>{post.content}</Markdown>
+                      <Markdown
+                        components={{
+                          img: ({ node, src, alt, ...props }) => (
+                            <figure className="my-8 overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-800 shadow-md bg-slate-100 dark:bg-slate-800">
+                              <img
+                                src={src}
+                                alt={alt || post.title}
+                                loading="lazy"
+                                decoding="async"
+                                width={1200}
+                                height={675}
+                                className="w-full h-auto max-h-[500px] object-cover m-0"
+                                {...props}
+                              />
+                              {alt && (
+                                <figcaption className="p-3 text-center text-xs text-slate-500 dark:text-slate-400 italic bg-slate-50 dark:bg-slate-900/60 border-t border-slate-100 dark:border-slate-800">
+                                  {alt}
+                                </figcaption>
+                              )}
+                            </figure>
+                          ),
+                          a: ({ node, href, children, ...props }) => {
+                            const isInternal = href && (href.startsWith('/') || href.startsWith('#'));
+                            if (isInternal) {
+                              return (
+                                <Link 
+                                  to={href} 
+                                  className="text-brand-orange hover:text-orange-600 font-semibold underline decoration-brand-orange/40 hover:decoration-brand-orange transition-colors"
+                                >
+                                  {children}
+                                </Link>
+                              );
+                            }
+                            return (
+                              <a 
+                                href={href} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="text-brand-orange hover:text-orange-600 font-semibold underline decoration-brand-orange/40 hover:decoration-brand-orange transition-colors" 
+                                {...props}
+                              >
+                                {children}
+                              </a>
+                            );
+                          }
+                        }}
+                      >
+                        {post.content}
+                      </Markdown>
                     ) : (
                       post.content
                     )}
