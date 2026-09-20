@@ -5,6 +5,7 @@ import { ArrowLeft, Calendar, User, MessageCircle, Share2, Bookmark, Clock, Arro
 import { motion } from 'motion/react';
 import Markdown from 'react-markdown';
 import { blogPosts, calculateReadTime } from '../data/blogPosts';
+import RelatedServicesModule from '../components/RelatedServicesModule';
 
 export default function BlogPostPage() {
   const { id } = useParams<{ id: string }>();
@@ -147,6 +148,13 @@ export default function BlogPostPage() {
                 ))}
               </div>
             </div>
+
+            {/* Sidebar Automated Device Repair Matches */}
+            <RelatedServicesModule 
+              contentToAnalyze={`${post.title} ${post.category} ${typeof post.content === 'string' ? post.content.substring(0, 800) : ''}`}
+              category={post.category}
+              variant="compact"
+            />
           </aside>
 
           {/* Main Article Content */}
@@ -265,6 +273,13 @@ export default function BlogPostPage() {
                   </div>
                 </div>
               </div>
+
+              {/* Automated Device-Specific Related Services Module */}
+              <RelatedServicesModule 
+                contentToAnalyze={`${post.title} ${post.category} ${typeof post.content === 'string' ? post.content : ''}`}
+                category={post.category}
+                variant="grid"
+              />
 
               {/* Author Bio Footer */}
               <div className="p-8 bg-white dark:bg-slate-900 shadow-sm rounded-3xl border border-slate-100 dark:border-slate-800 flex flex-col md:flex-row items-center gap-8 mb-12">

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { blogPosts, BlogPost, calculateReadTime } from '../data/blogPosts';
 import { Calendar, Clock, ArrowRight, BookOpen, Search } from 'lucide-react';
 import { motion } from 'motion/react';
+import RelatedServicesModule from '../components/RelatedServicesModule';
 
 export default function BlogPage() {
   const [activeCategory, setActiveCategory] = useState('All');
@@ -124,6 +125,13 @@ export default function BlogPage() {
                 ))}
               </div>
             </div>
+
+            {/* Dynamic Matched Services based on Active Category or Search Filter */}
+            <RelatedServicesModule 
+              contentToAnalyze={`${activeCategory} ${searchQuery} iPhone Samsung MacBook`}
+              category={activeCategory}
+              variant="compact"
+            />
           </aside>
 
           {/* Main Grid Content */}
@@ -196,6 +204,17 @@ export default function BlogPage() {
                 </button>
               </div>
             )}
+
+            {/* Dynamic Related Services Banner/Grid at Bottom of Blog Index */}
+            <div className="mt-16">
+              <RelatedServicesModule 
+                contentToAnalyze={`${activeCategory} ${searchQuery} iPhone 18 iPhone 16 Samsung Galaxy S24 S25 MacBook screen battery charging port`}
+                category={activeCategory}
+                variant="grid"
+                customTitle="In-Store Hardware Repairs & Screen Fixes (Sharjah)"
+                customSubtitle="Need immediate hardware repair for an iPhone, Samsung Galaxy, or MacBook featured in our blog? Walk into our Muwaileh center or book a service online."
+              />
+            </div>
           </main>
         </div>
       </div>
