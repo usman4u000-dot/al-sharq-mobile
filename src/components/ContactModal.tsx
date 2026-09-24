@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Send, Mail, User, MessageSquare, FileText } from 'lucide-react';
+import { X, Send, Mail, User, MessageSquare, FileText, AlertCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { db } from '../firebase';
@@ -20,6 +20,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [rateLimitError, setRateLimitError] = useState<string | null>(null);
   const [errors, setErrors] = useState({
     name: '',
     email: '',
@@ -96,7 +97,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
 
       // Notify backend server targeting alsharqmobile@gmail.com
       try {
-        await fetch('/api/contact-inquiry', {
+        const response = await fetch('/api/contact-inquiry', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -107,6 +108,13 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
             targetEmail: 'alsharqmobile@gmail.com'
           })
         });
+
+        if (response.status === 429) {
+          const data = await response.json().catch(() => ({}));
+          setRateLimitError(data.message || 'Rate limit reached. Please wait a few minutes before submitting again.');
+          setIsSubmitting(false);
+          return;
+        }
       } catch (apiErr) {
         console.warn('Server contact modal error:', apiErr);
       }
@@ -274,6 +282,19 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                     <p className="text-red-500 text-xs ml-1">{errors.message}</p>
                   )}
                 </div>
+
+                {/* Honeypot field for bot protection */}
+                <div className="hidden" aria-hidden="true">
+                  <input type="text" name="_hp_check" tabIndex={-1} autoComplete="off" />
+                </div>
+
+                {/* Rate limit error message */}
+                {rateLimitError && (
+                  <div className="p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 rounded-xl text-red-700 dark:text-red-400 text-xs flex items-start gap-2">
+                    <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+                    <span>{rateLimitError}</span>
+                  </div>
+                )}
 
                 <button
                   type="submit"

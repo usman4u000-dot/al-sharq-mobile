@@ -1,6 +1,26 @@
+# robots.txt for https://allsharq.com
+# Al Sharq Mobile Phone & Computer Trading LLC
+
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /api/
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /api/
+
 User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /dashboard
+Disallow: /api/
 
+# Sitemap location
 Sitemap: https://allsharq.com/sitemap.xml

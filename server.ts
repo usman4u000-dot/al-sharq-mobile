@@ -7,6 +7,14 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import Stripe from 'stripe';
 import twilio from 'twilio';
+import {
+  publicFormLimiter,
+  repairEstimateLimiter,
+  strictActionLimiter,
+  globalApiLimiter,
+  honeypotMiddleware
+} from './src/middleware/rateLimiter.ts';
+import { legacySeoRedirectMiddleware } from './src/middleware/legacyRedirects.ts';
 
 // Load environment variables
 dotenv.config();
@@ -44,9 +52,18 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
-  // Middleware
+  // Trust proxy for reverse proxy rate-limiting accuracy (Cloud Run / AIS Dev server)
+  app.set('trust proxy', 1);
+
+  // Global Middleware
   app.use(compression());
-  app.use(express.json());
+  app.use(express.json({ limit: '100kb' })); // Limit body payload to prevent DoS
+
+  // Global API rate limiter across all endpoints
+  app.use('/api', globalApiLimiter);
+
+  // SEO & Legacy WooCommerce 301 Redirection & WordPress Spam Purge (Resolves GSC errors)
+  app.use(legacySeoRedirectMiddleware);
 
   // --- API Routes --- //
   
@@ -71,7 +88,8 @@ async function startServer() {
     res.sendFile(robotsPath);
   });
 
-  app.post('/api/create-checkout-session', async (req, res) => {
+  // Payment checkout endpoint protected by strict action rate limiter
+  app.post('/api/create-checkout-session', strictActionLimiter, async (req, res) => {
     try {
       const stripe = getStripe();
       const { ticketId, amount, customerName, deviceType } = req.body;
@@ -106,7 +124,8 @@ async function startServer() {
     }
   });
 
-  app.post('/api/send-sms', async (req, res) => {
+  // SMS Dispatch Endpoint protected by strict action rate limiter (prevents SMS pumping fraud)
+  app.post('/api/send-sms', strictActionLimiter, async (req, res) => {
     try {
       const client = getTwilio();
       const { to, message } = req.body;
@@ -129,8 +148,8 @@ async function startServer() {
     }
   });
 
-  // Repair Booking & Estimate Notification Endpoint
-  app.post('/api/send-booking-notification', async (req, res) => {
+  // Repair Booking Notification Endpoint (Protected by publicFormLimiter and honeypot)
+  app.post('/api/send-booking-notification', publicFormLimiter, honeypotMiddleware, async (req, res) => {
     try {
       const {
         refNumber,
@@ -211,8 +230,73 @@ async function startServer() {
     }
   });
 
-  // Contact Form Inquiry Endpoint
-  app.post('/api/contact-inquiry', async (req, res) => {
+  // Repair Estimate Form Endpoint (Protected by repairEstimateLimiter and honeypot)
+  app.post('/api/repair-estimate', repairEstimateLimiter, honeypotMiddleware, async (req, res) => {
+    try {
+      const {
+        refNumber,
+        model,
+        damage,
+        estimatedPrice,
+        whatsapp,
+        notes,
+        name
+      } = req.body;
+
+      const targetEmail = process.env.ADMIN_NOTIFY_EMAIL || 'alsharqmobile@gmail.com';
+      const estimateRef = refNumber || ('EST-' + Math.random().toString(36).substring(2, 7).toUpperCase());
+
+      console.log(`[REPAIR ESTIMATE INQUIRY -> ${targetEmail}]`);
+      console.log(`Reference: ${estimateRef}`);
+      console.log(`Model: ${model || 'Unknown'}`);
+      console.log(`Issue: ${damage || 'Diagnostic'}`);
+      console.log(`Estimate: ${estimatedPrice || 'Custom quote'}`);
+      console.log(`WhatsApp/Contact: ${whatsapp || 'N/A'}`);
+
+      if (process.env.RESEND_API_KEY) {
+        try {
+          await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${process.env.RESEND_API_KEY}`
+            },
+            body: JSON.stringify({
+              from: 'Al Sharq Estimates <notifications@allsharq.com>',
+              to: [targetEmail],
+              subject: `💰 New Repair Estimate Requested [${estimateRef}]: ${model || 'Device'}`,
+              html: `
+                <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #e2e8f0; border-radius: 8px;">
+                  <h3 style="color: #0f172a; margin-top: 0; border-bottom: 2px solid #3b82f6; padding-bottom: 8px;">Online Repair Estimate Lead</h3>
+                  <p><strong>Reference Number:</strong> <span style="font-family: monospace; color: #2563eb; font-weight: bold;">${estimateRef}</span></p>
+                  <p><strong>Device Model:</strong> ${model || 'N/A'}</p>
+                  <p><strong>Reported Issue:</strong> ${damage || 'General Inspection'}</p>
+                  <p><strong>Estimated Price:</strong> ${estimatedPrice || 'Diagnostic required'}</p>
+                  <p><strong>Customer WhatsApp / Phone:</strong> <a href="https://wa.me/${(whatsapp || '').replace(/[^0-9]/g, '')}">${whatsapp}</a></p>
+                  ${notes ? `<p><strong>Additional Notes:</strong> ${notes}</p>` : ''}
+                </div>
+              `
+            })
+          });
+        } catch (e) {
+          console.warn('Estimate email dispatch warning:', e);
+        }
+      }
+
+      res.json({
+        success: true,
+        refNumber: estimateRef,
+        targetEmail,
+        message: 'Repair estimate inquiry registered successfully'
+      });
+    } catch (error: any) {
+      console.error('Repair estimate API error:', error);
+      res.status(500).json({ error: error.message || 'Estimate processing failed' });
+    }
+  });
+
+  // Contact Form Inquiry Endpoint (Protected by publicFormLimiter and honeypot)
+  app.post('/api/contact-inquiry', publicFormLimiter, honeypotMiddleware, async (req, res) => {
     try {
       const { name, email, phone, subject, message } = req.body;
       const targetEmail = process.env.ADMIN_NOTIFY_EMAIL || 'alsharqmobile@gmail.com';
@@ -255,6 +339,56 @@ async function startServer() {
       res.json({ success: true, targetEmail, message: `Inquiry registered for ${targetEmail}` });
     } catch (error: any) {
       res.status(500).json({ error: error.message || 'Inquiry processing failed' });
+    }
+  });
+
+  // Corporate B2B Form Endpoint (Protected by publicFormLimiter and honeypot)
+  app.post('/api/corporate-inquiry', publicFormLimiter, honeypotMiddleware, async (req, res) => {
+    try {
+      const { companyName, contactPerson, email, phone, deviceCount, serviceType, message } = req.body;
+      const targetEmail = process.env.ADMIN_NOTIFY_EMAIL || 'alsharqmobile@gmail.com';
+
+      console.log(`[CORPORATE B2B INQUIRY -> ${targetEmail}]`);
+      console.log(`Company: ${companyName} (${contactPerson})`);
+      console.log(`Contact: ${phone} | ${email}`);
+      console.log(`Devices: ${deviceCount} | Type: ${serviceType}`);
+
+      if (process.env.RESEND_API_KEY) {
+        try {
+          await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${process.env.RESEND_API_KEY}`
+            },
+            body: JSON.stringify({
+              from: 'Al Sharq Corporate <notifications@allsharq.com>',
+              to: [targetEmail],
+              reply_to: email,
+              subject: `🏢 Corporate B2B Inquiry: ${companyName || 'Corporate Partner'}`,
+              html: `
+                <div style="font-family: Arial, sans-serif; padding: 20px;">
+                  <h3>New B2B Corporate Partnership Inquiry</h3>
+                  <p><strong>Company:</strong> ${companyName}</p>
+                  <p><strong>Contact Person:</strong> ${contactPerson}</p>
+                  <p><strong>Email:</strong> ${email}</p>
+                  <p><strong>Phone:</strong> ${phone}</p>
+                  <p><strong>Fleet Size:</strong> ${deviceCount}</p>
+                  <p><strong>Service Type:</strong> ${serviceType}</p>
+                  <p><strong>Requirements:</strong></p>
+                  <div style="background: #f1f5f9; padding: 12px; border-radius: 6px;">${message || 'N/A'}</div>
+                </div>
+              `
+            })
+          });
+        } catch (e) {
+          console.warn('Corporate email dispatch warning:', e);
+        }
+      }
+
+      res.json({ success: true, targetEmail, message: `Corporate inquiry registered for ${targetEmail}` });
+    } catch (error: any) {
+      res.status(500).json({ error: error.message || 'Corporate inquiry processing failed' });
     }
   });
 

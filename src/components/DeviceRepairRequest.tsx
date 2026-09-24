@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Send, UploadCloud, CheckCircle, MessageCircle } from 'lucide-react';
+import { Send, UploadCloud, CheckCircle, MessageCircle, AlertCircle } from 'lucide-react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
@@ -9,6 +9,7 @@ export default function DeviceRepairRequest() {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [rateLimitError, setRateLimitError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -63,7 +64,7 @@ export default function DeviceRepairRequest() {
 
       // 2. Dispatch notification to server API
       try {
-        await fetch('/api/send-booking-notification', {
+        const response = await fetch('/api/send-booking-notification', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -80,6 +81,13 @@ export default function DeviceRepairRequest() {
             targetEmail: 'alsharqmobile@gmail.com'
           })
         });
+
+        if (response.status === 429) {
+          const data = await response.json().catch(() => ({}));
+          setRateLimitError(data.message || 'Rate limit reached. Too many requests from your network. Please wait a few minutes before submitting again.');
+          setIsSubmitting(false);
+          return;
+        }
       } catch (apiErr) {
         console.warn('Server notification warning:', apiErr);
       }
@@ -313,6 +321,22 @@ export default function DeviceRepairRequest() {
                   </div>
                 </div>
               </div>
+
+              {/* Anti-spam honeypot field */}
+              <div className="hidden" aria-hidden="true">
+                <input type="text" name="_hp_check" tabIndex={-1} autoComplete="off" />
+              </div>
+
+              {/* Rate limit error message */}
+              {rateLimitError && (
+                <div className="p-4 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 rounded-xl text-red-700 dark:text-red-400 text-sm flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-semibold block">Submission Limit Reached</span>
+                    <span>{rateLimitError}</span>
+                  </div>
+                </div>
+              )}
 
               <button
                 type="submit"

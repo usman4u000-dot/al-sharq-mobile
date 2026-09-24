@@ -208,6 +208,9 @@ function AppRoutes() {
               <Route path="/privacy" element={<PageTransition><PrivacyPolicyPage /></PageTransition>} />
               <Route path="/dashboard" element={<Navigate to="/" replace />} />
               <Route path="/admin" element={<PageTransition><AdminDashboardPage /></PageTransition>} />
+              {/* Legacy WooCommerce fallback redirects */}
+              <Route path="/product/*" element={<Navigate to="/services" replace />} />
+              <Route path="/product-category/*" element={<Navigate to="/services" replace />} />
               <Route path="*" element={<PageTransition><NotFoundPage /></PageTransition>} />
             </Routes>
           </Suspense>

@@ -157,7 +157,7 @@ export default function BookingModal({ isOpen, onClose, initialService = '' }: B
 
       // 2. Dispatch notification to server API for alsharqmobile@gmail.com
       try {
-        await fetch('/api/send-booking-notification', {
+        const response = await fetch('/api/send-booking-notification', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -167,6 +167,13 @@ export default function BookingModal({ isOpen, onClose, initialService = '' }: B
             estimatedCost
           })
         });
+
+        if (response.status === 429) {
+          const data = await response.json().catch(() => ({}));
+          setErrorDetails(data.message || 'Too many booking requests from your network. Please wait a few minutes before submitting again.');
+          setIsSubmitting(false);
+          return;
+        }
       } catch (apiErr) {
         console.warn('Backend notification API error:', apiErr);
       }

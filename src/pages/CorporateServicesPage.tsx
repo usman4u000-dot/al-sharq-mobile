@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
-import { Building2, Users, ShieldCheck, Clock, ArrowRight, CheckCircle2, Briefcase, Laptop, Smartphone, Package, HeadphonesIcon } from 'lucide-react';
+import { Building2, Users, ShieldCheck, Clock, ArrowRight, CheckCircle2, Briefcase, Laptop, Smartphone, Package, HeadphonesIcon, AlertCircle } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
@@ -9,6 +9,21 @@ import Breadcrumbs from '../components/Breadcrumbs';
 export default function CorporateServicesPage() {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [formState, setFormState] = useState({
+    companyName: '',
+    contactPerson: '',
+    email: '',
+    phone: '',
+    serviceType: 'Wholesale Device Purchase (Phones/Laptops)',
+    message: ''
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormState(prev => ({ ...prev, [name]: value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,19 +33,38 @@ export default function CorporateServicesPage() {
     }
 
     setIsSubmitting(true);
+    setErrorMessage(null);
     
     try {
       // Execute reCAPTCHA
       const token = (executeRecaptcha ? await executeRecaptcha('corporate_form') : 'dummy-token');
       console.log('reCAPTCHA token:', token);
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      alert('Thank you for your interest! Our B2B team will contact you shortly.');
-      (e.target as HTMLFormElement).reset();
+      const response = await fetch('/api/corporate-inquiry', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formState)
+      });
+
+      if (response.status === 429) {
+        const data = await response.json().catch(() => ({}));
+        setErrorMessage(data.message || 'Rate limit reached. Too many inquiries submitted. Please wait a few minutes before trying again.');
+        setIsSubmitting(false);
+        return;
+      }
+
+      setIsSuccess(true);
+      setFormState({
+        companyName: '',
+        contactPerson: '',
+        email: '',
+        phone: '',
+        serviceType: 'Wholesale Device Purchase (Phones/Laptops)',
+        message: ''
+      });
     } catch (error) {
-      console.error('reCAPTCHA error:', error);
+      console.error('Corporate submission error:', error);
+      setErrorMessage('An unexpected network error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -217,31 +251,94 @@ export default function CorporateServicesPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-sm border border-slate-100 dark:border-slate-700 space-y-6">
+              {isSuccess && (
+                <div className="p-4 bg-green-50 dark:bg-green-950/40 border border-green-200 dark:border-green-800 rounded-xl text-green-800 dark:text-green-300 text-sm flex items-center gap-3">
+                  <CheckCircle2 className="w-5 h-5 flex-shrink-0 text-green-600 dark:text-green-400" />
+                  <div>
+                    <p className="font-bold">Inquiry Sent Successfully!</p>
+                    <p>Thank you for contacting our enterprise department. Our B2B account team will contact you within 24 hours.</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Anti-spam honeypot field */}
+              <div className="hidden" aria-hidden="true">
+                <input type="text" name="_hp_check" tabIndex={-1} autoComplete="off" />
+              </div>
+
+              {/* Rate limit / submission error alert */}
+              {errorMessage && (
+                <div className="p-4 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 rounded-xl text-red-700 dark:text-red-400 text-sm flex items-start gap-3">
+                  <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                  <div>
+                    <p className="font-semibold">Notice</p>
+                    <p>{errorMessage}</p>
+                  </div>
+                </div>
+              )}
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Company Name *</label>
-                  <input type="text" className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition-all placeholder:text-slate-400" placeholder="Your Company LLC" required />
+                  <input 
+                    type="text" 
+                    name="companyName"
+                    value={formState.companyName}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition-all placeholder:text-slate-400" 
+                    placeholder="Your Company LLC" 
+                    required 
+                  />
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Contact Person *</label>
-                  <input type="text" className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition-all placeholder:text-slate-400" placeholder="John Doe" required />
+                  <input 
+                    type="text" 
+                    name="contactPerson"
+                    value={formState.contactPerson}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition-all placeholder:text-slate-400" 
+                    placeholder="John Doe" 
+                    required 
+                  />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Email Address *</label>
-                  <input type="email" className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition-all placeholder:text-slate-400" placeholder="john@company.com" required />
+                  <input 
+                    type="email" 
+                    name="email"
+                    value={formState.email}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition-all placeholder:text-slate-400" 
+                    placeholder="john@company.com" 
+                    required 
+                  />
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Phone Number *</label>
-                  <input type="tel" className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition-all placeholder:text-slate-400" placeholder="+971 50 000 0000" required />
+                  <input 
+                    type="tel" 
+                    name="phone"
+                    value={formState.phone}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition-all placeholder:text-slate-400" 
+                    placeholder="+971 50 000 0000" 
+                    required 
+                  />
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Area of Interest *</label>
-                <select className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition-all">
+                <select 
+                  name="serviceType"
+                  value={formState.serviceType}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition-all"
+                >
                   <option>Wholesale Device Purchase (Phones/Laptops)</option>
                   <option>Bulk Device Repair Services</option>
                   <option>Annual Maintenance Contract (AMC)</option>
@@ -252,7 +349,14 @@ export default function CorporateServicesPage() {
 
               <div>
                 <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Details / Specific Requirements</label>
-                <textarea rows={4} className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition-all placeholder:text-slate-400" placeholder="Tell us about the volume of devices, specific models needed, or the scope of IT support required..."></textarea>
+                <textarea 
+                  name="message"
+                  value={formState.message}
+                  onChange={handleChange}
+                  rows={4} 
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:ring-2 focus:ring-brand-blue focus:border-brand-blue outline-none transition-all placeholder:text-slate-400" 
+                  placeholder="Tell us about the volume of devices, specific models needed, or the scope of IT support required..."
+                ></textarea>
               </div>
 
               <button type="submit" disabled={isSubmitting} className="w-full py-4 bg-brand-orange hover:bg-orange-600 text-white rounded-xl font-bold transition-colors shadow-sm hover:shadow-md disabled:opacity-70 flex items-center justify-center gap-2 text-lg">

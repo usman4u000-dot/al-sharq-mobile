@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Calculator, CheckCircle2, MessageCircle, Calendar, ArrowRight, Loader2, Phone, Mail } from 'lucide-react';
+import { Calculator, CheckCircle2, MessageCircle, Calendar, ArrowRight, Loader2, Phone, Mail, AlertCircle } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -39,6 +39,7 @@ export default function RepairEstimatePage({ onBookNow }: RepairEstimatePageProp
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     model: '',
     damage: '',
@@ -62,6 +63,7 @@ export default function RepairEstimatePage({ onBookNow }: RepairEstimatePageProp
     }
 
     setIsSubmitting(true);
+    setErrorMessage(null);
     
     try {
       // Execute reCAPTCHA
@@ -86,24 +88,27 @@ export default function RepairEstimatePage({ onBookNow }: RepairEstimatePageProp
         console.warn('Firestore estimate save warning:', dbErr);
       }
 
-      // Notify backend server for alsharqmobile@gmail.com
+      // Submit to dedicated backend /api/repair-estimate endpoint
       try {
-        await fetch('/api/send-booking-notification', {
+        const response = await fetch('/api/repair-estimate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             refNumber: 'EST-' + Math.random().toString(36).substring(2, 7).toUpperCase(),
-            name: 'Estimate Lead',
-            email: 'alsharqmobile@gmail.com',
-            phone: formData.whatsapp,
-            deviceCategory: 'Estimate Lead',
-            deviceModel: formData.model,
-            serviceType: currentDamage?.label || formData.damage,
-            serviceMethod: 'Online Estimate',
-            estimatedCost: currentDamage?.priceRange || 'Diagnostic',
+            model: formData.model,
+            damage: currentDamage?.label || formData.damage,
+            estimatedPrice: currentDamage?.priceRange || 'Diagnostic',
+            whatsapp: formData.whatsapp,
             targetEmail: 'alsharqmobile@gmail.com'
           })
         });
+
+        if (response.status === 429) {
+          const data = await response.json().catch(() => ({}));
+          setErrorMessage(data.message || 'Rate limit reached. Too many estimate requests from your network. Please wait a few minutes before trying again.');
+          setIsSubmitting(false);
+          return;
+        }
       } catch (apiErr) {
         console.warn('Server notification warning:', apiErr);
       }
@@ -111,6 +116,7 @@ export default function RepairEstimatePage({ onBookNow }: RepairEstimatePageProp
       setStep(2); // Move to result page
     } catch (error) {
       console.error('reCAPTCHA error:', error);
+      setErrorMessage('An unexpected error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -227,6 +233,22 @@ export default function RepairEstimatePage({ onBookNow }: RepairEstimatePageProp
                         className="w-full px-4 py-4 rounded-xl border-2 border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-white focus:border-brand-orange focus:ring-0 outline-none transition-all text-lg"
                       />
                     </div>
+
+                    {/* Anti-spam honeypot field hidden from legitimate users */}
+                    <div className="hidden" aria-hidden="true">
+                      <input type="text" name="_hp_check" tabIndex={-1} autoComplete="off" />
+                    </div>
+
+                    {/* Rate Limit and Validation Error Notice */}
+                    {errorMessage && (
+                      <div className="p-4 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 rounded-xl text-red-700 dark:text-red-400 text-sm flex items-start gap-3 animate-fade-in">
+                        <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
+                        <div>
+                          <p className="font-semibold">Security / Submission Notice</p>
+                          <p>{errorMessage}</p>
+                        </div>
+                      </div>
+                    )}
 
                     <button
                       type="submit"
