@@ -13,6 +13,8 @@ const TODAY = new Date().toISOString().split('T')[0];
 const routes = [
   // Primary
   { path: '/', priority: '1.0', changefreq: 'daily' },
+  { path: '/gcc-services', priority: '0.95', changefreq: 'weekly' },
+  { path: '/international-repair', priority: '0.9', changefreq: 'weekly' },
   
   // Core High-Intent Repair Services (0.9)
   { path: '/phone-repair', priority: '0.9', changefreq: 'weekly' },

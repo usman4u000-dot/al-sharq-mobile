@@ -72,6 +72,7 @@ const ShopPage = React.lazy(() => import('./pages/ShopPage'));
 const ContactPage = React.lazy(() => import('./pages/ContactPage'));
 const ReviewsPage = React.lazy(() => import('./pages/ReviewsPage'));
 const TradeInPage = React.lazy(() => import('./pages/TradeInPage'));
+const GCCRegionalServicesPage = React.lazy(() => import('./pages/GCCRegionalServicesPage'));
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
 
 // Initialize Google Analytics
@@ -199,6 +200,8 @@ function AppRoutes() {
               <Route path="/track-repair" element={<PageTransition><TrackRepairPage /></PageTransition>} />
               <Route path="/troubleshoot" element={<PageTransition><TroubleshootingPage /></PageTransition>} />
               <Route path="/corporate" element={<PageTransition><CorporateServicesPage /></PageTransition>} />
+              <Route path="/gcc-services" element={<PageTransition><GCCRegionalServicesPage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/international-repair" element={<PageTransition><GCCRegionalServicesPage onBookNow={openBooking} /></PageTransition>} />
               <Route path="/gallery" element={<PageTransition><GalleryPage /></PageTransition>} />
               <Route path="/shop" element={<PageTransition><ShopPage /></PageTransition>} />
               <Route path="/contact" element={<PageTransition><ContactPage /></PageTransition>} />

@@ -150,7 +150,7 @@ export default function Footer({ onOpenTerms }: FooterProps) {
         </div>
 
         <div className="border-t border-white/10 pt-8 mt-8 mb-8">
-          <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Areas We Serve</h4>
+          <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Areas We Serve (UAE, GCC & Regional)</h4>
           <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-gray-400">
             <Link to="/laptop-repair" className="hover:text-brand-orange transition-colors">Laptop Repair Muwaileh</Link>
             <span className="text-slate-700">|</span>
@@ -159,6 +159,16 @@ export default function Footer({ onOpenTerms }: FooterProps) {
             <Link to="/phone-repair" className="hover:text-brand-orange transition-colors">Mobile Repair Dubai / Ajman / Abu Dhabi</Link>
             <span className="text-slate-700">|</span>
             <Link to="/laptop-repair" className="hover:text-brand-orange transition-colors">Laptop Service Center Sharjah Industrial Area</Link>
+            <span className="text-slate-700">|</span>
+            <Link to="/gcc-services" className="text-brand-orange font-bold hover:underline">Saudi Arabia (Riyadh & Jeddah) Mail-In Repair</Link>
+            <span className="text-slate-700">|</span>
+            <Link to="/gcc-services" className="text-brand-orange font-bold hover:underline">Oman & Muscat Tech Lab</Link>
+            <span className="text-slate-700">|</span>
+            <Link to="/gcc-services" className="text-brand-orange font-bold hover:underline">Bahrain Manama Logic Board Fix</Link>
+            <span className="text-slate-700">|</span>
+            <Link to="/gcc-services" className="text-brand-orange font-bold hover:underline">Turkey (Türkiye) Electronics Trade & Repair</Link>
+            <span className="text-slate-700">|</span>
+            <Link to="/gcc-services" className="text-brand-orange font-bold hover:underline">Kuwait & Qatar GCC Hub</Link>
           </div>
         </div>
 

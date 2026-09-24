@@ -228,6 +228,12 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                   Shop
                   <span className="absolute bottom-0 left-0 w-full h-[2px] bg-brand-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ease-out"></span>
                 </Link>
+
+                <Link to="/gcc-services" aria-label="GCC & Regional Hub" className="relative group px-3 py-2 text-sm font-semibold text-brand-orange hover:text-orange-400 transition-colors flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span>{isAr ? 'دول الخليج والمنطقة' : 'GCC & Regional'}</span>
+                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-brand-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ease-out"></span>
+                </Link>
               </div>
             </div>
 
@@ -410,6 +416,18 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
 
                 {/* Main Nav Links */}
                 <div className="space-y-1">
+                  <Link 
+                    to="/gcc-services" 
+                    className="text-brand-orange bg-brand-orange/10 hover:bg-brand-orange/20 flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-bold transition-colors border border-brand-orange/20"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <span className="flex items-center gap-2">
+                      <Globe className="w-4 h-4" />
+                      <span>{isAr ? 'خدمات دول الخليج وتركيا (شحن)' : 'GCC & Regional (Saudi/Oman/TR)'}</span>
+                    </span>
+                    <ChevronRight className="w-4 h-4 text-brand-orange" />
+                  </Link>
+
                   <Link 
                     to="/shop" 
                     className="text-slate-200 hover:text-white hover:bg-slate-800/80 flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-colors"

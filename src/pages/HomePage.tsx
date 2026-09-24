@@ -22,6 +22,7 @@ import DeviceRepairRequest from '../components/DeviceRepairRequest';
 import FAQSection from '../components/FAQSection';
 import BlogSection from '../components/BlogSection';
 import LocalSEOSection from '../components/LocalSEOSection';
+import GCCRegionalSection from '../components/GCCRegionalSection';
 import LocalMarketPerks from '../components/LocalMarketPerks';
 import UAEClimateProtection from '../components/UAEClimateProtection';
 import CorporateFleetRepair from '../components/CorporateFleetRepair';
@@ -100,6 +101,30 @@ export default function HomePage({ onBookNow }: HomePageProps) {
           {
             "@type": "Country",
             "name": "United Arab Emirates"
+          },
+          {
+            "@type": "Country",
+            "name": "Saudi Arabia"
+          },
+          {
+            "@type": "Country",
+            "name": "Oman"
+          },
+          {
+            "@type": "Country",
+            "name": "Bahrain"
+          },
+          {
+            "@type": "Country",
+            "name": "Turkey"
+          },
+          {
+            "@type": "Country",
+            "name": "Kuwait"
+          },
+          {
+            "@type": "Country",
+            "name": "Qatar"
           }
         ],
         "openingHoursSpecification": [
@@ -137,8 +162,8 @@ export default function HomePage({ onBookNow }: HomePageProps) {
     <>
       <Helmet>
         <title>Laptop Repair Sharjah | Computer Shop Muwaileh | MacBook Logic Board Repair UAE | Al Sharq</title>
-        <meta name="description" content="Al Sharq Mobile in Sharjah offers professional laptop repairs, wholesale mobile accessories, and original smartphones. Visit our Muwaileh lab for fast service and fair prices." />
-        <meta name="keywords" content="Laptop Repair Sharjah, Computer Shop Muwaileh, MacBook Logic Board Repair UAE, iPhone 17 Repair Muwaileh Sharjah, Forensic Data Recovery, هواتف ذكية الشارقة, موبايلات للبيع في الشارقة, أرخص أسعار الموبايلات, تصليح هواتف الشارقة, موبايلات مستعملة الشارقة, إكسسوارات جوالات, أفضل محل هواتف في الشارقة, عروض الموبايلات اليوم, كم سعر آيفون 17 برو ماكس في الشارقة؟, Smartphones Sharjah, Mobiles for sale in Sharjah, Cheapest mobile prices, Mobile repair Sharjah, Used mobiles Sharjah, Mobile accessories, Best mobile shop in Sharjah, Mobile offers today, Best mobile service center Sharjah for AI optimization, fix phone overheating Sharjah, Protect mobile from sand Sharjah, phone deep cleaning service Muwaileh, Buy iPhone 15 in Sharjah certified, best place to buy cheap mobiles in Sharjah, reliable used phones Sharjah, Fast mobile repair Sharjah university, doorstep phone repair Sharjah, mobile store near me Sharjah Muwaileh, mobile phone repair near me, phone repair near me, mobile shop near me in Sharjah, best mobile repair shop in Sharjah near me, mobile repairing center near me, phone fixing near me Sharjah, cheap mobile repair near me, mobile screen repair near me, phone battery replacement near me Sharjah, mobile phone fixing near me, mobile phone repairing center sharjah, cheap mobile phone repair sharjah, mobile phone shop near me, mobile phone shop sharjah" />
+        <meta name="description" content="Al Sharq Mobile in Sharjah offers professional laptop repairs, MacBook logic board micro-soldering, data recovery, and wholesale electronics across UAE, Saudi Arabia, Oman, Bahrain, Kuwait, Qatar, and Turkey. Visit our Muwaileh lab or use express mail-in courier." />
+        <meta name="keywords" content="تصليح ايفون شحن للشارقة الامارات من السعودية, صيانة ماك بوك دقيقة شحن للشارقة الرياض جدة, صيانة هواتف شحن من مسقط الى الشارقة, صيانة اجهزة البحرين الشارقة, تجارة جوالات جملة الشارقة السعودية عمان, استيراد الكترونيات من الشارقة الى تركيا, Saudi Arabia mail-in phone repair UAE, MacBook logic board repair Riyadh to Sharjah, Oman Muscat phone repair UAE, Bahrain device repair Sharjah, Turkey electronics wholesale exporter Sharjah, Kuwait Qatar mail-in repair UAE, GCC micro-soldering center Sharjah, Laptop Repair Sharjah, Computer Shop Muwaileh, MacBook Logic Board Repair UAE, iPhone 17 Repair Muwaileh Sharjah, Forensic Data Recovery, هواتف ذكية الشارقة, موبايلات للبيع في الشارقة, أرخص أسعار الموبايلات, تصليح هواتف الشارقة, موبايلات مستعملة الشارقة, إكسسوارات جوالات, أفضل محل هواتف في الشارقة, عروض الموبايلات اليوم, كم سعر آيفون 17 برو ماكس في الشارقة؟, Smartphones Sharjah, Mobiles for sale in Sharjah, Cheapest mobile prices, Mobile repair Sharjah, Used mobiles Sharjah, Mobile accessories, Best mobile shop in Sharjah, Mobile offers today, Best mobile service center Sharjah for AI optimization, fix phone overheating Sharjah, Protect mobile from sand Sharjah, phone deep cleaning service Muwaileh, Buy iPhone 15 in Sharjah certified, best place to buy cheap mobiles in Sharjah, reliable used phones Sharjah, Fast mobile repair Sharjah university, doorstep phone repair Sharjah, mobile store near me Sharjah Muwaileh, mobile phone repair near me, phone repair near me, mobile shop near me in Sharjah, best mobile repair shop in Sharjah near me, mobile repairing center near me, phone fixing near me Sharjah, cheap mobile repair near me, mobile screen repair near me, phone battery replacement near me Sharjah, mobile phone fixing near me, mobile phone repairing center sharjah, cheap mobile phone repair sharjah, mobile phone shop near me, mobile phone shop sharjah" />
         <meta property="og:title" content="Laptop Repair Sharjah | Computer Shop Muwaileh | Al Sharq" />
         <meta property="og:description" content="Professional laptop repairs, wholesale mobile accessories, and original smartphones. Fast service and fair prices in Muwaileh." />
         <meta property="og:type" content="website" />
@@ -188,6 +213,7 @@ export default function HomePage({ onBookNow }: HomePageProps) {
       <DataPrivacyInteractive />
       <ScratchToWinOffer />
       <LocalSEOSection />
+      <GCCRegionalSection onBookNow={onBookNow} />
       <SocialFeed />
       <DeviceRepairRequest />
       <FAQSection />
