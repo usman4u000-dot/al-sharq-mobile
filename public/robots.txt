@@ -16,6 +16,41 @@ Disallow: /admin
 Disallow: /dashboard
 Disallow: /api/
 
+User-agent: Applebot
+Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /api/
+
+# AI Search Discovery & Local Business Citations (Gemini, ChatGPT Search, Claude, Perplexity)
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /api/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /api/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /api/
+
+# Throttle aggressive third-party SEO bots to conserve crawl bandwidth
+User-agent: AhrefsBot
+Crawl-delay: 5
+
+User-agent: SemrushBot
+Crawl-delay: 5
+
+User-agent: MJ12bot
+Disallow: /
+
 User-agent: *
 Allow: /
 Disallow: /admin

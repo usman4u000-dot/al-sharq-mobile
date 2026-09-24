@@ -246,5 +246,12 @@ export function legacySeoRedirectMiddleware(req: Request, res: Response, next: N
     return res.redirect(301, cleanUrl);
   }
 
+  // 5. Canonical Trailing Slash Normalization (Redirect /service/ -> /service to prevent duplicate page indexing)
+  if (pathOnly.length > 1 && pathOnly.endsWith('/') && !pathOnly.startsWith('/api/')) {
+    const canonicalPath = pathOnly.slice(0, -1);
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    return res.redirect(301, canonicalPath);
+  }
+
   next();
 }

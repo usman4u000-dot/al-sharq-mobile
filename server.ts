@@ -49,6 +49,57 @@ export function getTwilio(): twilio.Twilio {
   return twilioClient;
 }
 
+const VALID_SPA_ROUTES = new Set([
+  '/',
+  '/about',
+  '/blog',
+  '/faq',
+  '/intake-form',
+  '/services',
+  '/repairs',
+  '/phone-repair',
+  '/mobile-repair',
+  '/iphone-repair',
+  '/samsung-repair',
+  '/android-flagship-repair',
+  '/gaming-phone-repair',
+  '/apple-watch-repair',
+  '/computer-repair',
+  '/laptop-repair',
+  '/macbook-repair',
+  '/tablet-repair',
+  '/printer-repair',
+  '/screen-repair',
+  '/cracked-screen-repair',
+  '/laptop-screen-repair',
+  '/battery-repair',
+  '/battery-replacement',
+  '/liquid-damage-repair',
+  '/water-damage-repair',
+  '/charging-port-repair',
+  '/camera-repair',
+  '/audio-repair',
+  '/body-repair',
+  '/logic-board-repair',
+  '/data-recovery',
+  '/software-issues',
+  '/screen-protector',
+  '/estimate',
+  '/repair-estimate',
+  '/track-repair',
+  '/troubleshoot',
+  '/corporate',
+  '/gallery',
+  '/shop',
+  '/contact',
+  '/reviews',
+  '/trade-in',
+  '/warranty',
+  '/privacy',
+  '/admin',
+  '/dashboard'
+]);
+
 async function startServer() {
   const app = express();
   const PORT = 3000;
@@ -495,6 +546,16 @@ async function startServer() {
     }));
     app.get('*', (req, res) => {
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      const isKnownRoute = 
+        VALID_SPA_ROUTES.has(req.path) || 
+        req.path.startsWith('/blog/') || 
+        req.path.startsWith('/track-repair');
+
+      if (!isKnownRoute) {
+        // Return genuine HTTP 404 and noindex header to completely eliminate Soft 404 errors in Google Search Console
+        res.status(404);
+        res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+      }
       res.sendFile(path.join(distPath, 'index.html'));
     });
   }

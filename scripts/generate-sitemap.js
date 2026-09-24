@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 
 const BASE_URL = 'https://allsharq.com';
-const TODAY = '2026-09-19';
+const TODAY = new Date().toISOString().split('T')[0];
 
 // Static routes categorized by importance
 const routes = [
