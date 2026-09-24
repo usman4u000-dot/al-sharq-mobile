@@ -31,6 +31,18 @@ export function resolveTargetRepairRoute(path: string): string {
     return '/iphone-repair';
   }
 
+  // Audio / Headphones / Earbuds
+  if (
+    p.includes('audio') ||
+    p.includes('sound') ||
+    p.includes('speaker') ||
+    p.includes('headphone') ||
+    p.includes('earbuds') ||
+    p.includes('airpods')
+  ) {
+    return '/audio-repair';
+  }
+
   // Apple Mac
   if (
     p.includes('macbook') ||
@@ -41,7 +53,7 @@ export function resolveTargetRepairRoute(path: string): string {
     return '/macbook-repair';
   }
 
-  // Samsung Galaxy
+  // Samsung Galaxy & Wearables
   if (
     p.includes('samsung') ||
     p.includes('galaxy') ||
@@ -52,10 +64,11 @@ export function resolveTargetRepairRoute(path: string): string {
     return '/samsung-repair';
   }
 
-  // Tablets / iPads
+  // Tablets / iPads / Huion Digitizers
   if (
     p.includes('tablet') ||
     p.includes('ipad') ||
+    p.includes('huion') ||
     p.includes('wintouch') ||
     p.includes('tab-') ||
     p.includes('tab_') ||
@@ -67,6 +80,7 @@ export function resolveTargetRepairRoute(path: string): string {
   // Smartwatches / Wearables
   if (
     p.includes('watch') ||
+    p.includes('wearable') ||
     p.includes('tiab09') ||
     p.includes('smartwatch') ||
     p.includes('fit-') ||
@@ -125,8 +139,15 @@ export function legacySeoRedirectMiddleware(req: Request, res: Response, next: N
   const pathOnly = req.path;
   const pathLower = pathOnly.toLowerCase();
 
-  // 1. Detect WordPress spam comment links and legacy CMS exploit probes
+  // 1. Detect WordPress spam comment links, movie/player injection spam, and legacy CMS exploit probes
   const isWpSpamOrProbe =
+    pathLower.startsWith('/player') ||
+    pathLower.startsWith('/movie') ||
+    pathLower.startsWith('/stream') ||
+    pathLower.startsWith('/video') ||
+    pathLower.startsWith('/embed') ||
+    rawUrl.includes('stream=') ||
+    rawUrl.includes('player?') ||
     pathLower.includes('wp-login') ||
     pathLower.includes('wp-admin') ||
     pathLower.includes('xmlrpc.php') ||
@@ -136,7 +157,8 @@ export function legacySeoRedirectMiddleware(req: Request, res: Response, next: N
     pathLower.includes('wp-includes') ||
     pathLower.includes('/author/') ||
     rawUrl.includes('replytocom=') ||
-    'replytocom' in req.query;
+    'replytocom' in req.query ||
+    'stream' in req.query;
 
   if (isWpSpamOrProbe) {
     // Return HTTP 410 Gone with explicit noindex so search engines immediately drop them permanently
@@ -152,7 +174,7 @@ export function legacySeoRedirectMiddleware(req: Request, res: Response, next: N
 <body style="font-family: system-ui, sans-serif; text-align: center; padding: 60px 20px; color: #1e293b;">
   <h1 style="font-size: 32px; margin-bottom: 12px; color: #0f172a;">410 - Resource Permanently Removed</h1>
   <p style="font-size: 16px; max-width: 500px; margin: 0 auto 24px; color: #64748b;">
-    This legacy URL is no longer available. The service has moved to our dedicated electronics engineering lab in Sharjah.
+    This legacy URL or spam query is no longer available. The service has moved to our dedicated electronics engineering lab in Sharjah.
   </p>
   <a href="/" style="display: inline-block; padding: 10px 24px; background: #f97316; color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: bold;">
     Return to Homepage
@@ -169,18 +191,25 @@ export function legacySeoRedirectMiddleware(req: Request, res: Response, next: N
     pathLower.startsWith('/shop/') || 
     pathLower.startsWith('/item/');
     
-  const hasAddToCart = 'add-to-cart' in req.query || rawUrl.includes('add-to-cart=');
+  const hasLegacyParams = 
+    'add-to-cart' in req.query || 
+    'orderby' in req.query || 
+    'min_price' in req.query || 
+    'max_price' in req.query || 
+    'rating_filter' in req.query ||
+    rawUrl.includes('add-to-cart=') ||
+    rawUrl.includes('orderby=');
 
   if (isWooProduct) {
     const targetRoute = resolveTargetRepairRoute(pathOnly);
-    // Send 301 Permanent Redirect (strip all query parameters like add-to-cart)
+    // Send 301 Permanent Redirect (strip all query parameters like add-to-cart, orderby)
     res.setHeader('Cache-Control', 'public, max-age=86400');
     return res.redirect(301, targetRoute);
   }
 
-  // 3. Clean any other URL that has `add-to-cart` parameter pollution
-  if (hasAddToCart) {
-    // Strip add-to-cart from query parameters
+  // 3. Clean any other URL that has legacy query parameter pollution (e.g. `/?add-to-cart=1410` or `/?orderby=rating`)
+  if (hasLegacyParams) {
+    // Strip query parameters and redirect to canonical clean path
     const cleanUrl = pathOnly;
     res.setHeader('Cache-Control', 'public, max-age=86400');
     return res.redirect(301, cleanUrl);
