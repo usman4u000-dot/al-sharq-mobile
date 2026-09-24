@@ -102,7 +102,7 @@ const VALID_SPA_ROUTES = new Set([
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  const PORT = Number(process.env.PORT) || 3000;
 
   // Trust proxy for reverse proxy rate-limiting accuracy (Cloud Run / AIS Dev server)
   app.set('trust proxy', 1);

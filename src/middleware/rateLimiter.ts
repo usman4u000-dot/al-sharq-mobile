@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from 'express';
-import rateLimit, { RateLimitRequestHandler } from 'express-rate-limit';
+import type { Request, Response, NextFunction } from 'express';
+import rateLimit, { type RateLimitRequestHandler } from 'express-rate-limit';
 
 /**
  * Custom handler for rate-limited requests to return clean, actionable JSON responses
