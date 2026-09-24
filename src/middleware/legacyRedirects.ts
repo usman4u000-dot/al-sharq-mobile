@@ -139,6 +139,24 @@ export function legacySeoRedirectMiddleware(req: Request, res: Response, next: N
   const pathOnly = req.path;
   const pathLower = pathOnly.toLowerCase();
 
+  // 0. Explicit pass-through for critical Search Engine discovery assets and Google verification
+  if (
+    pathLower === '/sitemap.xml' ||
+    pathLower === '/robots.txt' ||
+    pathLower === '/feed.xml' ||
+    pathLower === '/rss.xml' ||
+    pathLower.startsWith('/api/') ||
+    /^(\/google[a-f0-9]+\.html)$/i.test(pathLower)
+  ) {
+    return next();
+  }
+
+  // Redirect /feed and /rss to standard canonical /feed.xml
+  if (pathLower === '/feed' || pathLower === '/rss') {
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    return res.redirect(301, '/feed.xml');
+  }
+
   // 1. Detect WordPress spam comment links, movie/player injection spam, and legacy CMS exploit probes
   const isWpSpamOrProbe =
     pathLower.startsWith('/player') ||
@@ -156,8 +174,7 @@ export function legacySeoRedirectMiddleware(req: Request, res: Response, next: N
     pathLower.includes('wp-content') ||
     pathLower.includes('wp-includes') ||
     pathLower.includes('/author/') ||
-    pathLower === '/feed' ||
-    pathLower.startsWith('/feed/') ||
+    (pathLower.startsWith('/feed/') && !pathLower.endsWith('.xml')) ||
     pathLower.includes('/comments/feed') ||
     rawUrl.includes('replytocom=') ||
     'replytocom' in req.query ||

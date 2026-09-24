@@ -19,6 +19,10 @@ export default function BlogPostPage() {
   if (!post) {
     return (
       <div className="min-h-screen pt-32 pb-20 flex flex-col items-center justify-center text-center px-4">
+        <Helmet>
+          <title>Article Not Found | Al Sharq Mobile Lab</title>
+          <meta name="robots" content="noindex, nofollow" />
+        </Helmet>
         <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">Post Not Found</h1>
         <p className="text-slate-600 dark:text-slate-400 mb-8">The article you are looking for does not exist or has been moved.</p>
         <button 
