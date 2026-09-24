@@ -63,6 +63,16 @@ function escapeXml(unsafe) {
     .replace(/'/g, '&apos;');
 }
 
+function parseTimestamp(dateStr) {
+  try {
+    const parsed = new Date(dateStr);
+    if (!isNaN(parsed.getTime())) {
+      return parsed.getTime();
+    }
+  } catch (_) {}
+  return 0;
+}
+
 function parsePubDate(dateStr) {
   try {
     const parsed = new Date(dateStr);
@@ -72,6 +82,12 @@ function parsePubDate(dateStr) {
   } catch (_) {}
   return BUILD_DATE;
 }
+
+// Sort items chronologically descending (newest first)
+items.sort((a, b) => parseTimestamp(b.date) - parseTimestamp(a.date));
+
+// Google Search Central officially recommends max 60 items for RSS sitemap feeds
+const feedItems = items.slice(0, 60);
 
 let xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
@@ -84,7 +100,7 @@ let xml = `<?xml version="1.0" encoding="UTF-8"?>
     <atom:link href="${BASE_URL}/feed.xml" rel="self" type="application/rss+xml" />
 `;
 
-items.forEach(item => {
+feedItems.forEach(item => {
   const url = `${BASE_URL}/blog/${item.id}`;
   xml += `    <item>
       <title>${escapeXml(item.title)}</title>
@@ -103,7 +119,7 @@ const publicFeedPath = path.join(rootDir, 'public', 'feed.xml');
 const publicRssPath = path.join(rootDir, 'public', 'rss.xml');
 fs.writeFileSync(publicFeedPath, xml, 'utf8');
 fs.writeFileSync(publicRssPath, xml, 'utf8');
-console.log(`Successfully generated public/feed.xml and public/rss.xml with ${items.length} items.`);
+console.log(`Successfully generated public/feed.xml and public/rss.xml with ${feedItems.length} items (out of ${items.length} total posts).`);
 
 const distDir = path.join(rootDir, 'dist');
 if (fs.existsSync(distDir)) {

@@ -225,7 +225,7 @@ async function startServer() {
     const feedPath = process.env.NODE_ENV === 'production' && fs.existsSync(path.join(process.cwd(), 'dist', 'feed.xml'))
       ? path.join(process.cwd(), 'dist', 'feed.xml')
       : path.join(process.cwd(), 'public', 'feed.xml');
-    res.setHeader('Content-Type', 'application/rss+xml; charset=utf-8');
+    res.setHeader('Content-Type', 'application/xml; charset=utf-8');
     res.setHeader('Cache-Control', 'public, max-age=3600');
     if (fs.existsSync(feedPath)) {
       res.sendFile(feedPath);
