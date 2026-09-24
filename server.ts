@@ -1,5 +1,6 @@
 import express from 'express';
 import compression from 'compression';
+import helmet from 'helmet';
 import { createServer as createViteServer } from 'vite';
 import path from 'path';
 import fs from 'fs';
@@ -57,6 +58,84 @@ async function startServer() {
 
   // Global Middleware
   app.use(compression());
+
+  // Security-focused Helmet Configuration
+  // Enforces Content Security Policy (CSP), X-Content-Type-Options: nosniff, Referrer-Policy, and XSS mitigations
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: [
+            "'self'",
+            "'unsafe-inline'",
+            "'unsafe-eval'",
+            'https://www.google.com/recaptcha/',
+            'https://www.gstatic.com/recaptcha/',
+            'https://www.googletagmanager.com',
+            'https://js.stripe.com',
+          ],
+          scriptSrcAttr: ["'unsafe-inline'"],
+          styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+          fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'],
+          imgSrc: [
+            "'self'",
+            'data:',
+            'blob:',
+            'https://images.unsplash.com',
+            'https://*.unsplash.com',
+            'https://allsharq.com',
+            'https://maps.googleapis.com',
+            'https://maps.gstatic.com',
+            'https://www.google-analytics.com',
+            'https://*.google.com',
+            'https://*.gstatic.com',
+          ],
+          connectSrc: [
+            "'self'",
+            'https://firestore.googleapis.com',
+            'https://identitytoolkit.googleapis.com',
+            'https://securetoken.googleapis.com',
+            'https://*.firebaseio.com',
+            'https://*.googleapis.com',
+            'https://api.stripe.com',
+            'https://api.emailjs.com',
+            'https://www.google-analytics.com',
+            'https://analytics.google.com',
+            'wss:',
+            'ws:',
+          ],
+          frameSrc: [
+            "'self'",
+            'https://www.google.com',
+            'https://maps.google.com',
+            'https://js.stripe.com',
+            'https://hooks.stripe.com',
+          ],
+          workerSrc: ["'self'", 'blob:'],
+          objectSrc: ["'none'"],
+          baseUri: ["'self'"],
+          formAction: ["'self'"],
+          frameAncestors: ["'self'", 'https://*.google.com', 'https://*.run.app', '*'],
+        },
+      },
+      // X-Content-Type-Options: nosniff (protects against MIME type sniffing vulnerabilities)
+      xContentTypeOptions: true,
+      // Referrer-Policy: strict-origin-when-cross-origin (protects user privacy and sensitive path leakage)
+      referrerPolicy: {
+        policy: 'strict-origin-when-cross-origin',
+      },
+      // Prevent clickjacking while allowing preview inside authorized iframe environments
+      frameguard: false,
+      // Disable COEP to allow third-party CDN assets and images without CORP blockers
+      crossOriginEmbedderPolicy: false,
+      // Allow cross-origin static resource fetching
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
+      // DNS prefetch control
+      dnsPrefetchControl: { allow: true },
+    })
+  );
+
   app.use(express.json({ limit: '100kb' })); // Limit body payload to prevent DoS
 
   // Global API rate limiter across all endpoints
