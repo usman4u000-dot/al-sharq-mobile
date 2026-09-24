@@ -156,6 +156,9 @@ export function legacySeoRedirectMiddleware(req: Request, res: Response, next: N
     pathLower.includes('wp-content') ||
     pathLower.includes('wp-includes') ||
     pathLower.includes('/author/') ||
+    pathLower === '/feed' ||
+    pathLower.startsWith('/feed/') ||
+    pathLower.includes('/comments/feed') ||
     rawUrl.includes('replytocom=') ||
     'replytocom' in req.query ||
     'stream' in req.query;
@@ -184,12 +187,39 @@ export function legacySeoRedirectMiddleware(req: Request, res: Response, next: N
     return;
   }
 
-  // 2. Detect legacy WooCommerce product, category, and add-to-cart query URLs
+  // 2. Detect legacy WooCommerce cart, checkout, user accounts, and wishlist
+  const isLegacyCartOrCheckout =
+    pathLower === '/cart' ||
+    pathLower.startsWith('/cart/') ||
+    pathLower === '/checkout' ||
+    pathLower.startsWith('/checkout/') ||
+    pathLower === '/wishlist' ||
+    pathLower.startsWith('/wishlist/');
+
+  if (isLegacyCartOrCheckout) {
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    return res.redirect(301, '/shop');
+  }
+
+  const isLegacyAccount =
+    pathLower === '/my-account' ||
+    pathLower.startsWith('/my-account/');
+
+  if (isLegacyAccount) {
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    return res.redirect(301, '/track-repair');
+  }
+
+  // 3. Detect legacy WooCommerce product, category, taxonomy, and add-to-cart query URLs
   const isWooProduct = 
     pathLower.startsWith('/product/') || 
     pathLower.startsWith('/product-category/') || 
-    pathLower.startsWith('/shop/') || 
-    pathLower.startsWith('/item/');
+    pathLower.startsWith('/product-tag/') || 
+    pathLower.startsWith('/brand/') || 
+    pathLower.startsWith('/brands/') || 
+    pathLower.startsWith('/item/') ||
+    pathLower.startsWith('/items/') ||
+    (pathLower.startsWith('/shop/') && pathLower !== '/shop');
     
   const hasLegacyParams = 
     'add-to-cart' in req.query || 
@@ -197,6 +227,7 @@ export function legacySeoRedirectMiddleware(req: Request, res: Response, next: N
     'min_price' in req.query || 
     'max_price' in req.query || 
     'rating_filter' in req.query ||
+    'wc-ajax' in req.query ||
     rawUrl.includes('add-to-cart=') ||
     rawUrl.includes('orderby=');
 
@@ -207,7 +238,7 @@ export function legacySeoRedirectMiddleware(req: Request, res: Response, next: N
     return res.redirect(301, targetRoute);
   }
 
-  // 3. Clean any other URL that has legacy query parameter pollution (e.g. `/?add-to-cart=1410` or `/?orderby=rating`)
+  // 4. Clean any other URL that has legacy query parameter pollution (e.g. `/?add-to-cart=1410` or `/?orderby=rating`)
   if (hasLegacyParams) {
     // Strip query parameters and redirect to canonical clean path
     const cleanUrl = pathOnly;
