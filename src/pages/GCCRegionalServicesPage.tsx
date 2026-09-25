@@ -5,6 +5,8 @@ import { Globe, Plane, Truck, ShieldCheck, CheckCircle2, Phone, MessageCircle, M
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import ShippingLogistics from '../components/ShippingLogistics';
+import GCCPriceComparison from '../components/GCCPriceComparison';
+import MailInPassGenerator from '../components/MailInPassGenerator';
 
 interface GCCRegionalServicesPageProps {
   onBookNow?: (serviceName?: string) => void;
@@ -632,6 +634,9 @@ export default function GCCRegionalServicesPage({ onBookNow }: GCCRegionalServic
       {/* Cross-Border GCC Capitals Courier Shipping Logistics Visualizer */}
       <ShippingLogistics />
 
+      {/* Savings & Price Advantage vs Agency Replacement */}
+      <GCCPriceComparison />
+
       {/* Step by step shipping guide */}
       <section id="shipping-guide" className="py-20 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -744,6 +749,9 @@ export default function GCCRegionalServicesPage({ onBookNow }: GCCRegionalServic
 
         </div>
       </section>
+
+      {/* Digital Printable Mail-In Intake Pass Generator */}
+      <MailInPassGenerator />
 
       {/* FAQ Section */}
       <section className="py-20 bg-white dark:bg-slate-900 transition-colors duration-300">
