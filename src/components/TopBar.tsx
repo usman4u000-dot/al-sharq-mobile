@@ -1,5 +1,6 @@
 import React from 'react';
-import { Phone, MapPin, Clock, Mail } from 'lucide-react';
+import { Phone, MapPin, Clock, Mail, Globe } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function TopBar() {
   return (
@@ -14,19 +15,19 @@ export default function TopBar() {
             <Mail className="h-3.5 w-3.5 fill-current" />
             <span>alsharqmobile@gmail.com</span>
           </a>
-          <a 
-            href="https://maps.app.goo.gl/WRjUv6FxCVTtZCEk8" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="hidden md:flex items-center gap-1.5 hover:text-white/90 transition-colors"
+          <Link
+            to="/gcc-services"
+            className="hidden lg:flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/15 hover:bg-white/25 transition-colors text-[11px] font-bold"
           >
-            <MapPin className="h-3.5 w-3.5 fill-current" />
-            <span>BLDG#1017 - SHOP#2 Fire Station Rd, Muwaileh, Sharjah</span>
-          </a>
+            <span>🇸🇦 🇴🇲 🇧🇭 🇹🇷 🇰🇼 🇶🇦</span>
+            <span>GCC & Regional Mail-In Lab</span>
+          </Link>
         </div>
-        <div className="flex items-center gap-1.5 text-[11px] sm:text-xs">
-          <Clock className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-current" />
-          <span>Open: Sat–Thu 9AM–11PM | Fri 4PM–11PM</span>
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 text-[11px] sm:text-xs">
+            <Clock className="h-3 w-3 sm:h-3.5 sm:w-3.5 fill-current" />
+            <span>Open: Sat–Thu 9AM–11PM | Fri 4PM–11PM</span>
+          </div>
         </div>
       </div>
     </div>

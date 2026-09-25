@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { Globe, Plane, Truck, ShieldCheck, CheckCircle2, Phone, MessageCircle, MapPin, Calculator, Package, AlertCircle, Cpu, HardDrive, Laptop, Smartphone, HelpCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
+import ShippingLogistics from '../components/ShippingLogistics';
 
 interface GCCRegionalServicesPageProps {
   onBookNow?: (serviceName?: string) => void;
@@ -443,6 +444,193 @@ export default function GCCRegionalServicesPage({ onBookNow }: GCCRegionalServic
 
         </div>
       </section>
+
+      {/* Interactive GCC & Regional Shipping & Currency Cost Estimator */}
+      <section className="py-20 bg-slate-100 dark:bg-slate-900/90 border-t border-slate-200 dark:border-slate-800 transition-colors duration-300">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-brand-orange/10 text-brand-orange font-bold text-xs rounded-full uppercase tracking-wider">
+              <Calculator className="w-4 h-4" />
+              <span>{isAr ? 'حاسبة التكلفة والعملة والشحن التقديرية' : 'Interactive Regional Cost & Currency Estimator'}</span>
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mt-4 mb-3">
+              {isAr ? 'احسب تكلفة الإصلاح والشحن بعملة بلدك' : 'Estimate Repair & Courier Shipping in Your Currency'}
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 text-sm sm:text-base">
+              {isAr
+                ? 'اختر بلدك ونوع الجهاز لمعرفة التكلفة التقريبية بالريال السعودي، العماني، القطري، الدينار البحريني، الكويتي، أو الدولار الأمريكي.'
+                : 'Select your country and device to see transparent estimates in SAR, OMR, BHD, KWD, QAR, or USD with courier turnaround.'}
+            </p>
+          </div>
+
+          <div className="bg-white dark:bg-slate-800 rounded-3xl p-6 sm:p-10 border border-slate-200 dark:border-slate-700 shadow-xl">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+              
+              {/* Country Selection */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">
+                  {isAr ? '1. اختر بلد الإرسال:' : '1. Select Your Country:'}
+                </label>
+                <select
+                  value={selectedCountryCalc}
+                  onChange={(e) => setSelectedCountryCalc(e.target.value)}
+                  className="w-full px-4 py-3.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-gray-900 dark:text-white font-bold text-sm focus:ring-2 focus:ring-brand-orange outline-none transition-all"
+                >
+                  <option value="saudi">🇸🇦 Saudi Arabia (المملكة العربية السعودية - SAR)</option>
+                  <option value="oman">🇴🇲 Oman & Muscat (سلطنة عمان ومسقط - OMR)</option>
+                  <option value="bahrain">🇧🇭 Bahrain (مملكة البحرين - BHD)</option>
+                  <option value="turkey">🇹🇷 Turkey / Türkiye (الجمهورية التركية - USD/TRY)</option>
+                  <option value="kuwait">🇰🇼 Kuwait (دولة الكويت - KWD)</option>
+                  <option value="qatar">🇶🇦 Qatar (دولة قطر - QAR)</option>
+                </select>
+              </div>
+
+              {/* Device / Service Selection */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">
+                  {isAr ? '2. اختر نوع الجهاز والعطل:' : '2. Select Device & Issue:'}
+                </label>
+                <select
+                  value={selectedDeviceCalc}
+                  onChange={(e) => setSelectedDeviceCalc(e.target.value)}
+                  className="w-full px-4 py-3.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-gray-900 dark:text-white font-bold text-sm focus:ring-2 focus:ring-brand-orange outline-none transition-all"
+                >
+                  <option value="macbook">💻 MacBook Logic Board Micro-Soldering (M1-M4 / Intel)</option>
+                  <option value="iphone">📱 iPhone Motherboard / CPU Reballing / Power IC</option>
+                  <option value="data-recovery">💾 Forensic Data Recovery (Dead Phone / Burnt SSD)</option>
+                  <option value="foldable">📱 Samsung Galaxy Z Fold / Flip Hinge & AMOLED</option>
+                  <option value="b2b">📦 B2B Wholesale Pre-Owned Batch Order (10+ Units)</option>
+                </select>
+              </div>
+
+            </div>
+
+            {/* Calculated Breakdown Card */}
+            {(() => {
+              const countryRates: Record<string, { code: string; rate: number; courierAED: number; days: string }> = {
+                saudi: { code: 'SAR', rate: 1.02, courierAED: 140, days: '2-3 Business Days' },
+                oman: { code: 'OMR', rate: 0.105, courierAED: 110, days: '1-2 Business Days' },
+                bahrain: { code: 'BHD', rate: 0.103, courierAED: 140, days: '2-3 Business Days' },
+                turkey: { code: 'USD', rate: 0.272, courierAED: 240, days: '3-4 Business Days' },
+                kuwait: { code: 'KWD', rate: 0.084, courierAED: 150, days: '2-3 Business Days' },
+                qatar: { code: 'QAR', rate: 0.99, courierAED: 140, days: '2-3 Business Days' },
+              };
+
+              const servicePricing: Record<string, { nameEn: string; nameAr: string; minAED: number; maxAED: number }> = {
+                macbook: {
+                  nameEn: 'MacBook M1/M2/M3/M4 Logic Board Micro-Soldering',
+                  nameAr: 'صيانة مذربورد ماك بوك الدقيقة ورقائق M1-M4',
+                  minAED: 450,
+                  maxAED: 750,
+                },
+                iphone: {
+                  nameEn: 'iPhone Flagship Motherboard / Power IC / Baseband Repair',
+                  nameAr: 'إصلاح بوردة آيفون وشريحة الطاقة والشبكة واللحام الدقيق',
+                  minAED: 350,
+                  maxAED: 550,
+                },
+                'data-recovery': {
+                  nameEn: 'Forensic NAND Chip-Off Data Recovery (No-Data No-Fee)',
+                  nameAr: 'استعادة بيانات جنائية من رقائق الذاكرة (لا بيانات = لا رسوم)',
+                  minAED: 400,
+                  maxAED: 850,
+                },
+                foldable: {
+                  nameEn: 'Samsung Galaxy Z Fold / Flip Ultra-Thin Glass & Hinge Alignment',
+                  nameAr: 'إصلاح شاشات ومفصلات سامسونج فولد وفليب القابلة للطي',
+                  minAED: 550,
+                  maxAED: 950,
+                },
+                b2b: {
+                  nameEn: 'B2B Wholesale Pre-Owned Batch Inspection & Export',
+                  nameAr: 'توريد وتصدير أجهزة جملة ومجددة (أكثر من 10 أجهزة)',
+                  minAED: 1200,
+                  maxAED: 3500,
+                },
+              };
+
+              const countryInfo = countryRates[selectedCountryCalc] || countryRates.saudi;
+              const serviceInfo = servicePricing[selectedDeviceCalc] || servicePricing.macbook;
+
+              const totalMinAED = serviceInfo.minAED + countryInfo.courierAED;
+              const totalMaxAED = serviceInfo.maxAED + countryInfo.courierAED;
+
+              const totalMinLocal = Math.round(totalMinAED * countryInfo.rate);
+              const totalMaxLocal = Math.round(totalMaxAED * countryInfo.rate);
+              const courierLocal = Math.round(countryInfo.courierAED * countryInfo.rate);
+
+              return (
+                <div className="bg-gradient-to-br from-brand-blue/5 via-slate-50 to-brand-orange/5 dark:from-slate-900 dark:via-slate-850 dark:to-slate-900 rounded-2xl p-6 sm:p-8 border border-brand-blue/15 dark:border-slate-700">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                    
+                    <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
+                      <div className="text-xs text-gray-500 dark:text-gray-400 font-semibold mb-1">
+                        {isAr ? 'تكلفة الصيانة التقريبية بالشارقة' : 'Estimated Repair & Lab Labor'}
+                      </div>
+                      <div className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white">
+                        {serviceInfo.minAED} - {serviceInfo.maxAED} AED
+                      </div>
+                      <div className="text-xs font-bold text-brand-orange mt-1">
+                        ≈ {Math.round(serviceInfo.minAED * countryInfo.rate)} - {Math.round(serviceInfo.maxAED * countryInfo.rate)} {countryInfo.code}
+                      </div>
+                    </div>
+
+                    <div className="p-4 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
+                      <div className="text-xs text-gray-500 dark:text-gray-400 font-semibold mb-1">
+                        {isAr ? 'الشحن السريع ذهاب وإياب (DHL/Aramex)' : 'Roundtrip Courier (Insured)'}
+                      </div>
+                      <div className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white">
+                        ≈ {countryInfo.courierAED} AED
+                      </div>
+                      <div className="text-xs font-bold text-emerald-600 dark:text-emerald-400 mt-1">
+                        ≈ {courierLocal} {countryInfo.code} ({countryInfo.days})
+                      </div>
+                    </div>
+
+                    <div className="p-4 bg-brand-orange text-white rounded-xl shadow-lg shadow-orange-500/20">
+                      <div className="text-xs text-orange-100 font-semibold mb-1">
+                        {isAr ? 'الإجمالي التقديري مع الشحن' : 'Estimated Total (Repair + Shipping)'}
+                      </div>
+                      <div className="text-xl sm:text-2xl font-black">
+                        {totalMinLocal} - {totalMaxLocal} {countryInfo.code}
+                      </div>
+                      <div className="text-xs text-orange-100 font-medium mt-1">
+                        ({totalMinAED} - {totalMaxAED} AED)
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-200 dark:border-slate-700">
+                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                      {isAr
+                        ? '* الأسعار تقديرية وتخضع للفحص الميكروسكوبي النهائي. ينطبق مبدأ "لا إصلاح = لا رسوم صيانة".'
+                        : '* Estimates are subject to microscopic inspection. Strict "No Fix, No Fee" policy applies.'}
+                    </div>
+
+                    <button
+                      onClick={() => {
+                        const quoteMsg = `Hello Al Sharq Lab Sharjah. I calculated an estimate from ${selectedCountryCalc.toUpperCase()} for ${serviceInfo.nameEn} (Approx ${totalMinLocal}-${totalMaxLocal} ${countryInfo.code}). Please confirm feasibility and courier details.`;
+                        window.open(`https://wa.me/971507117043?text=${encodeURIComponent(quoteMsg)}`, '_blank');
+                      }}
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm transition-all shadow-md shrink-0 w-full sm:w-auto justify-center"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      <span>{isAr ? 'تأكيد التقدير وإرسال الجهاز عبر واتساب' : 'Confirm Estimate on WhatsApp'}</span>
+                    </button>
+                  </div>
+                </div>
+              );
+            })()}
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* Cross-Border GCC Capitals Courier Shipping Logistics Visualizer */}
+      <ShippingLogistics />
 
       {/* Step by step shipping guide */}
       <section id="shipping-guide" className="py-20 bg-slate-50 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 transition-colors duration-300">
