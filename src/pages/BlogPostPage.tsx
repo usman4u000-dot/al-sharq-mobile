@@ -159,6 +159,46 @@ export default function BlogPostPage() {
               category={post.category}
               variant="compact"
             />
+
+            {/* 20% OFF Mobile Shop Banner */}
+            <div className="bg-gradient-to-br from-red-600 to-brand-orange text-white p-6 rounded-3xl shadow-lg relative overflow-hidden">
+              <span className="px-2.5 py-1 bg-white/20 text-white font-black text-[10px] rounded-full uppercase tracking-wider mb-2 inline-block">
+                Exclusive In-Store Deal
+              </span>
+              <h4 className="font-black text-lg text-white mb-2 leading-tight">
+                Buy iPhone 18 & Galaxy S26 at 20% Below Market Price
+              </h4>
+              <p className="text-white/90 text-xs mb-4 leading-relaxed">
+                Brand new factory-sealed phones, smartwatches & earbuds at direct wholesale prices in Sharjah.
+              </p>
+              <Link
+                to="/shop"
+                className="w-full py-2.5 px-4 bg-white text-slate-900 hover:bg-slate-100 font-extrabold text-xs rounded-xl flex items-center justify-center gap-1.5 shadow-md transition-colors"
+              >
+                <span>Browse 20% OFF Catalog</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+
+            {/* GCC Cross-Border Mail-In Card */}
+            <div className="bg-slate-900 text-white p-6 rounded-3xl border border-slate-800 shadow-md">
+              <div className="flex items-center gap-2 text-xs font-bold text-brand-orange mb-2">
+                <span>🇸🇦 🇴🇲 🇧🇭 🇹🇷 🇰🇼 🇶🇦</span>
+              </div>
+              <h4 className="font-extrabold text-base text-white mb-1.5">
+                Mailing a Device from GCC?
+              </h4>
+              <p className="text-slate-400 text-xs mb-4 leading-relaxed">
+                Insured express DHL & Aramex shipping with 4K video proof before payment.
+              </p>
+              <Link
+                to="/gcc-services"
+                className="w-full py-2.5 px-4 bg-brand-orange hover:bg-orange-600 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-colors"
+              >
+                <span>Shipping Times & Calculator</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
           </aside>
 
           {/* Main Article Content */}

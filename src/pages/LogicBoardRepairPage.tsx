@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import { logger } from '../utils/logger';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ServiceFAQ from '../components/ServiceFAQ';
+import RegionalServiceWrapper from '../components/RegionalServiceWrapper';
 import { BUSINESS_PROVIDER_SCHEMA } from '../data/businessInfo';
 
 interface LogicBoardRepairPageProps {
@@ -143,7 +144,12 @@ export default function LogicBoardRepairPage({ onBookNow }: LogicBoardRepairPage
   };
 
   return (
-    <>
+    <RegionalServiceWrapper
+      serviceNameEn="Logic Board & Micro-Soldering Repair"
+      serviceNameAr="صيانة المذربورد واللحام الميكروسكوبي الدقيق"
+      category="Motherboard Repair"
+      basePriceAED={450}
+    >
       <Helmet>
         <link rel="canonical" href="https://allsharq.com/logic-board-repair" />
         <title>Sharjah’s Leading Logic Board & Micro-Soldering Lab | Al Sharq</title>
@@ -559,6 +565,6 @@ export default function LogicBoardRepairPage({ onBookNow }: LogicBoardRepairPage
         </div>
 
       </div>
-    </>
+    </RegionalServiceWrapper>
   );
 }

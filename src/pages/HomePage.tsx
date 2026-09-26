@@ -33,6 +33,8 @@ import TrustAndResultsSection from '../components/TrustAndResultsSection';
 import DeviceAnatomyExplorer from '../components/DeviceAnatomyExplorer';
 import CostEstimator from '../components/CostEstimator';
 import HomepageBeforeAfter from '../components/HomepageBeforeAfter';
+import RepairPriceComparison from '../components/RepairPriceComparison';
+import ClientTestimonialShowcase from '../components/ClientTestimonialShowcase';
 import ScratchToWinOffer from '../components/ScratchToWinOffer';
 import DataPrivacyInteractive from '../components/DataPrivacyInteractive';
 import DropTestSimulator from '../components/DropTestSimulator';
@@ -199,9 +201,11 @@ export default function HomePage({ onBookNow }: HomePageProps) {
       <BlueOceanVision onBookNow={onBookNow} />
       <AboutUs />
       <Services onBookService={onBookNow} />
+      <RepairPriceComparison />
       <WhyChooseUs />
       <Achievements />
       <Testimonials />
+      <ClientTestimonialShowcase />
       <PreOwnedDevices />
       <Shop />
       <TradeIn />

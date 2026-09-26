@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import WarrantyBadge from '../components/WarrantyBadge';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ServiceFAQ from '../components/ServiceFAQ';
+import RegionalServiceWrapper from '../components/RegionalServiceWrapper';
 
 export default function MacBookRepairPage() {
   const [isTesting, setIsTesting] = useState(false);
@@ -123,7 +124,12 @@ export default function MacBookRepairPage() {
   };
 
   return (
-    <>
+    <RegionalServiceWrapper
+      serviceNameEn="MacBook Logic Board & Screen Repair"
+      serviceNameAr="صيانة ماك بوك وشاشات ومذربورد"
+      category="Laptop Repair"
+      basePriceAED={450}
+    >
       <Helmet>
         <link rel="canonical" href="https://allsharq.com/macbook-repair" />
         <title>MacBook logic board repair Sharjah | Screen Fix | Al Sharq</title>
@@ -747,6 +753,6 @@ export default function MacBookRepairPage() {
 
         </div>
       </div>
-    </>
+    </RegionalServiceWrapper>
   );
 }
