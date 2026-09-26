@@ -30,6 +30,28 @@
         "createdAt": { "type": "string", "format": "date-time" }
       },
       "required": ["email", "role"]
+    },
+    "FlashSaleReservation": {
+      "title": "Flash Sale & Inbound Priority Reservation",
+      "description": "A customer pre-order record for 20% online exclusive discount and incoming 4-5 days batch.",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "city": { "type": "string" },
+        "productId": { "type": "number" },
+        "productName": { "type": "string" },
+        "color": { "type": "string" },
+        "discountPrice": { "type": "number" },
+        "marketPrice": { "type": "number" },
+        "ticketId": { "type": "string" },
+        "visitorId": { "type": "string" },
+        "userAgent": { "type": "string" },
+        "status": { "type": "string", "enum": ["queued", "notified", "confirmed", "completed"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fullName", "phone", "productName", "ticketId", "createdAt"]
     }
   },
   "firestore": {
@@ -40,6 +62,10 @@
     "users/{userId}": {
       "schema": "User",
       "description": "Collection of users with roles"
+    },
+    "flash_sale_reservations/{reservationId}": {
+      "schema": "FlashSaleReservation",
+      "description": "Collection of customer flash sale and priority batch reservations"
     }
   }
 }

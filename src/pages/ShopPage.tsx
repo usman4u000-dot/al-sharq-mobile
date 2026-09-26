@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'motion/react';
 import { 
@@ -23,6 +23,9 @@ import PreOwnedDevices from '../components/PreOwnedDevices';
 import { useLanguage } from '../contexts/LanguageContext';
 import UAEDirhamSymbol from '../components/UAEDirhamSymbol';
 import FlashSaleReservationModal, { FlashSaleItem } from '../components/FlashSaleReservationModal';
+import { getEffectiveStock, getStoredSession } from '../services/customerTrackingService';
+import GCCMonthlyCampaignBanner from '../components/GCCMonthlyCampaignBanner';
+import { convertToGCC } from '../services/campaignScheduleService';
 
 export interface ProductItem {
   id: number;
@@ -38,6 +41,7 @@ export interface ProductItem {
   image: string;
   badge: string;
   rating: number;
+  stock: number;
 }
 
 export default function ShopPage() {
@@ -46,12 +50,34 @@ export default function ShopPage() {
 
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [activeBrand, setActiveBrand] = useState<string>('All');
+  const [selectedRegionCode, setSelectedRegionCode] = useState<string>('ae');
   const [selectedColorMap, setSelectedColorMap] = useState<Record<number, string>>({});
   const [modalProduct, setModalProduct] = useState<FlashSaleItem | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [claimedStockOverrides, setClaimedStockOverrides] = useState<Record<number, number>>({});
+
+  // Restore persistent zero-stock overrides from customer session so refreshes never revert stock
+  useEffect(() => {
+    const session = getStoredSession();
+    if (session.claimedProductIds) {
+      const overrides: Record<number, number> = {};
+      Object.keys(session.claimedProductIds).forEach(k => {
+        overrides[Number(k)] = 0;
+      });
+      setClaimedStockOverrides(overrides);
+    }
+  }, []);
+
+  const handleStockZero = (productId: number) => {
+    setClaimedStockOverrides(prev => ({ ...prev, [productId]: 0 }));
+  };
 
   const handleOpenFlashScarcity = (product: ProductItem) => {
     const chosenColor = selectedColorMap[product.id] || product.colors[0]?.name;
+    const currentStock = claimedStockOverrides[product.id] !== undefined
+      ? claimedStockOverrides[product.id]
+      : getEffectiveStock(product.id, product.stock);
+
     setModalProduct({
       id: product.id,
       name: product.name,
@@ -60,7 +86,8 @@ export default function ShopPage() {
       marketPrice: product.marketPrice,
       savingsAED: product.savingsAED,
       selectedColor: chosenColor,
-      image: product.image
+      image: product.image,
+      stock: currentStock
     });
     setIsModalOpen(true);
   };
@@ -85,7 +112,8 @@ export default function ShopPage() {
       specs: ["256GB / 512GB Storage", "2nm A20 Pro Bionic", "200MP Quad Periscope", "1-Year Apple Warranty"],
       image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&q=80&w=800",
       badge: "20% Below Market Price",
-      rating: 5
+      rating: 5,
+      stock: 1 // Only 1 left!
     },
     {
       id: 202,
@@ -104,8 +132,9 @@ export default function ShopPage() {
       ],
       specs: ["256GB Storage", "A20 Pro Silicon", "120Hz ProMotion LTPO 3.0", "Official TDRA/TRA"],
       image: "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&q=80&w=800",
-      badge: "20% OFF Deal",
-      rating: 5
+      badge: "Inbound Batch in 4-5 Days",
+      rating: 5,
+      stock: 0 // Out of Stock!
     },
     {
       id: 203,
@@ -125,7 +154,8 @@ export default function ShopPage() {
       specs: ["128GB / 256GB", "A20 Bionic Chip", "Ceramic Shield 3", "All-Day 4,200mAh"],
       image: "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&q=80&w=800",
       badge: "20% OFF",
-      rating: 5
+      rating: 5,
+      stock: 2 // 2 units left
     },
     {
       id: 204,
@@ -145,7 +175,8 @@ export default function ShopPage() {
       specs: ["256GB Storage", "A19 Pro Bionic", "48MP Triple Fusion Camera", "Action Button"],
       image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&q=80&w=800",
       badge: "Best Seller",
-      rating: 5
+      rating: 5,
+      stock: 3 // 3 units left
     },
     {
       id: 205,
@@ -165,7 +196,8 @@ export default function ShopPage() {
       specs: ["256GB Storage", "A18 Pro Silicon", "5x Optical Telephoto", "Apple Intelligence Ready"],
       image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&q=80&w=800",
       badge: "Special Deal",
-      rating: 5
+      rating: 5,
+      stock: 1 // Only 1 left!
     },
     {
       id: 206,
@@ -185,7 +217,8 @@ export default function ShopPage() {
       specs: ["128GB Storage", "A18 Chip", "Camera Control Button", "Ceramic Shield"],
       image: "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&q=80&w=800",
       badge: "20% OFF",
-      rating: 5
+      rating: 5,
+      stock: 4 // 4 units left
     },
 
     // --- SAMSUNG PHONES ---
@@ -206,7 +239,8 @@ export default function ShopPage() {
       specs: ["512GB Storage", "Snapdragon 8 Gen 5", "200MP ISOCELL Zoom", "Embedded S-Pen"],
       image: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&q=80&w=800",
       badge: "20% Below Retail",
-      rating: 5
+      rating: 5,
+      stock: 2 // 2 units left
     },
     {
       id: 208,
@@ -224,8 +258,9 @@ export default function ShopPage() {
       ],
       specs: ["512GB Storage", "Ultra-Thin Creaseless OLED", "Armor Aluminum 3", "Dex Desktop"],
       image: "https://images.unsplash.com/photo-1585060544812-6b45742d762f?auto=format&fit=crop&q=80&w=800",
-      badge: "Flagship Foldable",
-      rating: 5
+      badge: "Batch in 4-5 Days",
+      rating: 5,
+      stock: 0 // Sold out
     },
 
     // --- HUAWEI & OPPO PHONES ---
@@ -245,8 +280,9 @@ export default function ShopPage() {
       ],
       specs: ["512GB Storage", "Kunlun Glass 3", "XMAGE Periscope Camera", "HarmonyOS Global"],
       image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&q=80&w=800",
-      badge: "20% OFF Deal",
-      rating: 5
+      badge: "Pre-Order 4-5 Days",
+      rating: 5,
+      stock: 0 // Sold out
     },
     {
       id: 210,
@@ -265,7 +301,8 @@ export default function ShopPage() {
       specs: ["512GB Storage", "Retractable 1-Inch Sensor", "100W SuperCharge", "Satellite Calling"],
       image: "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&q=80&w=800",
       badge: "Master Camera",
-      rating: 5
+      rating: 5,
+      stock: 1 // 1 left
     },
     {
       id: 211,
@@ -284,7 +321,8 @@ export default function ShopPage() {
       specs: ["512GB Storage", "Hasselblad Dual Periscope", "Dimensity 9400", "5,910mAh Silicon Battery"],
       image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&q=80&w=800",
       badge: "20% Below Retail",
-      rating: 5
+      rating: 5,
+      stock: 3 // 3 units left
     },
 
     // --- SMARTWATCHES (SAMSUNG, HUAWEI, OPPO, APPLE) ---
@@ -305,7 +343,8 @@ export default function ShopPage() {
       specs: ["Grade 4 Titanium Case", "100m Water Resistance", "Dual-Frequency GPS", "100-Hr Battery"],
       image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800",
       badge: "20% OFF",
-      rating: 5
+      rating: 5,
+      stock: 2 // 2 units left
     },
     {
       id: 213,
@@ -323,7 +362,8 @@ export default function ShopPage() {
       specs: ["Zirconium Liquid Metal", "100m Scuba Diving Certified", "14-Day Battery", "ECG Health Monitor"],
       image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?auto=format&fit=crop&q=80&w=800",
       badge: "Luxury Titanium",
-      rating: 5
+      rating: 5,
+      stock: 0 // Sold out
     },
     {
       id: 214,
@@ -341,7 +381,8 @@ export default function ShopPage() {
       specs: ["Dual-Engine Architecture", "Sapphire Crystal Glass", "Wear OS by Google", "100-Hr Smart Mode"],
       image: "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&q=80&w=800",
       badge: "Top Value",
-      rating: 5
+      rating: 5,
+      stock: 4 // 4 units left
     },
     {
       id: 215,
@@ -359,7 +400,8 @@ export default function ShopPage() {
       specs: ["49mm Titanium Case", "3,000 Nits Display", "S10 SiP Chip", "Satellite Emergency SOS"],
       image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=800",
       badge: "20% OFF",
-      rating: 5
+      rating: 5,
+      stock: 1 // 1 left
     },
 
     // --- EARBUDS / AUDIO (SAMSUNG, HUAWEI, OPPO, APPLE) ---
@@ -379,7 +421,8 @@ export default function ShopPage() {
       specs: ["Blade Light Design", "24-bit Hi-Fi Sound", "Adaptive ANC 2.0", "Galaxy AI Interpreter"],
       image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&q=80&w=800",
       badge: "20% Below Retail",
-      rating: 5
+      rating: 5,
+      stock: 3 // 3 units left
     },
     {
       id: 217,
@@ -397,7 +440,8 @@ export default function ShopPage() {
       specs: ["Dual-Driver Acoustic System", "Intelligent Dynamic ANC 3.0", "L2HC 3.0 Lossless Codec", "33-Hr Playtime"],
       image: "https://images.unsplash.com/photo-1572536147248-ac59a8abfa4b?auto=format&fit=crop&q=80&w=800",
       badge: "Hi-Res Audio",
-      rating: 5
+      rating: 5,
+      stock: 2 // 2 units left
     },
     {
       id: 218,
@@ -415,7 +459,8 @@ export default function ShopPage() {
       specs: ["Co-created with Dynaudio", "50dB Smart Active Noise Cancellation", "Dual DAC Architecture", "Spatial Audio"],
       image: "https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?auto=format&fit=crop&q=80&w=800",
       badge: "Dynaudio Tuning",
-      rating: 5
+      rating: 5,
+      stock: 4 // 4 units left
     },
     {
       id: 219,
@@ -431,8 +476,9 @@ export default function ShopPage() {
       ],
       specs: ["H3 Chip Audio Processing", "2x Stronger Active Noise Cancellation", "Heart Rate Sensor", "USB-C MagSafe Case"],
       image: "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&q=80&w=800",
-      badge: "20% OFF Deal",
-      rating: 5
+      badge: "Incoming Batch 4-5 Days",
+      rating: 5,
+      stock: 0 // Sold out
     },
 
     // --- TABLETS (SAMSUNG, HUAWEI, OPPO, APPLE) ---
@@ -452,7 +498,8 @@ export default function ShopPage() {
       specs: ["14.6\" Dynamic AMOLED 2X", "MediaTek Dimensity 9300+", "Anti-Reflective Coating", "IP68 S-Pen Included"],
       image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80&w=800",
       badge: "20% Below Retail",
-      rating: 5
+      rating: 5,
+      stock: 2 // 2 units left
     },
     {
       id: 221,
@@ -470,7 +517,8 @@ export default function ShopPage() {
       specs: ["13.2\" Flexible OLED (94% Screen-to-Body)", "NearLink M-Pencil Stylus", "88W SuperCharge", "5.5mm Ultra-Thin"],
       image: "https://images.unsplash.com/photo-1561154464-82e9adf32764?auto=format&fit=crop&q=80&w=800",
       badge: "Tandem OLED",
-      rating: 5
+      rating: 5,
+      stock: 1 // 1 unit left
     },
     {
       id: 222,
@@ -488,7 +536,8 @@ export default function ShopPage() {
       specs: ["12.1\" 3K 144Hz 7:5 Display", "Snapdragon 8 Gen 3 Leading", "Hi-Res Quad Speakers", "9,510mAh 67W SuperVOOC"],
       image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80&w=800",
       badge: "20% OFF",
-      rating: 5
+      rating: 5,
+      stock: 3 // 3 units left
     },
     {
       id: 223,
@@ -506,7 +555,8 @@ export default function ShopPage() {
       specs: ["Ultra Retina XDR Tandem OLED", "M4 Chip (Pro Neural Engine)", "5.1mm Thin", "Apple Pencil Pro Ready"],
       image: "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&q=80&w=800",
       badge: "M4 Powerhouse",
-      rating: 5
+      rating: 5,
+      stock: 0 // Sold out
     },
 
     // --- LAPTOPS (MACBOOK M4 MAX) ---
@@ -526,7 +576,8 @@ export default function ShopPage() {
       specs: ["M4 Max (16-Core CPU, 40-Core GPU)", "36GB Unified Memory", "1TB SSD", "Liquid Retina XDR"],
       image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=800",
       badge: "Save AED 2,400",
-      rating: 5
+      rating: 5,
+      stock: 2 // 2 units left
     }
   ];
 
@@ -677,6 +728,9 @@ export default function ShopPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
             {filteredProducts.map((product, index) => {
               const selectedColor = selectedColorMap[product.id] || product.colors[0]?.name;
+              const currentProductStock = claimedStockOverrides[product.id] !== undefined
+                ? claimedStockOverrides[product.id]
+                : getEffectiveStock(product.id, product.stock);
 
               return (
                 <motion.div
@@ -712,9 +766,17 @@ export default function ShopPage() {
 
                       {/* Live Stock Scarcity Tag on Image */}
                       <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between pointer-events-none">
-                        <span className="px-2.5 py-1 bg-red-600/95 text-white text-[11px] font-black rounded-lg backdrop-blur-md shadow-md flex items-center gap-1.5 animate-pulse">
-                          <span className="w-1.5 h-1.5 rounded-full bg-white"></span>
-                          <span>{isAr ? 'متبقي قطعة واحدة فقط!' : 'Only 1 Unit Left Online!'}</span>
+                        <span className={`px-2.5 py-1 text-white text-[11px] font-black rounded-lg backdrop-blur-md shadow-md flex items-center gap-1.5 ${
+                          currentProductStock === 0 ? 'bg-slate-900/95 text-amber-300' : 'bg-red-600/95 animate-pulse'
+                        }`}>
+                          <span className={`w-1.5 h-1.5 rounded-full ${currentProductStock === 0 ? 'bg-amber-400' : 'bg-white'}`}></span>
+                          <span>
+                            {currentProductStock === 0
+                              ? (isAr ? 'المخزون: 0 (نفدت الكمية)' : 'Stock: 0 (Sold Out)')
+                              : currentProductStock === 1
+                                ? (isAr ? 'متبقي قطعة واحدة فقط!' : 'Only 1 Unit Left Online!')
+                                : (isAr ? `متبقي ${currentProductStock} قطع أونلاين` : `Only ${currentProductStock} Units Left!`)}
+                          </span>
                         </span>
                         <span className="px-2 py-0.5 bg-black/75 text-amber-300 text-[10px] font-black rounded-md backdrop-blur-sm">
                           Online Exclusive
@@ -778,13 +840,27 @@ export default function ShopPage() {
                           </div>
                         </div>
 
-                        {/* Online Scarcity Banner */}
-                        <div className="mt-2.5 pt-2 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between text-[11px] font-bold text-amber-800 dark:text-amber-300">
-                          <span>⚡ {isAr ? 'حصري أونلاين (غير متوفر بالمحل بهذا السعر)' : 'Online Only (Not valid in-store)'}</span>
-                          <span className="text-red-600 dark:text-red-400 font-black flex items-center gap-1">
-                            <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping"></span>
-                            Stock: 1
+                        {/* Online Scarcity Banner with Realistic Stock */}
+                        <div className="mt-2.5 pt-2 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between text-[11px] font-bold">
+                          <span className="text-amber-800 dark:text-amber-300">
+                            ⚡ {isAr ? 'حصري أونلاين (غير متوفر بالمحل بهذا السعر)' : 'Online Only (20% OFF)'}
                           </span>
+                          {currentProductStock === 0 ? (
+                            <span className="text-red-600 dark:text-red-400 font-black flex items-center gap-1 bg-red-100 dark:bg-red-950/70 px-2 py-0.5 rounded-md">
+                              <span className="w-1.5 h-1.5 rounded-full bg-red-600"></span>
+                              {isAr ? 'المخزون: 0 (نفد - شحنة جديدة)' : 'Stock: 0 (Sold Out)'}
+                            </span>
+                          ) : currentProductStock === 1 ? (
+                            <span className="text-red-600 dark:text-red-400 font-black flex items-center gap-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping"></span>
+                              {isAr ? 'المخزون: قطعة 1 فقط!' : 'Stock: Only 1 left!'}
+                            </span>
+                          ) : (
+                            <span className="text-amber-700 dark:text-amber-400 font-extrabold flex items-center gap-1">
+                              <span className="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                              {isAr ? `المخزون: ${currentProductStock} قطع` : `Stock: ${currentProductStock} units`}
+                            </span>
+                          )}
                         </div>
                       </div>
 
@@ -804,10 +880,18 @@ export default function ShopPage() {
                   <div className="p-6 pt-0">
                     <button
                       onClick={() => handleOpenFlashScarcity(product)}
-                      className="w-full py-3 mb-2.5 bg-gradient-to-r from-red-600 via-brand-orange to-amber-600 hover:from-red-700 hover:to-orange-700 text-white rounded-2xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-orange-500/25 transition-transform active:scale-95 cursor-pointer"
+                      className={`w-full py-3 mb-2.5 rounded-2xl font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg transition-transform active:scale-95 cursor-pointer ${
+                        currentProductStock === 0
+                          ? 'bg-slate-900 hover:bg-slate-800 text-amber-300 shadow-slate-900/30 border border-amber-500/40'
+                          : 'bg-gradient-to-r from-red-600 via-brand-orange to-amber-600 hover:from-red-700 hover:to-orange-700 text-white shadow-orange-500/25'
+                      }`}
                     >
                       <Sparkles className="w-4 h-4" />
-                      <span>{isAr ? 'حجز القطعة بالخصم (20% OFF)' : 'Claim 20% Online Deal'}</span>
+                      <span>
+                        {currentProductStock === 0
+                          ? (isAr ? 'احجز في الشحنة القادمة (4-5 أيام)' : 'Pre-Order Inbound Batch (4-5 Days)')
+                          : (isAr ? `حجز بالخصم (المتبقي: ${currentProductStock})` : 'Claim 20% Online Deal')}
+                      </span>
                     </button>
 
                     <div className="grid grid-cols-2 gap-2">
@@ -861,6 +945,14 @@ export default function ShopPage() {
 
         </div>
       </div>
+
+      {/* Global Flash Scarcity & Priority Allocation Modal with Firestore and Session Persistence */}
+      <FlashSaleReservationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        product={modalProduct}
+        onStockZero={handleStockZero}
+      />
     </>
   );
 }

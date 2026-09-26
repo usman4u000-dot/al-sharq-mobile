@@ -55,5 +55,10 @@ service cloud.firestore {
       allow create: if true;
       allow read, update, delete: if isStaff() || isAdmin();
     }
+
+    match /flash_sale_reservations/{reservationId} {
+      allow create: if true;
+      allow read, update, delete: if isStaff() || isAdmin();
+    }
   }
 }

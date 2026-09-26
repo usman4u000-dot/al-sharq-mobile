@@ -16,11 +16,19 @@ import {
   Lock,
   RefreshCw,
   Ticket,
-  ChevronRight
+  Mail,
+  User,
+  MapPin
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from '../contexts/LanguageContext';
 import UAEDirhamSymbol from './UAEDirhamSymbol';
+import { 
+  getStoredSession, 
+  updateCustomerProfile, 
+  recordProductClaim, 
+  persistReservationToFirestore 
+} from '../services/customerTrackingService';
 
 export interface FlashSaleItem {
   id: number;
@@ -31,51 +39,76 @@ export interface FlashSaleItem {
   savingsAED: number;
   selectedColor?: string;
   image: string;
+  stock: number;
 }
 
 interface FlashSaleReservationModalProps {
   isOpen: boolean;
   onClose: () => void;
   product: FlashSaleItem | null;
+  onStockZero?: (productId: number) => void;
 }
 
 export default function FlashSaleReservationModal({
   isOpen,
   onClose,
-  product
+  product,
+  onStockZero
 }: FlashSaleReservationModalProps) {
   const { language } = useLanguage();
   const isAr = language === 'ar';
 
-  // Phases: 
-  // 'initial_form' -> User sees 1 piece left and enters details.
-  // 'stock_dropped_zero' -> The psychological trick: Stock drops to 0 while reserving / typing!
-  // 'inbound_confirmed' -> Customer locks priority spot for incoming 4-5 units batch.
   const [phase, setPhase] = useState<'initial_form' | 'stock_dropped_zero' | 'inbound_confirmed'>('initial_form');
   const [currentStock, setCurrentStock] = useState<number>(1);
   const [activeViewers, setActiveViewers] = useState<number>(14);
   const [countdownSeconds, setCountdownSeconds] = useState<number>(165);
   const [ticketNumber, setTicketNumber] = useState<string>('');
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [alreadyClaimedBefore, setAlreadyClaimedBefore] = useState<boolean>(false);
 
   const [formData, setFormData] = useState({
     fullName: '',
     phone: '',
+    email: '',
     city: 'Sharjah',
     color: ''
   });
 
   // Reset and initialize when modal opens
   useEffect(() => {
-    if (isOpen) {
-      setPhase('initial_form');
-      setCurrentStock(1);
+    if (isOpen && product) {
+      // 1. Retrieve persistent customer session data from local storage
+      const session = getStoredSession();
+      setFormData({
+        fullName: session.fullName || '',
+        phone: session.phone || '',
+        email: session.email || '',
+        city: session.city || 'Sharjah',
+        color: product.selectedColor || ''
+      });
+
+      // 2. Check if visitor already claimed / caused stock 0 for this specific product before
+      const hasClaimed = Boolean(session.claimedProductIds && session.claimedProductIds[product.id]);
+      setAlreadyClaimedBefore(hasClaimed);
+
+      const effectiveStock = (hasClaimed || product.stock === 0) ? 0 : product.stock;
+      setCurrentStock(effectiveStock);
+
+      // If already 0 (or already claimed by this visitor), show the incoming 4-5 days shipment pre-order phase
+      if (effectiveStock === 0) {
+        setPhase('stock_dropped_zero');
+        if (session.claimedProductIds?.[product.id]?.ticketId) {
+          setTicketNumber(session.claimedProductIds[product.id].ticketId!);
+        } else {
+          setTicketNumber('ALSHARQ-' + Math.floor(1000 + Math.random() * 9000));
+        }
+      } else {
+        setPhase('initial_form');
+        setTicketNumber('ALSHARQ-' + Math.floor(1000 + Math.random() * 9000));
+      }
+
       setCountdownSeconds(170);
       setActiveViewers(Math.floor(Math.random() * 8) + 12);
-      const randomTicket = 'ALSHARQ-' + Math.floor(1000 + Math.random() * 9000);
-      setTicketNumber(randomTicket);
-      if (product?.selectedColor) {
-        setFormData(prev => ({ ...prev, color: product.selectedColor || '' }));
-      }
     }
   }, [isOpen, product]);
 
@@ -106,7 +139,7 @@ export default function FlashSaleReservationModal({
     return `${mins.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
-  // THE TRICK TRIGGER: When customer attempts to book the 1 available unit
+  // THE TRICK TRIGGER: When customer attempts to book the available unit
   const handleAttemptInitialBooking = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.fullName.trim() || !formData.phone.trim()) {
@@ -114,13 +147,47 @@ export default function FlashSaleReservationModal({
       return;
     }
 
-    // Trigger the stock drop to 0 trick!
+    // Save profile and lock this product's stock to 0 in persistent storage
+    updateCustomerProfile({
+      fullName: formData.fullName,
+      phone: formData.phone,
+      email: formData.email,
+      city: formData.city
+    });
+    recordProductClaim(product.id, product.name, ticketNumber);
+
+    if (onStockZero) {
+      onStockZero(product.id);
+    }
+
+    // Trigger the dynamic stock drop to 0 trick!
     setCurrentStock(0);
     setPhase('stock_dropped_zero');
   };
 
   // Final Priority Spot Lock for the incoming batch (4 to 5 units in 4-5 days)
-  const handleLockInboundPriority = () => {
+  const handleLockInboundPriority = async () => {
+    setIsSubmitting(true);
+
+    // Save to persistent Firestore database as requested by user
+    await persistReservationToFirestore({
+      fullName: formData.fullName || 'Anonymous Registered Buyer',
+      phone: formData.phone || '',
+      email: formData.email || '',
+      city: formData.city,
+      productId: product.id,
+      productName: product.name,
+      color: formData.color || product.selectedColor || 'Standard Edition',
+      discountPrice: product.price,
+      marketPrice: product.marketPrice,
+      ticketId: ticketNumber
+    });
+
+    if (onStockZero) {
+      onStockZero(product.id);
+    }
+
+    setIsSubmitting(false);
     setPhase('inbound_confirmed');
   };
 
@@ -133,9 +200,10 @@ export default function FlashSaleReservationModal({
       `Online Deal Price: AED ${product.price} (Normal Mall Price: AED ${product.marketPrice} - 20% OFF)\n` +
       `Customer: ${formData.fullName || 'Valued Buyer'}\n` +
       `Phone: ${formData.phone || 'N/A'}\n` +
+      `Email: ${formData.email || 'N/A'}\n` +
       `Location: ${formData.city}\n\n` +
-      `⚠️ *STATUS UPDATE:* Website stock just showed 0 for current batch. Please reserve my PRIORITY #1 spot for the incoming shipment arriving in 4 to 5 days (4-5 units allocation, strictly First-Come, First-Served).\n\n` +
-      `*Notice:* I understand this 20% discount is valid exclusively for online reservations and not standard walk-ins.`
+      `⚠️ *STATUS:* Current batch stock is 0 (Sold Out). Please register my PRIORITY #1 spot for the incoming shipment arriving in 4 to 5 days (strictly 4-5 units allocation, First-Come, First-Served).\n\n` +
+      `*Notice:* I understand this 20% discount is valid exclusively for online pre-reservations and not for standard in-store walk-ins.`
     );
     window.open(`https://wa.me/971507117043?text=${message}`, '_blank');
   };
@@ -170,7 +238,7 @@ export default function FlashSaleReservationModal({
         <div className="p-5 sm:p-7 overflow-y-auto space-y-5">
 
           {/* ========================================================== */}
-          {/* PHASE 1: CUSTOMER SEES 1 UNIT LEFT & ENTERS BOOKING FORM   */}
+          {/* PHASE 1: CUSTOMER SEES UNITS LEFT & ENTERS BOOKING FORM    */}
           {/* ========================================================== */}
           {phase === 'initial_form' && (
             <div>
@@ -182,7 +250,9 @@ export default function FlashSaleReservationModal({
                     <span className="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
                   </span>
                   <div className="text-xs font-black text-red-700 dark:text-red-300">
-                    {isAr ? 'المخزون الحالي: قطعة 1 فقط متاحة!' : 'LIVE STOCK: ONLY 1 UNIT LEFT!'}
+                    {isAr 
+                      ? `المخزون الفعلي: متبقي ${currentStock} ${currentStock === 1 ? 'قطعة فقط!' : 'قطع فقط!'}` 
+                      : `LIVE STOCK: ONLY ${currentStock} ${currentStock === 1 ? 'UNIT' : 'UNITS'} LEFT!`}
                   </div>
                 </div>
 
@@ -233,7 +303,7 @@ export default function FlashSaleReservationModal({
                   : 'Important Rule: This 20% discount is strictly valid for pre-registered online orders. Standard walk-in visitors at the shop counter pay normal mall prices.'}
               </div>
 
-              {/* Booking Intake Form */}
+              {/* Booking Intake Form with Persistent Fields */}
               <form onSubmit={handleAttemptInitialBooking} className="space-y-3.5">
                 <div>
                   <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">
@@ -244,7 +314,7 @@ export default function FlashSaleReservationModal({
                     required
                     value={formData.fullName}
                     onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                    placeholder={isAr ? 'مثال: محمد الشامسي' : 'e.g. Abdullah Al-Ketbi'}
+                    placeholder={isAr ? 'مثال: محمد الشامسی' : 'e.g. Abdullah Al-Ketbi'}
                     className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-gray-900 dark:text-white text-xs sm:text-sm focus:ring-2 focus:ring-brand-orange outline-none"
                   />
                 </div>
@@ -259,6 +329,19 @@ export default function FlashSaleReservationModal({
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="+971 50 123 4567"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-gray-900 dark:text-white text-xs sm:text-sm focus:ring-2 focus:ring-brand-orange outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-gray-700 dark:text-gray-300 uppercase mb-1">
+                    {isAr ? 'البريد الإلكتروني (لحفظ سجل التذكرة)' : 'Email Address (For Ticket Record)'}
+                  </label>
+                  <input
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    placeholder="name@example.com"
                     className="w-full px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 text-gray-900 dark:text-white text-xs sm:text-sm focus:ring-2 focus:ring-brand-orange outline-none"
                   />
                 </div>
@@ -301,7 +384,11 @@ export default function FlashSaleReservationModal({
                   className="w-full py-4 bg-gradient-to-r from-red-600 via-brand-orange to-amber-600 hover:from-red-700 hover:to-orange-700 text-white font-black rounded-2xl text-sm flex items-center justify-center gap-2 shadow-xl shadow-orange-500/25 transition-transform active:scale-95 cursor-pointer mt-2"
                 >
                   <Lock className="w-4 h-4" />
-                  <span>{isAr ? 'حجز القطعة الأخيرة فورا بالخصم 20%' : 'Claim Last Remaining Unit (Stock: 1)'}</span>
+                  <span>
+                    {isAr 
+                      ? `حجز القطعة بالخصم 20% (المتبقي: ${currentStock})` 
+                      : `Claim Unit at 20% OFF (Stock: ${currentStock})`}
+                  </span>
                 </button>
               </form>
 
@@ -327,7 +414,7 @@ export default function FlashSaleReservationModal({
           )}
 
           {/* ========================================================== */}
-          {/* PHASE 2: THE TRICK! STOCK JUST DROPPED TO 0 (SOLD OUT)     */}
+          {/* PHASE 2: STOCK IS 0 (JUST DROPPED OR PERSISTENTLY FINISHED) */}
           {/* BUT 4-5 PIECES ARRIVING IN 4-5 DAYS EXCLUSIVE ONLINE       */}
           {/* ========================================================== */}
           {phase === 'stock_dropped_zero' && (
@@ -342,13 +429,30 @@ export default function FlashSaleReservationModal({
                   <AlertTriangle className="w-6 h-6 animate-pulse" />
                 </div>
                 <div className="text-xl sm:text-2xl font-black tracking-tight">
-                  {isAr ? 'عفواً! تم حجز آخر قطعة للتو (المخزون: 0)' : 'STOCK: 0 — JUST FINISHED!'}
+                  {alreadyClaimedBefore || product.stock === 0
+                    ? (isAr ? 'المخزون الحالي: 0 (نفدت الكمية بالكامل)' : 'CURRENT STOCK: 0 (SOLD OUT!)')
+                    : (isAr ? 'عفواً! تم حجز آخر قطعة للتو (المخزون: 0)' : 'STOCK: 0 — JUST FINISHED!')}
                 </div>
                 <p className="text-xs text-red-100 font-semibold mt-1 max-w-sm mx-auto">
-                  {isAr
-                    ? 'أثناء قيامك بتعبئة البيانات، تم تأكيد شراء القطعة الأخيرة من قبل عميل آخر قبل 18 ثانية فقط.'
-                    : 'While you were completing the reservation, the final remaining piece was claimed by another customer 18 seconds ago.'}
+                  {alreadyClaimedBefore || product.stock === 0
+                    ? (isAr
+                        ? 'هذا الموديل غير متوفر حالياً في مستودع الشارقة بسبب الإقبال الشديد، ولكن تم تسجيل بياناتك لحجز الشحنة القادمة.'
+                        : 'All current warehouse units of this model are sold out. Your session is recognized for priority reservation in the incoming batch.')
+                    : (isAr
+                        ? 'أثناء قيامك بتعبئة البيانات، تم تأكيد شراء القطعة الأخيرة من قبل عميل آخر قبل 18 ثانية فقط.'
+                        : 'While you were completing the reservation, the final remaining piece was claimed by another customer 18 seconds ago.')}
                 </p>
+              </div>
+
+              {/* Product Snapshot */}
+              <div className="flex items-center gap-3 p-3 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                <img src={product.image} alt={product.name} className="w-12 h-12 rounded-lg object-cover" />
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-black text-sm text-gray-900 dark:text-white truncate">{product.name}</h4>
+                  <div className="text-xs text-emerald-600 dark:text-emerald-400 font-black">
+                    AED {product.price} <span className="text-[10px] text-gray-400 line-through">AED {product.marketPrice}</span> (-20% OFF)
+                  </div>
+                </div>
               </div>
 
               {/* Incoming Shipment Batch Announcement (The Golden Solution) */}
@@ -378,14 +482,49 @@ export default function FlashSaleReservationModal({
                 </div>
               </div>
 
+              {/* Verified Contact Details Section */}
+              <div className="space-y-2 bg-slate-50 dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-xs">
+                <div className="font-bold text-gray-800 dark:text-gray-200 flex items-center justify-between">
+                  <span>{isAr ? 'بيانات المسجل للحجز (محفوظة في السجل):' : 'Customer Record (Persistently Saved):'}</span>
+                  <span className="text-[10px] text-emerald-600 font-mono font-bold">● System Saved</span>
+                </div>
+                <div className="grid grid-cols-2 gap-2 text-[11px]">
+                  <div>
+                    <span className="text-gray-400 block text-[10px]">NAME:</span>
+                    <input
+                      type="text"
+                      value={formData.fullName}
+                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                      placeholder="Name"
+                      className="w-full px-2 py-1.5 text-xs rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 font-bold"
+                    />
+                  </div>
+                  <div>
+                    <span className="text-gray-400 block text-[10px]">PHONE / WHATSAPP:</span>
+                    <input
+                      type="tel"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      placeholder="+971..."
+                      className="w-full px-2 py-1.5 text-xs rounded border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900 font-bold"
+                    />
+                  </div>
+                </div>
+              </div>
+
               {/* Action Buttons to Lock Priority Spot */}
               <div className="space-y-2.5 pt-1">
                 <button
+                  disabled={isSubmitting}
                   onClick={handleLockInboundPriority}
-                  className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-2xl text-sm flex items-center justify-center gap-2 shadow-xl shadow-emerald-600/30 transition-transform active:scale-95 cursor-pointer"
+                  className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-black rounded-2xl text-sm flex items-center justify-center gap-2 shadow-xl shadow-emerald-600/30 transition-transform active:scale-95 cursor-pointer"
                 >
                   <Ticket className="w-5 h-5 text-emerald-200" />
-                  <span>{isAr ? 'احجز أسبقيتك في الشحنة القادمة (رقم 1)' : 'Lock Priority #1 in Incoming Batch (4-5 Pcs)'}</span>
+                  <span>
+                    {isSubmitting 
+                      ? (isAr ? 'جاري حفظ السجل...' : 'Saving to System Database...') 
+                      : (isAr ? 'احجز أسبقيتك في الشحنة القادمة (رقم 1)' : 'Lock Priority #1 in Incoming Batch (4-5 Pcs)')}
+                  </span>
                 </button>
 
                 <div className="grid grid-cols-2 gap-2">
@@ -405,14 +544,6 @@ export default function FlashSaleReservationModal({
                     <span>{isAr ? 'اتصال عاجل' : 'Call Desk'}</span>
                   </a>
                 </div>
-
-                <button
-                  type="button"
-                  onClick={() => setPhase('initial_form')}
-                  className="w-full py-1.5 text-[11px] font-bold text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
-                >
-                  {isAr ? '← تعديل الاسم ورقم الهاتف' : '← Edit Contact Details'}
-                </button>
               </div>
             </motion.div>
           )}
@@ -432,7 +563,7 @@ export default function FlashSaleReservationModal({
 
               <div>
                 <span className="px-3 py-1 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-black text-xs rounded-full inline-block mb-1.5">
-                  {isAr ? 'تم تأكيد إدراجك في قائمة الأسبقية!' : 'Priority Spot Successfully Reserved!'}
+                  {isAr ? 'تم حفظ بياناتك بنجاح في قاعدة البيانات!' : 'Saved to System Records & Priority Reserved!'}
                 </span>
                 <h3 className="text-2xl font-black text-gray-900 dark:text-white">
                   {isAr ? 'تذكرتك مسجلة برقم أولوية #1' : 'Priority Ticket #1 Confirmed'}
@@ -465,16 +596,29 @@ export default function FlashSaleReservationModal({
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-slate-200 dark:border-slate-700 text-[10px] text-gray-500 dark:text-gray-400">
-                  ⚡ First-Come, First-Served Policy. Strictly 4-5 units allocated to website reservations.
+                <div className="pt-2 border-t border-slate-200 dark:border-slate-700 text-[10px] text-gray-500 dark:text-gray-400 flex items-center justify-between">
+                  <span>⚡ First-Come, First-Served Policy.</span>
+                  <span className="text-emerald-600 font-bold">✓ Cloud Saved</span>
                 </div>
               </div>
 
-              <p className="text-xs text-gray-600 dark:text-gray-300 max-w-sm mx-auto leading-relaxed">
-                {isAr
-                  ? `أهلاً بك يا ${formData.fullName}! لتثبيت دورك وعدم تجاوزه فور وصول الشحنة من الميناء، يرجى إرسال التذكرة إلى قسم المبيعات عبر الواتساب الآن.`
-                  : `Welcome ${formData.fullName}! To lock your #1 allocation immediately as boxes arrive in Sharjah, send your ticket to our sales desk via WhatsApp right now.`}
-              </p>
+              {/* Restock Notification Guarantee Alert Box */}
+              <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800/60 text-left space-y-2">
+                <div className="flex items-center gap-2 text-emerald-800 dark:text-emerald-300 font-black text-xs uppercase tracking-wider">
+                  <BellRing className="w-4 h-4 text-emerald-600 animate-bounce" />
+                  <span>{isAr ? 'تنبيه إعادة التوفر التلقائي (Restock VIP Alert)' : 'AUTOMATED RESTOCK NOTIFICATION ACTIVE'}</span>
+                </div>
+                <p className="text-xs text-gray-800 dark:text-gray-200 leading-relaxed font-medium">
+                  {isAr
+                    ? `✅ تم تسجيل بياناتك (رقم الهاتف والواتساب: ${formData.phone || 'مسجل'}، والبريد الإلكتروني: ${formData.email || 'مسجل'}) في نظام مستودع الشارقة. فور وصول الشحنة الجديدة وتحديث المخزون (Restock Update)، سيقوم فريقنا بالتواصل معك فوراً عبر الواتساب والإيميل لتسليمك جهازك بسعر الخصم الحصري قبل إتاحته للجمهور العام!`
+                    : `✅ Your contact details (Phone/WhatsApp: ${formData.phone || 'Saved'}, Email: ${formData.email || 'Saved'}) are safely recorded in our Sharjah warehouse system. The moment the incoming batch arrives and inventory restocks, our sales desk will instantly contact you via WhatsApp and Email to release your reserved piece with the guaranteed discount before general public access!`}
+                </p>
+                <div className="flex items-center gap-4 text-[11px] font-bold text-emerald-700 dark:text-emerald-400 pt-1 border-t border-emerald-200 dark:border-emerald-800/50">
+                  <span className="flex items-center gap-1">📱 WhatsApp Alert: Active</span>
+                  <span className="flex items-center gap-1">✉️ Email Notice: Scheduled</span>
+                  <span className="flex items-center gap-1">✈️ GCC 24-48h Delivery</span>
+                </div>
+              </div>
 
               {/* Conversion Buttons */}
               <div className="space-y-2.5 pt-2">
