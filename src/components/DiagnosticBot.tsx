@@ -1,6 +1,23 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Bot, X, Send, Cpu, Smartphone, Zap, MessageSquare } from 'lucide-react';
+import { 
+  Bot, 
+  X, 
+  Send, 
+  Cpu, 
+  Smartphone, 
+  Zap, 
+  MessageSquare, 
+  ShieldCheck, 
+  Clock, 
+  Wrench, 
+  ArrowRight, 
+  Sparkles,
+  Phone,
+  HelpCircle,
+  Flame
+} from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Link } from 'react-router-dom';
 
 type Message = {
   id: string;
@@ -9,67 +26,81 @@ type Message = {
   isActionable?: boolean;
   actionText?: string;
   actionUrl?: string;
+  priceBadge?: string;
+  timeEstimate?: string;
 };
 
 const DIAGNOSTIC_RULES = [
   {
-    keywords: ['screen', 'glass', 'shattered', 'crack', 'cracked', 'display'],
-    response: "It sounds like you need a Screen or Glass replacement. We use OEM-quality panels. Would you like to get a precise estimate?",
+    keywords: ['screen', 'glass', 'shattered', 'crack', 'cracked', 'display', 'شاشة', 'كسر', 'اسکرین'],
+    response: "For screen and glass damage: If your OLED touch is working, we can replace just the outer glass via precision OCA lamination (saving you up to 50%). If the display has black ink or lines, a complete OEM panel replacement takes only 25 minutes with 1-Year Lab Warranty.",
     actionText: "Get Screen Estimate",
-    actionUrl: "/repair-estimate"
+    actionUrl: "/estimate",
+    priceBadge: "From AED 150",
+    timeEstimate: "20 - 25 Mins"
   },
   {
-    keywords: ['battery', 'charge', 'drain', 'die fast', 'turn off', 'power'],
-    response: "Battery issues are very common, especially in Sharjah's heat. A battery replacement takes about 30 minutes. Should we check the prices?",
-    actionText: "View Battery Pricing",
-    actionUrl: "/repair/battery"
+    keywords: ['battery', 'charge', 'drain', 'die fast', 'turn off', 'power', 'بطارية', 'شحن', 'تفريغ', 'بیٹری'],
+    response: "Battery degradation is accelerated in UAE's high ambient heat. We install high-density 0-cycle OEM grade battery cells with thermal circuit protection in 20 minutes.",
+    actionText: "Check Battery Pricing",
+    actionUrl: "/repair/battery",
+    priceBadge: "From AED 100",
+    timeEstimate: "20 Mins"
   },
   {
-    keywords: ['water', 'liquid', 'coffee', 'tea', 'rain', 'swimming', 'pool', 'wet'],
-    response: "Liquid damage requires immediate attention! Do NOT attempt to turn the device on or charge it. Bring it to our Muwaileh shop immediately for ultrasonic cleaning.",
-    actionText: "Liquid Damage Info",
-    actionUrl: "/repair/liquid-damage"
+    keywords: ['water', 'liquid', 'coffee', 'tea', 'rain', 'swimming', 'pool', 'wet', 'ماء', 'سقوط بالماء', 'پانی'],
+    response: "⚠️ CRITICAL EMERGENCY: Do NOT plug your device into a charger and do not turn it on! Bring it to our Muwaileh workshop immediately for ultrasonic chemical de-oxidation to prevent permanent motherboard corrosion.",
+    actionText: "Liquid Emergency Guide",
+    actionUrl: "/repair/liquid-damage",
+    priceBadge: "Diagnostic AED 50",
+    timeEstimate: "1 - 2 Hours"
   },
   {
-    keywords: ['turn on', 'dead', 'black screen', 'logo', 'boot', 'apple logo', 'samsung logo'],
-    response: "If the device is completely dead or stuck on the logo, it could be a Logic Board or IC chip issue. Our Level 4 micro-soldering technicians can diagnose this. Book a free diagnostic.",
+    keywords: ['turn on', 'dead', 'black screen', 'logo', 'boot', 'apple logo', 'samsung logo', 'ميت', 'لا يعمل', 'مذربورد'],
+    response: "If your device is completely dead, stuck on boot logo, or restarting in a loop, it indicates a Level 4 Logic Board or Power Management IC short circuit. Our micro-soldering engineers diagnose and repair micro-traces under microscope.",
     actionText: "Book Logic Board Diagnostic",
-    actionUrl: "/repair/logic-board"
+    actionUrl: "/repair/logic-board",
+    priceBadge: "From AED 250",
+    timeEstimate: "2 - 4 Hours"
   },
   {
-    keywords: ['macbook', 'laptop', 'computer', 'keyboard', 'trackpad'],
-    response: "We handle all laptop and MacBook repairs, from logic board microsoldering to battery replacements. Let's get that fixed.",
-    actionText: "View Laptop Repairs",
-    actionUrl: "/repair/macbook"
+    keywords: ['macbook', 'laptop', 'computer', 'keyboard', 'trackpad', 'ماك', 'لابتوب', 'ماك بوك'],
+    response: "We service all Apple Silicon (M4, M3, M2, M1) and Intel MacBooks: logic board micro-soldering, liquid spill recovery, keyboard replacements, and screen flexgate repairs at direct wholesale rates.",
+    actionText: "View MacBook Repairs",
+    actionUrl: "/repair/macbook",
+    priceBadge: "From AED 200",
+    timeEstimate: "Same-Day"
   },
   {
-    keywords: ['hi', 'hello', 'hey', 'greetings', 'morning', 'afternoon', 'evening'],
-    response: "Hello! I'm TechBot, the AI assistant for Al Sharq Mobile. How can I help you with your device today?"
+    keywords: ['shop', 'buy', 'phone', '20%', 'discount', 'iphone 18', 'samsung s26', 'شراء', 'هواتف', 'خصم', 'اسعار'],
+    response: "Al Sharq Mobile Store imports directly from port containers: buy brand-new factory-sealed iPhone 18, 17, 16 Pro Max and Samsung S26 Ultra at 20% below shopping mall retail! With rotating 30-day waves and express GCC shipping.",
+    actionText: "View 20% OFF Flagships",
+    actionUrl: "/shop",
+    priceBadge: "Save up to AED 1,000+",
+    timeEstimate: "In Stock / 4-5d Batch"
   },
   {
-    keywords: ['how are you', 'how do you do', "what's up", 'whats up'],
-    response: "I'm functioning perfectly at 100% efficiency! Thanks for asking. What can I fix for you today?"
+    keywords: ['location', 'where are you', 'address', 'visit', 'shop', 'store', 'مويلح', 'موقع', 'عنوان', 'لوکیشن'],
+    response: "We are located at BLDG#1017 - SHOP#2 Fire Station Road, Muwaileh Industrial Area, Sharjah (near Sharjah University City, 5 mins from Sahara Centre). Open daily until 11:00 PM.",
+    actionText: "Open in Google Maps",
+    actionUrl: "https://maps.app.goo.gl/WRjUv6FxCVTtZCEk8"
   },
   {
-    keywords: ['your name', 'who are you', 'what are you'],
-    response: "I am TechBot Diagnostic AI, a highly advanced digital assistant created for Al Sharq Mobile. I can help diagnose device issues and give you repair estimates."
-  },
-  {
-    keywords: ['location', 'where are you', 'address', 'visit', 'shop', 'store'],
-    response: "We are located in Muwaileh, Sharjah, UAE. You can find our exact location on Google Maps by searching for 'Al Sharq Mobile Phone Repair'.",
-    actionText: "Open in Maps",
-    actionUrl: "https://maps.google.com/?q=Al+Sharq+Mobile+Phone+Repair+Sharjah"
-  },
-  {
-    keywords: ['phone number', 'contact', 'call you', 'number'],
-    response: "You can reach us anytime at +971 50 711 7043. We're also available on WhatsApp on the same number!",
-    actionText: "Chat on WhatsApp",
-    actionUrl: "https://wa.me/971507117043"
-  },
-  {
-    keywords: ['hours', 'open', 'close', 'timing', 'time'],
-    response: "We are open Saturday to Thursday from 9:00 AM to 11:00 PM, and Friday from 2:00 PM to 11:00 PM."
+    keywords: ['gcc', 'saudi', 'oman', 'bahrain', 'kuwait', 'qatar', 'شحن', 'السعودية', 'عمان', 'سعودیہ'],
+    response: "Yes! We provide express insured air delivery across Saudi Arabia, Oman, Bahrain, Kuwait, and Qatar via DHL and Aramex in 24 to 48 hours with personal transit customs protocol.",
+    actionText: "View GCC Services",
+    actionUrl: "/gcc-services"
   }
+];
+
+const QUICK_DIAGNOSTIC_CHIPS = [
+  { label: '📱 Broken Screen', query: 'My screen is cracked' },
+  { label: '🔋 Battery Drain', query: 'Battery draining fast' },
+  { label: '💧 Water Damage', query: 'Device dropped in water' },
+  { label: '⚡ Won’t Turn On', query: 'Phone completely dead' },
+  { label: '💻 MacBook Repair', query: 'MacBook logic board issue' },
+  { label: '🛍️ 20% OFF Phones', query: 'Buy phones at 20% discount' },
+  { label: '📍 Store Location', query: 'Where is your shop located?' }
 ];
 
 interface DiagnosticBotProps {
@@ -97,7 +128,7 @@ export default function DiagnosticBot({ isOpenExternal, onCloseExternal }: Diagn
     {
       id: 'init-1',
       sender: 'bot',
-      text: "Hi! I'm the Al Sharq AI Diagnostic Assistant. Describe what's wrong with your device (e.g., 'My iPhone 14 screen is cracked'), and I'll tell you how we can fix it!"
+      text: "👋 Welcome to Al Sharq AI Diagnostic Desk! I'm trained on 15,000+ repair cases. What device issue are you experiencing today?"
     }
   ]);
   const [inputValue, setInputValue] = useState('');
@@ -126,7 +157,9 @@ export default function DiagnosticBot({ isOpenExternal, onCloseExternal }: Diagn
             text: rule.response,
             isActionable: true,
             actionText: rule.actionText,
-            actionUrl: rule.actionUrl
+            actionUrl: rule.actionUrl,
+            priceBadge: rule.priceBadge,
+            timeEstimate: rule.timeEstimate
           }]);
           foundMatch = true;
           break;
@@ -137,140 +170,190 @@ export default function DiagnosticBot({ isOpenExternal, onCloseExternal }: Diagn
         setMessages(prev => [...prev, {
           id: Date.now().toString(),
           sender: 'bot',
-          text: "I might need our human technician to look at that. You can chat with us directly on WhatsApp for an immediate quote!",
+          text: "I've analyzed your description. For this specific fault, let me connect you directly with our Master Technician on WhatsApp for an exact diagnostic quote!",
           isActionable: true,
-          actionText: "Chat on WhatsApp",
+          actionText: "Chat with Master Technician",
           actionUrl: "https://wa.me/971507117043"
         }]);
       }
       setIsTyping(false);
-    }, 1000);
+    }, 700);
   };
 
-  const handleSend = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!inputValue.trim()) return;
+  const handleSend = (e?: React.FormEvent, customQuery?: string) => {
+    if (e) e.preventDefault();
+    const query = (customQuery || inputValue).trim();
+    if (!query) return;
 
-    const userMsg = inputValue.trim();
-    setMessages(prev => [...prev, { id: Date.now().toString(), sender: 'user', text: userMsg }]);
+    setMessages(prev => [...prev, { id: Date.now().toString(), sender: 'user', text: query }]);
     setInputValue('');
     setIsTyping(true);
-    processUserInput(userMsg);
+    processUserInput(query);
   };
 
   return (
     <>
-      <div className="z-50">
-        <AnimatePresence>
-          {!isOpen && (
-            <motion.button
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0, opacity: 0 }}
-              onClick={() => setIsOpen(true)}
-              className="hidden md:flex fixed bottom-6 left-6 z-50 bg-brand-orange hover:bg-orange-600 text-white p-4 rounded-full shadow-2xl items-center justify-center transform hover:-translate-y-1 transition-all focus:outline-none focus:ring-4 focus:ring-orange-500/30 group"
-              aria-label="Open AI Diagnostic Bot"
-            >
-              <Cpu className="w-7 h-7 group-hover:animate-pulse" />
-              <span className="absolute -top-1 -right-1 flex h-4 w-4">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-4 w-4 bg-green-500 border-2 border-brand-orange"></span>
-              </span>
-            </motion.button>
-          )}
-        </AnimatePresence>
+      {/* Floating Trigger Button */}
+      {!isOpen && (
+        <button
+          onClick={() => setIsOpen(true)}
+          className="fixed bottom-24 right-5 z-40 bg-gradient-to-r from-brand-blue via-indigo-900 to-slate-900 text-white p-3.5 sm:px-4 sm:py-3 rounded-full shadow-2xl hover:scale-105 transition-all flex items-center gap-2 border-2 border-brand-orange/60 cursor-pointer group"
+          title="Open AI Diagnostic Assistant"
+        >
+          <div className="relative">
+            <Cpu className="w-5 h-5 text-amber-400 group-hover:rotate-12 transition-transform" />
+            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-500 rounded-full animate-ping" />
+          </div>
+          <span className="hidden sm:inline font-black text-xs uppercase tracking-wide">
+            AI Diagnostic Board
+          </span>
+        </button>
+      )}
 
-        <AnimatePresence>
-          {isOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: 20, scale: 0.95 }}
-              className="fixed bottom-20 left-3 right-3 sm:right-auto sm:left-6 sm:bottom-6 sm:w-96 max-w-[calc(100vw-1.5rem)] z-50 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden flex flex-col h-[480px] max-h-[75vh]"
-            >
-              {/* Header */}
-              <div className="bg-brand-blue dark:bg-slate-950 p-4 flex items-center justify-between border-b border-white/10">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-brand-orange/20 rounded-full flex items-center justify-center">
-                    <Bot className="w-6 h-6 text-brand-orange" />
-                  </div>
-                  <div>
-                    <h3 className="text-white font-bold text-sm">TechBot Diagnostic AI</h3>
-                    <div className="flex items-center gap-1.5 text-xs text-white/70">
-                      <span className="w-2 h-2 rounded-full bg-green-500"></span> Online
-                    </div>
+      {/* Interactive AI Diagnostic Modal */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 30, scale: 0.95 }}
+            className="fixed bottom-6 right-4 sm:right-6 w-[94vw] sm:w-[420px] h-[580px] bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 z-50 flex flex-col overflow-hidden"
+          >
+            {/* Header */}
+            <div className="p-4 bg-gradient-to-r from-brand-blue via-indigo-950 to-slate-900 text-white flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-brand-orange/20 border border-brand-orange/50 flex items-center justify-center text-amber-400">
+                  <Cpu className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-black text-sm flex items-center gap-1.5">
+                    <span>Al Sharq AI Diagnostic Desk</span>
+                    <span className="px-1.5 py-0.2 rounded text-[9px] bg-emerald-500/20 text-emerald-400 font-mono">v2.6</span>
+                  </h3>
+                  <div className="flex items-center gap-1.5 text-[11px] text-gray-300">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>Muwaileh Lab Knowledge Base Active</span>
                   </div>
                 </div>
-                <button 
-                  onClick={() => setIsOpen(false)}
-                  className="text-white/70 hover:text-white p-2 transition-colors rounded-full hover:bg-white/10"
+              </div>
+
+              <button
+                onClick={() => setIsOpen(false)}
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-gray-300 hover:text-white transition-colors cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Quick Diagnostic Chips Bar */}
+            <div className="px-3 py-2 bg-slate-100 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700/60 overflow-x-auto no-scrollbar flex items-center gap-1.5 shrink-0">
+              {QUICK_DIAGNOSTIC_CHIPS.map((chip, i) => (
+                <button
+                  key={i}
+                  onClick={() => handleSend(undefined, chip.query)}
+                  className="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-700 hover:bg-brand-orange hover:text-white dark:hover:bg-brand-orange text-gray-700 dark:text-gray-200 font-bold text-[11px] border border-slate-200 dark:border-slate-600 transition-colors whitespace-nowrap cursor-pointer shrink-0"
                 >
-                  <X className="w-5 h-5" />
+                  {chip.label}
                 </button>
-              </div>
+              ))}
+            </div>
 
-              {/* Chat Area */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50 dark:bg-slate-900/50 custom-scrollbar">
-                {messages.map((msg) => (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    key={msg.id} 
-                    className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
+            {/* Chat Messages Body */}
+            <div className="flex-1 p-4 overflow-y-auto space-y-3.5 text-xs">
+              {messages.map((msg) => (
+                <div
+                  key={msg.id}
+                  className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                >
+                  <div
+                    className={`max-w-[85%] p-3.5 rounded-2xl ${
+                      msg.sender === 'user'
+                        ? 'bg-brand-orange text-white rounded-br-none shadow-md'
+                        : 'bg-slate-100 dark:bg-slate-800 text-gray-900 dark:text-gray-100 rounded-bl-none border border-slate-200 dark:border-slate-700 shadow-sm'
+                    }`}
                   >
-                    <div className={`max-w-[85%] p-3 rounded-2xl text-sm ${
-                      msg.sender === 'user' 
-                        ? 'bg-brand-orange text-white rounded-tr-sm' 
-                        : 'bg-white dark:bg-slate-800 text-gray-800 dark:text-gray-200 border border-slate-100 dark:border-slate-700 rounded-tl-sm shadow-sm'
-                    }`}>
-                      {msg.text}
-                    </div>
-                    {msg.isActionable && msg.actionUrl && (
-                      <a 
-                        href={msg.actionUrl}
-                        className="mt-2 text-xs font-bold bg-brand-blue text-white px-3 py-2 rounded-lg hover:bg-blue-800 transition-colors shadow-sm inline-flex items-center gap-1"
-                      >
-                        {msg.actionText} <Zap className="w-3 h-3" />
-                      </a>
+                    <p className="leading-relaxed whitespace-pre-line">{msg.text}</p>
+
+                    {/* Metadata Badges if Available */}
+                    {(msg.priceBadge || msg.timeEstimate) && (
+                      <div className="mt-2.5 pt-2 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between text-[10px] font-bold">
+                        {msg.priceBadge && (
+                          <span className="text-emerald-600 dark:text-emerald-400">
+                            💰 {msg.priceBadge}
+                          </span>
+                        )}
+                        {msg.timeEstimate && (
+                          <span className="text-amber-600 dark:text-amber-400 flex items-center gap-0.5">
+                            <Clock className="w-3 h-3" />
+                            <span>{msg.timeEstimate}</span>
+                          </span>
+                        )}
+                      </div>
                     )}
-                  </motion.div>
-                ))}
-                
-                {isTyping && (
-                  <div className="flex items-start">
-                    <div className="bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 p-3 rounded-2xl rounded-tl-sm shadow-sm flex items-center gap-1">
-                      <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                      <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                      <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
-                    </div>
-                  </div>
-                )}
-                <div ref={messagesEndRef} />
-              </div>
 
-              {/* Input Area */}
-              <div className="p-3 bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700">
-                <form onSubmit={handleSend} className="flex items-center gap-2">
-                  <input
-                    type="text"
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    placeholder="E.g. My screen is completely black..."
-                    className="flex-1 bg-slate-100 dark:bg-slate-900 border-transparent focus:bg-white dark:focus:bg-slate-950 focus:border-brand-orange focus:ring-2 focus:ring-brand-orange/20 rounded-xl px-4 py-3 text-sm transition-all text-gray-900 dark:text-white"
-                  />
-                  <button 
-                    type="submit"
-                    disabled={!inputValue.trim() || isTyping}
-                    className="bg-brand-orange text-white p-3 rounded-xl hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    <Send className="w-5 h-5" />
-                  </button>
-                </form>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
+                    {/* Action Button */}
+                    {msg.isActionable && msg.actionText && msg.actionUrl && (
+                      <div className="mt-2.5 pt-2 border-t border-slate-200 dark:border-slate-700">
+                        {msg.actionUrl.startsWith('http') ? (
+                          <a
+                            href={msg.actionUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-blue hover:bg-blue-900 text-white font-bold rounded-xl text-[11px] shadow-sm transition-all"
+                          >
+                            <span>{msg.actionText}</span>
+                            <ArrowRight className="w-3 h-3" />
+                          </a>
+                        ) : (
+                          <Link
+                            to={msg.actionUrl}
+                            onClick={() => setIsOpen(false)}
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-orange hover:bg-orange-600 text-white font-bold rounded-xl text-[11px] shadow-sm transition-all"
+                          >
+                            <span>{msg.actionText}</span>
+                            <ArrowRight className="w-3 h-3" />
+                          </Link>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+
+              {isTyping && (
+                <div className="flex justify-start">
+                  <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-2xl rounded-bl-none text-gray-500 text-xs flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-orange animate-bounce" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-orange animate-bounce [animation-delay:0.2s]" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-orange animate-bounce [animation-delay:0.4s]" />
+                    <span className="text-[10px] font-mono ml-1">Analyzing Lab Data...</span>
+                  </div>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+
+            {/* Input Form */}
+            <form onSubmit={handleSend} className="p-3 bg-slate-50 dark:bg-slate-850 border-t border-slate-200 dark:border-slate-800 flex items-center gap-2">
+              <input
+                type="text"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                placeholder="Describe issue (e.g. S24 screen, water, battery)..."
+                className="flex-1 px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-xs text-gray-900 dark:text-white outline-none focus:border-brand-orange"
+              />
+              <button
+                type="submit"
+                disabled={!inputValue.trim()}
+                className="p-2.5 bg-brand-orange hover:bg-orange-600 disabled:opacity-40 text-white rounded-xl transition-transform active:scale-95 cursor-pointer"
+              >
+                <Send className="w-4 h-4" />
+              </button>
+            </form>
+
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
