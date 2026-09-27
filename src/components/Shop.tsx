@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Star, ShoppingBag, Phone, MessageCircle, Sparkles, Tag, Lock, ArrowRight } from 'lucide-react';
+import { Star, ShoppingBag, Phone, MessageCircle, Sparkles, Tag, Lock, ArrowRight, Truck, Globe, Flame } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import FlashSaleReservationModal, { FlashSaleItem } from './FlashSaleReservationModal';
 import UAEDirhamSymbol from './UAEDirhamSymbol';
 import { useLanguage } from '../contexts/LanguageContext';
 import { getEffectiveStock, getStoredSession } from '../services/customerTrackingService';
+import { getCurrentCampaignWave, getDaysRemainingInWave } from '../services/campaignScheduleService';
 
 const products = [
   {
@@ -112,26 +113,47 @@ export default function Shop() {
     setIsModalOpen(true);
   };
 
+  const currentWave = getCurrentCampaignWave();
+  const daysRemaining = getDaysRemainingInWave(currentWave);
+
   return (
     <section id="shop" className="py-24 bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Dynamic Rotating Campaign Wave & GCC Ribbon */}
+        <div className="mb-6 p-4 rounded-2xl bg-gradient-to-r from-red-600/10 via-amber-500/10 to-emerald-500/10 border border-brand-orange/30 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div className="flex items-center gap-2">
+            <Flame className="w-4 h-4 text-brand-orange animate-bounce" />
+            <span className="font-black text-gray-900 dark:text-white uppercase">
+              {isAr ? currentWave.nameAr : currentWave.nameEn}
+            </span>
+            <span className="px-2 py-0.5 rounded-full bg-red-600 text-white font-extrabold text-[10px]">
+              {daysRemaining} {isAr ? 'أيام متبقية' : 'Days Left in Wave'}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300 font-bold text-[11px]">
+            <Truck className="w-3.5 h-3.5 text-emerald-600" />
+            <span>🇸🇦 🇴🇲 🇧🇭 🇰🇼 🇶🇦 {isAr ? 'شحن إكسبريس مباشر لكافة دول الخليج خلال 24-48 ساعة' : 'Direct GCC Express Air Freight 24-48h'}</span>
+          </div>
+        </div>
+
         <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-600/10 text-red-600 dark:text-red-400 font-extrabold text-xs rounded-full uppercase tracking-wider mb-2">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>{isAr ? 'بيع بالجملة للمستهلك • خصم 20% حصري أونلاين' : 'Wholesale To Consumer • 20% Below Mall Prices'}</span>
+              <span>{isAr ? 'بيع بالجملة للمستهلك • خصم حصري أونلاين' : 'Wholesale To Consumer • Online Flash Allocations'}</span>
             </div>
             <h2 className="text-3xl md:text-4xl font-black text-brand-blue dark:text-white mb-3">
-              {isAr ? 'متجر الشرق للهواتف: خصم 20% على أحدث الموديلات' : 'Al Sharq Mobile Store: 20% Off Flagships'}
+              {isAr ? 'متجر الشرق للهواتف: عروض الاستيراد المباشر' : 'Al Sharq Mobile Store: Direct Import Deals'}
             </h2>
             <p className="text-brand-grey dark:text-gray-400 text-sm sm:text-base leading-relaxed">
               {isAr
-                ? 'اشترِ أحدث الهواتف وأجهزة ماك بوك الأصلية المختومة بأسعار الاستيراد المباشر. عرض الـ 20% مخصص حصرياً للطلبات عبر الموقع.'
-                : 'Buy brand new sealed smartphones and MacBooks directly at wholesale prices. Al Sharq passes direct import savings to customers in Sharjah and across the GCC with our 20% online exclusive discount.'}
+                ? 'اشترِ أحدث الهواتف وأجهزة ماك بوك الأصلية المختومة بأسعار الاستيراد المباشر. يتم تدوير الخصومات كل 3 إلى 5 أيام مع شحن دولي إكسبريس لكافة دول الخليج.'
+                : 'Buy brand new sealed smartphones and MacBooks directly at wholesale prices. Rotating dynamic discounts every 3-5 days with express 24-48h delivery across all GCC nations.'}
             </p>
           </div>
           <Link to="/shop" className="hidden md:flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-orange text-white font-bold hover:bg-orange-600 transition-colors whitespace-nowrap shadow-sm">
-            <span>{isAr ? 'عرض جميع هواتف الـ 20%' : 'View All 20% OFF Deals'}</span>
+            <span>{isAr ? 'عرض جميع العروض والجدول' : 'View Full Schedule & Deals'}</span>
             <ShoppingBag className="h-4 w-4" />
           </Link>
         </div>

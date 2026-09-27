@@ -26,6 +26,7 @@ import FlashSaleReservationModal, { FlashSaleItem } from '../components/FlashSal
 import { getEffectiveStock, getStoredSession } from '../services/customerTrackingService';
 import GCCMonthlyCampaignBanner from '../components/GCCMonthlyCampaignBanner';
 import { convertToGCC } from '../services/campaignScheduleService';
+import ShopBuyerGuideAndSEO from '../components/ShopBuyerGuideAndSEO';
 
 export interface ProductItem {
   id: number;
@@ -602,16 +603,74 @@ export default function ShopPage() {
   return (
     <>
       <Helmet>
-        <title>Mobile Phone & Gadget Shop Sharjah | 20% Below Market Price | Al Sharq Mobile Store</title>
+        <title>Wholesale Mobile Phones &amp; Gadgets Sharjah | 20% Below Retail | Al Sharq</title>
         <meta 
           name="description" 
-          content="Buy brand new Apple iPhone 18, 17, 16, Samsung Galaxy S26, Watches, Earbuds, Tablets & MacBooks at 20% below shopping mall prices in Sharjah! Direct wholesale stock with official warranties." 
+          content="Buy brand new sealed Apple iPhone 18, 17, 16, Samsung S26 Ultra, Watches &amp; MacBooks at 20% below retail in Sharjah. Express GCC delivery to Saudi Arabia, Oman, Bahrain, Kuwait &amp; Qatar with automated VIP restock alerts." 
         />
         <meta 
           name="keywords" 
-          content="iPhone 18 price Sharjah, iPhone 17 UAE discount, iPhone 16 Sharjah, Samsung S26 Ultra 20% off, Galaxy Watch 8 Ultra price, Huawei Mate 70 Sharjah, Oppo Find X8 UAE, cheap tablets Sharjah, ارخص محل جوالات في الشارقة" 
+          content="Al Sharq Mobile Shop, iPhone 18 price Sharjah, iPhone 17 UAE wholesale, Samsung S26 Ultra discount UAE, buy phones wholesale Sharjah, Saudi Arabia iPhone delivery, Oman phone express UAE, Kuwait Qatar phone import Sharjah, ارخص محل جوالات في الشارقة" 
         />
         <link rel="canonical" href="https://allsharq.com/shop" />
+
+        {/* OpenGraph Social Card */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Wholesale Mobile Phones &amp; Gadgets Sharjah | 20% Below Retail | Al Sharq" />
+        <meta property="og:description" content="Buy brand new sealed iPhone 18, 17, 16, Samsung S26 Ultra, Watches &amp; MacBooks at 20% below retail. Express shipping across UAE and GCC." />
+        <meta property="og:url" content="https://allsharq.com/shop" />
+        <meta property="og:image" content="https://allsharq.com/logo.png" />
+        <meta property="og:site_name" content="Al Sharq Mobile Phone &amp; Computer Trading LLC" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Wholesale Mobile Phones &amp; Gadgets Sharjah | 20% Below Retail" />
+        <meta name="twitter:description" content="Buy brand new sealed iPhone 18, 17, 16, Samsung S26 Ultra &amp; MacBooks at 20% below mall prices. Automated restock alerts &amp; GCC delivery." />
+        <meta name="twitter:image" content="https://allsharq.com/logo.png" />
+
+        {/* Schema.org Store & Wholesale Catalog Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": ["CollectionPage", "Store"],
+            "@id": "https://allsharq.com/shop#webpage",
+            "name": "Al Sharq Mobile Wholesale & Flagship Gadget Hub",
+            "url": "https://allsharq.com/shop",
+            "description": "Authentic factory-sealed flagship smartphones, smartwatches, earbuds, tablets, and MacBooks at wholesale direct import prices.",
+            "telephone": "+971507117043",
+            "priceRange": "$$",
+            "currenciesAccepted": "AED, SAR, OMR, BHD, KWD, QAR, USD",
+            "paymentAccepted": "Cash, Credit Card, Apple Pay, Samsung Pay, Bank Transfer, Tabby, Tamara",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "BLDG#1017 - SHOP#2 Fire Station Road, Muwaileh",
+              "addressLocality": "Sharjah",
+              "addressCountry": "AE"
+            },
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "Wholesale Flagship Devices Catalog",
+              "itemListElement": products.slice(0, 8).map((p, idx) => ({
+                "@type": "Offer",
+                "position": idx + 1,
+                "name": p.name,
+                "price": p.price,
+                "priceCurrency": "AED",
+                "priceValidUntil": "2026-12-31",
+                "availability": p.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/PreOrder",
+                "itemOffered": {
+                  "@type": "Product",
+                  "name": p.name,
+                  "brand": {
+                    "@type": "Brand",
+                    "name": p.brand
+                  },
+                  "image": p.image
+                }
+              }))
+            }
+          })}
+        </script>
       </Helmet>
 
       <div className="pt-24 pb-16 bg-slate-50 dark:bg-slate-900 min-h-screen transition-colors duration-300">
@@ -724,6 +783,12 @@ export default function ShopPage() {
             ))}
           </div>
 
+          {/* Dynamic Monthly Flash Waves & GCC Regional Switcher */}
+          <GCCMonthlyCampaignBanner 
+            selectedRegionCode={selectedRegionCode}
+            onSelectRegion={setSelectedRegionCode}
+          />
+
           {/* Products Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
             {filteredProducts.map((product, index) => {
@@ -831,6 +896,13 @@ export default function ShopPage() {
                               <span>{product.price}</span>
                               <span className="text-xs font-mono text-gray-400 uppercase">AED</span>
                             </div>
+
+                            {/* Regional Converted Price if outside UAE */}
+                            {selectedRegionCode !== 'ae' && (
+                              <div className="text-[11px] font-bold text-brand-orange mt-0.5">
+                                ≈ {convertToGCC(product.price, selectedRegionCode).convertedAmount} {convertToGCC(product.price, selectedRegionCode).currency}
+                              </div>
+                            )}
                           </div>
 
                           <div className="text-right">
@@ -917,6 +989,9 @@ export default function ShopPage() {
               );
             })}
           </div>
+
+          {/* High-Quality Buyer Authority Guide & Schema-Backed SEO FAQ */}
+          <ShopBuyerGuideAndSEO />
 
           {/* Pre-Owned Devices Module */}
           <div className="mt-16">
