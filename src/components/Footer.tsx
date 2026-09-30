@@ -150,7 +150,46 @@ export default function Footer({ onOpenTerms }: FooterProps) {
         </div>
 
         <div className="border-t border-white/10 pt-8 mt-8 mb-8">
-          <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Areas We Serve (UAE, GCC & Regional)</h4>
+          <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Popular "Near Me" Searches in Sharjah, Dubai &amp; UAE</h4>
+          <div className="flex flex-wrap gap-x-3 gap-y-2 text-xs text-gray-400">
+            <Link to="/phone-repair" className="hover:text-brand-orange transition-colors">phone repair near me</Link>
+            <span className="text-slate-700">•</span>
+            <Link to="/shop" className="hover:text-brand-orange transition-colors">mobile shop near me</Link>
+            <span className="text-slate-700">•</span>
+            <Link to="/iphone-repair" className="hover:text-brand-orange transition-colors">iphone repair near me</Link>
+            <span className="text-slate-700">•</span>
+            <Link to="/screen-repair" className="hover:text-brand-orange transition-colors">mobile screen repair near me</Link>
+            <span className="text-slate-700">•</span>
+            <Link to="/laptop-repair" className="hover:text-brand-orange transition-colors">laptop repair near me</Link>
+            <span className="text-slate-700">•</span>
+            <Link to="/macbook-repair" className="hover:text-brand-orange transition-colors">macbook repair near me</Link>
+            <span className="text-slate-700">•</span>
+            <Link to="/battery-repair" className="hover:text-brand-orange transition-colors">phone battery replacement near me</Link>
+            <span className="text-slate-700">•</span>
+            <Link to="/samsung-repair" className="hover:text-brand-orange transition-colors">samsung repair near me</Link>
+            <span className="text-slate-700">•</span>
+            <Link to="/computer-repair" className="hover:text-brand-orange transition-colors">computer shop near me</Link>
+            <span className="text-slate-700">•</span>
+            <Link to="/repair-estimate" className="hover:text-brand-orange transition-colors">cheap mobile repair near me</Link>
+            <span className="text-slate-700">•</span>
+            <Link to="/services" className="hover:text-brand-orange transition-colors">best mobile repair shop near me</Link>
+            <span className="text-slate-700">•</span>
+            <Link to="/data-recovery" className="hover:text-brand-orange transition-colors">data recovery near me</Link>
+            <span className="text-slate-700">•</span>
+            <Link to="/printer-repair" className="hover:text-brand-orange transition-colors">printer repair near me</Link>
+            <span className="text-slate-700">•</span>
+            <Link to="/phone-repair" className="hover:text-brand-orange transition-colors">phone fixing near me Sharjah</Link>
+            <span className="text-slate-700">•</span>
+            <Link to="/contact" className="hover:text-brand-orange transition-colors">محل تلفونات قريب مني</Link>
+            <span className="text-slate-700">•</span>
+            <Link to="/iphone-repair" className="hover:text-brand-orange transition-colors">تصليح ايفون قريب مني</Link>
+            <span className="text-slate-700">•</span>
+            <Link to="/laptop-repair" className="hover:text-brand-orange transition-colors">صيانة لابتوب قريب مني</Link>
+          </div>
+        </div>
+
+        <div className="border-t border-white/10 pt-8 mt-8 mb-8">
+          <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Areas We Serve (UAE, GCC &amp; Regional)</h4>
           <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm text-gray-400">
             <Link to="/laptop-repair" className="hover:text-brand-orange transition-colors">Laptop Repair Muwaileh</Link>
             <span className="text-slate-700">|</span>

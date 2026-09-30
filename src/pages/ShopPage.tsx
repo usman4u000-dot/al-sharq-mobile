@@ -27,6 +27,8 @@ import { getEffectiveStock, getStoredSession } from '../services/customerTrackin
 import GCCMonthlyCampaignBanner from '../components/GCCMonthlyCampaignBanner';
 import { convertToGCC } from '../services/campaignScheduleService';
 import ShopBuyerGuideAndSEO from '../components/ShopBuyerGuideAndSEO';
+import MallVsAlSharqSavingsCalculator from '../components/MallVsAlSharqSavingsCalculator';
+import GoogleReviewsTrustBadge from '../components/GoogleReviewsTrustBadge';
 
 export interface ProductItem {
   id: number;
@@ -989,6 +991,20 @@ export default function ShopPage() {
               );
             })}
           </div>
+
+          {/* Mall Retail vs Al Sharq Direct Savings Calculator */}
+          <div className="mb-16">
+            <MallVsAlSharqSavingsCalculator 
+              selectedRegionCode={selectedRegionCode}
+              onReserveProduct={(name, price) => {
+                const prod = filteredProducts.find(p => p.name.includes(name.split(' ')[0])) || filteredProducts[0];
+                handleOpenFlashScarcity(prod);
+              }}
+            />
+          </div>
+
+          {/* Verified Google Reviews Trust Badge */}
+          <GoogleReviewsTrustBadge />
 
           {/* High-Quality Buyer Authority Guide & Schema-Backed SEO FAQ */}
           <ShopBuyerGuideAndSEO />

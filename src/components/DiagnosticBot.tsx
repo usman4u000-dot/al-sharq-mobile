@@ -14,10 +14,13 @@ import {
   Sparkles,
   Phone,
   HelpCircle,
-  Flame
+  Flame,
+  Minus,
+  Maximize2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../contexts/LanguageContext';
 
 type Message = {
   id: string;
@@ -33,7 +36,7 @@ type Message = {
 const DIAGNOSTIC_RULES = [
   {
     keywords: ['screen', 'glass', 'shattered', 'crack', 'cracked', 'display', 'شاشة', 'كسر', 'اسکرین'],
-    response: "For screen and glass damage: If your OLED touch is working, we can replace just the outer glass via precision OCA lamination (saving you up to 50%). If the display has black ink or lines, a complete OEM panel replacement takes only 25 minutes with 1-Year Lab Warranty.",
+    response: "For screen and glass damage: If your OLED touch is working, we can replace just the outer glass via precision OCA optical lamination (saving up to 50%). If the display has black ink or vertical lines, a complete OEM panel replacement takes only 25 minutes with 1-Year Lab Warranty.",
     actionText: "Get Screen Estimate",
     actionUrl: "/estimate",
     priceBadge: "From AED 150",
@@ -109,8 +112,12 @@ interface DiagnosticBotProps {
 }
 
 export default function DiagnosticBot({ isOpenExternal, onCloseExternal }: DiagnosticBotProps = {}) {
+  const { language } = useLanguage();
+  const isAr = language === 'ar';
+
   const [internalIsOpen, setInternalIsOpen] = useState(false);
   const isOpen = isOpenExternal !== undefined ? isOpenExternal : internalIsOpen;
+  
   const setIsOpen = (val: boolean) => {
     if (onCloseExternal && !val) {
       onCloseExternal();
@@ -119,10 +126,33 @@ export default function DiagnosticBot({ isOpenExternal, onCloseExternal }: Diagn
   };
 
   useEffect(() => {
-    const handleOpen = () => setInternalIsOpen(true);
+    const handleOpen = () => setIsOpen(true);
     window.addEventListener('open-diagnostic-bot', handleOpen);
     return () => window.removeEventListener('open-diagnostic-bot', handleOpen);
   }, []);
+
+  // Listen for Escape key to close modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
+
+  // Lock body scroll on small screens when chat is open
+  useEffect(() => {
+    if (isOpen && window.innerWidth < 640) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
 
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -147,7 +177,6 @@ export default function DiagnosticBot({ isOpenExternal, onCloseExternal }: Diagn
     const lowerInput = input.toLowerCase();
     let foundMatch = false;
 
-    // Simulate AI thinking delay
     setTimeout(() => {
       for (const rule of DIAGNOSTIC_RULES) {
         if (rule.keywords.some(kw => lowerInput.includes(kw))) {
@@ -177,7 +206,7 @@ export default function DiagnosticBot({ isOpenExternal, onCloseExternal }: Diagn
         }]);
       }
       setIsTyping(false);
-    }, 700);
+    }, 600);
   };
 
   const handleSend = (e?: React.FormEvent, customQuery?: string) => {
@@ -193,19 +222,20 @@ export default function DiagnosticBot({ isOpenExternal, onCloseExternal }: Diagn
 
   return (
     <>
-      {/* Floating Trigger Button */}
+      {/* Floating Trigger Button (Bottom-Right) */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-24 right-5 z-40 bg-gradient-to-r from-brand-blue via-indigo-900 to-slate-900 text-white p-3.5 sm:px-4 sm:py-3 rounded-full shadow-2xl hover:scale-105 transition-all flex items-center gap-2 border-2 border-brand-orange/60 cursor-pointer group"
+          className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-40 bg-gradient-to-r from-brand-blue via-indigo-900 to-slate-900 text-white px-3.5 py-3 sm:px-4 sm:py-3 rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2.5 border-2 border-brand-orange/70 cursor-pointer group"
           title="Open AI Diagnostic Assistant"
+          aria-label="Open AI Diagnostic Assistant"
         >
           <div className="relative">
             <Cpu className="w-5 h-5 text-amber-400 group-hover:rotate-12 transition-transform" />
             <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-500 rounded-full animate-ping" />
           </div>
-          <span className="hidden sm:inline font-black text-xs uppercase tracking-wide">
-            AI Diagnostic Board
+          <span className="font-black text-xs uppercase tracking-wide">
+            {isAr ? 'فحص الأعطال الذكي' : 'AI Diagnostic Desk'}
           </span>
         </button>
       )}
@@ -213,145 +243,192 @@ export default function DiagnosticBot({ isOpenExternal, onCloseExternal }: Diagn
       {/* Interactive AI Diagnostic Modal */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 30, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 30, scale: 0.95 }}
-            className="fixed bottom-6 right-4 sm:right-6 w-[94vw] sm:w-[420px] h-[580px] bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 z-50 flex flex-col overflow-hidden"
-          >
-            {/* Header */}
-            <div className="p-4 bg-gradient-to-r from-brand-blue via-indigo-950 to-slate-900 text-white flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-brand-orange/20 border border-brand-orange/50 flex items-center justify-center text-amber-400">
-                  <Cpu className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-black text-sm flex items-center gap-1.5">
-                    <span>Al Sharq AI Diagnostic Desk</span>
-                    <span className="px-1.5 py-0.2 rounded text-[9px] bg-emerald-500/20 text-emerald-400 font-mono">v2.6</span>
-                  </h3>
-                  <div className="flex items-center gap-1.5 text-[11px] text-gray-300">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                    <span>Muwaileh Lab Knowledge Base Active</span>
+          <>
+            {/* Backdrop Overlay to Click-to-Close (Guarantees user can always close by tapping outside) */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-xs z-[99990] transition-opacity"
+              aria-hidden="true"
+            />
+
+            {/* Chat Box Container: Responsive, Safe Viewport Height, Top-Level Z-Index */}
+            <motion.div
+              initial={{ opacity: 0, y: 40, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 40, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className="fixed z-[99999] inset-x-0 bottom-0 sm:inset-auto sm:bottom-6 sm:right-6 w-full sm:w-[430px] h-[88dvh] sm:h-[560px] max-h-[88dvh] sm:max-h-[580px] bg-white dark:bg-slate-900 rounded-t-3xl sm:rounded-3xl shadow-2xl border-t-2 sm:border-2 border-brand-orange/40 dark:border-slate-700 flex flex-col overflow-hidden"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="diagnostic-desk-title"
+            >
+              {/* Mobile Drag Indicator Bar */}
+              <div 
+                onClick={() => setIsOpen(false)}
+                className="w-full pt-2 pb-1 flex justify-center bg-brand-blue sm:hidden cursor-pointer"
+                title="Tap to close"
+              >
+                <div className="w-12 h-1.5 bg-white/40 rounded-full hover:bg-white/80 transition-colors" />
+              </div>
+
+              {/* Main Sticky Header */}
+              <div className="p-3.5 sm:p-4 bg-gradient-to-r from-brand-blue via-indigo-950 to-slate-900 text-white flex items-center justify-between shrink-0 shadow-md">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-brand-orange/20 border border-brand-orange/50 flex items-center justify-center text-amber-400 shrink-0">
+                    <Cpu className="w-5 h-5" />
                   </div>
+                  <div>
+                    <h3 id="diagnostic-desk-title" className="font-black text-xs sm:text-sm flex items-center gap-1.5">
+                      <span>{isAr ? 'مساعد الفحص والتشخيص الذكي' : 'Al Sharq AI Diagnostic Desk'}</span>
+                      <span className="px-1.5 py-0.2 rounded text-[9px] bg-emerald-500/20 text-emerald-400 font-mono">v2.6</span>
+                    </h3>
+                    <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] text-gray-300">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      <span>Muwaileh Lab Knowledge Base Active</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Big, High-Contrast Close Button */}
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="px-3 py-1.5 bg-red-600 hover:bg-red-700 active:scale-95 text-white font-black text-xs rounded-xl flex items-center gap-1 shadow-lg shadow-red-600/30 transition-all cursor-pointer"
+                    title="Close Chat (Esc)"
+                    aria-label="Close Chat"
+                  >
+                    <X className="w-4 h-4 stroke-[3]" />
+                    <span className="text-[11px]">{isAr ? 'إغلاق' : 'Close'}</span>
+                  </button>
                 </div>
               </div>
 
-              <button
-                onClick={() => setIsOpen(false)}
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-gray-300 hover:text-white transition-colors cursor-pointer"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Quick Diagnostic Chips Bar */}
-            <div className="px-3 py-2 bg-slate-100 dark:bg-slate-800/80 border-b border-slate-200 dark:border-slate-700/60 overflow-x-auto no-scrollbar flex items-center gap-1.5 shrink-0">
-              {QUICK_DIAGNOSTIC_CHIPS.map((chip, i) => (
-                <button
-                  key={i}
-                  onClick={() => handleSend(undefined, chip.query)}
-                  className="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-700 hover:bg-brand-orange hover:text-white dark:hover:bg-brand-orange text-gray-700 dark:text-gray-200 font-bold text-[11px] border border-slate-200 dark:border-slate-600 transition-colors whitespace-nowrap cursor-pointer shrink-0"
-                >
-                  {chip.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Chat Messages Body */}
-            <div className="flex-1 p-4 overflow-y-auto space-y-3.5 text-xs">
-              {messages.map((msg) => (
-                <div
-                  key={msg.id}
-                  className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
-                  <div
-                    className={`max-w-[85%] p-3.5 rounded-2xl ${
-                      msg.sender === 'user'
-                        ? 'bg-brand-orange text-white rounded-br-none shadow-md'
-                        : 'bg-slate-100 dark:bg-slate-800 text-gray-900 dark:text-gray-100 rounded-bl-none border border-slate-200 dark:border-slate-700 shadow-sm'
-                    }`}
+              {/* Quick Diagnostic Chips Bar */}
+              <div className="px-3 py-2 bg-slate-100 dark:bg-slate-800/90 border-b border-slate-200 dark:border-slate-700/60 overflow-x-auto no-scrollbar flex items-center gap-1.5 shrink-0">
+                {QUICK_DIAGNOSTIC_CHIPS.map((chip, i) => (
+                  <button
+                    key={i}
+                    onClick={() => handleSend(undefined, chip.query)}
+                    className="px-2.5 py-1 rounded-lg bg-white dark:bg-slate-700 hover:bg-brand-orange hover:text-white dark:hover:bg-brand-orange text-gray-700 dark:text-gray-200 font-bold text-[11px] border border-slate-200 dark:border-slate-600 transition-colors whitespace-nowrap cursor-pointer shrink-0"
                   >
-                    <p className="leading-relaxed whitespace-pre-line">{msg.text}</p>
+                    {chip.label}
+                  </button>
+                ))}
+              </div>
 
-                    {/* Metadata Badges if Available */}
-                    {(msg.priceBadge || msg.timeEstimate) && (
-                      <div className="mt-2.5 pt-2 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between text-[10px] font-bold">
-                        {msg.priceBadge && (
-                          <span className="text-emerald-600 dark:text-emerald-400">
-                            💰 {msg.priceBadge}
-                          </span>
-                        )}
-                        {msg.timeEstimate && (
-                          <span className="text-amber-600 dark:text-amber-400 flex items-center gap-0.5">
-                            <Clock className="w-3 h-3" />
-                            <span>{msg.timeEstimate}</span>
-                          </span>
-                        )}
-                      </div>
-                    )}
+              {/* Chat Messages Body */}
+              <div className="flex-1 p-3.5 sm:p-4 overflow-y-auto space-y-3.5 text-xs">
+                {messages.map((msg) => (
+                  <div
+                    key={msg.id}
+                    className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+                  >
+                    <div
+                      className={`max-w-[85%] p-3.5 rounded-2xl ${
+                        msg.sender === 'user'
+                          ? 'bg-brand-orange text-white rounded-br-none shadow-md'
+                          : 'bg-slate-100 dark:bg-slate-800 text-gray-900 dark:text-gray-100 rounded-bl-none border border-slate-200 dark:border-slate-700 shadow-sm'
+                      }`}
+                    >
+                      <p className="leading-relaxed whitespace-pre-line">{msg.text}</p>
 
-                    {/* Action Button */}
-                    {msg.isActionable && msg.actionText && msg.actionUrl && (
-                      <div className="mt-2.5 pt-2 border-t border-slate-200 dark:border-slate-700">
-                        {msg.actionUrl.startsWith('http') ? (
-                          <a
-                            href={msg.actionUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-blue hover:bg-blue-900 text-white font-bold rounded-xl text-[11px] shadow-sm transition-all"
-                          >
-                            <span>{msg.actionText}</span>
-                            <ArrowRight className="w-3 h-3" />
-                          </a>
-                        ) : (
-                          <Link
-                            to={msg.actionUrl}
-                            onClick={() => setIsOpen(false)}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-orange hover:bg-orange-600 text-white font-bold rounded-xl text-[11px] shadow-sm transition-all"
-                          >
-                            <span>{msg.actionText}</span>
-                            <ArrowRight className="w-3 h-3" />
-                          </Link>
-                        )}
-                      </div>
-                    )}
+                      {/* Metadata Badges if Available */}
+                      {(msg.priceBadge || msg.timeEstimate) && (
+                        <div className="mt-2.5 pt-2 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between text-[10px] font-bold">
+                          {msg.priceBadge && (
+                            <span className="text-emerald-600 dark:text-emerald-400">
+                              💰 {msg.priceBadge}
+                            </span>
+                          )}
+                          {msg.timeEstimate && (
+                            <span className="text-amber-600 dark:text-amber-400 flex items-center gap-0.5">
+                              <Clock className="w-3 h-3" />
+                              <span>{msg.timeEstimate}</span>
+                            </span>
+                          )}
+                        </div>
+                      )}
+
+                      {/* Action Button */}
+                      {msg.isActionable && msg.actionText && msg.actionUrl && (
+                        <div className="mt-2.5 pt-2 border-t border-slate-200 dark:border-slate-700">
+                          {msg.actionUrl.startsWith('http') ? (
+                            <a
+                              href={msg.actionUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-blue hover:bg-blue-900 text-white font-bold rounded-xl text-[11px] shadow-sm transition-all"
+                            >
+                              <span>{msg.actionText}</span>
+                              <ArrowRight className="w-3 h-3" />
+                            </a>
+                          ) : (
+                            <Link
+                              to={msg.actionUrl}
+                              onClick={() => setIsOpen(false)}
+                              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-orange hover:bg-orange-600 text-white font-bold rounded-xl text-[11px] shadow-sm transition-all"
+                            >
+                              <span>{msg.actionText}</span>
+                              <ArrowRight className="w-3 h-3" />
+                            </Link>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
 
-              {isTyping && (
-                <div className="flex justify-start">
-                  <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-2xl rounded-bl-none text-gray-500 text-xs flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-brand-orange animate-bounce" />
-                    <span className="w-1.5 h-1.5 rounded-full bg-brand-orange animate-bounce [animation-delay:0.2s]" />
-                    <span className="w-1.5 h-1.5 rounded-full bg-brand-orange animate-bounce [animation-delay:0.4s]" />
-                    <span className="text-[10px] font-mono ml-1">Analyzing Lab Data...</span>
+                {isTyping && (
+                  <div className="flex justify-start">
+                    <div className="p-3 bg-slate-100 dark:bg-slate-800 rounded-2xl rounded-bl-none text-gray-500 text-xs flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-brand-orange animate-bounce" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-brand-orange animate-bounce [animation-delay:0.2s]" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-brand-orange animate-bounce [animation-delay:0.4s]" />
+                      <span className="text-[10px] font-mono ml-1">Analyzing Lab Data...</span>
+                    </div>
                   </div>
-                </div>
-              )}
-              <div ref={messagesEndRef} />
-            </div>
+                )}
+                <div ref={messagesEndRef} />
+              </div>
 
-            {/* Input Form */}
-            <form onSubmit={handleSend} className="p-3 bg-slate-50 dark:bg-slate-850 border-t border-slate-200 dark:border-slate-800 flex items-center gap-2">
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                placeholder="Describe issue (e.g. S24 screen, water, battery)..."
-                className="flex-1 px-3.5 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-xs text-gray-900 dark:text-white outline-none focus:border-brand-orange"
-              />
-              <button
-                type="submit"
-                disabled={!inputValue.trim()}
-                className="p-2.5 bg-brand-orange hover:bg-orange-600 disabled:opacity-40 text-white rounded-xl transition-transform active:scale-95 cursor-pointer"
-              >
-                <Send className="w-4 h-4" />
-              </button>
-            </form>
+              {/* Bottom Sticky Action / Close Bar */}
+              <div className="px-3.5 py-1.5 bg-slate-100 dark:bg-slate-800/60 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-[11px] text-gray-500 shrink-0">
+                <span className="flex items-center gap-1 text-[10px]">
+                  <span>⚡ 24/7 Muwaileh Live Support</span>
+                </span>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="text-red-600 dark:text-red-400 hover:underline font-bold text-[11px] flex items-center gap-1 cursor-pointer"
+                >
+                  <X className="w-3 h-3" />
+                  <span>{isAr ? 'إغلاق النافذة' : 'Close Window'}</span>
+                </button>
+              </div>
 
-          </motion.div>
+              {/* Input Form at Bottom */}
+              <form onSubmit={handleSend} className="p-2.5 sm:p-3 bg-slate-50 dark:bg-slate-850 border-t border-slate-200 dark:border-slate-800 flex items-center gap-2 shrink-0">
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  placeholder={isAr ? "صف العطل (مثلاً: كسر شاشة، ماء، بطارية)..." : "Describe issue (e.g. S24 screen, water, battery)..."}
+                  className="flex-1 px-3 py-2.5 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-xs text-gray-900 dark:text-white outline-none focus:border-brand-orange"
+                />
+                <button
+                  type="submit"
+                  disabled={!inputValue.trim()}
+                  className="p-2.5 bg-brand-orange hover:bg-orange-600 disabled:opacity-40 text-white rounded-xl transition-transform active:scale-95 cursor-pointer shrink-0"
+                  title="Send"
+                >
+                  <Send className="w-4 h-4" />
+                </button>
+              </form>
+
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>

@@ -39,6 +39,10 @@ import ScratchToWinOffer from '../components/ScratchToWinOffer';
 import DataPrivacyInteractive from '../components/DataPrivacyInteractive';
 import DropTestSimulator from '../components/DropTestSimulator';
 import StoreAvailability from '../components/StoreAvailability';
+import MallVsAlSharqSavingsCalculator from '../components/MallVsAlSharqSavingsCalculator';
+import GoogleReviewsTrustBadge from '../components/GoogleReviewsTrustBadge';
+import NearMeLocalSearchHub from '../components/NearMeLocalSearchHub';
+import BatteryThermalDiagnosticTool from '../components/BatteryThermalDiagnosticTool';
 
 interface HomePageProps {
   onBookNow: (serviceName?: string) => void;
@@ -208,15 +212,39 @@ export default function HomePage({ onBookNow }: HomePageProps) {
       <ClientTestimonialShowcase />
       <PreOwnedDevices />
       <Shop />
+
+      {/* Mall Retail vs Direct Port Wholesale Savings Calculator */}
+      <section className="py-12 bg-slate-50 dark:bg-slate-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <MallVsAlSharqSavingsCalculator onReserveProduct={(name) => onBookNow(name)} />
+        </div>
+      </section>
+
+      {/* Verified Google Reviews Trust Badge */}
+      <section className="py-4 bg-slate-50 dark:bg-slate-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <GoogleReviewsTrustBadge />
+        </div>
+      </section>
+
       <TradeIn />
       <WarrantyInfo />
       <LocalMarketPerks />
       <UAEClimateProtection onBookNow={onBookNow} />
+
+      {/* UAE & GCC Battery & Thermal Heat Health Audit Tool */}
+      <section className="py-12 bg-white dark:bg-slate-950">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <BatteryThermalDiagnosticTool />
+        </div>
+      </section>
+
       <VIPDoorstepRepair onBookNow={onBookNow} />
       <CorporateFleetRepair />
       <DataPrivacyInteractive />
       <ScratchToWinOffer />
       <LocalSEOSection />
+      <NearMeLocalSearchHub />
       <GCCRegionalSection onBookNow={onBookNow} />
       <SocialFeed />
       <DeviceRepairRequest />

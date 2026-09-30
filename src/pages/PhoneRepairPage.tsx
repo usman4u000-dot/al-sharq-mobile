@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import ExpressFixBanner from '../components/ExpressFixBanner';
 import LocalSEOSection from '../components/LocalSEOSection';
+import NearMeLocalSearchHub from '../components/NearMeLocalSearchHub';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ServiceFAQ from '../components/ServiceFAQ';
 import { BUSINESS_PROVIDER_SCHEMA } from '../data/businessInfo';
@@ -483,6 +484,8 @@ export default function PhoneRepairPage({ onBookNow }: { onBookNow: (service?: s
           />
 
           <LocalSEOSection />
+
+          <NearMeLocalSearchHub />
 
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
