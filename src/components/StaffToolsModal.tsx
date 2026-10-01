@@ -6,9 +6,6 @@ import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, on
 import { doc, setDoc, collection, addDoc, serverTimestamp, getDoc, updateDoc, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
-import { toPng } from 'html-to-image';
-import jsPDF from 'jspdf';
-
 import Barcode from 'react-barcode';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
@@ -439,6 +436,10 @@ export default function StaffToolsModal({ isOpen, onClose }: StaffToolsModalProp
     const element = document.getElementById('receipt-print-area');
     if (element) {
       try {
+        const [{ toPng }, { default: jsPDF }] = await Promise.all([
+          import('html-to-image'),
+          import('jspdf')
+        ]);
         const dataUrl = await toPng(element, { cacheBust: true, pixelRatio: 2 });
         const pdf = new jsPDF({
           orientation: 'portrait',

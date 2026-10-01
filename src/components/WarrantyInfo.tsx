@@ -30,7 +30,7 @@ export default function WarrantyInfo() {
     <section className="py-24 bg-slate-900 text-white relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-20">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1605171399453-38ca8e252bd9?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1597740985671-2a8a3b80502e?q=80&w=1200&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay"></div>
         <div className="absolute inset-0 bg-gradient-to-b from-slate-900 via-slate-900/80 to-slate-900"></div>
       </div>
 

@@ -59,7 +59,8 @@ export default defineConfig(({mode}) => {
       hmr: process.env.DISABLE_HMR !== 'true',
     },
     build: {
-      chunkSizeWarningLimit: 800,
+      sourcemap: true,
+      chunkSizeWarningLimit: 900,
       rollupOptions: {
         output: {
           manualChunks(id) {
@@ -82,6 +83,9 @@ export default defineConfig(({mode}) => {
               if (id.includes('motion')) {
                 return 'motion-animations';
               }
+            }
+            if (id.includes('src/data/blogPosts') || id.includes('src/data/seoBlogs')) {
+              return 'blogPosts';
             }
           },
         },

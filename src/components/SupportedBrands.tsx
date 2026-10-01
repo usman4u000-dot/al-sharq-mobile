@@ -14,14 +14,14 @@ const brandsData = [
   { name: "Google", slug: "google" },
   { name: "Honor", slug: "honor" },
   { name: "Oppo", slug: "oppo" },
-  { name: "Realme", slug: "realme" },
+  { name: "Realme", slug: "" },
   { name: "OnePlus", slug: "oneplus" },
-  { name: "Nothing", slug: "nothing" },
+  { name: "Nothing", slug: "" },
   { name: "vivo", slug: "vivo" },
   { name: "Meizu", slug: "" },
   { name: "Ulefone", slug: "" },
-  { name: "Alcatel", slug: "alcatel" },
-  { name: "ZTE", slug: "zte" },
+  { name: "Alcatel", slug: "" },
+  { name: "ZTE", slug: "" },
   { name: "RugOne", slug: "" },
   { name: "Umidigi", slug: "" },
   { name: "Coolpad", slug: "" },
@@ -36,7 +36,7 @@ const brandsData = [
   { name: "Cubot", slug: "" },
   { name: "Oukitel", slug: "" },
   { name: "Itel", slug: "" },
-  { name: "TCL", slug: "tcl" }
+  { name: "TCL", slug: "" }
 ];
 
 export default function SupportedBrands() {
