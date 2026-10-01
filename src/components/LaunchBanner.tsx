@@ -10,8 +10,6 @@ export default function LaunchBanner() {
   return (
     <AnimatePresence>
       <motion.div
-        initial={{ height: 0, opacity: 0 }}
-        animate={{ height: 'auto', opacity: 1 }}
         exit={{ height: 0, opacity: 0 }}
         className="bg-brand-orange text-white relative z-50 text-[11px] sm:text-xs md:text-sm font-semibold shadow-sm"
       >

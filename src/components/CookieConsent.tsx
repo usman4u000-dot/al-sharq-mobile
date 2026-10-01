@@ -67,8 +67,9 @@ export default function CookieConsent() {
             <button 
               onClick={() => setIsVisible(false)}
               className="absolute top-4 right-4 md:hidden text-gray-400 hover:text-gray-600 dark:hover:text-gray-200"
+              aria-label="Close cookie consent"
             >
-              <X className="w-5 h-5" />
+              <X className="w-5 h-5" aria-hidden="true" />
             </button>
           </div>
         </motion.div>

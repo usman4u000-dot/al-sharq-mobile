@@ -47,8 +47,9 @@ export default function ExitIntentPopup({ onBookNow }: { onBookNow: () => void }
             <button
               onClick={() => setIsVisible(false)}
               className="absolute top-4 right-4 p-2 text-gray-500 hover:text-gray-900 dark:hover:text-white rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              aria-label="Close discount popup"
             >
-              <X className="w-5 h-5" />
+              <X className="w-5 h-5" aria-hidden="true" />
             </button>
             
             <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-brand-orange to-brand-blue" />

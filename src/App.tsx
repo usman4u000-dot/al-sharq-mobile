@@ -271,7 +271,14 @@ export default function App() {
   return (
     <ErrorBoundary>
       <LanguageProvider>
-        <GoogleReCaptchaProvider reCaptchaKey={import.meta.env.VITE_RECAPTCHA_SITE_KEY || ''}>
+        <GoogleReCaptchaProvider 
+          reCaptchaKey={import.meta.env.VITE_RECAPTCHA_SITE_KEY || ''}
+          scriptProps={{
+            async: true,
+            defer: true,
+            appendTo: 'body'
+          }}
+        >
           <Router>
             <Analytics />
             <LanguagePathHandler />
