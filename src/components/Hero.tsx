@@ -28,18 +28,13 @@ export default function Hero({ onBookNow }: HeroProps) {
       {/* Dynamic Background */}
       <div className="absolute inset-0 transition-opacity duration-1000">
         <div className="absolute inset-0 bg-gradient-to-r from-brand-blue via-brand-blue/95 to-brand-blue/75 dark:from-slate-950 dark:via-slate-950/95 dark:to-slate-950/75 z-10" />
-        <motion.img
-          initial={{ scale: 1.05 }}
-          animate={{ 
-            scale: [1.05, 1.15, 1.05],
-            filter: ["brightness(1)", "brightness(1.05)", "brightness(1)"]
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        <img
           src={bgImage}
-          alt="Technician repairing a phone"
-          className="w-full h-full object-cover opacity-25"
+          alt="Technician repairing a phone at Al Sharq Mobile Lab"
+          className="w-full h-full object-cover opacity-25 transform-gpu"
           style={{ transformOrigin: 'center center' }}
           loading="eager"
+          decoding="async"
           fetchPriority="high"
         />
         
