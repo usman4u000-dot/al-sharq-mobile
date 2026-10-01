@@ -66,7 +66,7 @@ Disallow: /admin
 Disallow: /dashboard
 Disallow: /api/
 
-# Sitemap & Agentic locations
+# Sitemaps
 Sitemap: https://allsharq.com/sitemap.xml
 Sitemap: https://allsharq.com/feed.xml
-Agentic-Policy: https://allsharq.com/ai.txt
+# AI Agent Policy: https://allsharq.com/ai.txt
