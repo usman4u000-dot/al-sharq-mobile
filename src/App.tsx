@@ -268,11 +268,39 @@ function AppRoutes() {
 }
 
 export default function App() {
+  const [recaptchaKey, setRecaptchaKey] = useState<string>('');
+
+  useEffect(() => {
+    const key = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '';
+    if (!key) return;
+
+    const activateRecaptcha = () => setRecaptchaKey(key);
+
+    const onUserActivity = () => {
+      activateRecaptcha();
+      window.removeEventListener('scroll', onUserActivity);
+      window.removeEventListener('touchstart', onUserActivity);
+      window.removeEventListener('click', onUserActivity);
+    };
+
+    window.addEventListener('scroll', onUserActivity, { once: true, passive: true });
+    window.addEventListener('touchstart', onUserActivity, { once: true, passive: true });
+    window.addEventListener('click', onUserActivity, { once: true, passive: true });
+
+    if ('requestIdleCallback' in window) {
+      const idleId = (window as any).requestIdleCallback(activateRecaptcha, { timeout: 3500 });
+      return () => (window as any).cancelIdleCallback(idleId);
+    } else {
+      const timer = setTimeout(activateRecaptcha, 2800);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
   return (
     <ErrorBoundary>
       <LanguageProvider>
         <GoogleReCaptchaProvider 
-          reCaptchaKey={import.meta.env.VITE_RECAPTCHA_SITE_KEY || ''}
+          reCaptchaKey={recaptchaKey}
           scriptProps={{
             async: true,
             defer: true,

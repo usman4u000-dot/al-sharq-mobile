@@ -33,6 +33,7 @@ import RepairPriceComparison from '../components/RepairPriceComparison';
 import DropTestSimulator from '../components/DropTestSimulator';
 import StoreAvailability from '../components/StoreAvailability';
 import GoogleReviewsTrustBadge from '../components/GoogleReviewsTrustBadge';
+import InViewSection from '../components/InViewSection';
 
 // Lazy load below-the-fold interactive modules to improve Performance & TBT
 const ClientTestimonialShowcase = lazy(() => import('../components/ClientTestimonialShowcase'));
@@ -188,90 +189,103 @@ export default function HomePage({ onBookNow }: HomePageProps) {
       <TrustBadges />
       <CostEstimator onBookNow={onBookNow} />
       <CoreServices />
-      <LaptopRepairSliderSection />
-      
-      {/* IMEI Checker Lead Capture */}
-      <section className="py-12 bg-white dark:bg-slate-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <IMEIChecker onBookNow={() => onBookNow('General Inquiry')} />
-        </div>
-      </section>
 
-      <ExpressFixBanner onBookNow={onBookNow} />
-      <SupportedBrands />
-      <AdvancedServices2026 onBookNow={onBookNow} />
-      <DeviceAnatomyExplorer />
-      <HomepageBeforeAfter />
-      <DropTestSimulator />
-      <StoreAvailability />
-      <TrustAndResultsSection />
-      <BlueOceanVision onBookNow={onBookNow} />
-      <AboutUs />
-      <Services onBookService={onBookNow} />
-      <RepairPriceComparison />
-      <WhyChooseUs />
-      <Achievements />
-      <Testimonials />
-      <Suspense fallback={null}>
-        <ClientTestimonialShowcase />
-      </Suspense>
-      <PreOwnedDevices />
-      <Shop />
+      <InViewSection minHeight="500px">
+        <LaptopRepairSliderSection />
+        {/* IMEI Checker Lead Capture */}
+        <section className="py-12 bg-white dark:bg-slate-950">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <IMEIChecker onBookNow={() => onBookNow('General Inquiry')} />
+          </div>
+        </section>
+        <ExpressFixBanner onBookNow={onBookNow} />
+        <SupportedBrands />
+      </InViewSection>
 
-      {/* Interactive Display vs Logic Board Diagnostic Tool */}
-      <section className="py-12 bg-white dark:bg-slate-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Suspense fallback={null}>
-            <DisplayVsMotherboardDiagnostic />
-          </Suspense>
-        </div>
-      </section>
+      <InViewSection minHeight="500px">
+        <AdvancedServices2026 onBookNow={onBookNow} />
+        <DeviceAnatomyExplorer />
+        <HomepageBeforeAfter />
+        <DropTestSimulator />
+        <StoreAvailability />
+        <TrustAndResultsSection />
+      </InViewSection>
 
-      {/* Mall Retail vs Direct Port Wholesale Savings Calculator */}
-      <section className="py-12 bg-slate-50 dark:bg-slate-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Suspense fallback={null}>
-            <MallVsAlSharqSavingsCalculator onReserveProduct={(name) => onBookNow(name)} />
-          </Suspense>
-        </div>
-      </section>
+      <InViewSection minHeight="500px">
+        <BlueOceanVision onBookNow={onBookNow} />
+        <AboutUs />
+        <Services onBookService={onBookNow} />
+        <RepairPriceComparison />
+        <WhyChooseUs />
+        <Achievements />
+        <Testimonials />
+        <Suspense fallback={null}>
+          <ClientTestimonialShowcase />
+        </Suspense>
+      </InViewSection>
 
-      {/* Verified Google Reviews Trust Badge */}
-      <section className="py-4 bg-slate-50 dark:bg-slate-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <GoogleReviewsTrustBadge />
-        </div>
-      </section>
+      <InViewSection minHeight="500px">
+        <PreOwnedDevices />
+        <Shop />
+        {/* Interactive Display vs Logic Board Diagnostic Tool */}
+        <section className="py-12 bg-white dark:bg-slate-950">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Suspense fallback={null}>
+              <DisplayVsMotherboardDiagnostic />
+            </Suspense>
+          </div>
+        </section>
+        {/* Mall Retail vs Direct Port Wholesale Savings Calculator */}
+        <section className="py-12 bg-slate-50 dark:bg-slate-900">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Suspense fallback={null}>
+              <MallVsAlSharqSavingsCalculator onReserveProduct={(name) => onBookNow(name)} />
+            </Suspense>
+          </div>
+        </section>
+      </InViewSection>
 
-      <TradeIn />
-      <WarrantyInfo />
-      <LocalMarketPerks />
-      <UAEClimateProtection onBookNow={onBookNow} />
+      <InViewSection minHeight="500px">
+        {/* Verified Google Reviews Trust Badge */}
+        <section className="py-4 bg-slate-50 dark:bg-slate-900">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <GoogleReviewsTrustBadge />
+          </div>
+        </section>
+        <TradeIn />
+        <WarrantyInfo />
+        <LocalMarketPerks />
+        <UAEClimateProtection onBookNow={onBookNow} />
+      </InViewSection>
 
-      {/* UAE & GCC Battery & Thermal Heat Health Audit Tool */}
-      <section className="py-12 bg-white dark:bg-slate-950">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Suspense fallback={null}>
-            <BatteryThermalDiagnosticTool />
-          </Suspense>
-        </div>
-      </section>
+      <InViewSection minHeight="500px">
+        {/* UAE & GCC Battery & Thermal Heat Health Audit Tool */}
+        <section className="py-12 bg-white dark:bg-slate-950">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Suspense fallback={null}>
+              <BatteryThermalDiagnosticTool />
+            </Suspense>
+          </div>
+        </section>
+        <Suspense fallback={null}>
+          <VIPDoorstepRepair onBookNow={onBookNow} />
+          <CorporateFleetRepair />
+          <DataPrivacyInteractive />
+          <ScratchToWinOffer />
+        </Suspense>
+        <LocalSEOSection />
+      </InViewSection>
 
-      <Suspense fallback={null}>
-        <VIPDoorstepRepair onBookNow={onBookNow} />
-        <CorporateFleetRepair />
-        <DataPrivacyInteractive />
-        <ScratchToWinOffer />
-      </Suspense>
-      <LocalSEOSection />
-      <Suspense fallback={null}>
-        <NearMeLocalSearchHub />
-        <GCCRegionalSection onBookNow={onBookNow} />
-        <SocialFeed />
-      </Suspense>
-      <DeviceRepairRequest />
-      <FAQSection />
-      <BlogSection />
+      <InViewSection minHeight="500px">
+        <Suspense fallback={null}>
+          <NearMeLocalSearchHub />
+          <GCCRegionalSection onBookNow={onBookNow} />
+          <SocialFeed />
+        </Suspense>
+        <DeviceRepairRequest />
+        <FAQSection />
+        <BlogSection />
+      </InViewSection>
     </>
   );
 }
