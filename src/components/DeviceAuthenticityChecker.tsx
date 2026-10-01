@@ -69,15 +69,20 @@ export default function DeviceAuthenticityChecker() {
 
       {/* Input Box */}
       <form onSubmit={handleVerify} className="relative z-10 max-w-2xl mb-6">
+        <label htmlFor="device-serial-input" className="sr-only">
+          {isAr ? 'أدخل رقم IMEI أو السيريال' : 'Enter 15-digit IMEI or Serial'}
+        </label>
         <div className="flex flex-col sm:flex-row gap-2">
           <div className="relative flex-1">
             <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-              <Search className="w-4 h-4" />
+              <Search className="w-4 h-4" aria-hidden="true" />
             </div>
             <input
+              id="device-serial-input"
               type="text"
               value={serialInput}
               onChange={(e) => setSerialInput(e.target.value)}
+              aria-label={isAr ? "أدخل رقم IMEI أو السيريال" : "Enter 15-digit IMEI or Serial"}
               placeholder={isAr ? "أدخل رقم IMEI أو السيريال (مثال: AS-2026-8841)" : "Enter 15-digit IMEI or Serial (e.g. AS-2026-8841)..."}
               className="w-full pl-10 pr-4 py-3.5 bg-slate-800 border border-slate-700 rounded-2xl text-xs sm:text-sm text-white placeholder:text-slate-400 focus:outline-none focus:border-brand-orange transition-all"
             />

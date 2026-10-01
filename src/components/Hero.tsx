@@ -19,7 +19,7 @@ const FloatingElement = ({ children, delay = 0, yRange = 20, duration = 4, class
 );
 
 export default function Hero({ onBookNow }: HeroProps) {
-  const [bgImage] = useState('https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&q=80&w=2070&fm=webp');
+  const [bgImage] = useState('https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&q=75&w=1280&fm=webp');
   const { t, language } = useLanguage();
   const isAr = language === 'ar';
 

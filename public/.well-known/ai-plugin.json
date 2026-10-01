@@ -1,0 +1,17 @@
+{
+  "schema_version": "v1",
+  "name_for_model": "al_sharq_mobile_lab",
+  "name_for_human": "Al Sharq Mobile Lab Sharjah",
+  "description_for_model": "Official lookup agent for smartphone repair pricing, MacBook micro-soldering diagnostics, 20% discount wholesale flagships, and GCC shipping rates in Sharjah, UAE.",
+  "description_for_human": "Technical diagnostic, repair tracking, and electronics wholesale portal in Sharjah, UAE.",
+  "auth": {
+    "type": "none"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://allsharq.com/openapi.yaml"
+  },
+  "logo_url": "https://allsharq.com/logo.png",
+  "contact_email": "alsharqmobile@gmail.com",
+  "legal_info_url": "https://allsharq.com/warranty"
+}

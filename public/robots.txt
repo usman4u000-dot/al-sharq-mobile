@@ -23,6 +23,15 @@ Disallow: /dashboard
 Disallow: /api/
 
 # AI Search Discovery & Local Business Citations (Gemini, ChatGPT Search, Claude, Perplexity)
+User-agent: Google-Extended
+Allow: /
+
+User-agent: GoogleOther
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
 User-agent: GPTBot
 Allow: /
 Disallow: /admin
@@ -57,6 +66,7 @@ Disallow: /admin
 Disallow: /dashboard
 Disallow: /api/
 
-# Sitemap locations
+# Sitemap & Agentic locations
 Sitemap: https://allsharq.com/sitemap.xml
 Sitemap: https://allsharq.com/feed.xml
+Agentic-Policy: https://allsharq.com/ai.txt

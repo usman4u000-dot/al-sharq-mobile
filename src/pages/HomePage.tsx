@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Hero from '../components/Hero';
 import TechShowcaseBanner from '../components/TechShowcaseBanner';
@@ -17,16 +17,12 @@ import PreOwnedDevices from '../components/PreOwnedDevices';
 import Shop from '../components/Shop';
 import TradeIn from '../components/TradeIn';
 import WarrantyInfo from '../components/WarrantyInfo';
-import SocialFeed from '../components/SocialFeed';
 import DeviceRepairRequest from '../components/DeviceRepairRequest';
 import FAQSection from '../components/FAQSection';
 import BlogSection from '../components/BlogSection';
 import LocalSEOSection from '../components/LocalSEOSection';
-import GCCRegionalSection from '../components/GCCRegionalSection';
 import LocalMarketPerks from '../components/LocalMarketPerks';
 import UAEClimateProtection from '../components/UAEClimateProtection';
-import CorporateFleetRepair from '../components/CorporateFleetRepair';
-import VIPDoorstepRepair from '../components/VIPDoorstepRepair';
 import LaptopRepairSliderSection from '../components/LaptopRepairSliderSection';
 import IMEIChecker from '../components/IMEIChecker';
 import TrustAndResultsSection from '../components/TrustAndResultsSection';
@@ -34,16 +30,22 @@ import DeviceAnatomyExplorer from '../components/DeviceAnatomyExplorer';
 import CostEstimator from '../components/CostEstimator';
 import HomepageBeforeAfter from '../components/HomepageBeforeAfter';
 import RepairPriceComparison from '../components/RepairPriceComparison';
-import ClientTestimonialShowcase from '../components/ClientTestimonialShowcase';
-import ScratchToWinOffer from '../components/ScratchToWinOffer';
-import DataPrivacyInteractive from '../components/DataPrivacyInteractive';
 import DropTestSimulator from '../components/DropTestSimulator';
 import StoreAvailability from '../components/StoreAvailability';
-import MallVsAlSharqSavingsCalculator from '../components/MallVsAlSharqSavingsCalculator';
 import GoogleReviewsTrustBadge from '../components/GoogleReviewsTrustBadge';
-import NearMeLocalSearchHub from '../components/NearMeLocalSearchHub';
-import BatteryThermalDiagnosticTool from '../components/BatteryThermalDiagnosticTool';
-import DisplayVsMotherboardDiagnostic from '../components/DisplayVsMotherboardDiagnostic';
+
+// Lazy load below-the-fold interactive modules to improve Performance & TBT
+const ClientTestimonialShowcase = lazy(() => import('../components/ClientTestimonialShowcase'));
+const MallVsAlSharqSavingsCalculator = lazy(() => import('../components/MallVsAlSharqSavingsCalculator'));
+const DisplayVsMotherboardDiagnostic = lazy(() => import('../components/DisplayVsMotherboardDiagnostic'));
+const BatteryThermalDiagnosticTool = lazy(() => import('../components/BatteryThermalDiagnosticTool'));
+const ScratchToWinOffer = lazy(() => import('../components/ScratchToWinOffer'));
+const DataPrivacyInteractive = lazy(() => import('../components/DataPrivacyInteractive'));
+const CorporateFleetRepair = lazy(() => import('../components/CorporateFleetRepair'));
+const VIPDoorstepRepair = lazy(() => import('../components/VIPDoorstepRepair'));
+const SocialFeed = lazy(() => import('../components/SocialFeed'));
+const NearMeLocalSearchHub = lazy(() => import('../components/NearMeLocalSearchHub'));
+const GCCRegionalSection = lazy(() => import('../components/GCCRegionalSection'));
 
 interface HomePageProps {
   onBookNow: (serviceName?: string) => void;
@@ -210,21 +212,27 @@ export default function HomePage({ onBookNow }: HomePageProps) {
       <WhyChooseUs />
       <Achievements />
       <Testimonials />
-      <ClientTestimonialShowcase />
+      <Suspense fallback={null}>
+        <ClientTestimonialShowcase />
+      </Suspense>
       <PreOwnedDevices />
       <Shop />
 
       {/* Interactive Display vs Logic Board Diagnostic Tool */}
       <section className="py-12 bg-white dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <DisplayVsMotherboardDiagnostic />
+          <Suspense fallback={null}>
+            <DisplayVsMotherboardDiagnostic />
+          </Suspense>
         </div>
       </section>
 
       {/* Mall Retail vs Direct Port Wholesale Savings Calculator */}
       <section className="py-12 bg-slate-50 dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <MallVsAlSharqSavingsCalculator onReserveProduct={(name) => onBookNow(name)} />
+          <Suspense fallback={null}>
+            <MallVsAlSharqSavingsCalculator onReserveProduct={(name) => onBookNow(name)} />
+          </Suspense>
         </div>
       </section>
 
@@ -243,18 +251,24 @@ export default function HomePage({ onBookNow }: HomePageProps) {
       {/* UAE & GCC Battery & Thermal Heat Health Audit Tool */}
       <section className="py-12 bg-white dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <BatteryThermalDiagnosticTool />
+          <Suspense fallback={null}>
+            <BatteryThermalDiagnosticTool />
+          </Suspense>
         </div>
       </section>
 
-      <VIPDoorstepRepair onBookNow={onBookNow} />
-      <CorporateFleetRepair />
-      <DataPrivacyInteractive />
-      <ScratchToWinOffer />
+      <Suspense fallback={null}>
+        <VIPDoorstepRepair onBookNow={onBookNow} />
+        <CorporateFleetRepair />
+        <DataPrivacyInteractive />
+        <ScratchToWinOffer />
+      </Suspense>
       <LocalSEOSection />
-      <NearMeLocalSearchHub />
-      <GCCRegionalSection onBookNow={onBookNow} />
-      <SocialFeed />
+      <Suspense fallback={null}>
+        <NearMeLocalSearchHub />
+        <GCCRegionalSection onBookNow={onBookNow} />
+        <SocialFeed />
+      </Suspense>
       <DeviceRepairRequest />
       <FAQSection />
       <BlogSection />

@@ -1,0 +1,32 @@
+# AI Agent & Agentic Browsing Permissions
+# Al Sharq Mobile Phone & Computer Trading LLC
+# URL: https://allsharq.com
+
+User-Agent: *
+Allow: /
+
+User-Agent: Google-Extended
+Allow: /
+
+User-Agent: GoogleOther
+Allow: /
+
+User-Agent: GPTBot
+Allow: /
+
+User-Agent: ClaudeBot
+Allow: /
+
+User-Agent: PerplexityBot
+Allow: /
+
+User-Agent: Applebot-Extended
+Allow: /
+
+# Agentic Capabilities & API Endpoints
+Agent-Service-Discovery: https://allsharq.com/.well-known/ai-plugin.json
+Agent-Contact: alsharqmobile@gmail.com
+Agent-Telephone: +971507117043
+Agent-Location: Muwaileh Commercial, Sharjah, United Arab Emirates
+Agent-Currency: AED, SAR, OMR, BHD, KWD, QAR, USD
+Sitemap: https://allsharq.com/sitemap.xml

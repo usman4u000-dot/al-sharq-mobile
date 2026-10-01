@@ -72,8 +72,9 @@ export default function WhatsAppWidget() {
                 onClick={() => setIsOpen(false)} 
                 className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 flex items-center justify-center transition-colors cursor-pointer"
                 title="Close"
+                aria-label="Close WhatsApp chat drawer"
               >
-                <X className="w-4 h-4" />
+                <X className="w-4 h-4" aria-hidden="true" />
               </button>
             </div>
 
@@ -107,14 +108,16 @@ export default function WhatsAppWidget() {
                 value={customText}
                 onChange={(e) => setCustomText(e.target.value)}
                 placeholder={isAr ? "اكتب رسالة مخصصة..." : "Type custom issue..."}
+                aria-label="Type custom WhatsApp repair inquiry"
                 className="flex-1 px-3 py-2 text-xs bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl outline-none focus:border-emerald-500 text-slate-900 dark:text-white"
               />
               <button
                 type="submit"
                 className="p-2 bg-[#25D366] hover:bg-[#20bd5a] text-white rounded-xl shadow-md transition-transform active:scale-95 cursor-pointer"
                 title="Send on WhatsApp"
+                aria-label="Send custom inquiry on WhatsApp"
               >
-                <Send className="w-4 h-4" />
+                <Send className="w-4 h-4" aria-hidden="true" />
               </button>
             </form>
           </motion.div>

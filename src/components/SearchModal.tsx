@@ -126,13 +126,14 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
             className="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden border border-gray-200 dark:border-slate-700 flex flex-col max-h-[80vh]"
           >
             <form onSubmit={handleSearch} className="relative flex items-center p-4 border-b border-gray-100 dark:border-slate-800 shrink-0">
-              <Search className="w-6 h-6 text-gray-400 dark:text-gray-500 ml-2" />
+              <Search className="w-6 h-6 text-gray-400 dark:text-gray-500 ml-2" aria-hidden="true" />
               <input
                 ref={inputRef}
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search for repairs, parts, or services..."
+                aria-label="Search for repairs, parts, or services"
                 className="flex-1 bg-transparent border-none focus:ring-0 text-lg text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 px-4 h-12 outline-none"
               />
               
@@ -146,8 +147,9 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     }}
                     className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-500 dark:text-gray-400 transition-colors"
                     title="Clear search"
+                    aria-label="Clear search query"
                   >
-                    <X className="w-4 h-4" />
+                    <X className="w-4 h-4" aria-hidden="true" />
                   </button>
                 )}
 
@@ -157,6 +159,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                     onClick={toggleListening}
                     className="p-2 rounded-full bg-red-100 text-red-600 animate-pulse hover:bg-red-200 transition-colors"
                     title="Stop listening"
+                    aria-label="Stop voice search"
                   >
                     <Loader2 className="w-5 h-5 animate-spin" />
                   </button>

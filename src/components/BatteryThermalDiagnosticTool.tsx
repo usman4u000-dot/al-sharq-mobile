@@ -102,7 +102,7 @@ export default function BatteryThermalDiagnosticTool() {
           {/* Step 2: Battery Health Slider */}
           <div>
             <div className="flex justify-between items-center mb-2">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              <label htmlFor="battery-health-slider" className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
                 {isAr ? '2. نسبة صحة البطارية الحالية:' : '2. Current Battery Health (%) in Settings:'}
               </label>
               <span className={`text-sm font-black px-2.5 py-0.5 rounded-lg ${
@@ -116,11 +116,13 @@ export default function BatteryThermalDiagnosticTool() {
               </span>
             </div>
             <input
+              id="battery-health-slider"
               type="range"
               min="50"
               max="100"
               value={batteryHealth}
               onChange={(e) => { setBatteryHealth(Number(e.target.value)); setIsCalculated(false); }}
+              aria-label="Current battery health percentage"
               className="w-full h-2.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-brand-orange"
             />
             <div className="flex justify-between text-[11px] text-slate-400 mt-1">

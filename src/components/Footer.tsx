@@ -38,17 +38,17 @@ export default function Footer({ onOpenTerms }: FooterProps) {
               <p>• Community Dedication</p>
             </div>
             <div className="flex gap-4">
-              <a href="https://facebook.com/alsharq" target="_blank" rel="noopener noreferrer" className="p-2 bg-white/10 rounded-full hover:bg-brand-orange transition-colors">
-                <Facebook className="h-5 w-5" />
+              <a href="https://facebook.com/alsharq" target="_blank" rel="noopener noreferrer" aria-label="Visit Al Sharq Facebook Page" className="p-2 bg-white/10 rounded-full hover:bg-brand-orange transition-colors">
+                <Facebook className="h-5 w-5" aria-hidden="true" />
               </a>
-              <a href="https://tiktok.com/@alsharq" target="_blank" rel="noopener noreferrer" className="p-2 bg-white/10 rounded-full hover:bg-brand-orange transition-colors">
+              <a href="https://tiktok.com/@alsharq" target="_blank" rel="noopener noreferrer" aria-label="Visit Al Sharq TikTok Profile" className="p-2 bg-white/10 rounded-full hover:bg-brand-orange transition-colors">
                 <TikTokIcon className="h-5 w-5" />
               </a>
-              <a href="https://twitter.com/alsharq" target="_blank" rel="noopener noreferrer" className="p-2 bg-white/10 rounded-full hover:bg-brand-orange transition-colors">
-                <Twitter className="h-5 w-5" />
+              <a href="https://twitter.com/alsharq" target="_blank" rel="noopener noreferrer" aria-label="Visit Al Sharq Twitter X Profile" className="p-2 bg-white/10 rounded-full hover:bg-brand-orange transition-colors">
+                <Twitter className="h-5 w-5" aria-hidden="true" />
               </a>
-              <a href="https://instagram.com/alsharq" target="_blank" rel="noopener noreferrer" className="p-2 bg-white/10 rounded-full hover:bg-brand-orange transition-colors">
-                <Instagram className="h-5 w-5" />
+              <a href="https://instagram.com/alsharq" target="_blank" rel="noopener noreferrer" aria-label="Visit Al Sharq Instagram Profile" className="p-2 bg-white/10 rounded-full hover:bg-brand-orange transition-colors">
+                <Instagram className="h-5 w-5" aria-hidden="true" />
               </a>
             </div>
           </div>
