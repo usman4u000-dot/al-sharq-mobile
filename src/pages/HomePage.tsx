@@ -43,6 +43,7 @@ import MallVsAlSharqSavingsCalculator from '../components/MallVsAlSharqSavingsCa
 import GoogleReviewsTrustBadge from '../components/GoogleReviewsTrustBadge';
 import NearMeLocalSearchHub from '../components/NearMeLocalSearchHub';
 import BatteryThermalDiagnosticTool from '../components/BatteryThermalDiagnosticTool';
+import DisplayVsMotherboardDiagnostic from '../components/DisplayVsMotherboardDiagnostic';
 
 interface HomePageProps {
   onBookNow: (serviceName?: string) => void;
@@ -212,6 +213,13 @@ export default function HomePage({ onBookNow }: HomePageProps) {
       <ClientTestimonialShowcase />
       <PreOwnedDevices />
       <Shop />
+
+      {/* Interactive Display vs Logic Board Diagnostic Tool */}
+      <section className="py-12 bg-white dark:bg-slate-950">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <DisplayVsMotherboardDiagnostic />
+        </div>
+      </section>
 
       {/* Mall Retail vs Direct Port Wholesale Savings Calculator */}
       <section className="py-12 bg-slate-50 dark:bg-slate-900">

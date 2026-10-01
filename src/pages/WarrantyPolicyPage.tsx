@@ -2,6 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Shield, CheckCircle } from 'lucide-react';
 import { motion } from 'motion/react';
+import DeviceAuthenticityChecker from '../components/DeviceAuthenticityChecker';
 
 export default function WarrantyPolicyPage() {
   return (
@@ -78,6 +79,11 @@ export default function WarrantyPolicyPage() {
             </div>
           </div>
         </motion.div>
+
+        {/* Device Authenticity & Warranty Verification Portal */}
+        <div className="mt-12">
+          <DeviceAuthenticityChecker />
+        </div>
       </div>
     </div>
     </>

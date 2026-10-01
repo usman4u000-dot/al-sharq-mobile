@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import Breadcrumbs from '../components/Breadcrumbs';
 import BeforeAfterSlider from '../components/BeforeAfterSlider';
 import ServiceFAQ from '../components/ServiceFAQ';
+import DisplayVsMotherboardDiagnostic from '../components/DisplayVsMotherboardDiagnostic';
 
 export default function ScreenRepairPage() {
   const structuredData = [
@@ -334,6 +335,11 @@ export default function ScreenRepairPage() {
               </table>
             </div>
           </motion.div>
+
+          {/* Interactive Screen vs Logic Board Diagnostic Tool */}
+          <div className="mb-20">
+            <DisplayVsMotherboardDiagnostic />
+          </div>
 
           {/* FAQ Section */}
           <div className="mb-20">

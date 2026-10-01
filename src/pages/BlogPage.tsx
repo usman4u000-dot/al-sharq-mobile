@@ -5,6 +5,7 @@ import { blogPosts, BlogPost, calculateReadTime } from '../data/blogPosts';
 import { Calendar, Clock, ArrowRight, BookOpen, Search } from 'lucide-react';
 import { motion } from 'motion/react';
 import RelatedServicesModule from '../components/RelatedServicesModule';
+import TopicalAuthorityClusterHub from '../components/TopicalAuthorityClusterHub';
 
 export default function BlogPage() {
   const [activeCategory, setActiveCategory] = useState('All');
@@ -26,10 +27,69 @@ export default function BlogPage() {
   return (
     <div className="pt-24 min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
       <Helmet>
-        <title>Tech Insights & Repair Guides | أفضل محل هواتف في الشارقة | Al Sharq Blog</title>
-        <meta name="description" content="Discover expert tech insights, repair guides, and industry news from Al Sharq Mobile Phone & Computer Trading LLC. Your trusted destination for laptop and mobile repairs in Sharjah. هواتف ذكية الشارقة، تصليح هواتف الشارقة، موبايلات مستعملة الشارقة." />
-        <meta name="keywords" content="هواتف ذكية الشارقة, تصليح هواتف الشارقة, موبايلات مستعملة الشارقة, أفضل محل هواتف في الشارقة, عروض الموبايلات اليوم, Mobile repair Sharjah, Used mobiles Sharjah, Best mobile shop in Sharjah" />
+        <title>Tech Insights &amp; Repair Guides | أفضل محل هواتف في الشارقة | Al Sharq Blog</title>
+        <meta name="description" content="Discover expert tech insights, repair guides, and industry news from Al Sharq Mobile Phone &amp; Computer Trading LLC. Your trusted destination for laptop and mobile repairs in Sharjah. هواتف ذكية الشارقة، تصليح هواتف الشارقة، موبايلات مستعملة الشارقة." />
+        <meta name="keywords" content="phone repair near me, mobile shop near me, هواتف ذكية الشارقة, تصليح هواتف الشارقة, موبايلات مستعملة الشارقة, أفضل محل هواتف في الشارقة, عروض الموبايلات اليوم, Mobile repair Sharjah, Used mobiles Sharjah, Best mobile shop in Sharjah" />
         <link rel="canonical" href="https://allsharq.com/blog" />
+        <meta property="og:title" content="Tech Insights &amp; Local Repair Guides | Al Sharq Mobile Lab" />
+        <meta property="og:description" content="Official knowledge base for smartphone screen fixes, MacBook micro-soldering, and GCC electronics logistics in Sharjah." />
+        <meta property="og:url" content="https://allsharq.com/blog" />
+        <meta property="og:type" content="website" />
+        <meta name="geo.region" content="AE-SH" />
+        <meta name="geo.placename" content="Muwaileh, Sharjah, United Arab Emirates" />
+        <meta name="geo.position" content="25.3048;55.4326" />
+        <meta name="ICBM" content="25.3048, 55.4326" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "CollectionPage",
+                "@id": "https://allsharq.com/blog#webpage",
+                "url": "https://allsharq.com/blog",
+                "name": "Al Sharq Tech Insights & Local Repair Knowledge Base",
+                "description": "Comprehensive hardware guides, mobile diagnostics, micro-soldering teardowns, and GCC electronics import guides by Al Sharq Mobile Lab Sharjah.",
+                "publisher": {
+                  "@type": "LocalBusiness",
+                  "@id": "https://allsharq.com/#localbusiness",
+                  "name": "Al Sharq Mobile Phone & Computer Trading LLC",
+                  "telephone": "+971507117043",
+                  "priceRange": "AED 50 - AED 4500",
+                  "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "BLDG#1017 - SHOP#2 Fire Station Road, Muwaileh Commercial",
+                    "addressLocality": "Sharjah",
+                    "addressRegion": "Sharjah",
+                    "addressCountry": "AE"
+                  },
+                  "geo": {
+                    "@type": "GeoCoordinates",
+                    "latitude": 25.3048,
+                    "longitude": 55.4326
+                  }
+                }
+              },
+              {
+                "@type": "BreadcrumbList",
+                "@id": "https://allsharq.com/blog#breadcrumb",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://allsharq.com"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Blog & Tech Guides",
+                    "item": "https://allsharq.com/blog"
+                  }
+                ]
+              }
+            ]
+          })}
+        </script>
       </Helmet>
       
       {/* Blog Page Header */}
@@ -44,12 +104,15 @@ export default function BlogPage() {
              <span>Tech Insights</span>
           </div>
           <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight mb-4">
-            Our Blog
+            Our Blog &amp; Knowledge Base
           </h1>
           <p className="text-lg text-slate-600 dark:text-slate-400">
-             Stay updated with the latest tech insights, expert repair guides, and industry news.
+             Stay updated with expert repair guides, hardware teardowns, and GCC trade insights.
           </p>
         </motion.div>
+
+        {/* 7 Engineering Pillars & Topical Authority Cluster Hub */}
+        <TopicalAuthorityClusterHub />
 
         <div className="flex flex-col lg:flex-row gap-10">
           
