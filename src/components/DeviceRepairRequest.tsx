@@ -168,43 +168,49 @@ export default function DeviceRepairRequest() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label htmlFor="repair-full-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Full Name
                   </label>
                   <input
+                    id="repair-full-name"
                     type="text"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
                     required
+                    aria-label="Full Name"
                     className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none transition-all"
                     placeholder="John Doe"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label htmlFor="repair-phone-number" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Phone Number
                   </label>
                   <input
+                    id="repair-phone-number"
                     type="tel"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
                     required
+                    aria-label="Phone Number"
                     className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none transition-all"
                     placeholder="+971 50 000 0000"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label htmlFor="repair-email-address" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Email Address
                   </label>
                   <input
+                    id="repair-email-address"
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
                     required
+                    aria-label="Email Address"
                     className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none transition-all"
                     placeholder="john@example.com"
                   />
@@ -213,14 +219,16 @@ export default function DeviceRepairRequest() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label htmlFor="repair-device-type" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Device Type
                   </label>
                   <select
+                    id="repair-device-type"
                     name="deviceType"
                     value={formData.deviceType}
                     onChange={handleChange}
                     required
+                    aria-label="Select Device Type"
                     className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none transition-all"
                   >
                     <option value="smartphone">Smartphone</option>
@@ -231,15 +239,17 @@ export default function DeviceRepairRequest() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label htmlFor="repair-device-model" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Device Model
                   </label>
                   <input
+                    id="repair-device-model"
                     type="text"
                     name="deviceModel"
                     value={formData.deviceModel}
                     onChange={handleChange}
                     required
+                    aria-label="Device Model"
                     className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none transition-all"
                     placeholder="e.g., iPhone 16 Pro Max, Galaxy S24 Ultra"
                   />
@@ -248,14 +258,16 @@ export default function DeviceRepairRequest() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label htmlFor="repair-service-required" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Service Required
                   </label>
                   <select
+                    id="repair-service-required"
                     name="serviceRequired"
                     value={formData.serviceRequired}
                     onChange={handleChange}
                     required
+                    aria-label="Select Service Required"
                     className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none transition-all"
                   >
                     <option value="">Select Service Required</option>
@@ -272,14 +284,16 @@ export default function DeviceRepairRequest() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label htmlFor="repair-serial-number" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Serial Number (Optional)
                   </label>
                   <input
+                    id="repair-serial-number"
                     type="text"
                     name="serialNumber"
                     value={formData.serialNumber}
                     onChange={handleChange}
+                    aria-label="Serial Number (Optional)"
                     className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none transition-all"
                     placeholder="Enter serial number if known"
                   />
@@ -287,15 +301,17 @@ export default function DeviceRepairRequest() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="repair-issue-description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Issue Description
                 </label>
                 <textarea
+                  id="repair-issue-description"
                   name="description"
                   value={formData.description}
                   onChange={handleChange}
                   required
                   rows={4}
+                  aria-label="Issue Description"
                   className="w-full px-4 py-3 rounded-xl border border-gray-300 dark:border-slate-700 bg-white dark:bg-slate-800 focus:ring-2 focus:ring-brand-orange focus:border-transparent outline-none transition-all resize-none"
                   placeholder="Please describe the problem in detail..."
                 ></textarea>

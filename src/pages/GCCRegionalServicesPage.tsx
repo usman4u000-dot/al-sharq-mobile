@@ -471,10 +471,12 @@ export default function GCCRegionalServicesPage({ onBookNow }: GCCRegionalServic
               
               {/* Country Selection */}
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="gcc-country-select" className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">
                   {isAr ? '1. اختر بلد الإرسال:' : '1. Select Your Country:'}
                 </label>
                 <select
+                  id="gcc-country-select"
+                  aria-label={isAr ? "اختر بلد الإرسال" : "Select Your Country"}
                   value={selectedCountryCalc}
                   onChange={(e) => setSelectedCountryCalc(e.target.value)}
                   className="w-full px-4 py-3.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-gray-900 dark:text-white font-bold text-sm focus:ring-2 focus:ring-brand-orange outline-none transition-all"
@@ -490,10 +492,12 @@ export default function GCCRegionalServicesPage({ onBookNow }: GCCRegionalServic
 
               {/* Device / Service Selection */}
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="gcc-device-select" className="block text-xs font-bold uppercase tracking-wider text-gray-700 dark:text-gray-300 mb-2">
                   {isAr ? '2. اختر نوع الجهاز والعطل:' : '2. Select Device & Issue:'}
                 </label>
                 <select
+                  id="gcc-device-select"
+                  aria-label={isAr ? "اختر نوع الجهاز والعطل" : "Select Device & Issue"}
                   value={selectedDeviceCalc}
                   onChange={(e) => setSelectedDeviceCalc(e.target.value)}
                   className="w-full px-4 py-3.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-gray-900 dark:text-white font-bold text-sm focus:ring-2 focus:ring-brand-orange outline-none transition-all"

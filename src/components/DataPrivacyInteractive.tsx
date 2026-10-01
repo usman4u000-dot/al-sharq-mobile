@@ -224,24 +224,31 @@ export default function DataPrivacyInteractive() {
                         {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
                           <button
                             key={num}
+                            type="button"
+                            aria-label={`Digit ${num}`}
                             className="w-[68px] h-[68px] rounded-full bg-white/10 hover:bg-white/20 active:bg-white/30 flex items-center justify-center text-3xl font-light transition-colors backdrop-blur-sm"
                             onClick={() => handleKeyPress(num.toString())}
                           >
-                            {num}
+                            <span>{num}</span>
                           </button>
                         ))}
                         <div className="w-[68px] h-[68px]"></div>
                         <button
+                          type="button"
+                          aria-label="Digit 0"
                           className="w-[68px] h-[68px] rounded-full bg-white/10 hover:bg-white/20 active:bg-white/30 flex items-center justify-center text-3xl font-light transition-colors backdrop-blur-sm"
                           onClick={() => handleKeyPress('0')}
                         >
-                          0
+                          <span>0</span>
                         </button>
                         <button
+                          type="button"
+                          aria-label="Delete last digit"
                           className="w-[68px] h-[68px] flex items-center justify-center text-white/80 hover:text-white active:scale-95 transition-all"
                           onClick={handleBackspace}
                         >
-                          <Delete className="w-7 h-7" />
+                          <Delete className="w-7 h-7" aria-hidden="true" />
+                          <span className="sr-only">Delete</span>
                         </button>
                       </div>
 
