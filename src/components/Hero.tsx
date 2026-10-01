@@ -36,6 +36,8 @@ export default function Hero({ onBookNow }: HeroProps) {
           loading="eager"
           decoding="async"
           fetchPriority="high"
+          width="1280"
+          height="720"
         />
         
         {/* Animated Particles / Highlights */}

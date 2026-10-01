@@ -30,7 +30,7 @@ const TrackRepairModal = React.lazy(() => import('./components/TrackRepairModal'
 const DiagnosticBot = React.lazy(() => import('./components/DiagnosticBot'));
 const EasterEggConsole = React.lazy(() => import('./components/EasterEggConsole'));
 
-const HomePage = React.lazy(() => import('./pages/HomePage'));
+import HomePage from './pages/HomePage';
 const AboutUsPage = React.lazy(() => import('./pages/AboutUsPage'));
 const BlogPage = React.lazy(() => import('./pages/BlogPage'));
 const BlogPostPage = React.lazy(() => import('./pages/BlogPostPage'));
