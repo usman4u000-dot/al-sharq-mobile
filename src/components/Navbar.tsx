@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Menu, X, ShoppingCart, Search, ChevronDown, Smartphone, Laptop, Activity, Tablet, Droplet, Cpu, HardDrive, Battery, Gamepad2, Watch, Globe, Zap, Phone, MessageCircle, MapPin, Clock, Wrench, ChevronRight, Camera, Volume2, Layers, ArrowRight } from 'lucide-react';
+import { Menu, X, ShoppingCart, Search, ChevronDown, Smartphone, Laptop, Activity, Tablet, Droplet, Cpu, HardDrive, Battery, Gamepad2, Watch, Globe, Zap, Phone, MessageCircle, MapPin, Clock, Wrench, ChevronRight, Camera, Volume2, Layers, ArrowRight, Printer, Monitor } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from './Logo';
@@ -14,6 +14,11 @@ interface NavbarProps {
 }
 
 const navServices = [
+  { to: '/phone-repair', icon: Smartphone, title: 'Mobile Phone Repairs', desc: 'iPhone & Android screen, battery & chip fix' },
+  { to: '/printer-repair', icon: Printer, title: 'Printer Repair & Maintenance', desc: 'LaserJet & InkTank servicing in Sharjah' },
+  { to: '/laptop-repair', icon: Laptop, title: 'Laptop & MacBook Repair', desc: 'Motherboard micro-soldering & upgrades' },
+  { to: '/laptop-screen-repair', icon: Monitor, title: 'Laptop Screen Replacement', desc: 'Retina, OLED & 144Hz panel replacement' },
+  { to: '/logic-board-repair', icon: Cpu, title: 'Chip-Level Micro-Soldering', desc: 'Complex motherboard & short-circuit repair' },
   { to: '/cracked-screen-repair', icon: Smartphone, title: 'Cracked or Broken Screen', desc: 'Expert screen replacements for all devices' },
   { to: '/battery-replacement', icon: Battery, title: 'Battery Issues', desc: 'Fast battery replacements & diagnostics' },
   { to: '/water-damage-repair', icon: Droplet, title: 'Water/Liquid Damage', desc: 'Advanced ultrasonic chemical cleaning' },

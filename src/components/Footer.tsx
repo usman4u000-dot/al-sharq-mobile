@@ -56,14 +56,14 @@ export default function Footer({ onOpenTerms }: FooterProps) {
           <div>
             <h4 className="font-bold text-lg mb-6">Repair Services</h4>
             <ul className="space-y-4 text-gray-400">
-              <li><Link to="/iphone-repair" className="hover:text-brand-orange transition-colors">iPhone Repair</Link></li>
-              <li><Link to="/samsung-repair" className="hover:text-brand-orange transition-colors">Samsung Repair</Link></li>
-              <li><Link to="/laptop-repair" className="hover:text-brand-orange transition-colors">Laptop PC Repair</Link></li>
-              <li><Link to="/macbook-repair" className="hover:text-brand-orange transition-colors">MacBook Service</Link></li>
-              <li><Link to="/tablet-repair" className="hover:text-brand-orange transition-colors">Tablet & iPad Repair</Link></li>
+              <li><Link to="/phone-repair" className="hover:text-brand-orange transition-colors">Mobile Phone Repair</Link></li>
               <li><Link to="/printer-repair" className="hover:text-brand-orange transition-colors">Printer Maintenance</Link></li>
+              <li><Link to="/laptop-repair" className="hover:text-brand-orange transition-colors">Laptop PC Repair</Link></li>
+              <li><Link to="/laptop-screen-repair" className="hover:text-brand-orange transition-colors">Laptop Screen Replacement</Link></li>
+              <li><Link to="/logic-board-repair" className="hover:text-brand-orange transition-colors">Chip-Level Micro-Soldering</Link></li>
+              <li><Link to="/iphone-repair" className="hover:text-brand-orange transition-colors">iPhone Repair</Link></li>
+              <li><Link to="/macbook-repair" className="hover:text-brand-orange transition-colors">MacBook Service</Link></li>
               <li><Link to="/data-recovery" className="hover:text-brand-orange transition-colors">Data Recovery</Link></li>
-              <li><Link to="/corporate" className="hover:text-brand-orange transition-colors">Corporate Solutions</Link></li>
             </ul>
           </div>
 

@@ -6,6 +6,7 @@ import TrustBadges from '../components/TrustBadges';
 import SupportedBrands from '../components/SupportedBrands';
 import ExpressFixBanner from '../components/ExpressFixBanner';
 import CoreServices from '../components/CoreServices';
+import FiveCoreSpecialtyBlocks from '../components/FiveCoreSpecialtyBlocks';
 import AdvancedServices2026 from '../components/AdvancedServices2026';
 import BlueOceanVision from '../components/BlueOceanVision';
 import AboutUs from '../components/AboutUs';
@@ -189,6 +190,7 @@ export default function HomePage({ onBookNow }: HomePageProps) {
       <TrustBadges />
       <CostEstimator onBookNow={onBookNow} />
       <CoreServices />
+      <FiveCoreSpecialtyBlocks onBookNow={onBookNow} />
 
       <InViewSection minHeight="500px">
         <LaptopRepairSliderSection />

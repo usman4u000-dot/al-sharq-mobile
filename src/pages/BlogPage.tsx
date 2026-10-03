@@ -136,7 +136,7 @@ export default function BlogPage() {
 
             {/* Categories */}
             <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 p-6 sm:p-8 hover:shadow-md transition-shadow">
-              <h3 className="text-xl font-extrabold text-slate-900 dark:text-white mb-6 tracking-tight">Categories</h3>
+              <h2 className="text-xl font-extrabold text-slate-900 dark:text-white mb-6 tracking-tight">Categories</h2>
               <div className="flex flex-col gap-2">
                 {categories.map(category => {
                   const count = category === 'All' 
@@ -168,7 +168,7 @@ export default function BlogPage() {
 
             {/* Recent Posts */}
             <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 p-6 sm:p-8 hover:shadow-md transition-shadow hidden lg:block">
-              <h3 className="text-xl font-extrabold text-slate-900 dark:text-white mb-6 tracking-tight">Recent Posts</h3>
+              <h2 className="text-xl font-extrabold text-slate-900 dark:text-white mb-6 tracking-tight">Recent Posts</h2>
               <div className="space-y-6">
                 {recentPosts.map(post => (
                   <Link key={post.id} to={`/blog/${post.id}`} className="group flex gap-4 items-start">
@@ -179,9 +179,9 @@ export default function BlogPage() {
                       loading="lazy" 
                     />
                     <div className="flex flex-col justify-center min-h-[5rem]">
-                      <h4 dir="auto" className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-brand-orange leading-tight line-clamp-2 mb-2 transition-colors">
+                      <h3 dir="auto" className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-brand-orange leading-tight line-clamp-2 mb-2 transition-colors">
                         {post.title}
-                      </h4>
+                      </h3>
                       <span className="text-xs font-medium text-slate-500 dark:text-slate-400 flex items-center gap-1.5"><Calendar className="w-3 h-3" />{post.date}</span>
                     </div>
                   </Link>
@@ -228,9 +228,9 @@ export default function BlogPage() {
                         <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> {calculateReadTime(post)}</span>
                       </div>
                       <Link to={`/blog/${post.id}`} className="block mb-4">
-                        <h3 dir="auto" className="text-xl font-bold text-slate-900 dark:text-white leading-snug group-hover:text-brand-orange transition-colors line-clamp-2">
+                        <h2 dir="auto" className="text-xl font-bold text-slate-900 dark:text-white leading-snug group-hover:text-brand-orange transition-colors line-clamp-2">
                           {post.title}
-                        </h3>
+                        </h2>
                       </Link>
                       <p dir="auto" className="text-slate-600 dark:text-slate-400 leading-relaxed text-sm mb-6 line-clamp-3">
                         {post.excerpt}
