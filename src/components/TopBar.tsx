@@ -52,7 +52,7 @@ export default function TopBar() {
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-black/20 hover:bg-black/30 text-white text-xs font-bold transition-all cursor-pointer border border-white/20"
               title="Select Country & Currency"
-              aria-label="Select Country and GCC Currency"
+              aria-label={`${currentConfig.currency} - Select Country and GCC Currency`}
               aria-expanded={isDropdownOpen}
             >
               <span>{currentConfig.flag}</span>

@@ -7,7 +7,7 @@ export default function LaunchBanner() {
   if (!isVisible) return null;
 
   return (
-    <div className="bg-brand-orange text-white relative z-50 text-[11px] sm:text-xs md:text-sm font-semibold shadow-sm min-h-[30px] flex items-center">
+    <div className="bg-orange-700 dark:bg-orange-800 text-white relative z-50 text-[11px] sm:text-xs md:text-sm font-semibold shadow-sm min-h-[30px] flex items-center">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-1 sm:py-1.5 w-full">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-1.5 sm:gap-2 flex-1 justify-center text-center">

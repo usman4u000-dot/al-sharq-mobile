@@ -30,8 +30,8 @@ export default function WhyChooseUs() {
     <section id="why-choose-us" className="py-12 sm:py-20 bg-white dark:bg-slate-900 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8 sm:mb-14">
-          <h2 className="text-brand-orange font-semibold tracking-wide uppercase text-xs sm:text-sm mb-2">Why Choose Us</h2>
-          <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-brand-blue dark:text-white mb-3 sm:mb-4">The Al Sharq Service Advantage</h3>
+          <p className="text-brand-orange font-semibold tracking-wide uppercase text-xs sm:text-sm mb-2">Why Choose Us</p>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-brand-blue dark:text-white mb-3 sm:mb-4">The Al Sharq Service Advantage</h2>
           <p className="text-xs sm:text-base text-brand-grey dark:text-gray-400 max-w-2xl mx-auto">
             Licensed tech workshop in Muwaileh, Sharjah. Here is why university students, professionals, and families trust us with their devices.
           </p>
@@ -57,7 +57,7 @@ export default function WhyChooseUs() {
                   <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800 dark:border-t-slate-700"></div>
                 </div>
               </div>
-              <h4 className="text-xl font-bold text-brand-blue dark:text-white mb-3">{feature.title}</h4>
+              <h3 className="text-xl font-bold text-brand-blue dark:text-white mb-3">{feature.title}</h3>
               <p className="text-brand-grey dark:text-gray-400 leading-relaxed text-sm">{feature.description}</p>
             </motion.div>
           ))}

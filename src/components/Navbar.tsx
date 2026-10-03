@@ -98,7 +98,7 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
       <nav className="bg-brand-blue dark:bg-slate-900 text-white sticky top-0 z-50 shadow-lg transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20 lg:h-24">
-            <Link to="/" aria-label="Home" className="focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange rounded-lg">
+            <Link to="/" aria-label="Al Sharq Mobile - Home" className="focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange rounded-lg">
               <Logo variant="dark" />
             </Link>
             
@@ -241,7 +241,7 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
               <button
                 onClick={toggleLanguage}
                 className="p-2 hover:bg-white/10 rounded-full transition-colors flex items-center gap-1 text-sm font-medium"
-                aria-label={language === 'en' ? 'Switch to Arabic' : 'Switch to English'}
+                aria-label={language === 'en' ? 'EN - Switch language to Arabic' : 'AR - Switch language to English'}
               >
                 <Globe className="h-5 w-5" aria-hidden="true" />
                 <span className="uppercase tracking-wider">{language}</span>

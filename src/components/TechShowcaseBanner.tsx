@@ -52,7 +52,7 @@ const FeatureBar = ({ icon: Icon, title, desc }: { icon: any, title: string, des
       <Icon className="w-6 h-6 text-white" />
     </div>
     <div>
-      <h4 className="text-white font-bold text-sm tracking-widest uppercase">{title}</h4>
+      <h3 className="text-white font-bold text-sm tracking-widest uppercase">{title}</h3>
       <p className="text-orange-100/70 text-xs mt-0.5">{desc}</p>
     </div>
   </motion.div>
@@ -132,6 +132,10 @@ export default function TechShowcaseBanner() {
                   src="https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&w=1000&q=80" 
                   alt="Next Gen Smartphone"
                   className="rounded-2xl sm:rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.4)] border-2 sm:border-4 border-white/15 w-full object-cover max-h-[280px] sm:max-h-[380px]"
+                  width="1000"
+                  height="667"
+                  loading="lazy"
+                  decoding="async"
                 />
 
                 {/* Floating Callouts */}

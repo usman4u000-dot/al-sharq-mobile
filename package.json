@@ -6,11 +6,11 @@
   "scripts": {
     "dev": "tsx server.ts",
     "start": "node server.ts",
-    "build": "node scripts/generate-icons.js && node scripts/generate-sitemap.js && node scripts/generate-rss.js && vite build",
+    "build": "vite build && rm -rf build && cp -r dist build",
     "sitemap": "node scripts/generate-sitemap.js && node scripts/generate-rss.js",
     "rss": "node scripts/generate-rss.js",
     "preview": "vite preview",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist build",
     "lint": "tsc --noEmit"
   },
   "dependencies": {
