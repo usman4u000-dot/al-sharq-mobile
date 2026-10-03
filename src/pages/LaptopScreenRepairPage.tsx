@@ -16,7 +16,6 @@ export default function LaptopScreenRepairPage({ onBookNow }: Props) {
         <link rel="canonical" href="https://allsharq.com/laptop-screen-repair" />
         <title>Laptop Screen Repair Sharjah | MacBook Display Replacement Muwaileh</title>
         <meta name="description" content="Expert Laptop Screen Replacement & Repair in Sharjah. Specializing in OLED, 4K, and Gaming Displays for MacBook, Dell, HP, Lenovo, and Acer." />
-        <meta name="keywords" content="Laptop Screen Repair Sharjah, MacBook Display Replacement Muwaileh, Broken Laptop Hinge Fix Sharjah, Computer Repair, OLED Laptop Repair UAE" />
       </Helmet>
 
       <div className="pt-24 pb-4 bg-slate-50 dark:bg-slate-900">

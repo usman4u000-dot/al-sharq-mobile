@@ -32,7 +32,6 @@ export default function GamingPhoneRepairPage({ onBookNow }: { onBookNow: (servi
         <link rel="canonical" href="https://allsharq.com/gaming-phone-repair" />
         <title>Gaming Phone Repair Sharjah | ROG, RedMagic | Al Sharq</title>
         <meta name="description" content="Specialized repair for gaming smartphones in Sharjah. We fix ASUS ROG, Nubia RedMagic, and Black Shark devices, including cooling fans and ultrasonic triggers." />
-        <meta name="keywords" content="Gaming phone repair Sharjah, ASUS ROG repair UAE, Nubia RedMagic screen replacement, Black Shark battery fix, mobile gaming repair Muwaileh" />
       </Helmet>
 
       <div className="pt-24 pb-16 bg-slate-50 dark:bg-slate-900 min-h-screen transition-colors duration-300">

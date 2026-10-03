@@ -91,7 +91,6 @@ export default function AndroidFlagshipRepairPage({ onBookNow }: { onBookNow: (s
         <link rel="canonical" href="https://allsharq.com/android-flagship-repair" />
         <title>Android Flagship Repair Sharjah | Huawei, Xiaomi, Pixel | Al Sharq</title>
         <meta name="description" content="Expert repair for premium Android devices in Sharjah. We specialize in Xiaomi hyper-charging, Huawei HarmonyOS, Honor curved screens, and Google Pixel repairs." />
-        <meta name="keywords" content="Xiaomi repair Sharjah, Huawei repair Sharjah, Honor screen replacement, Google Pixel repair UAE, Android flagship repair Muwaileh" />
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
         </script>

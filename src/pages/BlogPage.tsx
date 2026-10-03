@@ -29,7 +29,6 @@ export default function BlogPage() {
       <Helmet>
         <title>Tech Insights &amp; Repair Guides | أفضل محل هواتف في الشارقة | Al Sharq Blog</title>
         <meta name="description" content="Discover expert tech insights, repair guides, and industry news from Al Sharq Mobile Phone &amp; Computer Trading LLC. Your trusted destination for laptop and mobile repairs in Sharjah. هواتف ذكية الشارقة، تصليح هواتف الشارقة، موبايلات مستعملة الشارقة." />
-        <meta name="keywords" content="phone repair near me, mobile shop near me, هواتف ذكية الشارقة, تصليح هواتف الشارقة, موبايلات مستعملة الشارقة, أفضل محل هواتف في الشارقة, عروض الموبايلات اليوم, Mobile repair Sharjah, Used mobiles Sharjah, Best mobile shop in Sharjah" />
         <link rel="canonical" href="https://allsharq.com/blog" />
         <meta property="og:title" content="Tech Insights &amp; Local Repair Guides | Al Sharq Mobile Lab" />
         <meta property="og:description" content="Official knowledge base for smartphone screen fixes, MacBook micro-soldering, and GCC electronics logistics in Sharjah." />

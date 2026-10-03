@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet-async';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ServiceFAQ from '../components/ServiceFAQ';
 import ImageCarousel from '../components/ImageCarousel';
+import AeoDirectAnswerBox from '../components/AeoDirectAnswerBox';
 
 export default function LaptopRepairPage({ onBookNow }: { onBookNow: (service?: string) => void }) {
   const [activeFilter, setActiveFilter] = useState('All');
@@ -215,7 +216,6 @@ export default function LaptopRepairPage({ onBookNow }: { onBookNow: (service?: 
         <link rel="canonical" href="https://allsharq.com/laptop-repair" />
         <title>Laptop repair Sharjah | MacBook, Dell, HP, Lenovo | Al Sharq</title>
         <meta name="description" content="Professional laptop repair in Sharjah. We fix MacBook Air, MacBook Pro, iMac, Microsoft Surface, Lenovo, Dell, HP, Asus, Acer, Gaming Laptops and more." />
-        <meta name="keywords" content="Laptop repair Sharjah, laptop screen repair, MacBook repair Muwaileh, SSD upgrade Sharjah" />
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
         </script>
@@ -264,6 +264,24 @@ export default function LaptopRepairPage({ onBookNow }: { onBookNow: (service?: 
               <ImageCarousel images={laptopImages} />
             </motion.div>
           </div>
+
+          {/* AEO Direct Answer Block */}
+          <AeoDirectAnswerBox 
+            questionEn="Where can I get professional MacBook and laptop motherboard repair in Sharjah?"
+            questionAr="أين يمكنني الحصول على صيانة احترافية لماك بوك واللابتوب بالشارقة؟"
+            directAnswerEn="Al Sharq Mobile Phone & Computer Trading LLC provides Level 4 micro-soldering and logic board repairs for Apple MacBooks (M1/M2/M3/M4 & Intel), Dell XPS, HP, Lenovo, and Asus gaming laptops in Muwaileh, Sharjah. Services include screen replacements, liquid spill recovery, high-speed NVMe SSD upgrades, and battery replacements with a 90-day warranty."
+            directAnswerAr="توفر شركة الشرق صيانة متقدمة بالمجهر لماك بوك وأجهزة لابتوب ديل وإتش بي ولينوفو وأسوس في مويلح بالشارقة. تشمل خدماتنا تبديل الشاشات، إصلاح أضرار السوائل، ترقية وسائط التخزين NVMe SSD، وتبديل البطاريات بضمان 90 يوماً."
+            turnaroundEn="1 - 3 Hours"
+            turnaroundAr="1 - 3 ساعات"
+            warrantyEn="90-Day Parts & Labor Warranty"
+            warrantyAr="ضمان 90 يوماً على القطع والعمل"
+            keySpecs={[
+              { labelEn: 'Turnaround', labelAr: 'الوقت', valueEn: '1-3 Hours', valueAr: '1-3 ساعات' },
+              { labelEn: 'Soldering', labelAr: 'اللحام', valueEn: 'Level 4 Micro-SMD', valueAr: 'مجهري دقيق' },
+              { labelEn: 'Warranty', labelAr: 'الضمان', valueEn: '90 Days Full', valueAr: '90 يوماً كامل' },
+              { labelEn: 'Diagnostic', labelAr: 'الفحص', valueEn: 'Free on Bench', valueAr: 'مجاناً' }
+            ]}
+          />
 
           {/* Brands We Fix */}
           <div className="mb-20">

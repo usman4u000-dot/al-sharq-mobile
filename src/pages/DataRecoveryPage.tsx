@@ -165,7 +165,6 @@ export default function DataRecoveryPage({ onBookNow }: DataRecoveryPageProps) {
       <Helmet>
         <title>Data recovery Sharjah | Forensic Data Extraction | Al Sharq</title>
         <meta name="description" content="Expert data recovery Sharjah. Lost photos, files, or WhatsApp chats? We offer advanced data extraction for smartphones, tablets, and laptops." />
-        <meta name="keywords" content="Data recovery Sharjah, iPhone Data Recovery, Hard Drive Recovery, WhatsApp Recovery Sharjah, No Data No Fee" />
         <link rel="canonical" href="https://allsharq.com/data-recovery" />
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}

@@ -111,7 +111,6 @@ export default function SamsungRepairPage({ onBookNow }: { onBookNow: (service?:
         <link rel="canonical" href="https://allsharq.com/samsung-repair" />
         <title>Samsung Galaxy S25, S24 Ultra & Z Fold Repair Sharjah | AMOLED Fix | Al Sharq</title>
         <meta name="description" content="Expert Samsung Galaxy repair in Sharjah for S25 Ultra, S24 Ultra, Z Fold 6, Z Flip 6, and S23. Same-day Dynamic AMOLED 2X screen replacement, UTG hinge repair, and battery fix in Muwaileh. تصليح سامسونج الشارقة." />
-        <meta name="keywords" content="Samsung Galaxy repair Sharjah, Samsung S24 Ultra screen replacement, Samsung S25 Ultra repair Sharjah, Samsung Z Fold 6 hinge repair Muwaileh, Samsung original parts UAE, تصليح سامسونج الشارقة, تصليح شاشات سامسونج مويلح" />
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
         </script>

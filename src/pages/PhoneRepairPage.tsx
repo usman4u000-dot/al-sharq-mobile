@@ -8,6 +8,7 @@ import LocalSEOSection from '../components/LocalSEOSection';
 import NearMeLocalSearchHub from '../components/NearMeLocalSearchHub';
 import Breadcrumbs from '../components/Breadcrumbs';
 import ServiceFAQ from '../components/ServiceFAQ';
+import AeoDirectAnswerBox from '../components/AeoDirectAnswerBox';
 import { BUSINESS_PROVIDER_SCHEMA } from '../data/businessInfo';
 
 export default function PhoneRepairPage({ onBookNow }: { onBookNow: (service?: string) => void }) {
@@ -121,9 +122,12 @@ export default function PhoneRepairPage({ onBookNow }: { onBookNow: (service?: s
     <>
       <Helmet>
         <link rel="canonical" href="https://allsharq.com/phone-repair" />
-        <title>Expert Phone Repair Sharjah | Mobile Repair Near Me | Al Sharq Mobile</title>
-        <meta name="description" content="Looking for phone repair near me in Sharjah? Al Sharq Mobile is the best mobile repair shop near you for iPhone & Samsung screen replacements, battery fixes, and more." />
-        <meta name="keywords" content="تصليح هواتف الشارقة, أفضل محل هواتف في الشارقة, Mobile repair Sharjah, Phone repair Sharjah, Screen replacement Sharjah, mobile phone repair near me, phone repair near me, mobile shop near me in Sharjah, best mobile repair shop in Sharjah near me, mobile repairing center near me, phone fixing near me Sharjah, cheap mobile repair near me, mobile screen repair near me, phone battery replacement near me Sharjah, mobile repair shop near me" />
+        <title>Expert Phone Repair in Sharjah | Same-Day Screen & Battery | Al Sharq</title>
+        <meta name="description" content="Certified mobile phone repair on Fire Station Road, Muwaileh, Sharjah. Same-day OLED screen replacement, battery health restoration, and micro-soldering with 90-day warranty." />
+        <meta property="og:title" content="Expert Phone Repair in Sharjah | Al Sharq Mobile Lab" />
+        <meta property="og:description" content="Same-day iPhone & Android repair in Muwaileh, Sharjah. Screens, batteries, charging ports, and water damage recovery." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://allsharq.com/phone-repair" />
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
         </script>
@@ -176,6 +180,18 @@ export default function PhoneRepairPage({ onBookNow }: { onBookNow: (service?: s
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
             </motion.div>
           </div>
+
+          {/* AEO / Modern SEO Cluster Direct Answer Panel */}
+          <AeoDirectAnswerBox 
+            questionEn="Where can I get reliable, same-day smartphone repair in Sharjah?"
+            questionAr="أين يمكنني الحصول على صيانة موثوقة وفورية للهواتف الذكية في الشارقة؟"
+            directAnswerEn="Al Sharq Mobile Phone & Computer Trading LLC operates a licensed chip-level repair lab on Fire Station Road, Muwaileh Commercial, Sharjah. We deliver 15 to 45-minute express screen, battery, and charging port replacements for Apple iPhone and Samsung Galaxy devices using genuine OEM components backed by a 90-day warranty."
+            directAnswerAr="تقدم شركة الشرق لتجارة الهواتف والكمبيوتر مختبراً معتمداً للصيانة الدقيقة في مويلح التجارية بالشارقة. نوفر تبديل الشاشات والبطاريات ومنافذ الشحن لأجهزة آيفون وسامسونج خلال 15 إلى 45 دقيقة بقطع أصلية وضمان 90 يوماً."
+            turnaroundEn="15 - 45 Minutes"
+            turnaroundAr="15 - 45 دقيقة"
+            warrantyEn="90-Day Lab Warranty"
+            warrantyAr="ضمان الورشة 90 يوماً"
+          />
 
           <ExpressFixBanner onBookNow={onBookNow} />
 

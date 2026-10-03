@@ -134,7 +134,6 @@ export default function MacBookRepairPage() {
         <link rel="canonical" href="https://allsharq.com/macbook-repair" />
         <title>MacBook logic board repair Sharjah | Screen Fix | Al Sharq</title>
         <meta name="description" content="Sharjah's expert MacBook specialist since 2014. Professional MacBook logic board repair, M2/M3/M4 screen replacement, and liquid damage restoration." />
-        <meta name="keywords" content="MacBook logic board repair Sharjah, MacBook Specialist Sharjah, M4 Logic Board Repair, Secure Data Recovery Mac, MacBook Screen Fix Muwaileh" />
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
         </script>

@@ -150,7 +150,6 @@ export default function IPhoneRepairPage({ onBookNow }: { onBookNow: (service?: 
         <link rel="canonical" href="https://allsharq.com/iphone-repair" />
         <title>iPhone 18, 16, 15 & 14 Repair Sharjah | OLED Screen & Battery Fix | Al Sharq</title>
         <meta name="description" content="Expert Apple iPhone repair in Sharjah. We service iPhone 18, 18 Pro Max, 16, 15, 14, 13 with same-day Ceramic Shield screen replacement, battery swap, USB-C port repair in Muwaileh. تصليح ايفون الشارقة." />
-        <meta name="keywords" content="iPhone 18 repair Sharjah, iPhone 18 Pro Max screen replacement, iPhone 16 repair Sharjah, iPhone 15 Pro Max USB-C fix, iPhone battery replacement Sharjah, mobile repair Muwaileh, تصليح ايفون 18 الشارقة, تصليح شاشة ايفون مويلح" />
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
         </script>

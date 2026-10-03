@@ -62,7 +62,6 @@ export default function LiquidDamageRepairPage() {
         <link rel="canonical" href="https://allsharq.com/liquid-damage-repair" />
         <title>Water Damage Repair Sharjah | Ultrasonic Cleaning | Al Sharq Mobile Phone & Computer Trading LLC (Techfix & Gidgets)</title>
         <meta name="description" content="Advanced Ultrasonic Chemical Cleaning for liquid-damaged electronics. Fix wet iPhone Sharjah, MacBook liquid damage Muwaileh, and ultrasonic motherboard cleaning UAE." />
-        <meta name="keywords" content="Water damage repair Sharjah, MacBook liquid damage Muwaileh, Ultrasonic motherboard cleaning UAE, Fix wet iPhone Sharjah" />
       </Helmet>
 
       <div className="pt-24 pb-16 bg-slate-50 dark:bg-slate-900 min-h-screen transition-colors duration-300">

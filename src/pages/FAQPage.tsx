@@ -44,7 +44,6 @@ export default function FAQPage() {
       <Helmet>
         <title>Frequently Asked Questions | Phone & Laptop Repair Sharjah | Al Sharq</title>
         <meta name="description" content="Find expert answers to common questions about smartphone, MacBook, and laptop repair services, turnaround times, warranty, and pricing in Sharjah." />
-        <meta name="keywords" content="phone repair FAQ Sharjah, iPhone repair questions, laptop repair Sharjah cost, screen replacement warranty, Al Sharq Mobile hours" />
         <link rel="canonical" href="https://allsharq.com/faq" />
         <meta property="og:title" content="Frequently Asked Questions | Phone & Laptop Repair Sharjah | Al Sharq" />
         <meta property="og:description" content="Find expert answers to common questions about repair turnaround times, pricing, and warranty at Al Sharq Mobile Sharjah." />

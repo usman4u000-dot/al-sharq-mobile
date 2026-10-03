@@ -106,7 +106,6 @@ export default function GalleryPage() {
         <link rel="canonical" href="https://allsharq.com/gallery" />
         <title>iPhone 18 Colors & Repair Gallery | Al Sharq Mobile Sharjah</title>
         <meta name="description" content="Explore the newly launched iPhone 18 and iPhone 18 Pro in Sharjah. High-resolution gallery, official color variants, specifications, and certified repairs at BLDG#1017 Fire Station Rd, Muwaileh." />
-        <meta name="keywords" content="iPhone 18 launch UAE, iPhone 18 colors, iPhone 18 Pro Sharjah, iPhone 18 screen repair Muwaileh, Al Sharq Mobile Phone Fire Station Road" />
       </Helmet>
       <div className="pt-24 pb-16 bg-slate-50 dark:bg-slate-900 min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

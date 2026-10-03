@@ -76,7 +76,6 @@ export default function CorporateServicesPage() {
         <link rel="canonical" href="https://allsharq.com/corporate" />
         <title>B2B & Wholesale for Mobile Phones and Repair Service in UAE | Al Sharq Mobile Phone</title>
         <meta name="description" content="Bulk device repairs, corporate AMC, IT support, and wholesale supply of smartphones, laptops, and tablets for businesses across the UAE." />
-        <meta name="keywords" content="B2B mobile phones UAE, Wholesale smartphones Dubai, Corporate laptop repair Sharjah, AMC IT support UAE, Bulk device supply" />
       </Helmet>
 
       <div className="pt-24 pb-16 bg-slate-50 dark:bg-slate-900 min-h-screen transition-colors duration-300">

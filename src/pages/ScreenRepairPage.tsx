@@ -86,7 +86,6 @@ export default function ScreenRepairPage() {
         <link rel="canonical" href="https://allsharq.com/screen-repair" />
         <title>Screen repair Sharjah | iPhone 17 & S26 Ultra | Al Sharq</title>
         <meta name="description" content="2026 Ultra-High-Nit Solutions. Expert screen repair Sharjah for iPhone 17 Pro Max, Samsung S26 Ultra, and MacBook M4 Pro." />
-        <meta name="keywords" content="Screen repair Sharjah, iPhone screen repair, MacBook screen replacement Muwaileh, Samsung screen fix Sharjah" />
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
         </script>

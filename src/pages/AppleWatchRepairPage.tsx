@@ -99,7 +99,6 @@ export default function AppleWatchRepairPage({ onBookNow }: { onBookNow: (servic
         <link rel="canonical" href="https://allsharq.com/apple-watch-repair" />
         <title>Apple Watch Repair Sharjah | Series 11 & Ultra 3 | Al Sharq</title>
         <meta name="description" content="Expert Apple Watch repair in Sharjah. Specialized tools for Series 11 and Ultra 3, including Diamond-Grade Polishing, Water Seal Restoration, and Battery Calibration." />
-        <meta name="keywords" content="Apple Watch repair Sharjah, Apple Watch Ultra 3 repair, Series 11 screen replacement, Watch battery replacement UAE, smartwatch repair Muwaileh" />
         <script type="application/ld+json">
           {JSON.stringify(structuredData)}
         </script>
