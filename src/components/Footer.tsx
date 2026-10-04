@@ -1,5 +1,5 @@
 import React from 'react';
-import { Facebook, Twitter, Instagram, MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { Facebook, Twitter, Instagram, MapPin, Phone, Mail, Clock, Star, GraduationCap, Building2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Logo from './Logo';
 
@@ -70,7 +70,10 @@ export default function Footer({ onOpenTerms }: FooterProps) {
           <div>
             <h4 className="font-bold text-lg mb-6">Quick Links</h4>
             <ul className="space-y-4 text-gray-400">
+              <li><Link to="/students" className="hover:text-brand-orange transition-colors flex items-center gap-1.5"><GraduationCap className="w-4 h-4 text-brand-orange" /><span>15% Student Discount</span></Link></li>
+              <li><Link to="/corporate-amc" className="hover:text-brand-orange transition-colors flex items-center gap-1.5"><Building2 className="w-4 h-4 text-blue-400" /><span>Corporate IT Fleet AMC</span></Link></li>
               <li><Link to="/about" className="hover:text-brand-orange transition-colors">About Us</Link></li>
+              <li><Link to="/mobile-tools" className="hover:text-brand-orange transition-colors">Diagnostic Hardware Tools</Link></li>
               <li><Link to="/shop" className="hover:text-brand-orange transition-colors">Shop Accessories</Link></li>
               <li><Link to="/estimate" className="hover:text-brand-orange transition-colors">Get an Estimate</Link></li>
               <li><Link to="/track-repair" className="hover:text-brand-orange transition-colors">Track Your Repair</Link></li>
@@ -134,6 +137,16 @@ export default function Footer({ onOpenTerms }: FooterProps) {
                     Fri: 4 PM - 11 PM
                   </p>
                 </div>
+              </li>
+              <li className="pt-2">
+                <button
+                  type="button"
+                  onClick={() => window.dispatchEvent(new CustomEvent('open-review-booster'))}
+                  className="w-full py-2.5 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs flex items-center justify-center gap-2 transition-colors border border-white/20"
+                >
+                  <Star className="w-4 h-4 text-amber-400 fill-current" />
+                  <span>Rate Us on Google Maps</span>
+                </button>
               </li>
             </ul>
           </div>

@@ -18,25 +18,25 @@ import PreOwnedDevices from '../components/PreOwnedDevices';
 import Shop from '../components/Shop';
 import TradeIn from '../components/TradeIn';
 import WarrantyInfo from '../components/WarrantyInfo';
-import DeviceRepairRequest from '../components/DeviceRepairRequest';
-import FAQSection from '../components/FAQSection';
-import BlogSection from '../components/BlogSection';
-import LocalSEOSection from '../components/LocalSEOSection';
 import LocalMarketPerks from '../components/LocalMarketPerks';
-import UAEClimateProtection from '../components/UAEClimateProtection';
-import LaptopRepairSliderSection from '../components/LaptopRepairSliderSection';
-import IMEIChecker from '../components/IMEIChecker';
 import TrustAndResultsSection from '../components/TrustAndResultsSection';
-import DeviceAnatomyExplorer from '../components/DeviceAnatomyExplorer';
-import CostEstimator from '../components/CostEstimator';
-import HomepageBeforeAfter from '../components/HomepageBeforeAfter';
-import RepairPriceComparison from '../components/RepairPriceComparison';
-import DropTestSimulator from '../components/DropTestSimulator';
-import StoreAvailability from '../components/StoreAvailability';
 import GoogleReviewsTrustBadge from '../components/GoogleReviewsTrustBadge';
 import InViewSection from '../components/InViewSection';
 
-// Lazy load below-the-fold interactive modules to improve Performance & TBT
+// Lazy load below-the-fold interactive modules to improve Performance, LCP & TBT
+const DeviceRepairRequest = lazy(() => import('../components/DeviceRepairRequest'));
+const FAQSection = lazy(() => import('../components/FAQSection'));
+const BlogSection = lazy(() => import('../components/BlogSection'));
+const LocalSEOSection = lazy(() => import('../components/LocalSEOSection'));
+const UAEClimateProtection = lazy(() => import('../components/UAEClimateProtection'));
+const LaptopRepairSliderSection = lazy(() => import('../components/LaptopRepairSliderSection'));
+const IMEIChecker = lazy(() => import('../components/IMEIChecker'));
+const DeviceAnatomyExplorer = lazy(() => import('../components/DeviceAnatomyExplorer'));
+const CostEstimator = lazy(() => import('../components/CostEstimator'));
+const HomepageBeforeAfter = lazy(() => import('../components/HomepageBeforeAfter'));
+const RepairPriceComparison = lazy(() => import('../components/RepairPriceComparison'));
+const DropTestSimulator = lazy(() => import('../components/DropTestSimulator'));
+const StoreAvailability = lazy(() => import('../components/StoreAvailability'));
 const ClientTestimonialShowcase = lazy(() => import('../components/ClientTestimonialShowcase'));
 const MallVsAlSharqSavingsCalculator = lazy(() => import('../components/MallVsAlSharqSavingsCalculator'));
 const DisplayVsMotherboardDiagnostic = lazy(() => import('../components/DisplayVsMotherboardDiagnostic'));
@@ -205,10 +205,12 @@ export default function HomePage({ onBookNow }: HomePageProps) {
 
       <InViewSection minHeight="500px">
         <AdvancedServices2026 onBookNow={onBookNow} />
-        <DeviceAnatomyExplorer />
-        <HomepageBeforeAfter />
-        <DropTestSimulator />
-        <StoreAvailability />
+        <Suspense fallback={null}>
+          <DeviceAnatomyExplorer />
+          <HomepageBeforeAfter />
+          <DropTestSimulator />
+          <StoreAvailability />
+        </Suspense>
         <TrustAndResultsSection />
       </InViewSection>
 
@@ -216,7 +218,9 @@ export default function HomePage({ onBookNow }: HomePageProps) {
         <BlueOceanVision onBookNow={onBookNow} />
         <AboutUs />
         <Services onBookService={onBookNow} />
-        <RepairPriceComparison />
+        <Suspense fallback={null}>
+          <RepairPriceComparison />
+        </Suspense>
         <WhyChooseUs />
         <Achievements />
         <Testimonials />
@@ -256,7 +260,9 @@ export default function HomePage({ onBookNow }: HomePageProps) {
         <TradeIn />
         <WarrantyInfo />
         <LocalMarketPerks />
-        <UAEClimateProtection onBookNow={onBookNow} />
+        <Suspense fallback={null}>
+          <UAEClimateProtection onBookNow={onBookNow} />
+        </Suspense>
       </InViewSection>
 
       <InViewSection minHeight="500px">
@@ -273,8 +279,8 @@ export default function HomePage({ onBookNow }: HomePageProps) {
           <CorporateFleetRepair />
           <DataPrivacyInteractive />
           <ScratchToWinOffer />
+          <LocalSEOSection />
         </Suspense>
-        <LocalSEOSection />
       </InViewSection>
 
       <InViewSection minHeight="500px">
@@ -282,10 +288,10 @@ export default function HomePage({ onBookNow }: HomePageProps) {
           <NearMeLocalSearchHub />
           <GCCRegionalSection onBookNow={onBookNow} />
           <SocialFeed />
+          <DeviceRepairRequest />
+          <FAQSection />
+          <BlogSection />
         </Suspense>
-        <DeviceRepairRequest />
-        <FAQSection />
-        <BlogSection />
       </InViewSection>
     </>
   );

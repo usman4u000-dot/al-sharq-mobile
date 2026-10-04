@@ -29,6 +29,11 @@ const TermsModal = React.lazy(() => import('./components/TermsModal'));
 const TrackRepairModal = React.lazy(() => import('./components/TrackRepairModal'));
 const DiagnosticBot = React.lazy(() => import('./components/DiagnosticBot'));
 const EasterEggConsole = React.lazy(() => import('./components/EasterEggConsole'));
+const WhatsAppPhotoQuoteModal = React.lazy(() => import('./components/WhatsAppPhotoQuoteModal'));
+const GoogleReviewBoosterModal = React.lazy(() => import('./components/GoogleReviewBoosterModal'));
+const DigitalJobCardModal = React.lazy(() => import('./components/DigitalJobCardModal'));
+const VoiceSearchModal = React.lazy(() => import('./components/VoiceSearchModal'));
+const StudentDiscountPage = React.lazy(() => import('./pages/StudentDiscountPage'));
 
 import HomePage from './pages/HomePage';
 const AboutUsPage = React.lazy(() => import('./pages/AboutUsPage'));
@@ -113,6 +118,33 @@ function AppRoutes() {
   const [isTermsOpen, setIsTermsOpen] = useState(false);
   const [isTrackRepairOpen, setIsTrackRepairOpen] = useState(false);
   const [selectedService, setSelectedService] = useState('');
+  const [isPhotoQuoteOpen, setIsPhotoQuoteOpen] = useState(false);
+  const [isReviewBoosterOpen, setIsReviewBoosterOpen] = useState(false);
+  const [isJobCardOpen, setIsJobCardOpen] = useState(false);
+  const [jobCardData, setJobCardData] = useState<any>(null);
+  const [isVoiceSearchOpen, setIsVoiceSearchOpen] = useState(false);
+
+  useEffect(() => {
+    const handleOpenPhotoQuote = () => setIsPhotoQuoteOpen(true);
+    const handleOpenReviewBooster = () => setIsReviewBoosterOpen(true);
+    const handleOpenJobCard = (e: any) => {
+      setJobCardData(e.detail || null);
+      setIsJobCardOpen(true);
+    };
+    const handleOpenVoiceSearch = () => setIsVoiceSearchOpen(true);
+
+    window.addEventListener('open-photo-quote', handleOpenPhotoQuote);
+    window.addEventListener('open-review-booster', handleOpenReviewBooster);
+    window.addEventListener('open-job-card', handleOpenJobCard);
+    window.addEventListener('open-voice-search', handleOpenVoiceSearch);
+
+    return () => {
+      window.removeEventListener('open-photo-quote', handleOpenPhotoQuote);
+      window.removeEventListener('open-review-booster', handleOpenReviewBooster);
+      window.removeEventListener('open-job-card', handleOpenJobCard);
+      window.removeEventListener('open-voice-search', handleOpenVoiceSearch);
+    };
+  }, []);
 
   const [isBookingLoading, setIsBookingLoading] = useState(false);
   
@@ -202,7 +234,10 @@ function AppRoutes() {
               <Route path="/troubleshoot" element={<PageTransition><TroubleshootingPage /></PageTransition>} />
               <Route path="/mobile-tools" element={<PageTransition><MobileToolsPage /></PageTransition>} />
               <Route path="/tools" element={<PageTransition><MobileToolsPage /></PageTransition>} />
+              <Route path="/students" element={<PageTransition><StudentDiscountPage /></PageTransition>} />
+              <Route path="/student-discount" element={<PageTransition><StudentDiscountPage /></PageTransition>} />
               <Route path="/corporate" element={<PageTransition><CorporateServicesPage /></PageTransition>} />
+              <Route path="/corporate-amc" element={<PageTransition><CorporateServicesPage /></PageTransition>} />
               <Route path="/gcc-services" element={<PageTransition><GCCRegionalServicesPage onBookNow={openBooking} /></PageTransition>} />
               <Route path="/international-repair" element={<PageTransition><GCCRegionalServicesPage onBookNow={openBooking} /></PageTransition>} />
               <Route path="/gallery" element={<PageTransition><GalleryPage /></PageTransition>} />
@@ -250,6 +285,31 @@ function AppRoutes() {
           <TrackRepairModal
             isOpen={isTrackRepairOpen}
             onClose={() => setIsTrackRepairOpen(false)}
+          />
+        )}
+        {isPhotoQuoteOpen && (
+          <WhatsAppPhotoQuoteModal
+            isOpen={isPhotoQuoteOpen}
+            onClose={() => setIsPhotoQuoteOpen(false)}
+          />
+        )}
+        {isReviewBoosterOpen && (
+          <GoogleReviewBoosterModal
+            isOpen={isReviewBoosterOpen}
+            onClose={() => setIsReviewBoosterOpen(false)}
+          />
+        )}
+        {isJobCardOpen && (
+          <DigitalJobCardModal
+            isOpen={isJobCardOpen}
+            onClose={() => setIsJobCardOpen(false)}
+            jobData={jobCardData}
+          />
+        )}
+        {isVoiceSearchOpen && (
+          <VoiceSearchModal
+            isOpen={isVoiceSearchOpen}
+            onClose={() => setIsVoiceSearchOpen(false)}
           />
         )}
         <DiagnosticBot />

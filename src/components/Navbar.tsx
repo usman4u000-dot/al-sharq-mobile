@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Menu, X, ShoppingCart, Search, ChevronDown, Smartphone, Laptop, Activity, Tablet, Droplet, Cpu, HardDrive, Battery, Gamepad2, Watch, Globe, Zap, Phone, MessageCircle, MapPin, Clock, Wrench, ChevronRight, Camera, Volume2, Layers, ArrowRight, Printer, Monitor } from 'lucide-react';
+import { Menu, X, ShoppingCart, Search, ChevronDown, Smartphone, Laptop, Activity, Tablet, Droplet, Cpu, HardDrive, Battery, Gamepad2, Watch, Globe, Zap, Phone, MessageCircle, MapPin, Clock, Wrench, ChevronRight, Camera, Volume2, Layers, ArrowRight, Printer, Monitor, Mic, GraduationCap, Building2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from './Logo';
@@ -273,6 +273,14 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                 <Search className="h-5 w-5" aria-hidden="true" />
               </button>
               <button 
+                onClick={() => window.dispatchEvent(new CustomEvent('open-voice-search'))}
+                className="p-2 hover:bg-white/10 rounded-full transition-colors text-brand-orange hover:text-orange-400"
+                aria-label="Voice Search"
+                title="Voice Search (Urdu / Arabic / English)"
+              >
+                <Mic className="h-5 w-5" aria-hidden="true" />
+              </button>
+              <button 
                 onClick={onBookNow}
                 disabled={isBookingOpen}
                 aria-label={isBookingOpen ? "Booking in progress" : t('nav.book')}
@@ -308,6 +316,14 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                 aria-label="Search"
               >
                 <Search className="h-5 w-5" aria-hidden="true" />
+              </button>
+
+              <button 
+                onClick={() => window.dispatchEvent(new CustomEvent('open-voice-search'))}
+                className="p-2 rounded-lg text-brand-orange hover:text-orange-400 hover:bg-white/10 transition-colors"
+                aria-label="Voice Search"
+              >
+                <Mic className="h-5 w-5" aria-hidden="true" />
               </button>
 
               <button
@@ -466,6 +482,30 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                     <span className="flex items-center gap-2">
                       <Activity className="w-4 h-4 text-emerald-400" />
                       <span>{isAr ? 'أدوات فحص الهاتف' : 'Mobile Testing Tools (Water/Screen)'}</span>
+                    </span>
+                    <ChevronRight className="w-4 h-4 text-slate-500" />
+                  </Link>
+
+                  <Link 
+                    to="/students" 
+                    className="text-slate-200 hover:text-white hover:bg-slate-800/80 flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <span className="flex items-center gap-2">
+                      <GraduationCap className="w-4 h-4 text-brand-orange" />
+                      <span>{isAr ? 'خصم الطلاب 15% (المدينة الجامعية)' : '15% Student Discount (AUS/UoS)'}</span>
+                    </span>
+                    <ChevronRight className="w-4 h-4 text-slate-500" />
+                  </Link>
+
+                  <Link 
+                    to="/corporate-amc" 
+                    className="text-slate-200 hover:text-white hover:bg-slate-800/80 flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <span className="flex items-center gap-2">
+                      <Building2 className="w-4 h-4 text-blue-400" />
+                      <span>{isAr ? 'عقود الشركات والصيانة (B2B)' : 'Corporate IT & Fleet AMC'}</span>
                     </span>
                     <ChevronRight className="w-4 h-4 text-slate-500" />
                   </Link>

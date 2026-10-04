@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MessageCircle, X, Send, Sparkles, CheckCircle2, ShieldCheck, ArrowRight } from 'lucide-react';
+import { MessageCircle, X, Send, Sparkles, CheckCircle2, ShieldCheck, ArrowRight, Camera } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -24,6 +24,8 @@ export default function WhatsAppWidget() {
   if (!hasScrolled) return null;
 
   const quickInquiries = [
+    { label: '🎓 15% Student Discount', labelAr: '🎓 خصم طلاب جامعة الشارقة 15%', msg: 'Hello Al Sharq, I am a university student in Sharjah and want to claim the 15% student repair discount.' },
+    { label: '🇵🇰 Pakistan Variant Repair', labelAr: '🇵🇰 هواتف باكستان (انفينكس/فيفو/ايتل)', msg: 'Hello Al Sharq, I brought my phone from Pakistan (Infinix / itel / Tecno / Vivo / Oppo) and need repair in Sharjah.' },
     { label: '📱 Screen Repair Quote', labelAr: '📱 استفسار تصليح شاشة', msg: 'Hello Al Sharq Lab, I would like an express screen replacement quote in Sharjah.' },
     { label: '💻 MacBook Logic Board Fix', labelAr: '💻 صيانة ماك بوك دقيقة', msg: 'Hello, I have a MacBook logic board issue and need a micro-soldering diagnostic quote.' },
     { label: '🛍️ 20% OFF Phones', labelAr: '🛍️ شراء هواتف بخصم 20%', msg: 'Hello Al Sharq, I want to inquire about factory-sealed phones at 20% off market price.' },
@@ -77,6 +79,21 @@ export default function WhatsAppWidget() {
                 <X className="w-4 h-4" aria-hidden="true" />
               </button>
             </div>
+
+            {/* 1-Click Photo Quote Action Button */}
+            <button
+              onClick={() => {
+                setIsOpen(false);
+                window.dispatchEvent(new CustomEvent('open-photo-quote'));
+              }}
+              className="w-full mb-3 p-3 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-700 text-white flex items-center justify-between text-xs font-black shadow-md hover:shadow-lg transition-all"
+            >
+              <span className="flex items-center gap-2">
+                <Camera className="w-4 h-4" />
+                <span>{isAr ? '📸 إرسال صورة الجهاز للتسعير الفوري' : '📸 Snap Photo for Instant Quote'}</span>
+              </span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
 
             <p className="text-xs text-slate-600 dark:text-slate-300 mb-3 leading-relaxed">
               {isAr
