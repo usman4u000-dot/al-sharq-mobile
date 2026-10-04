@@ -45,20 +45,20 @@ export default function CookieConsent() {
             <div className="flex-1">
               <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-1">We value your privacy</h3>
               <p className="text-sm text-gray-600 dark:text-gray-300">
-                We use cookies to enhance your browsing experience, serve personalized ads or content, and analyze our traffic. By clicking "Accept All", you consent to our use of cookies. Read our <Link to="/privacy" className="text-brand-orange hover:underline">Privacy Policy</Link> for more information.
+                We use cookies to enhance your browsing experience, serve personalized ads or content, and analyze our traffic. By clicking "Accept All", you consent to our use of cookies. Read our <Link to="/privacy" className="text-orange-800 dark:text-orange-400 font-bold underline hover:text-orange-950">Privacy Policy</Link> for more information.
               </p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto mt-2 md:mt-0">
               <button
                 onClick={declineCookies}
-                className="px-5 py-2.5 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 rounded-xl transition-colors whitespace-nowrap"
+                className="px-5 py-2.5 text-sm font-semibold text-gray-800 dark:text-gray-200 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 rounded-xl transition-colors whitespace-nowrap"
               >
                 Decline
               </button>
               <button
                 onClick={acceptCookies}
-                className="px-5 py-2.5 text-sm font-medium text-white bg-brand-orange hover:bg-orange-600 rounded-xl shadow-lg shadow-orange-500/20 transition-all whitespace-nowrap"
+                className="px-5 py-2.5 text-sm font-bold text-white bg-[#C2410C] hover:bg-[#9A3412] rounded-xl shadow-lg shadow-orange-900/20 transition-all whitespace-nowrap"
               >
                 Accept All
               </button>

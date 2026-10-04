@@ -5,8 +5,8 @@
 
 @theme {
   --color-brand-blue: #0A192F; /* Deep Navy Blue (Trust) */
-  --color-brand-grey: #64748b; /* Slate Grey (Technical) */
-  --color-brand-orange: #FF5722; /* Brilliant Orange (Action) */
+  --color-brand-grey: #475569; /* Slate Grey - WCAG AA compliant */
+  --color-brand-orange: #C2410C; /* Deep High-Contrast Orange - 5.2:1 WCAG AA compliant on white */
   --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   
   --animate-infinite-scroll: infinite-scroll 40s linear infinite;

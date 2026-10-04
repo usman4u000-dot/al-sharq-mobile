@@ -40,7 +40,7 @@ export default function FiveCoreSpecialtyBlocks({ onBookNow }: FiveCoreSpecialty
       categoryEn: 'Smartphones & Tablets',
       icon: Smartphone,
       accentColor: 'from-orange-500 to-amber-500',
-      lightBg: 'bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-200 dark:border-orange-500/30',
+      lightBg: 'bg-orange-100 text-orange-950 dark:bg-orange-950/70 dark:text-orange-200 border-orange-300 dark:border-orange-500/50',
       priceEn: 'From 79 AED',
       priceAr: 'يبدأ من 79 درهم',
       turnaroundEn: '15 - 45 Minutes',
@@ -77,7 +77,7 @@ export default function FiveCoreSpecialtyBlocks({ onBookNow }: FiveCoreSpecialty
       categoryEn: 'Printers & Plotters',
       icon: Printer,
       accentColor: 'from-emerald-500 to-teal-500',
-      lightBg: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-500/30',
+      lightBg: 'bg-emerald-100 text-emerald-950 dark:bg-emerald-950/70 dark:text-emerald-200 border-emerald-300 dark:border-emerald-500/50',
       priceEn: 'From 89 AED',
       priceAr: 'يبدأ من 89 درهم',
       turnaroundEn: 'Same-Day / 24 Hours',
@@ -114,7 +114,7 @@ export default function FiveCoreSpecialtyBlocks({ onBookNow }: FiveCoreSpecialty
       categoryEn: 'Laptops & Workstations',
       icon: Laptop,
       accentColor: 'from-blue-600 to-indigo-600',
-      lightBg: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-500/30',
+      lightBg: 'bg-blue-100 text-blue-950 dark:bg-blue-950/70 dark:text-blue-200 border-blue-300 dark:border-blue-500/50',
       priceEn: 'From 99 AED',
       priceAr: 'يبدأ من 99 درهم',
       turnaroundEn: '1 - 3 Hours',
@@ -151,7 +151,7 @@ export default function FiveCoreSpecialtyBlocks({ onBookNow }: FiveCoreSpecialty
       categoryEn: 'Display Replacement',
       icon: Monitor,
       accentColor: 'from-cyan-500 to-blue-500',
-      lightBg: 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-200 dark:border-cyan-500/30',
+      lightBg: 'bg-cyan-100 text-cyan-950 dark:bg-cyan-950/70 dark:text-cyan-200 border-cyan-300 dark:border-cyan-500/50',
       priceEn: 'From 149 AED',
       priceAr: 'يبدأ من 149 درهم',
       turnaroundEn: '30 - 60 Minutes',
@@ -188,7 +188,7 @@ export default function FiveCoreSpecialtyBlocks({ onBookNow }: FiveCoreSpecialty
       categoryEn: 'Logic Board & NAND Recovery',
       icon: Cpu,
       accentColor: 'from-purple-600 to-indigo-600',
-      lightBg: 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-200 dark:border-purple-500/30',
+      lightBg: 'bg-purple-100 text-purple-950 dark:bg-purple-950/70 dark:text-purple-200 border-purple-300 dark:border-purple-500/50',
       priceEn: 'Free Diagnostic',
       priceAr: 'فحص وتشخيص مجاني',
       turnaroundEn: 'Same-Day / 48h Complex',
@@ -356,10 +356,10 @@ export default function FiveCoreSpecialtyBlocks({ onBookNow }: FiveCoreSpecialty
                           <Icon className="w-6 h-6" />
                         </div>
                         <div>
-                          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400">
+                          <span className="text-[11px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200">
                             {block.tag}
                           </span>
-                          <div className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                          <div className="text-xs font-semibold text-slate-700 dark:text-slate-200">
                             {block.categoryEn}
                           </div>
                         </div>
@@ -384,7 +384,7 @@ export default function FiveCoreSpecialtyBlocks({ onBookNow }: FiveCoreSpecialty
                   {/* Highlights & Features */}
                   <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between space-y-6">
                     <div>
-                      <div className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400 mb-3 flex items-center gap-1.5">
+                      <div className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200 mb-3 flex items-center gap-1.5">
                         <Wrench className="w-3.5 h-3.5 text-brand-orange" />
                         <span>{isAr ? 'أبرز الإصلاحات المتوفرة' : 'Key Capabilities & Inclusions'}</span>
                       </div>
@@ -402,7 +402,7 @@ export default function FiveCoreSpecialtyBlocks({ onBookNow }: FiveCoreSpecialty
                     <div className="pt-4 border-t border-slate-100 dark:border-slate-700/60 bg-slate-50/50 dark:bg-slate-900/40 -mx-6 sm:-mx-7 -mb-6 sm:-mb-7 p-6 sm:p-7 rounded-b-3xl">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <span className="text-[11px] text-slate-400 font-medium block">
+                          <span className="text-[11px] text-slate-700 dark:text-slate-300 font-bold block">
                             {isAr ? 'التكلفة المقدرة' : 'Starting Price'}
                           </span>
                           <span className="text-lg font-black text-brand-blue dark:text-brand-orange">
@@ -410,10 +410,10 @@ export default function FiveCoreSpecialtyBlocks({ onBookNow }: FiveCoreSpecialty
                           </span>
                         </div>
                         <div className="text-end">
-                          <span className="text-[11px] text-slate-400 font-medium block">
+                          <span className="text-[11px] text-slate-700 dark:text-slate-300 font-bold block">
                             {isAr ? 'الضمان' : 'Protection'}
                           </span>
-                          <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1 justify-end">
+                          <span className="text-xs font-bold text-emerald-700 dark:text-emerald-300 flex items-center gap-1 justify-end">
                             <ShieldCheck className="w-3.5 h-3.5" />
                             {isAr ? block.warrantyAr : block.warrantyEn}
                           </span>
@@ -424,7 +424,7 @@ export default function FiveCoreSpecialtyBlocks({ onBookNow }: FiveCoreSpecialty
                       <div className="grid grid-cols-2 gap-2.5">
                         <button
                           onClick={() => onBookNow(block.titleEn)}
-                          className="w-full py-2.5 px-3 bg-brand-orange hover:bg-orange-600 text-white rounded-xl text-xs sm:text-sm font-bold transition-all shadow-md shadow-brand-orange/20 flex items-center justify-center gap-1.5"
+                          className="w-full py-2.5 px-3 bg-[#C2410C] hover:bg-[#9A3412] text-white rounded-xl text-xs sm:text-sm font-bold transition-all shadow-md shadow-orange-900/20 flex items-center justify-center gap-1.5"
                         >
                           <Zap className="w-3.5 h-3.5" />
                           <span>{isAr ? block.ctaTextAr : block.ctaTextEn}</span>
@@ -469,7 +469,7 @@ export default function FiveCoreSpecialtyBlocks({ onBookNow }: FiveCoreSpecialty
               href="https://wa.me/971507117043?text=Hello%20Al%20Sharq,%20I%20would%20like%20to%20inquire%20about%20repairs."
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full md:w-auto px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs sm:text-sm text-center shadow-lg transition-all"
+              className="w-full md:w-auto px-5 py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs sm:text-sm text-center shadow-lg transition-all"
             >
               WhatsApp Us (+971 50 711 7043)
             </a>

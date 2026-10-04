@@ -109,7 +109,7 @@ export default function Footer({ onOpenTerms }: FooterProps) {
                   <Phone className="h-5 w-5 text-brand-orange" />
                 </div>
                 <div className="flex flex-col gap-1">
-                  <span className="text-xs text-gray-500 mb-0.5">Call or WhatsApp</span>
+                  <span className="text-xs text-slate-300 mb-0.5">Call or WhatsApp</span>
                   <a href="tel:+971507117043" className="hover:text-brand-orange transition-colors font-medium text-white">
                     +971 50 711 7043
                   </a>
@@ -120,7 +120,7 @@ export default function Footer({ onOpenTerms }: FooterProps) {
                   <Mail className="h-5 w-5 text-brand-orange" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs text-gray-500 mb-0.5">Email Us</span>
+                  <span className="text-xs text-slate-300 mb-0.5">Email Us</span>
                   <a href="mailto:alsharqmobile@gmail.com" className="hover:text-brand-orange transition-colors font-medium text-white">
                     alsharqmobile@gmail.com
                   </a>
@@ -131,7 +131,7 @@ export default function Footer({ onOpenTerms }: FooterProps) {
                   <Clock className="h-5 w-5 text-brand-orange" />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs text-gray-500 mb-0.5">Business Hours</span>
+                  <span className="text-xs text-slate-300 mb-0.5">Business Hours</span>
                   <p className="font-medium text-white text-sm leading-relaxed">
                     Sat-Thu: 9 AM - 11 PM<br/>
                     Fri: 4 PM - 11 PM
@@ -158,13 +158,13 @@ export default function Footer({ onOpenTerms }: FooterProps) {
             <span className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-gray-300 font-medium text-sm">Cash</span>
             <span className="px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-gray-300 font-medium text-sm">Credit / Debit Card</span>
             <span className="px-4 py-2 bg-[#EEFDF4] text-[#1D9968] border border-[#1D9968]/20 rounded-lg font-black tracking-tight text-xl">tabby</span>
-            <span className="px-4 py-2 bg-[#FFF4F0] text-[#E58869] border border-[#E58869]/20 rounded-lg font-black tracking-tight text-xl">tamara</span>
+            <span className="px-4 py-2 bg-[#FFF4F0] text-[#993A1D] border border-[#993A1D]/30 rounded-lg font-black tracking-tight text-xl">tamara</span>
           </div>
         </div>
 
         <div className="border-t border-white/10 pt-8 mt-8 mb-8">
           <h4 className="text-white font-semibold mb-4 text-sm uppercase tracking-wider">Popular "Near Me" Searches in Sharjah, Dubai &amp; UAE</h4>
-          <div className="flex flex-wrap gap-x-3 gap-y-2 text-xs text-gray-400">
+          <div className="flex flex-wrap gap-x-3 gap-y-2 text-xs text-slate-300">
             <Link to="/phone-repair" className="hover:text-brand-orange transition-colors">phone repair near me</Link>
             <span className="text-slate-700">•</span>
             <Link to="/shop" className="hover:text-brand-orange transition-colors">mobile shop near me</Link>
@@ -224,7 +224,7 @@ export default function Footer({ onOpenTerms }: FooterProps) {
           </div>
         </div>
 
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm gap-4">
+        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-slate-300 text-sm gap-4">
           <p>&copy; {new Date().getFullYear()} Al Sharq Mobile Phone & Computer Trading LLC. All rights reserved.</p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link to="/faq" className="hover:text-brand-orange transition-colors">FAQ</Link>

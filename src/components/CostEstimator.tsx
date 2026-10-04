@@ -871,7 +871,7 @@ export default function CostEstimator({ onBookNow }: { onBookNow: (s?: string) =
           {/* Mobile Step Header */}
           <div className="sm:hidden flex items-center justify-between mb-6 pb-4 border-b border-slate-200 dark:border-slate-700">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-brand-orange">Step {step} of 4</span>
+              <span className="text-xs font-bold uppercase tracking-wider text-orange-800 dark:text-orange-400">Step {step} of 4</span>
               <span className="text-xs text-slate-500">•</span>
               <span className="text-xs font-medium text-slate-700 dark:text-slate-300">
                 {step === 1 && 'Select Device'}
@@ -884,7 +884,7 @@ export default function CostEstimator({ onBookNow }: { onBookNow: (s?: string) =
             {step > 1 && step < 5 && (
               <button 
                 onClick={() => setStep(step - 1)}
-                className="text-xs font-bold text-brand-orange hover:text-orange-600 px-2.5 py-1 rounded-lg bg-orange-50 dark:bg-orange-950/40 border border-orange-200 dark:border-orange-800"
+                className="text-xs font-bold text-orange-800 dark:text-orange-300 hover:text-orange-950 px-2.5 py-1 rounded-lg bg-orange-100 dark:bg-orange-950/60 border border-orange-300 dark:border-orange-800"
               >
                 Back
               </button>
@@ -1003,7 +1003,7 @@ export default function CostEstimator({ onBookNow }: { onBookNow: (s?: string) =
                   </p>
                   
                   <div className="inline-block bg-white dark:bg-slate-800 border-2 border-brand-orange/30 px-8 py-6 rounded-2xl shadow-lg mb-8">
-                    <span className="block text-sm font-semibold text-brand-orange uppercase tracking-wider mb-2">Estimated Cost</span>
+                    <span className="block text-sm font-bold text-orange-800 dark:text-orange-400 uppercase tracking-wider mb-2">Estimated Cost</span>
                     <span className="block text-5xl font-black text-brand-blue dark:text-white tracking-tight">{getPrice()}</span>
                     <span className="block text-xs text-slate-500 mt-3">*Final price may vary based on actual physical inspection.</span>
                   </div>
