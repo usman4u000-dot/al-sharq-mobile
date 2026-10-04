@@ -7,6 +7,7 @@ import { seoBlogs5 } from './seoBlogs5';
 import { seoBlogs6 } from './seoBlogs6';
 import { seoBlogs7 } from './seoBlogs7';
 import { seoBlogsToday2026 } from './seoBlogsToday2026';
+import { seoBlogsPakistaniVariants } from './seoBlogsPakistaniVariants';
 import { seoBlogsHistoricalArchive } from './seoBlogsHistoricalArchive';
 import { seoBlogsHistorical2 } from './seoBlogsHistorical2';
 import { seoBlogsGCC } from './seoBlogsGCC';
@@ -51,6 +52,7 @@ export const calculateReadTime = (post: BlogPost): string => {
 
 export const blogPosts: BlogPost[] = [
   ...seoBlogsToday2026,
+  ...seoBlogsPakistaniVariants,
   // iPhone 18 Official Flagship Launch & Local Guide
   {
     id: 'iphone-18-launch-colors-specs-repair-sharjah',

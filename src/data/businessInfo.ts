@@ -127,6 +127,44 @@ export const getLocalBusinessSchema = () => ({
     "opens": slot.opens,
     "closes": slot.closes
   })),
+  "knowsAbout": [
+    "Mobile Phone Repair",
+    "iPhone Screen Replacement",
+    "Samsung Galaxy OLED Repair",
+    "MacBook Logic Board Micro-Soldering",
+    "Laptop Screen Replacement",
+    "HP LaserJet & Epson EcoTank Printer Repair",
+    "Forensic Data Recovery",
+    "Liquid Damage Ultrasonic Restoration",
+    "Battery Replacement and BMS Serialization",
+    "Thermal Paste Overhaul & Fan Cleaning"
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Al Sharq Certified Repair & Maintenance Services",
+    "itemListElement": [
+      {
+        "@type": "OfferCatalog",
+        "name": "Smartphone & Tablet Repair",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "iPhone Screen Replacement", "url": "https://allsharq.com/iphone-repair" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Samsung Galaxy OLED Repair", "url": "https://allsharq.com/samsung-repair" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Phone Battery Replacement", "url": "https://allsharq.com/battery-repair" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Charging Port Repair", "url": "https://allsharq.com/charging-port-repair" } }
+        ]
+      },
+      {
+        "@type": "OfferCatalog",
+        "name": "Computing & Motherboard Engineering",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "MacBook Logic Board Micro-Soldering", "url": "https://allsharq.com/macbook-repair" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Laptop Screen Replacement", "url": "https://allsharq.com/laptop-screen-repair" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Commercial Printer Repair", "url": "https://allsharq.com/printer-repair" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Cleanroom Data Recovery", "url": "https://allsharq.com/data-recovery" } }
+        ]
+      }
+    ]
+  },
   "areaServed": [
     {
       "@type": "City",

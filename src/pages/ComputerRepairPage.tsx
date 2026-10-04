@@ -82,8 +82,8 @@ export default function ComputerRepairPage({ onBookNow }: { onBookNow: (service?
               transition={{ duration: 0.5, delay: 0.2 }}
               className="relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/3]"
             >
-              <img loading="lazy" src="https://picsum.photos/seed/laptop-repair-tech/800/600" 
-                alt="Professional Computer Repair" 
+              <img loading="lazy" src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&q=80&w=1200" 
+                alt="Professional Computer & Laptop Motherboard Repair Sharjah" 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
               />
@@ -456,6 +456,66 @@ export default function ComputerRepairPage({ onBookNow }: { onBookNow: (service?
                   </p>
                 </motion.div>
               </div>
+            </div>
+          </div>
+
+          {/* Interlinked Related Computing & Hardware Services */}
+          <div className="my-16 p-8 rounded-3xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 not-prose">
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-4 text-center">
+              Related Computing & Technical Hardware Services
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <Link
+                to="/laptop-screen-repair"
+                className="p-4 rounded-xl bg-white dark:bg-slate-750 border border-slate-200 dark:border-slate-700 hover:border-brand-orange transition-all group"
+              >
+                <Monitor className="w-5 h-5 text-brand-orange mb-2" />
+                <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-brand-orange transition-colors">
+                  Laptop Screen Repair
+                </h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  MacBook Liquid Retina & 240Hz gaming OLED replacement.
+                </p>
+              </Link>
+
+              <Link
+                to="/logic-board-repair"
+                className="p-4 rounded-xl bg-white dark:bg-slate-750 border border-slate-200 dark:border-slate-700 hover:border-brand-orange transition-all group"
+              >
+                <Cpu className="w-5 h-5 text-brand-orange mb-2" />
+                <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-brand-orange transition-colors">
+                  Logic Board Micro-Soldering
+                </h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  FLIR thermal short-circuit tracing and BGA reballing.
+                </p>
+              </Link>
+
+              <Link
+                to="/printer-repair"
+                className="p-4 rounded-xl bg-white dark:bg-slate-750 border border-slate-200 dark:border-slate-700 hover:border-brand-orange transition-all group"
+              >
+                <Laptop className="w-5 h-5 text-brand-orange mb-2" />
+                <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-brand-orange transition-colors">
+                  Commercial Printer Repair
+                </h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  HP LaserJet & Epson EcoTank maintenance in Sharjah.
+                </p>
+              </Link>
+
+              <Link
+                to="/mobile-tools"
+                className="p-4 rounded-xl bg-white dark:bg-slate-750 border border-slate-200 dark:border-slate-700 hover:border-brand-orange transition-all group"
+              >
+                <Zap className="w-5 h-5 text-brand-orange mb-2" />
+                <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-brand-orange transition-colors">
+                  Hardware Diagnostic Suite
+                </h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  Test screen pixels, water eject, and battery health.
+                </p>
+              </Link>
             </div>
           </div>
 

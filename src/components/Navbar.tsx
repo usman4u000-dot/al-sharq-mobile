@@ -15,8 +15,10 @@ interface NavbarProps {
 
 const navServices = [
   { to: '/phone-repair', icon: Smartphone, title: 'Mobile Phone Repairs', desc: 'iPhone & Android screen, battery & chip fix' },
-  { to: '/printer-repair', icon: Printer, title: 'Printer Repair & Maintenance', desc: 'LaserJet & InkTank servicing in Sharjah' },
+  { to: '/computer-repair', icon: Monitor, title: 'Computer & Desktop Repairs', desc: 'PC hardware, OS & motherboard diagnostics' },
   { to: '/laptop-repair', icon: Laptop, title: 'Laptop & MacBook Repair', desc: 'Motherboard micro-soldering & upgrades' },
+  { to: '/mobile-tools', icon: Activity, title: 'Hardware Diagnostics & Tools', desc: 'Speaker water ejector, screen & battery tester' },
+  { to: '/printer-repair', icon: Printer, title: 'Printer Repair & Maintenance', desc: 'LaserJet & InkTank servicing in Sharjah' },
   { to: '/laptop-screen-repair', icon: Monitor, title: 'Laptop Screen Replacement', desc: 'Retina, OLED & 144Hz panel replacement' },
   { to: '/logic-board-repair', icon: Cpu, title: 'Chip-Level Micro-Soldering', desc: 'Complex motherboard & short-circuit repair' },
   { to: '/cracked-screen-repair', icon: Smartphone, title: 'Cracked or Broken Screen', desc: 'Expert screen replacements for all devices' },
@@ -229,6 +231,17 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                   </AnimatePresence>
                 </div>
 
+                <Link to="/computer-repair" aria-label="Computer Repair" className="relative group px-3 py-2 text-sm font-medium text-white/90 hover:text-brand-orange transition-colors">
+                  {isAr ? 'صيانة الكمبيوتر' : 'Computer Repair'}
+                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-brand-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ease-out"></span>
+                </Link>
+
+                <Link to="/mobile-tools" aria-label="Diagnostic Tools" className="relative group px-3 py-2 text-sm font-medium text-white/90 hover:text-brand-orange transition-colors flex items-center gap-1.5">
+                  <Activity className="w-3.5 h-3.5 text-brand-orange" />
+                  <span>{isAr ? 'أدوات الفحص' : 'Tools'}</span>
+                  <span className="absolute bottom-0 left-0 w-full h-[2px] bg-brand-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ease-out"></span>
+                </Link>
+
                 <Link to="/shop" aria-label="Shop" className="relative group px-3 py-2 text-sm font-medium text-white/90 hover:text-brand-orange transition-colors">
                   Shop
                   <span className="absolute bottom-0 left-0 w-full h-[2px] bg-brand-orange scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ease-out"></span>
@@ -431,6 +444,30 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                       <span>{isAr ? 'خدمات دول الخليج وتركيا (شحن)' : 'GCC & Regional (Saudi/Oman/TR)'}</span>
                     </span>
                     <ChevronRight className="w-4 h-4 text-brand-orange" />
+                  </Link>
+
+                  <Link 
+                    to="/computer-repair" 
+                    className="text-slate-200 hover:text-white hover:bg-slate-800/80 flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <span className="flex items-center gap-2">
+                      <Monitor className="w-4 h-4 text-brand-orange" />
+                      <span>{isAr ? 'صيانة الكمبيوتر واللابتوب' : 'Computer & PC Repair'}</span>
+                    </span>
+                    <ChevronRight className="w-4 h-4 text-slate-500" />
+                  </Link>
+
+                  <Link 
+                    to="/mobile-tools" 
+                    className="text-slate-200 hover:text-white hover:bg-slate-800/80 flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <span className="flex items-center gap-2">
+                      <Activity className="w-4 h-4 text-emerald-400" />
+                      <span>{isAr ? 'أدوات فحص الهاتف' : 'Mobile Testing Tools (Water/Screen)'}</span>
+                    </span>
+                    <ChevronRight className="w-4 h-4 text-slate-500" />
                   </Link>
 
                   <Link 
