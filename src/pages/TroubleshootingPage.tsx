@@ -153,6 +153,25 @@ export default function TroubleshootingPage() {
               )}
             </AnimatePresence>
           </div>
+
+          {/* Quick link to Mobile Tools Suite */}
+          <div className="mt-8 p-6 rounded-2xl bg-gradient-to-r from-orange-500/10 to-blue-500/10 border border-brand-orange/30 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <div>
+              <h3 className="font-bold text-slate-900 dark:text-white text-base mb-1">
+                Looking for Interactive Mobile Phone Testing Tools?
+              </h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400">
+                Expel water from speakers (165Hz sound), test touch dead-zones, check dead pixels, and estimate battery life.
+              </p>
+            </div>
+            <Link
+              to="/mobile-tools"
+              className="px-5 py-2.5 bg-brand-orange hover:bg-orange-600 text-white font-bold rounded-xl text-xs flex items-center gap-1.5 transition-colors shadow-sm shrink-0"
+            >
+              <span>Open Mobile Tools</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
         </div>
       </div>
     </>

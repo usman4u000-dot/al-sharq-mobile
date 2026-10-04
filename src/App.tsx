@@ -62,6 +62,7 @@ const RepairEstimatePage = React.lazy(() => import('./pages/RepairEstimatePage')
 const CorporateServicesPage = React.lazy(() => import('./pages/CorporateServicesPage'));
 const GalleryPage = React.lazy(() => import('./pages/GalleryPage'));
 const TroubleshootingPage = React.lazy(() => import('./pages/TroubleshootingPage'));
+const MobileToolsPage = React.lazy(() => import('./pages/MobileToolsPage'));
 const ServicesPage = React.lazy(() => import('./pages/ServicesPage'));
 const SoftwareIssuesPage = React.lazy(() => import('./pages/SoftwareIssuesPage'));
 const CameraRepairPage = React.lazy(() => import('./pages/CameraRepairPage'));
@@ -199,6 +200,8 @@ function AppRoutes() {
               <Route path="/repair-estimate" element={<PageTransition><RepairEstimatePage onBookNow={openBooking} /></PageTransition>} />
               <Route path="/track-repair" element={<PageTransition><TrackRepairPage /></PageTransition>} />
               <Route path="/troubleshoot" element={<PageTransition><TroubleshootingPage /></PageTransition>} />
+              <Route path="/mobile-tools" element={<PageTransition><MobileToolsPage /></PageTransition>} />
+              <Route path="/tools" element={<PageTransition><MobileToolsPage /></PageTransition>} />
               <Route path="/corporate" element={<PageTransition><CorporateServicesPage /></PageTransition>} />
               <Route path="/gcc-services" element={<PageTransition><GCCRegionalServicesPage onBookNow={openBooking} /></PageTransition>} />
               <Route path="/international-repair" element={<PageTransition><GCCRegionalServicesPage onBookNow={openBooking} /></PageTransition>} />

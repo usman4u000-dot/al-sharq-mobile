@@ -6,6 +6,9 @@ import { seoBlogs4 } from './seoBlogs4';
 import { seoBlogs5 } from './seoBlogs5';
 import { seoBlogs6 } from './seoBlogs6';
 import { seoBlogs7 } from './seoBlogs7';
+import { seoBlogsToday2026 } from './seoBlogsToday2026';
+import { seoBlogsHistoricalArchive } from './seoBlogsHistoricalArchive';
+import { seoBlogsHistorical2 } from './seoBlogsHistorical2';
 import { seoBlogsGCC } from './seoBlogsGCC';
 import { seoBlogsArabic } from './seoBlogsArabic';
 import { Link } from 'react-router-dom';
@@ -47,6 +50,7 @@ export const calculateReadTime = (post: BlogPost): string => {
 };
 
 export const blogPosts: BlogPost[] = [
+  ...seoBlogsToday2026,
   // iPhone 18 Official Flagship Launch & Local Guide
   {
     id: 'iphone-18-launch-colors-specs-repair-sharjah',
@@ -3343,5 +3347,7 @@ Coupled with the 2nm A19 Pro chip, the iPhone 17 Pro Max promises unprecedented 
   ...seoBlogs6,
   ...seoBlogs7,
   ...seoBlogsGCC,
-  ...seoBlogsArabic
+  ...seoBlogsArabic,
+  ...seoBlogsHistoricalArchive,
+  ...seoBlogsHistorical2
 ];
