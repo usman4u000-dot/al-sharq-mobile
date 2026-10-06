@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { 
@@ -20,22 +20,54 @@ import {
   ChevronRight,
   Home,
   Layers,
-  Zap
+  Zap,
+  Check,
+  Sparkles
 } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import Markdown from 'react-markdown';
 import { blogPosts, calculateReadTime } from '../data/blogPosts';
 import RelatedServicesModule from '../components/RelatedServicesModule';
 import { TOPICAL_PILLARS } from '../components/TopicalAuthorityClusterHub';
+import { 
+  TableOfContents, 
+  AudioReadAloudBar, 
+  InteractiveEmergencyChecklist, 
+  InArticleSpeakerEjectorWidget, 
+  MicroscopeInspectionCard, 
+  InArticleRepairCostEstimator, 
+  VerifiedCustomerSentimentCard,
+  TOCItem
+} from '../components/blog/InteractiveBlogWidgets';
 
 export default function BlogPostPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const post = blogPosts.find(p => p.id === id);
 
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalHeight > 0) {
+        setScrollProgress((window.scrollY / totalHeight) * 100);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(null), 2500);
+  };
 
   if (!post) {
     return (
@@ -58,6 +90,34 @@ export default function BlogPostPage() {
 
   // Calculate read time
   const readTime = calculateReadTime(post);
+
+  // Dynamic Table of Contents generation
+  const tocItems: TOCItem[] = (() => {
+    if (typeof post.content === 'string') {
+      const lines = post.content.split('\n');
+      const items: TOCItem[] = [];
+      lines.forEach((line) => {
+        const match = line.match(/^(#{2,3})\s+(.+)$/);
+        if (match) {
+          const level = match[1].length;
+          const rawTitle = match[2].trim().replace(/[*_`#]/g, '');
+          const id = rawTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+          if (rawTitle && id) {
+            items.push({ id, title: rawTitle, level });
+          }
+        }
+      });
+      if (items.length > 0) return items;
+    }
+    return [
+      { id: 'key-takeaways', title: 'Key Technical Takeaways', level: 2 },
+      { id: 'microscope-telemetry', title: 'Microscopic Lab Telemetry', level: 2 },
+      { id: 'emergency-first-aid', title: 'Emergency First-Aid Protocol', level: 2 },
+      { id: 'acoustic-purge', title: '165Hz Acoustic Ejection Test', level: 2 },
+      { id: 'bench-estimate', title: 'Sharjah Lab Cost Estimator', level: 2 },
+      { id: 'client-reviews', title: 'Verified Customer Outcomes', level: 2 }
+    ];
+  })();
 
   // Get categories and recent posts for sidebar
   const categories = ['All', ...Array.from(new Set(blogPosts.map(p => p.category).filter(Boolean)))];
@@ -269,36 +329,56 @@ export default function BlogPostPage() {
               itemScope
               itemType="https://schema.org/TechArticle"
             >
+              {/* Reading Progress Indicator */}
+              <div className="fixed top-0 left-0 right-0 h-1 bg-transparent z-50 pointer-events-none">
+                <div 
+                  className="h-full bg-gradient-to-r from-[#C2410C] via-orange-500 to-amber-400 transition-all duration-75"
+                  style={{ width: `${scrollProgress}%` }}
+                />
+              </div>
+
+              {/* Toast Notification Alert */}
+              <AnimatePresence>
+                {toastMessage && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 20, scale: 0.95 }}
+                    className="fixed bottom-6 right-6 z-50 bg-slate-900 text-white border border-slate-700 shadow-2xl px-4 py-3 rounded-2xl flex items-center gap-2.5 text-xs font-bold"
+                  >
+                    <Check className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <span>{toastMessage}</span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               {/* Back to blog for Mobile */}
               <Link 
                 to="/blog" 
-                className="lg:hidden inline-flex items-center text-slate-500 hover:text-brand-orange font-semibold transition-colors mb-6"
+                className="lg:hidden inline-flex items-center text-slate-500 hover:text-brand-orange font-semibold transition-colors mb-6 text-xs"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" /> Back to all articles
               </Link>
               
               <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-800 overflow-hidden mb-12">
                 <header className="p-6 sm:p-10 md:p-12 pb-6 border-b border-slate-100 dark:border-slate-800">
-                  <div className="flex flex-wrap items-center gap-2 mb-4">
-                    <span className="px-3.5 py-1 bg-brand-orange/10 text-brand-orange text-xs font-bold uppercase tracking-wider rounded-full inline-block">
-                      {post.category}
-                    </span>
-                    <span className="px-3 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-mono font-bold rounded-full">
-                      📍 Sharjah Lab Verified
-                    </span>
+                  <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-400 mb-3 tracking-wide">
+                    <span className="text-[#C2410C] dark:text-orange-400 font-bold">{post.category}</span>
+                    <span aria-hidden="true">·</span>
+                    <span>Sharjah Lab Verified</span>
+                    <span aria-hidden="true">·</span>
+                    <time dateTime={safePublishedDate}>{post.date}</time>
+                    <span aria-hidden="true">·</span>
+                    <span>{readTime}</span>
                   </div>
-                  <h1 dir="auto" itemProp="headline" className="text-2xl sm:text-3xl md:text-5xl font-black text-slate-900 dark:text-white mb-6 leading-tight tracking-tight">
+                  <h1 dir="auto" itemProp="headline" className="text-2xl sm:text-3xl md:text-5xl font-black text-slate-900 dark:text-white mb-6 leading-tight tracking-tight [text-wrap:balance]">
                     {post.title}
                   </h1>
-                  <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400">
-                    <time dateTime={safePublishedDate} itemProp="datePublished" className="flex items-center gap-1.5"><Calendar className="w-4 h-4" /> {post.date}</time>
-                    <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> {readTime}</span>
-                    <span className="flex items-center gap-2 text-slate-800 dark:text-slate-200" itemProp="author" itemScope itemType="https://schema.org/Person">
-                      <div className="w-6 h-6 rounded-full bg-brand-blue/10 dark:bg-white/10 flex items-center justify-center text-brand-blue dark:text-white text-[10px] font-bold">
-                        AS
-                      </div>
-                      <span itemProp="name">{post.author}</span>
-                    </span>
+                  <div className="flex items-center gap-3 text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400">
+                    <div className="w-7 h-7 rounded-full bg-orange-100 dark:bg-slate-800 flex items-center justify-center text-[#C2410C] dark:text-orange-400 text-xs font-bold">
+                      AS
+                    </div>
+                    <span itemProp="author" className="font-semibold text-slate-900 dark:text-white">{post.author}</span>
                   </div>
                 </header>
 
@@ -316,26 +396,46 @@ export default function BlogPostPage() {
                   <figcaption className="sr-only">{post.title} - Al Sharq Technical Lab</figcaption>
                 </figure>
 
+                {/* Audio Narration Briefing Bar */}
+                <div className="px-6 sm:px-10 md:px-12 pt-6">
+                  <AudioReadAloudBar 
+                    articleTitle={post.title} 
+                    readDurationMinutes={parseInt(readTime) || 4} 
+                  />
+                </div>
+
                 <div className="p-6 sm:p-10 md:p-12 flex flex-col lg:flex-row gap-10">
                   {/* Social Share Sidebar (Desktop in article) */}
-                  <div className="hidden lg:flex flex-col gap-4 sticky top-32 h-fit shrink-0">
+                  <div className="hidden lg:flex flex-col gap-3 sticky top-32 h-fit shrink-0">
                     <button 
                       onClick={() => {
                         if (navigator.share) {
                           navigator.share({ title: post.title, url: window.location.href });
+                        } else {
+                          navigator.clipboard.writeText(window.location.href);
+                          showToast('Link copied to clipboard');
                         }
                       }}
-                      className="p-3 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-brand-orange dark:hover:text-brand-orange transition-colors cursor-pointer" 
+                      className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-brand-orange dark:hover:text-brand-orange hover:bg-orange-50 dark:hover:bg-slate-700 transition-all cursor-pointer shadow-sm" 
                       title="Share Article"
+                      aria-label="Share article"
                     >
-                      <Share2 className="w-5 h-5" />
+                      <Share2 className="w-4 h-4" />
                     </button>
                     <button 
-                      onClick={() => alert('Article bookmarked in browser')}
-                      className="p-3 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-brand-orange dark:hover:text-brand-orange transition-colors cursor-pointer" 
-                      title="Bookmark"
+                      onClick={() => {
+                        setIsBookmarked(!isBookmarked);
+                        showToast(isBookmarked ? 'Removed from saved articles' : 'Article bookmarked in reading list');
+                      }}
+                      className={`p-3 rounded-2xl transition-all cursor-pointer shadow-sm ${
+                        isBookmarked 
+                          ? 'bg-orange-100 dark:bg-orange-950 text-[#C2410C] dark:text-orange-400' 
+                          : 'bg-slate-50 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-brand-orange hover:bg-orange-50 dark:hover:bg-slate-700'
+                      }`}
+                      title="Bookmark Article"
+                      aria-label="Bookmark article"
                     >
-                      <Bookmark className="w-5 h-5" />
+                      <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-current' : ''}`} />
                     </button>
                   </div>
 
@@ -373,9 +473,21 @@ export default function BlogPostPage() {
                     {typeof post.content === 'string' ? (
                       <Markdown 
                         components={{
-                          h1: ({children}) => <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-8 mb-4 border-b border-slate-100 dark:border-slate-800 pb-2">{children}</h2>,
-                          h2: ({children}) => <h3 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mt-6 mb-3">{children}</h3>,
-                          h3: ({children}) => <h4 className="text-base sm:text-lg font-semibold text-slate-900 dark:text-white mt-5 mb-2">{children}</h4>,
+                          h1: ({children}) => {
+                            const text = String(children);
+                            const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                            return <h2 id={id} className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-8 mb-4 border-b border-slate-100 dark:border-slate-800 pb-2 scroll-mt-24">{children}</h2>;
+                          },
+                          h2: ({children}) => {
+                            const text = String(children);
+                            const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                            return <h3 id={id} className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mt-6 mb-3 scroll-mt-24">{children}</h3>;
+                          },
+                          h3: ({children}) => {
+                            const text = String(children);
+                            const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+                            return <h4 id={id} className="text-base sm:text-lg font-semibold text-slate-900 dark:text-white mt-5 mb-2 scroll-mt-24">{children}</h4>;
+                          },
                           p: ({children}) => <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-6 text-sm sm:text-base">{children}</p>,
                           ul: ({children}) => <ul className="list-disc pl-6 space-y-2 mb-6 text-slate-600 dark:text-slate-300 text-sm sm:text-base">{children}</ul>,
                           ol: ({children}) => <ol className="list-decimal pl-6 space-y-2 mb-6 text-slate-600 dark:text-slate-300 text-sm sm:text-base">{children}</ol>,
@@ -414,7 +526,41 @@ export default function BlogPostPage() {
                     ) : (
                       post.content
                     )}
+
+                    {/* Rich Interactive Utility Modules */}
+                    <div className="not-prose mt-8 space-y-8">
+                      <InArticleSpeakerEjectorWidget />
+                      <InteractiveEmergencyChecklist />
+                      <MicroscopeInspectionCard 
+                        deviceName={post.title.length > 55 ? post.title.slice(0, 52) + '...' : post.title} 
+                      />
+                      <InArticleRepairCostEstimator />
+                      <VerifiedCustomerSentimentCard />
+                    </div>
                   </div>
+                </div>
+
+                {/* Interactive In-Article Hardware Test Callout */}
+                <div className="mx-6 sm:mx-10 mb-6 p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-orange-950/60 via-slate-850 to-slate-900 border border-orange-500/40 shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="space-y-1 text-center sm:text-left">
+                    <div className="flex items-center justify-center sm:justify-start gap-1.5 text-xs font-bold text-brand-orange uppercase tracking-wider">
+                      <Sparkles className="w-3.5 h-3.5 text-brand-orange" />
+                      <span>Interactive In-Browser Diagnostic</span>
+                    </div>
+                    <h4 className="text-sm sm:text-base font-bold text-white">
+                      Suspect your phone has water, screen dead zones, or mic distortion?
+                    </h4>
+                    <p className="text-xs text-slate-300 max-w-lg">
+                      Run the 165Hz acoustic water ejector and 36-block touch digitizer test live in your browser right now.
+                    </p>
+                  </div>
+                  <Link
+                    to="/hardware-test"
+                    className="px-5 py-2.5 rounded-xl bg-[#C2410C] hover:bg-[#9A3412] text-white font-bold text-xs whitespace-nowrap shadow-md transition-all active:scale-95 shrink-0 flex items-center gap-1.5"
+                  >
+                    <span>Launch DeviceLab™ Free</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
                 </div>
 
                 {/* Local SEO In-Article Proximity & Fast-Contact Module */}
@@ -539,16 +685,20 @@ export default function BlogPostPage() {
           </main>
 
           {/* Left Sidebar - Visually left on desktop, second in DOM */}
-          <aside className="w-full lg:w-1/4 shrink-0 space-y-8 hidden lg:block order-2 lg:order-1" aria-label="Article navigation and local guides">
+          <aside className="w-full lg:w-1/4 shrink-0 space-y-6 hidden lg:block order-2 lg:order-1" aria-label="Article navigation and local guides">
             <Link 
               to="/blog" 
-              className="inline-flex items-center text-slate-600 dark:text-slate-400 hover:text-brand-orange dark:hover:text-brand-orange font-semibold transition-colors mb-4 bg-white dark:bg-slate-900 px-5 py-3 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 w-full"
+              className="inline-flex items-center text-slate-600 dark:text-slate-400 hover:text-brand-orange dark:hover:text-brand-orange font-semibold transition-colors mb-2 bg-white dark:bg-slate-900 px-5 py-3 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 w-full text-xs"
             >
               <ArrowLeft className="w-4 h-4 mr-2" /> Back to all articles
             </Link>
 
-            {/* Proximity / Local Bench Badge */}
-            <div className="bg-gradient-to-br from-brand-blue to-slate-900 text-white p-6 rounded-3xl shadow-md border border-brand-orange/30">
+            {/* Interactive Sticky Table of Contents */}
+            <div className="sticky top-24 space-y-6">
+              <TableOfContents items={tocItems} />
+
+              {/* Proximity / Local Bench Badge */}
+              <div className="bg-gradient-to-br from-brand-blue to-slate-900 text-white p-6 rounded-3xl shadow-md border border-brand-orange/30">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-8 h-8 rounded-lg bg-brand-orange/20 border border-brand-orange/40 flex items-center justify-center text-amber-400">
                   <MapPin className="w-4 h-4" />
@@ -582,6 +732,7 @@ export default function BlogPostPage() {
                 <span>Get Directions (Maps)</span>
               </a>
             </div>
+          </div>
 
             {/* Categories */}
             <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 p-6 sm:p-8 hover:shadow-md transition-shadow">

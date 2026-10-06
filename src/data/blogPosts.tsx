@@ -1940,7 +1940,7 @@ Coupled with the 2nm A19 Pro chip, the iPhone 17 Pro Max promises unprecedented 
           <ul className="list-disc pl-6 mb-6 space-y-2 text-slate-700 dark:text-slate-300">
             <li><strong>Complimentary Diagnostics:</strong> We believe you should know what is wrong before you pay a single dirham.</li>
             <li><strong>Warranty Backed:</strong> Every Expert Restoration and Certified Pre-Owned sale comes with our signature Al Sharq warranty, giving you peace of mind long after you leave our shop.</li>
-            <li><strong>Central Location:</strong> Located conveniently in Muwaileh Commercial (Shop #2, Bldg 1017), we are just minutes away from Sharjah’s major hubs.</li>
+            <li><strong>Central Location:</strong> Located conveniently in Muwaileh Commercial (BLDG#1017 - SHOP#2 Fire Station Road), we are just minutes away from Sharjah’s major hubs.</li>
           </ul>
 
           <h3 className="text-2xl font-bold text-slate-900 dark:text-white mt-10 mb-4">Ready to Restore Your Digital Life?</h3>
@@ -1959,7 +1959,7 @@ Coupled with the 2nm A19 Pro chip, the iPhone 17 Pro Max promises unprecedented 
             </h3>
             <ul className="space-y-3 text-slate-700 dark:text-slate-300">
               <li><strong>Al Sharq Mobile Phone & Computer Trading LLC (Techfix & Gidgets)</strong></li>
-              <li><strong>Address:</strong> Shop #2, BLDG #1017, Muwaileh, Sharjah, UAE.</li>
+              <li><strong>Address:</strong> BLDG#1017 - SHOP#2 Fire Station Road, Muwaileh, Sharjah, UAE.</li>
               <li><strong>Hours:</strong> Open until 11:45 PM daily to serve the late-night needs of our community.</li>
               <li><strong>Contact:</strong> <a href="https://wa.me/+971507117043" className="text-brand-orange hover:underline font-medium">+971 50 711 7043</a> (WhatsApp/Phone)</li>
             </ul>

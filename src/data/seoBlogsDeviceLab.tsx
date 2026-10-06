@@ -135,7 +135,7 @@ export const seoBlogsDeviceLab: BlogPost[] = [
                 Step 4: Submerged in Salt Water or Over 30 Seconds? Bring to Muwaileh Lab
               </h4>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300">
-                Saltwater corrodes motherboard BGA solder balls within 4 to 12 hours. If your phone was fully submerged in the sea, bring it directly to <strong>Al Sharq Mobile Lab (Shop 4, Al Yarmook Building, Fire Station Road, Muwaileh Commercial, Sharjah)</strong> for immediate ultrasonic chamber chemical bath treatment with pure anhydrous isopropanol (IPA 99.9%).
+                Saltwater corrodes motherboard BGA solder balls within 4 to 12 hours. If your phone was fully submerged in the sea, bring it directly to <strong>Al Sharq Mobile Lab (BLDG#1017 - SHOP#2 Fire Station Road, Muwaileh - Industrial Area, Sharjah - United Arab Emirates)</strong> for immediate ultrasonic chamber chemical bath treatment with pure anhydrous isopropanol (IPA 99.9%).
               </p>
             </div>
           </div>

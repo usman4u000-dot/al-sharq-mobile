@@ -27,6 +27,7 @@ export default function GCCRegionalServicesPage({ onBookNow }: GCCRegionalServic
 
   const [selectedCountryCalc, setSelectedCountryCalc] = useState('saudi');
   const [selectedDeviceCalc, setSelectedDeviceCalc] = useState('macbook');
+  const [addressCopied, setAddressCopied] = useState(false);
 
   const structuredData = {
     "@context": "https://schema.org",
@@ -724,7 +725,7 @@ export default function GCCRegionalServicesPage({ onBookNow }: GCCRegionalServic
                 <p className="text-sm text-gray-600 dark:text-gray-300 font-mono">
                   Al Sharq Mobile Phone & Computer Trading LLC<br />
                   BLDG#1017 - SHOP#2 Fire Station Road, Muwaileh Industrial Area<br />
-                  Sharjah, United Arab Emirates (P.O. Box / Postal: 00000)<br />
+                  Sharjah, United Arab Emirates (Postal: 00000)<br />
                   Tel / Mobile: +971 50 711 7043 / +971 6 539 2120
                 </p>
               </div>
@@ -736,11 +737,13 @@ export default function GCCRegionalServicesPage({ onBookNow }: GCCRegionalServic
                   navigator.clipboard.writeText(
                     "Al Sharq Mobile Phone & Computer Trading LLC, BLDG#1017 - SHOP#2 Fire Station Road, Muwaileh Industrial Area, Sharjah, UAE. Phone: +971507117043"
                   );
-                  alert(isAr ? "تم نسخ العنوان إلى الحافظة!" : "Shipping address copied to clipboard!");
+                  setAddressCopied(true);
+                  setTimeout(() => setAddressCopied(false), 2500);
                 }}
-                className="px-6 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-750 text-gray-900 dark:text-white font-bold rounded-xl text-sm transition-colors"
+                className="px-6 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-750 text-gray-900 dark:text-white font-bold rounded-xl text-sm transition-colors flex items-center justify-center gap-2"
               >
-                {isAr ? 'نسخ العنوان الكامل' : 'Copy Courier Address'}
+                <CheckCircle2 className={`w-4 h-4 text-emerald-500 transition-opacity ${addressCopied ? 'opacity-100' : 'opacity-0'}`} />
+                <span>{addressCopied ? (isAr ? 'تم النسخ بنجاح!' : 'Copied!') : (isAr ? 'نسخ العنوان الكامل' : 'Copy Courier Address')}</span>
               </button>
               <button
                 onClick={() => handleWhatsApp('Request Courier Assistance')}

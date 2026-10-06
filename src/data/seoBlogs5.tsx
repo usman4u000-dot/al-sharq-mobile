@@ -67,7 +67,7 @@ Prevent expensive repairs by outfitting your iPhone 18 with high-grade protectio
 * **Shock-Absorbing Military Cases**: Visit our [Online Shop](/shop) for magnetic MagSafe cases designed to withstand drops up to 3 meters.
 * **Trade-in Your Old iPhone**: Upgrading from an iPhone 14 or 15? Use our [Device Trade-In Portal](/trade-in) to calculate your instant cash or credit value.
 
-For emergency support, drop by **Al Sharq Mobile Phone & Computer Trading LLC** (Shop #2, Building #1017, Fire Station Road, Muwaileh Industrial Area, Sharjah) or call/WhatsApp our technicians at **+971 50 711 7043**.`
+For emergency support, drop by **Al Sharq Mobile Phone & Computer Trading LLC** (BLDG#1017 - SHOP#2 Fire Station Road, Muwaileh Industrial Area, Sharjah) or call/WhatsApp our technicians at **+971 50 711 7043**.`
   },
 
   {
@@ -319,7 +319,7 @@ While traditional electronics districts like **Rolla (الرولة)** and **Al M
 
 ## How to Reach Al Sharq Mobile Phone & Computer Trading LLC
 
-* **Address**: Shop #2, Building #1017, Fire Station Road, Muwaileh - Industrial Area, Sharjah, United Arab Emirates.
+* **Address**: BLDG#1017 - SHOP#2 Fire Station Road, Muwaileh - Industrial Area, Sharjah, United Arab Emirates.
 * **Google Maps Pin**: [View Store on Google Maps](https://maps.app.goo.gl/WRjUv6FxCVTtZCEk8)
 * **Phone / WhatsApp**: **+971 50 711 7043** | **+971 6 539 2120**
 * **Opening Hours**: Saturday to Thursday: 9:00 AM – 11:00 PM | Friday: 4:00 PM – 11:00 PM

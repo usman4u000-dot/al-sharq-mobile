@@ -458,7 +458,7 @@ export default function HardwareDiagnosticPage() {
                   "url": "https://allsharq.com",
                   "address": {
                     "@type": "PostalAddress",
-                    "streetAddress": "Shop 4, Al Yarmook Building, Fire Station Road, Muwaileh Commercial",
+                    "streetAddress": "BLDG#1017 - SHOP#2 Fire Station Road, Muwaileh - Industrial Area",
                     "addressLocality": "Sharjah",
                     "addressCountry": "AE"
                   }
@@ -1235,7 +1235,7 @@ export default function HardwareDiagnosticPage() {
                 },
                 {
                   q: "Where is Al Sharq Mobile Lab located in Sharjah if my device has physical damage?",
-                  a: "Our physical workshop is located at Shop 4, Al Yarmook Building, Fire Station Road, Muwaileh Commercial, Sharjah. We offer free counter diagnostics under 4K stereo microscopes with 90-day warranty coverage on all repairs."
+                  a: "Our physical workshop is located at BLDG#1017 - SHOP#2 Fire Station Road, Muwaileh - Industrial Area, Sharjah - United Arab Emirates. We offer free counter diagnostics under 4K stereo microscopes with 90-day warranty coverage on all repairs."
                 }
               ].map((faq, idx) => {
                 const isOpen = openFaqIndex === idx;
@@ -1267,7 +1267,7 @@ export default function HardwareDiagnosticPage() {
             <div className="space-y-2 text-center md:text-left">
               <div className="flex items-center justify-center md:justify-start gap-2 text-brand-orange text-xs font-bold uppercase tracking-wider">
                 <MapPin className="w-4 h-4" />
-                <span>Fire Station Road, Muwaileh Commercial • Sharjah</span>
+                <span>BLDG#1017 - SHOP#2 Fire Station Road, Muwaileh - Industrial Area • Sharjah</span>
               </div>
               <h3 className="text-xl sm:text-2xl font-black text-white">
                 Visit Al Sharq Mobile &amp; Computer Lab in Person

@@ -82,14 +82,22 @@ export default function NearMeLocalSearchHub() {
   ];
 
   const nearbyDistricts = [
-    { name: 'Muwaileh Commercial', dist: '0 Mins (We are here!)' },
-    { name: 'University City Sharjah', dist: '2 Mins' },
-    { name: 'Sharjah Industrial Area', dist: '3 Mins' },
-    { name: 'Al Majaz & Corniche', dist: '8 Mins' },
+    { name: 'Muwaileh Commercial Phase 1 & 2', dist: '0 Mins (We are here!)' },
+    { name: 'University City (AUS / UoS)', dist: '2 Mins' },
+    { name: 'Al Zahia & City Centre', dist: '3 Mins' },
+    { name: 'Aljada (Arada Community)', dist: '3 Mins' },
+    { name: 'Sharjah Industrial Areas 1-18', dist: '3 Mins' },
+    { name: 'SRTIP Technology Park', dist: '4 Mins' },
+    { name: 'Al Majaz & Waterfront', dist: '8 Mins' },
     { name: 'Sahara Centre & Al Nahda', dist: '7 Mins' },
-    { name: 'Al Taawun & Al Khan', dist: '9 Mins' },
-    { name: 'Dubai Border (Al Qusais)', dist: '10 Mins' },
-    { name: 'Ajman Downtown', dist: '12 Mins' }
+    { name: 'Al Taawun & Al Khan Beach', dist: '8 Mins' },
+    { name: 'Al Qasimia & Bu Daniq', dist: '6 Mins' },
+    { name: 'Al Rahmaniya & Shaghrafa', dist: '8 Mins' },
+    { name: 'Tilal City & Masaar (E611)', dist: '7 Mins' },
+    { name: 'Dubai Border (Al Qusais / Twar)', dist: '9 Mins' },
+    { name: 'Dubai Silicon Oasis & Academic', dist: '12 Mins' },
+    { name: 'Ajman Downtown & Corniche', dist: '12 Mins' },
+    { name: 'SAIF Zone Airport Free Zone', dist: '6 Mins' }
   ];
 
   return (
@@ -130,6 +138,30 @@ export default function NearMeLocalSearchHub() {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* GCC Cross-Border Proximity & Logistics Callout */}
+        <div className="p-4 rounded-2xl bg-gradient-to-r from-slate-900 via-orange-950/40 to-slate-900 text-white border border-orange-500/30 flex flex-col sm:flex-row items-center justify-between gap-4 mb-10 shadow-md">
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">✈️</span>
+            <div>
+              <div className="text-xs font-bold text-orange-400 uppercase tracking-wider">
+                {isAr ? 'شحن وصيانة سريعة من دول الخليج (KSA • Oman • Kuwait • Qatar • Bahrain)' : 'GCC Cross-Border Mail-In (KSA • Oman • Kuwait • Qatar • Bahrain)'}
+              </div>
+              <p className="text-xs text-slate-300">
+                {isAr
+                  ? 'ترسل جهازك من الرياض، مسقط، الدوحة، حولي أو المنامة؟ خدمة استلام وتوصيل بريدي مؤمن 24-48 ساعة بدون جمارك.'
+                  : 'Shipping from Riyadh, Muscat, Doha, Hawalli, or Manama? Insured 24-48h air express turnaround with 0% customs duty.'}
+              </p>
+            </div>
+          </div>
+          <Link
+            to="/gcc-services"
+            className="px-4 py-2 rounded-xl bg-[#C2410C] hover:bg-[#9A3412] text-white text-xs font-bold whitespace-nowrap transition-colors flex items-center gap-1.5 shrink-0"
+          >
+            <span>{isAr ? 'مركز الشحن الخليجي' : 'GCC Logistics Hub'}</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
         </div>
 
         {/* 4 Interactive Category Grids */}
