@@ -23,7 +23,13 @@ import {
   ArrowRight,
   Volume2,
   RefreshCw,
-  Info
+  Info,
+  BookOpen,
+  HelpCircle,
+  MapPin,
+  Phone,
+  Shield,
+  ChevronDown
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -35,6 +41,7 @@ export default function HardwareDiagnosticPage() {
   const isAr = language === 'ar';
 
   const [activeTab, setActiveTab] = useState<DiagnosticTab>('ejector');
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
   
   // Test results state
   const [testResults, setTestResults] = useState<{
@@ -402,10 +409,128 @@ export default function HardwareDiagnosticPage() {
         <title>Al Sharq DeviceLab™ | Free 12-Point Live Hardware Tester & Water Ejector</title>
         <meta 
           name="description" 
-          content="Test your mobile screen touch matrix, dead pixels, speaker water ejector hertz frequency, microphone dB, and gyroscope directly in your browser. Certified by Al Sharq Mobile Sharjah." 
+          content="Free in-browser 12-point hardware test: 165Hz sonic water ejector, touch dead-zone matrix, OLED burn-in checker & mic dB meter. Certified in Sharjah, UAE." 
         />
-        <meta property="og:title" content="Al Sharq DeviceLab™ | 100% In-Browser Mobile Hardware Diagnostics" />
-        <meta property="og:description" content="Free hardware testing suite: 165Hz Acoustic Water Ejector, Touch Digitizer Grid, OLED Burn-in tester, and Mic dB Meter in Sharjah." />
+        <link rel="canonical" href="https://allsharq.com/hardware-test" />
+
+        {/* OpenGraph Social Meta Tags */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://allsharq.com/hardware-test" />
+        <meta property="og:site_name" content="Al Sharq Mobile & Computer Lab" />
+        <meta property="og:title" content="Al Sharq DeviceLab™ | Free In-Browser Mobile Hardware Diagnostics & Water Ejector" />
+        <meta 
+          property="og:description" 
+          content="Test your mobile screen touch matrix, dead pixels, speaker water ejector 165Hz frequency, and microphone dB directly in your browser. No app download needed." 
+        />
+        <meta property="og:image" content="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&q=80&w=1200" />
+
+        {/* Twitter / X Social Cards */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Al Sharq DeviceLab™ | Free 12-Point Mobile Hardware Stress Tester" />
+        <meta 
+          name="twitter:description" 
+          content="165Hz sonic speaker water ejector, touch digitizer matrix, and OLED burn-in checker online in Sharjah, UAE." 
+        />
+        <meta name="twitter:image" content="https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&q=80&w=1200" />
+
+        {/* Schema.org Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "WebApplication",
+                "@id": "https://allsharq.com/hardware-test#webapp",
+                "name": "Al Sharq DeviceLab™",
+                "url": "https://allsharq.com/hardware-test",
+                "applicationCategory": "UtilityApplication",
+                "operatingSystem": "All (iOS, Android, Windows, macOS, ChromeOS)",
+                "description": "Free 12-point in-browser hardware diagnostic suite: 165Hz acoustic water ejector, touch matrix dead-zone mapper, OLED burn-in checker, and microphone dB meter.",
+                "offers": {
+                  "@type": "Offer",
+                  "price": "0",
+                  "priceCurrency": "AED"
+                },
+                "provider": {
+                  "@type": "LocalBusiness",
+                  "name": "Al Sharq Mobile Phone & Computer Trading LLC",
+                  "telephone": "+971507117043",
+                  "url": "https://allsharq.com",
+                  "address": {
+                    "@type": "PostalAddress",
+                    "streetAddress": "Shop 4, Al Yarmook Building, Fire Station Road, Muwaileh Commercial",
+                    "addressLocality": "Sharjah",
+                    "addressCountry": "AE"
+                  }
+                }
+              },
+              {
+                "@type": "HowTo",
+                "name": "How to Eject Water from a Phone Speaker Using 165Hz Sound Waves",
+                "description": "Step-by-step emergency instructions to safely purge liquid and water droplets trapped inside mobile phone speakers.",
+                "step": [
+                  {
+                    "@type": "HowToStep",
+                    "name": "Power Down or Avoid Charging",
+                    "text": "Immediately unplug any charging cables to prevent short circuits."
+                  },
+                  {
+                    "@type": "HowToStep",
+                    "name": "Set Volume to Maximum",
+                    "text": "Increase device volume to 100% to maximize kinetic air displacement."
+                  },
+                  {
+                    "@type": "HowToStep",
+                    "name": "Trigger 165Hz Acoustic Frequency",
+                    "text": "Press play in DeviceLab™ to blast resonant sine waves through the speaker cavity."
+                  },
+                  {
+                    "@type": "HowToStep",
+                    "name": "Position Speaker Downward",
+                    "text": "Face speaker holes downwards over a clean cloth so gravity assists droplet ejection."
+                  }
+                ]
+              },
+              {
+                "@type": "FAQPage",
+                "mainEntity": [
+                  {
+                    "@type": "Question",
+                    "name": "Does the 165Hz sound frequency really remove water from phone speakers?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Yes. At 165Hz, the resonant frequency of mobile acoustic chambers creates rapid air displacement pulses. This overcomes surface tension, propelling trapped droplets through the speaker grill without physical contact."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Why is putting a wet phone in rice dangerous?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Uncooked rice contains starch powder that congeals with liquid into an acidic paste. Furthermore, rice lacks sufficient desiccant vapor pressure to extract water from modern sealed IP68 enclosures, accelerating motherboard corrosion."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "How do I test a used phone in Rolla Market Sharjah before paying?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "Open allsharq.com/hardware-test on the phone. Drag across all 36 cells of the Touch Matrix to identify dead digitizer areas, and cycle fullscreen OLED colors to reveal burnt-in status bars or stuck pixels."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "Can sound waves damage my phone's speaker membrane?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "No. The 165Hz tone generated by DeviceLab™ stays well within standard OEM acoustic decibel limits. It operates safely on Apple iPhone, Samsung Galaxy, Xiaomi, Oppo, and laptop speakers."
+                    }
+                  }
+                ]
+              }
+            ]
+          })}
+        </script>
       </Helmet>
 
       <div className="min-h-screen bg-slate-900 text-white pt-24 pb-16 selection:bg-brand-orange selection:text-white">
@@ -984,6 +1109,189 @@ export default function HardwareDiagnosticPage() {
               <p className="text-xs text-slate-400 leading-relaxed">
                 DeviceLab operates 100% locally in your browser. No sensor logs, mic audio, or screen data is ever transmitted to a server.
               </p>
+            </div>
+          </div>
+
+          {/* Localized In-Depth Authority Articles & Guides */}
+          <div className="mt-16">
+            <div className="text-center max-w-2xl mx-auto mb-8">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-950/60 border border-orange-500/40 text-orange-300 text-xs font-bold uppercase tracking-wider mb-2">
+                <BookOpen className="w-3.5 h-3.5 text-brand-orange" />
+                <span>Sharjah Engineering Guides &amp; Protocols</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-black text-white">
+                Learn How to Protect Your Device in UAE
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-400 mt-2">
+                Written by our lead micro-soldering engineers on Fire Station Road, Muwaileh Commercial, Sharjah.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* Blog Card 1 */}
+              <Link 
+                to="/blog/phone-dropped-in-water-speaker-ejector-sharjah"
+                className="group p-6 rounded-2xl bg-slate-800/70 border border-slate-700 hover:border-brand-orange/60 transition-all flex flex-col justify-between hover:shadow-xl hover:shadow-orange-950/20"
+              >
+                <div>
+                  <div className="flex items-center gap-2 text-cyan-400 text-xs font-bold uppercase mb-2">
+                    <Droplets className="w-4 h-4" />
+                    <span>Liquid Spill Emergency</span>
+                  </div>
+                  <h3 className="font-bold text-base text-white group-hover:text-brand-orange transition-colors mb-2">
+                    Phone Dropped in Water in Sharjah? 165Hz Acoustic Rescue Protocol
+                  </h3>
+                  <p className="text-xs text-slate-400 line-clamp-3 leading-relaxed">
+                    Why uncooked rice causes acidic starch corrosion inside charging ports, and how 165Hz kinetic sound pressure purges trapped moisture safely.
+                  </p>
+                </div>
+                <div className="mt-4 pt-4 border-t border-slate-700/60 flex items-center justify-between text-xs font-bold text-brand-orange">
+                  <span>Read Emergency Protocol</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </Link>
+
+              {/* Blog Card 2 */}
+              <Link 
+                to="/blog/buy-used-phone-rolla-market-sharjah-hardware-test"
+                className="group p-6 rounded-2xl bg-slate-800/70 border border-slate-700 hover:border-brand-orange/60 transition-all flex flex-col justify-between hover:shadow-xl hover:shadow-orange-950/20"
+              >
+                <div>
+                  <div className="flex items-center gap-2 text-amber-400 text-xs font-bold uppercase mb-2">
+                    <AlertTriangle className="w-4 h-4" />
+                    <span>Buyer Protection Matrix</span>
+                  </div>
+                  <h3 className="font-bold text-base text-white group-hover:text-brand-orange transition-colors mb-2">
+                    Buying Used Phones in Rolla Market? 12-Point Pre-Purchase Stress Test
+                  </h3>
+                  <p className="text-xs text-slate-400 line-clamp-3 leading-relaxed">
+                    How to spot cheap 60Hz LCD replica screens, digitizer ghost touch dead zones, and punctured microphone seals before paying cash on Dubizzle.
+                  </p>
+                </div>
+                <div className="mt-4 pt-4 border-t border-slate-700/60 flex items-center justify-between text-xs font-bold text-brand-orange">
+                  <span>Read Rolla Inspection Guide</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </Link>
+
+              {/* Blog Card 3 */}
+              <Link 
+                to="/blog/muffled-phone-speaker-desert-dust-cleaning-sharjah"
+                className="group p-6 rounded-2xl bg-slate-800/70 border border-slate-700 hover:border-brand-orange/60 transition-all flex flex-col justify-between hover:shadow-xl hover:shadow-orange-950/20"
+              >
+                <div>
+                  <div className="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase mb-2">
+                    <Sparkles className="w-4 h-4" />
+                    <span>Desert Dust Acoustic Purge</span>
+                  </div>
+                  <h3 className="font-bold text-base text-white group-hover:text-brand-orange transition-colors mb-2">
+                    Muffled Phone Speaker After UAE Desert Dust? Non-Invasive Cleaning
+                  </h3>
+                  <p className="text-xs text-slate-400 line-clamp-3 leading-relaxed">
+                    Why pins and toothpicks puncture delicate 30-micron speaker membranes, and how resonant frequency shakes out caked silicate sand particles.
+                  </p>
+                </div>
+                <div className="mt-4 pt-4 border-t border-slate-700/60 flex items-center justify-between text-xs font-bold text-brand-orange">
+                  <span>Read Acoustic Cleaning Guide</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </Link>
+            </div>
+          </div>
+
+          {/* Frequently Asked Questions (Accordion) */}
+          <div className="mt-16 max-w-4xl mx-auto">
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950/60 border border-blue-500/40 text-blue-300 text-xs font-bold uppercase tracking-wider mb-2">
+                <HelpCircle className="w-3.5 h-3.5 text-blue-400" />
+                <span>Frequently Asked Questions</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-black text-white">
+                Everything You Need to Know About DeviceLab™
+              </h2>
+            </div>
+
+            <div className="space-y-3">
+              {[
+                {
+                  q: "Does the 165Hz sound frequency really remove water from phone speakers?",
+                  a: "Yes. Mobile speaker chambers are designed with specific acoustic resonance parameters. At 165Hz, the voice coil achieves maximum amplitude displacement, generating high-velocity air pressure waves that break the surface tension of water droplets clinging to the metal mesh and propel them outward as fine mist."
+                },
+                {
+                  q: "Why is putting a wet phone in rice dangerous?",
+                  a: "Uncooked rice contains starch powder that mixes with water to form an acidic, conductive paste inside charging ports and speaker grilles. Furthermore, rice lacks the desiccant vapor pressure required to pull trapped water from modern IP68 sealed chassis, accelerating solder corrosion on the motherboard."
+                },
+                {
+                  q: "How do I test a used phone in Rolla Market Sharjah before paying cash?",
+                  a: "Connect the phone to your mobile hotspot, open allsharq.com/hardware-test in Safari or Chrome, and complete the 36-block Touch Matrix test to confirm every part of the digitizer responds. Then cycle fullscreen OLED colors to detect burn-in, and speak into the mic to verify volume above 45 dB."
+                },
+                {
+                  q: "Can the 165Hz tone damage my phone's speaker membrane?",
+                  a: "No. The 165Hz frequency is generated strictly within standard OEM decibel playback thresholds. It does not exceed the mechanical excursion limits of modern Apple, Samsung, Xiaomi, or Huawei speaker drivers."
+                },
+                {
+                  q: "Do I need to download an application from the App Store or Google Play?",
+                  a: "No app download is needed. DeviceLab™ runs 100% inside your standard mobile web browser using HTML5 Canvas, Web Audio API, and native device orientation sensors. It works immediately on iPhones, Androids, iPads, and MacBooks."
+                },
+                {
+                  q: "Where is Al Sharq Mobile Lab located in Sharjah if my device has physical damage?",
+                  a: "Our physical workshop is located at Shop 4, Al Yarmook Building, Fire Station Road, Muwaileh Commercial, Sharjah. We offer free counter diagnostics under 4K stereo microscopes with 90-day warranty coverage on all repairs."
+                }
+              ].map((faq, idx) => {
+                const isOpen = openFaqIndex === idx;
+                return (
+                  <div 
+                    key={idx}
+                    className="rounded-2xl border border-slate-700/80 bg-slate-800/60 overflow-hidden transition-all"
+                  >
+                    <button
+                      onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
+                      className="w-full p-4 sm:p-5 text-left flex items-center justify-between gap-4 font-bold text-sm sm:text-base text-white hover:text-brand-orange transition-colors"
+                    >
+                      <span>{faq.q}</span>
+                      <ChevronDown className={`w-4 h-4 shrink-0 transition-transform duration-200 ${isOpen ? 'rotate-180 text-brand-orange' : 'text-slate-400'}`} />
+                    </button>
+                    {isOpen && (
+                      <div className="px-4 sm:px-5 pb-5 text-xs sm:text-sm text-slate-300 leading-relaxed border-t border-slate-700/40 pt-3">
+                        {faq.a}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Local Authority & Physical Shop Trust Box */}
+          <div className="mt-16 p-8 rounded-3xl bg-gradient-to-r from-slate-900 via-blue-950/80 to-slate-900 border border-blue-500/30 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
+            <div className="space-y-2 text-center md:text-left">
+              <div className="flex items-center justify-center md:justify-start gap-2 text-brand-orange text-xs font-bold uppercase tracking-wider">
+                <MapPin className="w-4 h-4" />
+                <span>Fire Station Road, Muwaileh Commercial • Sharjah</span>
+              </div>
+              <h3 className="text-xl sm:text-2xl font-black text-white">
+                Visit Al Sharq Mobile &amp; Computer Lab in Person
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 max-w-xl">
+                Got a red liquid damage contact indicator, cracked OLED panel, or motherboard short-circuit? Bring your device to our specialized cleanroom repair bench in Muwaileh for instant microscope evaluation.
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0 w-full md:w-auto">
+              <a
+                href="https://wa.me/971507117043?text=Hello%20Al%20Sharq,%20I%20ran%20the%20DeviceLab%20test%20and%20would%20like%20a%20shop%20inspection."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm transition-all shadow-lg flex items-center justify-center gap-2"
+              >
+                <Phone className="w-4 h-4" />
+                <span>WhatsApp: +971 50 711 7043</span>
+              </a>
+              <Link
+                to="/contact"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs sm:text-sm transition-all border border-slate-700 text-center"
+              >
+                Get Directions &amp; Hours
+              </Link>
             </div>
           </div>
 

@@ -12,6 +12,7 @@ import { seoBlogsHistoricalArchive } from './seoBlogsHistoricalArchive';
 import { seoBlogsHistorical2 } from './seoBlogsHistorical2';
 import { seoBlogsGCC } from './seoBlogsGCC';
 import { seoBlogsArabic } from './seoBlogsArabic';
+import { seoBlogsDeviceLab } from './seoBlogsDeviceLab';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Smartphone, Monitor, ShoppingBag, Plug } from 'lucide-react';
 import iphone18BlogImg from '../assets/images/iphone_18_launch_1789772590090.jpg';
@@ -51,6 +52,7 @@ export const calculateReadTime = (post: BlogPost): string => {
 };
 
 export const blogPosts: BlogPost[] = [
+  ...seoBlogsDeviceLab,
   ...seoBlogsToday2026,
   ...seoBlogsPakistaniVariants,
   // iPhone 18 Official Flagship Launch & Local Guide

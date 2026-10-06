@@ -9,6 +9,28 @@ export interface BlogPost {
 }
 
 export const blogPosts: BlogPost[] = [
+  // DeviceLab & Local Sharjah Diagnostics Guides
+  {
+    id: 'phone-dropped-in-water-speaker-ejector-sharjah',
+    title: 'Phone Dropped in Water in Sharjah? Free 165Hz Speaker Water Ejector & Emergency Rescue Protocol',
+    hook: 'Dropped your iPhone or Android in water or at Al Khan Beach? Do NOT put it in rice! Learn the real physics of 165Hz acoustic water ejection and use our free in-browser sound wave tool.',
+    category: 'Smartphone & iPhone Expertise',
+    targetKeyword: 'phone speaker water ejector online sharjah',
+  },
+  {
+    id: 'buy-used-phone-rolla-market-sharjah-hardware-test',
+    title: 'Buying a Used iPhone or Samsung in Rolla Market Sharjah? The 12-Point Pre-Purchase Hardware Stress Test',
+    hook: 'Heading to Rolla Market or meeting a Dubizzle seller in Sharjah? Avoid scammed replica screens, fake batteries, and ghost touches. Use our free in-browser 12-point stress test directly on the spot before paying cash.',
+    category: 'Trading & Local Consumer Tips',
+    targetKeyword: 'test used phone rolla market sharjah',
+  },
+  {
+    id: 'muffled-phone-speaker-desert-dust-cleaning-sharjah',
+    title: 'Muffled Phone Speaker After UAE Desert Dust? The 165Hz Acoustic Cleaning Guide for Sharjah Residents',
+    hook: 'Can hardly hear phone calls after a weekend in the desert or dust storms in Muwaileh? Discover how ultrafine UAE silicate sand clogs speaker meshes and how to clean it safely without puncturing your acoustic membrane.',
+    category: 'Trading & Local Consumer Tips',
+    targetKeyword: 'muffled phone speaker repair sharjah',
+  },
   // New Phone Announcements
   {
     id: 'sony-xperia-1-viii-5g',
