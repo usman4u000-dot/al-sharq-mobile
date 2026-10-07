@@ -97,13 +97,51 @@ html, body {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
 }
 
-/* High contrast text for older TN laptop displays & budget mobile screens */
-.lite-mode .text-slate-400 {
+/* High contrast text and vibrant colors for older TN laptop displays & budget mobile screens */
+.lite-mode .text-slate-400,
+.legacy-optimized .text-slate-400 {
   color: #CBD5E1 !important;
 }
 
-.lite-mode .text-slate-500 {
-  color: #94A3B8 !important;
+.lite-mode .text-slate-500,
+.legacy-optimized .text-slate-500 {
+  color: #E2E8F0 !important;
+}
+
+.lite-mode .text-gray-500,
+.legacy-optimized .text-gray-500 {
+  color: #CBD5E1 !important;
+}
+
+/* Ensure vibrant orange and green pop on old washed-out displays */
+.lite-mode .text-orange-500,
+.legacy-optimized .text-orange-500,
+.lite-mode .text-[#C2410C],
+.legacy-optimized .text-[#C2410C] {
+  color: #FF6600 !important;
+  font-weight: 700;
+}
+
+.lite-mode .bg-[#C2410C],
+.legacy-optimized .bg-[#C2410C] {
+  background-color: #EA580C !important;
+}
+
+/* Solid high-contrast borders for older panels */
+.lite-mode .border-slate-800,
+.legacy-optimized .border-slate-800,
+.lite-mode .border-slate-700,
+.legacy-optimized .border-slate-700 {
+  border-color: #475569 !important;
+}
+
+/* Smooth GPU acceleration fallbacks */
+.lite-mode html, 
+.lite-mode body,
+.legacy-optimized html,
+.legacy-optimized body {
+  -webkit-overflow-scrolling: touch;
+  text-rendering: optimizeSpeed;
 }
 
 /* GPU containment to prevent excessive repaints on older mobile devices */

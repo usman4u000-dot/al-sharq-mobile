@@ -47,6 +47,7 @@ const CorporateFleetRepair = lazy(() => import('../components/CorporateFleetRepa
 const VIPDoorstepRepair = lazy(() => import('../components/VIPDoorstepRepair'));
 const SocialFeed = lazy(() => import('../components/SocialFeed'));
 const NearMeLocalSearchHub = lazy(() => import('../components/NearMeLocalSearchHub'));
+const GCCAndLocationStrategyHub = lazy(() => import('../components/GCCAndLocationStrategyHub'));
 const GCCRegionalSection = lazy(() => import('../components/GCCRegionalSection'));
 
 interface HomePageProps {
@@ -286,6 +287,7 @@ export default function HomePage({ onBookNow }: HomePageProps) {
       <InViewSection minHeight="500px">
         <Suspense fallback={null}>
           <NearMeLocalSearchHub />
+          <GCCAndLocationStrategyHub />
           <GCCRegionalSection onBookNow={onBookNow} />
           <SocialFeed />
           <DeviceRepairRequest />

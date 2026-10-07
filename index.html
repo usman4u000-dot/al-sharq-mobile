@@ -8,6 +8,10 @@
     <meta name="keywords" content="phone repair near me, mobile shop near me, iphone repair near me, mobile repair shop near me, mobile repairing center near me, laptop repair near me, macbook repair near me, screen repair near me, mobile screen repair near me, phone battery replacement near me, cheap mobile repair near me, phone fixing near me Sharjah, computer repair near me, computer shop near me, printer repair near me, data recovery near me, محل تلفونات قريب مني, تصليح هواتف قريب مني, صيانة لابتوب قريب مني, Al Sharq Mobile Sharjah, iPhone 18 price Sharjah, iPhone 16 Pro Max UAE, Samsung Galaxy S26 Ultra discount, MacBook logic board repair Sharjah, chip level phone repair Muwaileh, data recovery Sharjah, 20% off phones UAE, Saudi Arabia phone repair mail in, Oman phone delivery UAE, Kuwait Qatar phone import Sharjah, ارخص محل جوالات في الشارقة, تصليح ايفون 18 الشارقة" />
     <title>Al Sharq Mobile Phone &amp; Computer Trading LLC | 20% Below Retail &amp; Lab Repairs Sharjah</title>
     <link rel="canonical" href="https://allsharq.com" />
+    <link rel="alternate" hreflang="en-ae" href="https://allsharq.com" />
+    <link rel="alternate" hreflang="ar-ae" href="https://allsharq.com/arabic-services" />
+    <link rel="alternate" hreflang="ar-sa" href="https://allsharq.com/gcc-services" />
+    <link rel="alternate" hreflang="x-default" href="https://allsharq.com" />
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
     <link rel="alternate" type="application/rss+xml" title="Al Sharq Mobile Lab Updates &amp; Repair Guides" href="https://allsharq.com/feed.xml" />
 
@@ -369,6 +373,16 @@
           document.documentElement.classList.add('dark');
         } else {
           document.documentElement.classList.remove('dark');
+        }
+
+        // Automatic instant performance & high-contrast color boost for Windows 7, older Dell/HP laptops & budget mobiles
+        const ua = navigator.userAgent || '';
+        const isWin7 = /Windows NT 6\.[123]/i.test(ua);
+        const isOldAndroid = /Android [2-7]\./i.test(ua);
+        const isLowSpec = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
+        const storedLite = localStorage.getItem('alsharq_lite_mode');
+        if (storedLite === 'true' || (storedLite === null && (isWin7 || isOldAndroid || isLowSpec))) {
+          document.documentElement.classList.add('lite-mode', 'legacy-optimized');
         }
       } catch (_) {}
     </script>

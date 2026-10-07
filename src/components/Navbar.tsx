@@ -289,7 +289,15 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                 <span>{isAr ? 'دول الخليج (شحن)' : 'GCC Mail-In'}</span>
               </Link>
 
-              {/* 5. About */}
+              {/* 5. Arabic Hub */}
+              <Link 
+                to="/arabic-services" 
+                className="px-3.5 py-2 text-sm font-semibold text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-1.5 rounded-lg"
+              >
+                <span>الخدمات بالعربية</span>
+              </Link>
+
+              {/* 6. About */}
               <Link 
                 to="/about" 
                 className="px-3.5 py-2 text-sm font-semibold text-slate-200 hover:text-white transition-colors rounded-lg"
@@ -536,6 +544,18 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                       <span>{isAr ? 'شحن وإصلاح دول الخليج (Saudi/Oman)' : 'GCC & Regional Mail-In (KSA/Oman)'}</span>
                     </span>
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  </Link>
+
+                  <Link 
+                    to="/arabic-services" 
+                    className="text-emerald-300 bg-emerald-950/40 flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold border border-emerald-500/30"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <span className="flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-emerald-400" />
+                      <span>{isAr ? 'صفحة الخدمات والتصليح بالعربية' : 'Arabic Services Hub (الخدمات بالعربية)'}</span>
+                    </span>
+                    <ChevronRight className="w-4 h-4 text-emerald-400" />
                   </Link>
 
                   <Link 
