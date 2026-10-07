@@ -93,15 +93,49 @@ const DIAGNOSTIC_RULES = [
     response: "Yes! We provide express insured air delivery across Saudi Arabia, Oman, Bahrain, Kuwait, and Qatar via DHL and Aramex in 24 to 48 hours with personal transit customs protocol.",
     actionText: "View GCC Services",
     actionUrl: "/gcc-services"
+  },
+  {
+    keywords: ['aip', 'ai platform', 'automation', 'enterprise ai', 'ذكاء اصطناعي', 'أتمتة', 'منصة ذكاء', 'اے آئی پی'],
+    response: "Al Sharq builds enterprise-grade AIP (AI Platforms) and autonomous agent workflows for UAE corporations. From custom ERP integration (SAP/Oracle) to local UAE sovereign data compliance, we automate critical operations with rapid ROI.",
+    actionText: "Explore AIP Solutions",
+    actionUrl: "/ai-cloud-solutions",
+    priceBadge: "Enterprise Ready",
+    timeEstimate: "5 - 8 Days Deployment"
+  },
+  {
+    keywords: ['chatbot', 'chat bot', 'bot', 'whatsapp bot', 'واتساب بوت', 'شات بوت', 'چیٹ بوٹ', 'چٹ بوٹ'],
+    response: "We engineer multilingual AI Chatbots for official WhatsApp Business API & websites in Emirati/Gulf Arabic and English. Features include 24/7 automated booking, instant customer conversion, catalog checkouts, and CRM synchronization.",
+    actionText: "Build Your AI Chatbot",
+    actionUrl: "/ai-cloud-solutions",
+    priceBadge: "From AED 1,200",
+    timeEstimate: "7 Days Delivery"
+  },
+  {
+    keywords: ['cloud', 'cloud migration', 'server', 'aws', 'azure', 'backup', 'disaster recovery', 'سحابة', 'كلاود', 'کلاؤڈ'],
+    response: "Our Cloud Infrastructure team provides zero-downtime server migrations, hybrid architectures, ransomware-proof daily backups, and FinOps cost optimization on Google Cloud, AWS, and Azure with 99.99% uptime guarantees.",
+    actionText: "View Cloud Migration",
+    actionUrl: "/ai-cloud-solutions",
+    priceBadge: "Free Audit",
+    timeEstimate: "Zero Downtime"
+  },
+  {
+    keywords: ['google ai', 'gemini', 'vertex ai', 'جوجل', 'جوجل ai', 'جيميني', 'گوگل اے آئی'],
+    response: "We implement official Google AI and Vertex AI Gemini integrations: multimodal document processing, enterprise neural search, and Google Workspace AI tools with local UAE data containment.",
+    actionText: "Google AI & Gemini Integration",
+    actionUrl: "/ai-cloud-solutions",
+    priceBadge: "Certified Stack",
+    timeEstimate: "Turnkey Setup"
   }
 ];
 
 const QUICK_DIAGNOSTIC_CHIPS = [
+  { label: '🤖 AI Chatbot (WhatsApp)', query: 'I want to build an AI Chatbot for WhatsApp and website' },
+  { label: '⚡ Enterprise AIP', query: 'Tell me about AIP AI Platform and automation' },
+  { label: '🧠 Google AI / Gemini', query: 'How can we implement Google AI and Gemini in our business?' },
+  { label: '☁️ Cloud Migration', query: 'What Cloud migration and server backup services do you offer?' },
   { label: '📱 Broken Screen', query: 'My screen is cracked' },
   { label: '🔋 Battery Drain', query: 'Battery draining fast' },
   { label: '💧 Water Damage', query: 'Device dropped in water' },
-  { label: '⚡ Won’t Turn On', query: 'Phone completely dead' },
-  { label: '💻 MacBook Repair', query: 'MacBook logic board issue' },
   { label: '🛍️ 20% OFF Phones', query: 'Buy phones at 20% discount' },
   { label: '📍 Store Location', query: 'Where is your shop located?' }
 ];

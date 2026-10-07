@@ -49,6 +49,7 @@ const SocialFeed = lazy(() => import('../components/SocialFeed'));
 const NearMeLocalSearchHub = lazy(() => import('../components/NearMeLocalSearchHub'));
 const GCCAndLocationStrategyHub = lazy(() => import('../components/GCCAndLocationStrategyHub'));
 const GCCRegionalSection = lazy(() => import('../components/GCCRegionalSection'));
+const AIAndCloudShowcaseSection = lazy(() => import('../components/AIAndCloudShowcaseSection'));
 
 interface HomePageProps {
   onBookNow: (serviceName?: string) => void;
@@ -276,6 +277,7 @@ export default function HomePage({ onBookNow }: HomePageProps) {
           </div>
         </section>
         <Suspense fallback={null}>
+          <AIAndCloudShowcaseSection />
           <VIPDoorstepRepair onBookNow={onBookNow} />
           <CorporateFleetRepair />
           <DataPrivacyInteractive />

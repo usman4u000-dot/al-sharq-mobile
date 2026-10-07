@@ -69,4 +69,7 @@ Disallow: /api/
 # Sitemaps
 Sitemap: https://allsharq.com/sitemap.xml
 Sitemap: https://allsharq.com/feed.xml
-# AI Agent Policy: https://allsharq.com/ai.txt
+# AI Agent Policy & Search Engine Discovery:
+# https://allsharq.com/ai.txt
+# https://allsharq.com/llms.txt
+

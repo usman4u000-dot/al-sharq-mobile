@@ -289,7 +289,16 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                 <span>{isAr ? 'دول الخليج (شحن)' : 'GCC Mail-In'}</span>
               </Link>
 
-              {/* 5. Arabic Hub */}
+              {/* 5. AI, Chatbot & Cloud Hub */}
+              <Link 
+                to="/ai-cloud-solutions" 
+                className="px-3.5 py-2 text-sm font-semibold text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-1.5 rounded-lg bg-cyan-950/40 border border-cyan-500/30"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+                <span>{isAr ? 'الذكاء الاصطناعي والسحابة' : 'AI & Cloud'}</span>
+              </Link>
+
+              {/* 6. Arabic Hub */}
               <Link 
                 to="/arabic-services" 
                 className="px-3.5 py-2 text-sm font-semibold text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-1.5 rounded-lg"
@@ -544,6 +553,18 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                       <span>{isAr ? 'شحن وإصلاح دول الخليج (Saudi/Oman)' : 'GCC & Regional Mail-In (KSA/Oman)'}</span>
                     </span>
                     <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  </Link>
+
+                  <Link 
+                    to="/ai-cloud-solutions" 
+                    className="text-cyan-300 bg-cyan-950/60 flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold border border-cyan-500/30"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <span className="flex items-center gap-2">
+                      <Cpu className="w-4 h-4 text-cyan-400" />
+                      <span>{isAr ? 'منصات الذكاء الاصطناعي، شات بوت والسحابة' : 'AIP, AI Chatbot, Cloud & Google AI'}</span>
+                    </span>
+                    <span className="text-[10px] uppercase font-extrabold px-1.5 py-0.5 rounded bg-cyan-500 text-slate-950">AI HUB</span>
                   </Link>
 
                   <Link 

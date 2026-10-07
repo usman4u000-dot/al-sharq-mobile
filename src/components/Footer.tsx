@@ -1,5 +1,5 @@
 import React from 'react';
-import { Facebook, Twitter, Instagram, MapPin, Phone, Mail, Clock, Star, GraduationCap, Building2 } from 'lucide-react';
+import { Facebook, Twitter, Instagram, MapPin, Phone, Mail, Clock, Star, GraduationCap, Building2, Sparkles, Bot, Cloud, Cpu } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Logo from './Logo';
 
@@ -68,8 +68,15 @@ export default function Footer({ onOpenTerms }: FooterProps) {
           </div>
 
           <div>
-            <h4 className="font-bold text-lg mb-6">Quick Links</h4>
+            <h4 className="font-bold text-lg mb-6 flex items-center gap-2">
+              <span>Quick Links</span>
+              <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">AI & Cloud</span>
+            </h4>
             <ul className="space-y-4 text-gray-400">
+              <li><Link to="/ai-cloud-solutions" className="text-cyan-300 hover:text-cyan-200 transition-colors flex items-center gap-1.5 font-semibold"><Sparkles className="w-4 h-4 text-cyan-400" /><span>AIP & AI Platform Solutions</span></Link></li>
+              <li><Link to="/ai-cloud-solutions" className="text-emerald-300 hover:text-emerald-200 transition-colors flex items-center gap-1.5 font-semibold"><Bot className="w-4 h-4 text-emerald-400" /><span>WhatsApp & Web AI Chatbots</span></Link></li>
+              <li><Link to="/ai-cloud-solutions" className="text-sky-300 hover:text-sky-200 transition-colors flex items-center gap-1.5 font-semibold"><Cloud className="w-4 h-4 text-sky-400" /><span>Google Cloud & Migration UAE</span></Link></li>
+              <li><Link to="/ai-cloud-solutions" className="text-indigo-300 hover:text-indigo-200 transition-colors flex items-center gap-1.5 font-semibold"><Cpu className="w-4 h-4 text-indigo-400" /><span>Google AI & Gemini Integration</span></Link></li>
               <li><Link to="/students" className="hover:text-brand-orange transition-colors flex items-center gap-1.5"><GraduationCap className="w-4 h-4 text-brand-orange" /><span>15% Student Discount</span></Link></li>
               <li><Link to="/corporate-amc" className="hover:text-brand-orange transition-colors flex items-center gap-1.5"><Building2 className="w-4 h-4 text-blue-400" /><span>Corporate IT Fleet AMC</span></Link></li>
               <li><Link to="/about" className="hover:text-brand-orange transition-colors">About Us</Link></li>

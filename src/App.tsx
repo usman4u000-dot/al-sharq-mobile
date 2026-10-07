@@ -81,6 +81,7 @@ const TradeInPage = React.lazy(() => import('./pages/TradeInPage'));
 const GCCRegionalServicesPage = React.lazy(() => import('./pages/GCCRegionalServicesPage'));
 const HardwareDiagnosticPage = React.lazy(() => import('./pages/HardwareDiagnosticPage'));
 const ArabicServicesPage = React.lazy(() => import('./pages/ArabicServicesPage'));
+const AICloudSolutionsPage = React.lazy(() => import('./pages/AICloudSolutionsPage'));
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
 
 // Initialize Google Analytics
@@ -247,6 +248,11 @@ function AppRoutes() {
               <Route path="/arabic-services" element={<PageTransition><ArabicServicesPage /></PageTransition>} />
               <Route path="/arabic" element={<PageTransition><ArabicServicesPage /></PageTransition>} />
               <Route path="/sharjah-arabic-repair" element={<PageTransition><ArabicServicesPage /></PageTransition>} />
+              <Route path="/ai-cloud-solutions" element={<PageTransition><AICloudSolutionsPage /></PageTransition>} />
+              <Route path="/google-ai-cloud" element={<PageTransition><AICloudSolutionsPage /></PageTransition>} />
+              <Route path="/aip-chatbot" element={<PageTransition><AICloudSolutionsPage /></PageTransition>} />
+              <Route path="/ai-solutions" element={<PageTransition><AICloudSolutionsPage /></PageTransition>} />
+              <Route path="/cloud-services" element={<PageTransition><AICloudSolutionsPage /></PageTransition>} />
               <Route path="/gallery" element={<PageTransition><GalleryPage /></PageTransition>} />
               <Route path="/shop" element={<PageTransition><ShopPage /></PageTransition>} />
               <Route path="/contact" element={<PageTransition><ContactPage /></PageTransition>} />
