@@ -81,6 +81,30 @@ export default function ArabicServicesPage() {
               "@type": "Answer",
               "text": "نعم، نستقبل يومياً شحنات عبر DHL و SMSA وأرامكس لصيانة اللوحات الأم (Motherboard Micro-soldering) واستعادة البيانات من السعودية وعمان والكويت وقطر والبحرين بأسعار أوفر بنسبة 70% مقارنة بالوكالات."
             }
+          },
+          {
+            "@type": "Question",
+            "name": "كم يستغرق إصلاح أعطال اللوحة الأم (Logic Board) والماك بوك؟",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "معظم أعطال شورت الباور والـ ICs تنتهي خلال 24 إلى 48 ساعة فقط، مع فحص مسارات الكهرباء الميكروسكوبية وإرسال فيديو تشخيصي للمشكلة عبر واتساب."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "كيف أرسل جهازي من السعودية أو عمان أو الكويت بالبريد؟",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "يمكنك تغليف الجهاز وشحنه عبر DHL أو SMSA أو Aramex مباشرة إلى عنوان مختبرنا في الشارقة برمز الإعفاء الجمركي HS 8471/8517 مع سياسة لا إصلاح لا رسوم صيانة."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "ما هي مدة الضمان على القطع والإصلاحات؟",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "نمنح ضماناً خطياً رسمياً مدة 90 يوماً على جميع الشاشات واللوحات الأم، وضمان 6 أشهر على البطاريات الأصلية، مسجل رقمياً بالرقم التسلسلي للجهاز."
+            }
           }
         ]
       }
@@ -345,7 +369,7 @@ export default function ArabicServicesPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {seoBlogsArabic.slice(0, 6).map((post) => (
+          {seoBlogsArabic.map((post) => (
             <Link
               key={post.id}
               to={`/blog/${post.id}`}
@@ -383,6 +407,91 @@ export default function ArabicServicesPage() {
         </div>
       </section>
 
+      {/* High-Intent Arabic Search Queries & Internal Linking Grid */}
+      <section className="py-14 px-4 sm:px-6 lg:px-8 bg-slate-100 dark:bg-slate-900/80 border-t border-slate-200 dark:border-slate-800">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-8">
+            <span className="text-xs font-bold text-orange-600 dark:text-orange-400 uppercase tracking-wider mb-2 block">
+              فهرس الكلمات المفتاحية الأكثر بحثاً في الإمارات والخليج
+            </span>
+            <h2 className="text-xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+              خدمات الصيانة والقطع السريعة بضغطة زر واحدة
+            </h2>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-2.5 max-w-5xl mx-auto">
+            {[
+              { text: 'تصليح ايفون الشارقة', path: '/iphone-repair' },
+              { text: 'تبديل شاشة ايفون مويلح', path: '/screen-repair' },
+              { text: 'صيانة ماك بوك الشارقة', path: '/macbook-repair' },
+              { text: 'محل تلفونات قريب مني بالشارقة', path: '/phone-repair' },
+              { text: 'استعادة بيانات هاتف ميت', path: '/data-recovery' },
+              { text: 'تصليح سامسونج فولد وفليب', path: '/samsung-repair' },
+              { text: 'تبديل بطارية ايفون اصلية', path: '/battery-repair' },
+              { text: 'صيانة لابتوب المدينة الجامعية', path: '/laptop-repair' },
+              { text: 'تصليح كمبيوتر مكتبي وبي سي', path: '/computer-repair' },
+              { text: 'تنظيف ماء ورطوبة الهاتف 165Hz', path: '/liquid-damage-repair' },
+              { text: 'تصليح منفذ الشحن وسماعة الهاتف', path: '/charging-port-repair' },
+              { text: 'لحام مذربورد مايكروسولديرنج', path: '/logic-board-repair' },
+              { text: 'شحن اجهزة للصيانة من السعودية', path: '/gcc-services' },
+              { text: 'صيانة ايفون وماك بوك مسقط عمان', path: '/gcc-services' },
+              { text: 'ارخص تصليح شاشات بالشارقة', path: '/repair-estimate' },
+              { text: 'فحص هاردوير الجهاز مجاناً', path: '/hardware-test' },
+              { text: 'خصم طلاب جامعات الشارقة 15%', path: '/students' },
+              { text: 'شراء هواتف مستعملة ومجددة', path: '/shop' },
+              { text: 'تبديل كاميرا ايفون وحل الاهتزاز', path: '/camera-repair' },
+              { text: 'صيانة طابعات ليزر ومكتبية', path: '/printer-repair' },
+              { text: 'حماية شاشات سيراميك وهيدروجيل', path: '/screen-protector' },
+              { text: 'عقود صيانة الشركات B2B', path: '/corporate-amc' },
+              { text: 'تصليح ايباد وتبديل زجاج اللمس', path: '/tablet-repair' },
+              { text: 'حل مشكلة انطفاء اللابتوب فجأة', path: '/troubleshoot' }
+            ].map((kw, kIdx) => (
+              <Link
+                key={kIdx}
+                to={kw.path}
+                className="px-3.5 py-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-orange-600 hover:text-white dark:hover:bg-orange-600 dark:hover:text-white text-slate-800 dark:text-slate-200 text-xs font-bold border border-slate-200 dark:border-slate-700 shadow-xs transition-colors"
+              >
+                {kw.text}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Local Districts & Zones in Sharjah & Northern Emirates (Arabic Local SEO) */}
+      <section className="py-14 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+        <div className="text-center mb-8">
+          <h2 className="text-xl sm:text-3xl font-extrabold text-slate-900 dark:text-white mb-2">
+            المناطق والأحياء المشمولة بالخدمة السريعة
+          </h2>
+          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
+            خدمة كاونتر فورية وخدمة استلام وتسليم عبر مندوبنا في جميع أنحاء الشارقة والإمارات المجاورة
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 text-xs">
+          {[
+            { name: 'مويلح التجارية (المرحلة 1 و 2)', time: 'مباشر (مقرنا هنا)' },
+            { name: 'المدينة الجامعية (UoS / AUS)', time: 'خلال دقيقتين' },
+            { name: 'الزاهية وسيتي سنتر', time: 'خلال 3 دقائق' },
+            { name: 'مشروع الجادة (Arada Aljada)', time: 'خلال 3 دقائق' },
+            { name: 'المناطق الصناعية (1 إلى 18)', time: 'خلال 3 إلى 5 دقائق' },
+            { name: 'المجاز وبحيرة خالد', time: 'خلال 8 دقائق' },
+            { name: 'النهدة ومركز صحارى', time: 'خلال 7 دقائق' },
+            { name: 'التعاون وشاطئ الخان', time: 'خلال 8 دقائق' },
+            { name: 'القاسمية وأبو شغارة', time: 'خلال 6 دقائق' },
+            { name: 'الرحمانية والسيوح وتلال', time: 'خلال 8 دقائق' },
+            { name: 'دبي (القصيص، الطوار، ديرة)', time: 'خلال 10 دقائق' },
+            { name: 'عجمان (النعيمية والراشدية)', time: 'خلال 10 دقائق' }
+          ].map((dist, dIdx) => (
+            <div key={dIdx} className="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+              <span className="font-bold text-slate-900 dark:text-white truncate">{dist.name}</span>
+              <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 shrink-0 mr-2">{dist.time}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Frequently Asked Questions (Arabic FAQ Schema Grounding) */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto border-t border-slate-200 dark:border-slate-800">
         <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white text-center mb-8">
@@ -414,6 +523,33 @@ export default function ArabicServicesPage() {
             </h3>
             <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
               فرعنا في مويلح التجارية، على شارع محطة الإطفاء والدفاع المدني، بناية 1017، محل رقم 2 (BLDG#1017 - SHOP#2 Fire Station Road). نوفر مواقف سيارات مجانية ومريحة أمام المحل مباشرة، ويمكنك فتح الموقع بنقرة واحدة عبر خرائط جوجل.
+            </p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+            <h3 className="font-bold text-base sm:text-lg text-slate-900 dark:text-white mb-2">
+              كم يستغرق إصلاح أعطال اللوحة الأم (Logic Board) والماك بوك؟
+            </h3>
+            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              معظم أعطال شورت الباور والـ ICs تنتهي خلال 24 إلى 48 ساعة فقط. نقوم بفحص مسارات الكهرباء الميكروسكوبية، تبديل المكثفات التالفة، وإرسال فيديو تشخيصي للمشكلة عبر واتساب قبل بدء العمل.
+            </p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+            <h3 className="font-bold text-base sm:text-lg text-slate-900 dark:text-white mb-2">
+              كيف أرسل جهازي من السعودية أو عمان أو الكويت بالبريد؟
+            </h3>
+            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              يمكنك تغليف الجهاز وشحنه عبر DHL أو SMSA أو Aramex مباشرة إلى عنوان مختبرنا في الشارقة. نرسل لك بوليصة الشحن وتفاصيل الإعفاء الجمركي للأجهزة المرسلة للصيانة المؤقتة (رمز HS 8471/8517)، مع سياسة واضحة: إذا لم يتم الإصلاح فلا توجد أي أتعاب صيانة.
+            </p>
+          </div>
+
+          <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+            <h3 className="font-bold text-base sm:text-lg text-slate-900 dark:text-white mb-2">
+              ما هي مدة الضمان على القطع والإصلاحات؟
+            </h3>
+            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              نمنح ضماناً خطياً رسمياً مدة 90 يوماً على جميع الشاشات واللوحات الأم، وضمان 6 أشهر على البطاريات الأصلية، مسجل رقمياً بالرقم التسلسلي للجهاز لضمان راحة بالك التامة.
             </p>
           </div>
         </div>
