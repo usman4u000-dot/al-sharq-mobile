@@ -59,6 +59,7 @@ export default defineConfig(({mode}) => {
       hmr: process.env.DISABLE_HMR !== 'true',
     },
     build: {
+      target: ['es2020', 'edge88', 'firefox78', 'chrome79', 'safari13'],
       outDir: 'dist',
       emptyOutDir: true,
       sourcemap: false,

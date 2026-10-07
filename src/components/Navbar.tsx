@@ -34,6 +34,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from './Logo';
 import ThemeToggle from './ThemeToggle';
+import LiteModeToggle from './LiteModeToggle';
 import SearchModal from './SearchModal';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -314,6 +315,9 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
               {/* Theme Toggle */}
               <ThemeToggle />
 
+              {/* Fast Lite Mode Toggle for older systems/mobiles */}
+              <LiteModeToggle />
+
               {/* Search & Voice Pill */}
               <div className="flex items-center bg-white/10 dark:bg-slate-800 rounded-xl p-0.5 border border-white/15">
                 <button 
@@ -368,6 +372,7 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
               </button>
               
               <ThemeToggle />
+              <LiteModeToggle />
 
               <button 
                 onClick={() => setIsSearchOpen(true)}

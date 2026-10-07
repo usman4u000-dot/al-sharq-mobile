@@ -159,11 +159,14 @@ export default function GCCRegionalServicesPage({ onBookNow }: GCCRegionalServic
           {/* Quick country flags banner */}
           <div className="flex flex-wrap items-center gap-3 sm:gap-6 pt-2 pb-6 border-t border-white/10 text-sm font-semibold text-slate-300">
             <span className="flex items-center gap-1.5"><span className="text-2xl">🇸🇦</span> {isAr ? 'السعودية (الرياض، جدة)' : 'Saudi Arabia'}</span>
-            <span className="flex items-center gap-1.5"><span className="text-2xl">🇴🇲</span> {isAr ? 'عُمان (مسقط، صلالة)' : 'Oman (Muscat)'}</span>
+            <span className="flex items-center gap-1.5"><span className="text-2xl">🇴🇲</span> {isAr ? 'عُمان (مسقط، صحار)' : 'Oman (Muscat)'}</span>
             <span className="flex items-center gap-1.5"><span className="text-2xl">🇧🇭</span> {isAr ? 'البحرين (المنامة)' : 'Bahrain'}</span>
-            <span className="flex items-center gap-1.5"><span className="text-2xl">🇹🇷</span> {isAr ? 'تركيا (إسطنبول)' : 'Turkey (Istanbul)'}</span>
-            <span className="flex items-center gap-1.5"><span className="text-2xl">🇰🇼</span> {isAr ? 'الكويت' : 'Kuwait'}</span>
+            <span className="flex items-center gap-1.5"><span className="text-2xl">🇰🇼</span> {isAr ? 'الكويت (حولي)' : 'Kuwait'}</span>
             <span className="flex items-center gap-1.5"><span className="text-2xl">🇶🇦</span> {isAr ? 'قطر (الدوحة)' : 'Qatar'}</span>
+            <span className="flex items-center gap-1.5"><span className="text-2xl">🇯🇴</span> {isAr ? 'الأردن (عمّان)' : 'Jordan'}</span>
+            <span className="flex items-center gap-1.5"><span className="text-2xl">🇮🇶</span> {isAr ? 'العراق (بغداد، أربيل)' : 'Iraq & Erbil'}</span>
+            <span className="flex items-center gap-1.5"><span className="text-2xl">🇪🇬</span> {isAr ? 'مصر (القاهرة)' : 'Egypt'}</span>
+            <span className="flex items-center gap-1.5"><span className="text-2xl">🇹🇷</span> {isAr ? 'تركيا (إسطنبول)' : 'Turkey'}</span>
           </div>
 
           <div className="flex flex-wrap gap-4 mt-4">
@@ -443,6 +446,126 @@ export default function GCCRegionalServicesPage({ onBookNow }: GCCRegionalServic
               </button>
             </div>
 
+            {/* Jordan & Levant Card */}
+            <div className="bg-slate-50 dark:bg-slate-800 rounded-3xl p-8 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-4xl">🇯🇴</span>
+                  <span className="px-3 py-1 bg-brand-orange/10 text-brand-orange font-bold text-xs rounded-full">
+                    {isAr ? '2-3 أيام شحن' : '2-3 Days Courier'}
+                  </span>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                  {isAr ? 'المملكة الأردنية الهاشمية وبلاد الشام' : 'Jordan & Levant'}
+                </h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400 font-semibold mb-4">
+                  {isAr ? 'عمّان • إربد • الزرقاء • العقبة' : 'Amman • Irbid • Zarqa • Aqaba'}
+                </p>
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                  {isAr
+                    ? 'صيانة دقيقة لبوردات الماك بوك، تصدير قطع الغيار النادرة والدوائر المتكاملة (ICs)، وشحن الأجهزة المجددة درجة أولى من موانئ الشارقة.'
+                    : 'Apple Silicon logic board micro-soldering, hard-to-find IC components supply, and Grade A+ refurbished device consignments to Amman.'}
+                </p>
+                <div className="space-y-2 mb-6">
+                  <div className="text-xs text-brand-blue dark:text-blue-400 font-bold flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                    <span>{isAr ? 'شحن عبر Aramex و DHL Express' : 'Aramex & DHL Express Worldwide'}</span>
+                  </div>
+                  <div className="text-xs text-brand-blue dark:text-blue-400 font-bold flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                    <span>{isAr ? 'دفع بالدينار الأردني أو الدولار' : 'Payment in JOD, USD or AED'}</span>
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={() => handleWhatsApp('Jordan Mail-in Repair')}
+                className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm transition-colors flex items-center justify-center gap-2"
+              >
+                <MessageCircle className="w-4 h-4" />
+                <span>{isAr ? 'تواصل معنا من الأردن' : 'Connect from Jordan'}</span>
+              </button>
+            </div>
+
+            {/* Iraq & Kurdistan Card */}
+            <div className="bg-slate-50 dark:bg-slate-800 rounded-3xl p-8 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-4xl">🇮🇶</span>
+                  <span className="px-3 py-1 bg-brand-orange/10 text-brand-orange font-bold text-xs rounded-full">
+                    {isAr ? '2-4 أيام شحن جوي' : '2-4 Days Air Cargo'}
+                  </span>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                  {isAr ? 'جمهورية العراق وإقليم كردستان' : 'Iraq & Kurdistan'}
+                </h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400 font-semibold mb-4">
+                  {isAr ? 'بغداد (شارع الصناعة) • أربيل • البصرة • السليمانية' : 'Baghdad • Erbil • Basra • Sulaymaniyah'}
+                </p>
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                  {isAr
+                    ? 'شريك الصيانة المعتمد لمهندسي شارع الصناعة ببغداد وأربيل لحالات استبدال معالجات BGA، تصدير كرات اللحام والرقائق، واستعادة البيانات الميتة.'
+                    : 'Technical repair partner for technicians on Baghdad’s Al-Sinaa Street and Erbil: advanced BGA reballing, logic boards and bulk wholesale.'}
+                </p>
+                <div className="space-y-2 mb-6">
+                  <div className="text-xs text-brand-blue dark:text-blue-400 font-bold flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                    <span>{isAr ? 'شحن جوي مباشر مع بوليصة رسمية' : 'Direct air cargo manifest handling'}</span>
+                  </div>
+                  <div className="text-xs text-brand-blue dark:text-blue-400 font-bold flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                    <span>{isAr ? 'دفع بالدولار الأمريكي أو الدرهم' : 'Payment in USD or AED'}</span>
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={() => handleWhatsApp('Iraq Repair & Wholesale')}
+                className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm transition-colors flex items-center justify-center gap-2"
+              >
+                <MessageCircle className="w-4 h-4" />
+                <span>{isAr ? 'تواصل معنا من العراق' : 'Connect from Iraq'}</span>
+              </button>
+            </div>
+
+            {/* Egypt Card */}
+            <div className="bg-slate-50 dark:bg-slate-800 rounded-3xl p-8 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-4xl">🇪🇬</span>
+                  <span className="px-3 py-1 bg-brand-orange/10 text-brand-orange font-bold text-xs rounded-full">
+                    {isAr ? '2-4 أيام شحن' : '2-4 Days Courier'}
+                  </span>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                  {isAr ? 'جمهورية مصر العربية' : 'Egypt'}
+                </h3>
+                <p className="text-xs text-gray-500 dark:text-gray-400 font-semibold mb-4">
+                  {isAr ? 'القاهرة • الجيزة • الإسكندرية • العاصمة الإدارية' : 'Cairo • Giza • Alexandria • New Capital'}
+                </p>
+                <p className="text-sm text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
+                  {isAr
+                    ? 'صيانة معالجات وشاشات آبل سيليكون المعقدة التي تتطلب أجهزة فحص ميكروسكوبية نادرة، واستعادة بيانات الأقراص التالفة بضمان معتمد.'
+                    : 'Specialized Apple Silicon chip-level repair and cleanroom data recovery for creative agencies, corporate fleets and individuals.'}
+                </p>
+                <div className="space-y-2 mb-6">
+                  <div className="text-xs text-brand-blue dark:text-blue-400 font-bold flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                    <span>{isAr ? 'شحن عبر DHL Express و Aramex' : 'Insured DHL & Aramex Priority'}</span>
+                  </div>
+                  <div className="text-xs text-brand-blue dark:text-blue-400 font-bold flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                    <span>{isAr ? 'دفع بالجنيه المصري، الدولار، أو الدرهم' : 'Payment in EGP, USD, or AED'}</span>
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={() => handleWhatsApp('Egypt Mail-in Repair')}
+                className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-sm transition-colors flex items-center justify-center gap-2"
+              >
+                <MessageCircle className="w-4 h-4" />
+                <span>{isAr ? 'تواصل معنا من مصر' : 'Connect from Egypt'}</span>
+              </button>
+            </div>
+
           </div>
 
         </div>
@@ -488,6 +611,9 @@ export default function GCCRegionalServicesPage({ onBookNow }: GCCRegionalServic
                   <option value="turkey">🇹🇷 Turkey / Türkiye (الجمهورية التركية - USD/TRY)</option>
                   <option value="kuwait">🇰🇼 Kuwait (دولة الكويت - KWD)</option>
                   <option value="qatar">🇶🇦 Qatar (دولة قطر - QAR)</option>
+                  <option value="jordan">🇯🇴 Jordan & Levant (الأردن وبلاد الشام - JOD)</option>
+                  <option value="iraq">🇮🇶 Iraq & Kurdistan (العراق وكردستان - USD)</option>
+                  <option value="egypt">🇪🇬 Egypt (جمهورية مصر العربية - EGP)</option>
                 </select>
               </div>
 
@@ -522,6 +648,9 @@ export default function GCCRegionalServicesPage({ onBookNow }: GCCRegionalServic
                 turkey: { code: 'USD', rate: 0.272, courierAED: 240, days: '3-4 Business Days' },
                 kuwait: { code: 'KWD', rate: 0.084, courierAED: 150, days: '2-3 Business Days' },
                 qatar: { code: 'QAR', rate: 0.99, courierAED: 140, days: '2-3 Business Days' },
+                jordan: { code: 'JOD', rate: 0.193, courierAED: 180, days: '2-3 Business Days' },
+                iraq: { code: 'USD', rate: 0.272, courierAED: 220, days: '2-4 Business Days' },
+                egypt: { code: 'EGP', rate: 13.5, courierAED: 190, days: '2-4 Business Days' },
               };
 
               const servicePricing: Record<string, { nameEn: string; nameAr: string; minAED: number; maxAED: number }> = {

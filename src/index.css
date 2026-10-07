@@ -28,6 +28,87 @@ html, body {
   overflow-x: hidden;
   max-width: 100vw;
   -webkit-tap-highlight-color: transparent;
+  /* Universal font stack with instant Windows 7 Segoe UI & Android Roboto fallback */
+  font-family: "Montserrat", "Segoe UI", Roboto, -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ==========================================================================
+   LEGACY & OLD DEVICE PERFORMANCE & COLOR COMPATIBILITY
+   Ensures fast, crisp rendering on Windows 7, older HP/Dell laptops,
+   low-spec mobile phones, and legacy Android/iOS browsers.
+   ========================================================================== */
+
+/* 1. Universal Web-Safe sRGB Color Fallbacks (prevent black/washed-out screen on old WebKit & Chromium) */
+:root {
+  --brand-blue: #0A192F;
+  --brand-orange: #C2410C;
+  --brand-grey: #475569;
+  --brand-green: #10B981;
+  --bg-dark-base: #0F172A;
+  --bg-card-base: #1E293B;
+  --border-card-base: #334155;
+  --text-high-contrast: #FFFFFF;
+}
+
+/* Fallback for browsers that do not support backdrop-filter or lag on older integrated GPUs (Intel HD 2000/3000/4000) */
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .backdrop-blur-md,
+  .backdrop-blur-sm,
+  .backdrop-blur-lg,
+  .backdrop-blur-xl {
+    background-color: #0F172A !important;
+  }
+  .light .backdrop-blur-md,
+  .light .backdrop-blur-sm {
+    background-color: #FFFFFF !important;
+  }
+}
+
+/* 2. Low-Spec Device / Lite Mode: Strips heavy blurs and CPU-intensive transforms for 60fps on older laptops */
+.lite-mode *,
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.lite-mode {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.lite-mode .backdrop-blur-md,
+.lite-mode .backdrop-blur-sm,
+.lite-mode .backdrop-blur-lg,
+.lite-mode .backdrop-blur-xl {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background-color: #0F172A !important;
+}
+
+.lite-mode .shadow-2xl,
+.lite-mode .shadow-xl,
+.lite-mode .shadow-lg {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* High contrast text for older TN laptop displays & budget mobile screens */
+.lite-mode .text-slate-400 {
+  color: #CBD5E1 !important;
+}
+
+.lite-mode .text-slate-500 {
+  color: #94A3B8 !important;
+}
+
+/* GPU containment to prevent excessive repaints on older mobile devices */
+img, svg {
+  content-visibility: auto;
 }
 
 [dir="rtl"] .text-left {
