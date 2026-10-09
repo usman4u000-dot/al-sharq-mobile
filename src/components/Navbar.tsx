@@ -28,7 +28,8 @@ import {
   Calculator,
   Shield,
   Droplet,
-  Phone
+  Phone,
+  Hotel
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useLocation } from 'react-router-dom';
@@ -577,6 +578,18 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                       <span>{isAr ? 'صفحة الخدمات والتصليح بالعربية' : 'Arabic Services Hub (الخدمات بالعربية)'}</span>
                     </span>
                     <ChevronRight className="w-4 h-4 text-emerald-400" />
+                  </Link>
+
+                  <Link 
+                    to="/blog/best-hotels-in-dubai-2026-luxury-budget-burj-khalifa-guide" 
+                    className="text-amber-300 bg-amber-950/40 flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold border border-amber-500/30"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <span className="flex items-center gap-2">
+                      <Hotel className="w-4 h-4 text-amber-400" />
+                      <span>{isAr ? 'فنادق دبي 2026 (خصم حتى 60%)' : 'Dubai Hotels Guide 2026 (60% OFF)'}</span>
+                    </span>
+                    <span className="text-[10px] uppercase font-extrabold px-1.5 py-0.5 rounded bg-amber-500 text-slate-950">HOTEL</span>
                   </Link>
 
                   <Link 

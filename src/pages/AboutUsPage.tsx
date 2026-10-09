@@ -2,7 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { Target, Shield, Database, Lightbulb, Users, Wrench, ShoppingBag, Award, Clock, Network, Home } from 'lucide-react';
+import { Target, Shield, Database, Lightbulb, Users, Wrench, ShoppingBag, Award, Clock, Network, Home, Hotel, Globe, ArrowRight, ExternalLink } from 'lucide-react';
 import CompanyHistory from '../components/CompanyHistory';
 import BehindTheScenesVideo from '../components/BehindTheScenesVideo';
 
@@ -222,6 +222,63 @@ export default function AboutUsPage() {
                 </p>
               </motion.div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Dubai Tourists, Business Travelers & Smart Tech Mobility Hub */}
+      <section className="py-16 bg-gradient-to-r from-slate-900 via-amber-950/20 to-slate-900 border-t border-b border-amber-500/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="p-8 rounded-3xl bg-slate-950/90 border border-slate-800 flex flex-col lg:flex-row items-center justify-between gap-8">
+            <div className="space-y-3 max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-950/80 border border-amber-500/40 text-amber-400 text-xs font-bold uppercase tracking-wider">
+                <Hotel className="w-3.5 h-3.5 text-amber-400" />
+                <span>Dubai Tourists & Smart Mobility 2026</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+                Supporting International Travelers in Dubai & the UAE
+              </h2>
+              <p className="text-slate-300 text-sm leading-relaxed">
+                Located right near the Dubai-Sharjah border (15 minutes from Dubai International Airport DXB), Al Sharq provides express 20-minute phone & hardware emergency repairs, tourist eSIM setup, and genuine power accessories for visitors staying across Downtown Dubai, Dubai Marina, and Deira.
+              </p>
+              <div className="flex flex-wrap gap-4 pt-2">
+                <Link
+                  to="/blog/best-hotels-in-dubai-2026-luxury-budget-burj-khalifa-guide"
+                  className="text-xs font-bold text-amber-400 hover:text-amber-300 inline-flex items-center gap-1.5"
+                >
+                  <span>🏨 Best Dubai Hotels 2026 (Up to 60% OFF)</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+                <Link
+                  to="/blog/5-best-apps-and-tech-you-need-before-traveling-to-dubai-2026"
+                  className="text-xs font-bold text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1.5"
+                >
+                  <span>📱 5 Essential Apps & Tech for Dubai Tourists</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+                <a
+                  href="https://evonixtec.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-bold text-slate-300 hover:text-white inline-flex items-center gap-1.5"
+                >
+                  <span>🌐 Tech Reviews on Evonixtec.com</span>
+                  <ExternalLink className="w-3 h-3 text-cyan-400" />
+                </a>
+              </div>
+            </div>
+
+            <div className="shrink-0 flex flex-col sm:flex-row gap-3">
+              <a
+                href="https://www.trip.com/hotels/list?city=220&display=Dubai&optionId=220&optionType=City&optionName=Dubai&Allianceid=10929626&SID=332911573&trip_sub1=&trip_sub3=D20154955"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs uppercase tracking-wider inline-flex items-center justify-center gap-2 shadow-lg transition-all"
+              >
+                <span>Check Dubai Hotel Rates</span>
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            </div>
           </div>
         </div>
       </section>

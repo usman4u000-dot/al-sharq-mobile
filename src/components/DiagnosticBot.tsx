@@ -125,17 +125,33 @@ const DIAGNOSTIC_RULES = [
     actionUrl: "/ai-cloud-solutions",
     priceBadge: "Certified Stack",
     timeEstimate: "Turnkey Setup"
+  },
+  {
+    keywords: ['hotel', 'hotels', 'dubai hotel', 'burj khalifa', 'trip', 'فندق', 'فنادق', 'دبي', 'ہوٹل', 'ہوٹلز'],
+    response: "Planning your stay in Dubai? Get exclusive rates up to 60% OFF on 4 & 5-star hotels near Burj Khalifa, Dubai Mall, Marina & Deira on Trip.com with free cancellation. Check our comprehensive Dubai tourist hotel guide!",
+    actionText: "View Dubai Hotels (60% OFF)",
+    actionUrl: "https://www.trip.com/hotels/list?city=220&display=Dubai&optionId=220&optionType=City&optionName=Dubai&Allianceid=10929626&SID=332911573&trip_sub1=&trip_sub3=D20154955",
+    priceBadge: "Up to 60% OFF",
+    timeEstimate: "Instant Booking"
+  },
+  {
+    keywords: ['travel', 'tourist', 'dubai apps', 'careem', 'nol', 'esim', 'سياحة', 'تطبيقات', 'سیاحت', 'evonixtec'],
+    response: "Visiting Dubai? You need 5 essentials: Careem app for rides, Nol card for Dubai Metro, local 5G eSIM, Type G UK plug adapter, and a heat-safe power bank. Detailed tech reviews are available on our tech partner Evonixtec.com!",
+    actionText: "Dubai Travel Tech Guide",
+    actionUrl: "/blog/5-best-apps-and-tech-you-need-before-traveling-to-dubai-2026",
+    priceBadge: "Free Guide",
+    timeEstimate: "5 Mins Read"
   }
 ];
 
 const QUICK_DIAGNOSTIC_CHIPS = [
+  { label: '🏨 Dubai Hotels (60% OFF)', query: 'Where can I find the best hotel deals in Dubai near Burj Khalifa?' },
+  { label: '✈️ Dubai Travel Apps & Tech', query: 'What apps and tech gadgets do I need before traveling to Dubai?' },
   { label: '🤖 AI Chatbot (WhatsApp)', query: 'I want to build an AI Chatbot for WhatsApp and website' },
   { label: '⚡ Enterprise AIP', query: 'Tell me about AIP AI Platform and automation' },
   { label: '🧠 Google AI / Gemini', query: 'How can we implement Google AI and Gemini in our business?' },
-  { label: '☁️ Cloud Migration', query: 'What Cloud migration and server backup services do you offer?' },
   { label: '📱 Broken Screen', query: 'My screen is cracked' },
   { label: '🔋 Battery Drain', query: 'Battery draining fast' },
-  { label: '💧 Water Damage', query: 'Device dropped in water' },
   { label: '🛍️ 20% OFF Phones', query: 'Buy phones at 20% discount' },
   { label: '📍 Store Location', query: 'Where is your shop located?' }
 ];

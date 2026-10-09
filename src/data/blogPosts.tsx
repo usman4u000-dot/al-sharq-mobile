@@ -14,6 +14,7 @@ import { seoBlogsGCC } from './seoBlogsGCC';
 import { seoBlogsArabic } from './seoBlogsArabic';
 import { seoBlogsDeviceLab } from './seoBlogsDeviceLab';
 import { seoBlogsAIAndCloud } from './seoBlogsAIAndCloud';
+import { seoBlogsDubaiTravelHotels } from './seoBlogsDubaiTravelHotels';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Smartphone, Monitor, ShoppingBag, Plug } from 'lucide-react';
 import iphone18BlogImg from '../assets/images/iphone_18_launch_1789772590090.jpg';
@@ -53,6 +54,7 @@ export const calculateReadTime = (post: BlogPost): string => {
 };
 
 export const blogPosts: BlogPost[] = [
+  ...seoBlogsDubaiTravelHotels,
   ...seoBlogsAIAndCloud,
   ...seoBlogsDeviceLab,
   ...seoBlogsToday2026,

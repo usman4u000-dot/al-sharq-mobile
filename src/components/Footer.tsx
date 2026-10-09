@@ -1,5 +1,5 @@
 import React from 'react';
-import { Facebook, Twitter, Instagram, MapPin, Phone, Mail, Clock, Star, GraduationCap, Building2, Sparkles, Bot, Cloud, Cpu } from 'lucide-react';
+import { Facebook, Twitter, Instagram, MapPin, Phone, Mail, Clock, Star, GraduationCap, Building2, Sparkles, Bot, Cloud, Cpu, Hotel, Compass } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Logo from './Logo';
 
@@ -73,6 +73,8 @@ export default function Footer({ onOpenTerms }: FooterProps) {
               <span className="text-[10px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">AI & Cloud</span>
             </h4>
             <ul className="space-y-4 text-gray-400">
+              <li><Link to="/blog/best-hotels-in-dubai-2026-luxury-budget-burj-khalifa-guide" className="text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1.5 font-semibold"><Hotel className="w-4 h-4 text-amber-400" /><span>Dubai Hotels Guide 2026 (60% OFF)</span></Link></li>
+              <li><Link to="/blog/5-best-apps-and-tech-you-need-before-traveling-to-dubai-2026" className="text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-1.5 font-semibold"><Compass className="w-4 h-4 text-cyan-400" /><span>Dubai Tourist Apps & Gadgets</span></Link></li>
               <li><Link to="/ai-cloud-solutions" className="text-cyan-300 hover:text-cyan-200 transition-colors flex items-center gap-1.5 font-semibold"><Sparkles className="w-4 h-4 text-cyan-400" /><span>AIP & AI Platform Solutions</span></Link></li>
               <li><Link to="/ai-cloud-solutions" className="text-emerald-300 hover:text-emerald-200 transition-colors flex items-center gap-1.5 font-semibold"><Bot className="w-4 h-4 text-emerald-400" /><span>WhatsApp & Web AI Chatbots</span></Link></li>
               <li><Link to="/ai-cloud-solutions" className="text-sky-300 hover:text-sky-200 transition-colors flex items-center gap-1.5 font-semibold"><Cloud className="w-4 h-4 text-sky-400" /><span>Google Cloud & Migration UAE</span></Link></li>
