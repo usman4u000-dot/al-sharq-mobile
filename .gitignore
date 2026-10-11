@@ -6,3 +6,11 @@ coverage/
 *.log
 .env*
 !.env.example
+*.pem
+*.key
+*.cert
+*.p12
+.vscode/
+.idea/
+*.sqlite
+*.db

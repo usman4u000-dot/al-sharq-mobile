@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { X, Copy, MessageCircle, Check, LogOut, Plus, Search, Save, Loader2, Printer, Package } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { auth, db } from '../firebase';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, User } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, sendEmailVerification, GoogleAuthProvider, signInWithPopup, User } from 'firebase/auth';
+import { sanitizeString } from '../utils/sanitize';
 import { doc, setDoc, collection, addDoc, serverTimestamp, getDoc, updateDoc, query, where, getDocs, orderBy, limit } from 'firebase/firestore';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 
@@ -135,17 +136,26 @@ export default function StaffToolsModal({ isOpen, onClose }: StaffToolsModalProp
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
-        try {
-          const docRef = doc(db, 'users', currentUser.uid);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            setUserRole(docSnap.data().role as any);
-          } else {
+        const isVerifiedOwner = 
+          currentUser.email?.toLowerCase() === 'usman4u000@gmail.com' && 
+          (currentUser.emailVerified || currentUser.providerData.some(p => p.providerId === 'google.com'));
+
+        if (isVerifiedOwner) {
+          setUserRole('admin');
+        } else {
+          try {
+            const docRef = doc(db, 'users', currentUser.uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+              const r = docSnap.data().role;
+              setUserRole(r === 'admin' || r === 'technician' ? r : 'customer');
+            } else {
+              setUserRole('customer');
+            }
+          } catch (err) {
+            console.error("Error fetching role:", err);
             setUserRole('customer');
           }
-        } catch (err) {
-          console.error("Error fetching role:", err);
-          setUserRole('customer');
         }
       } else {
         setUserRole(null);
@@ -230,37 +240,52 @@ export default function StaffToolsModal({ isOpen, onClose }: StaffToolsModalProp
     try {
       // Execute reCAPTCHA if available
       if (executeRecaptcha) {
-        const token = await executeRecaptcha('staff_auth');
-        console.log('reCAPTCHA token:', token);
-      } else {
-        console.warn('reCAPTCHA is not configured or available. Skipping assessment.');
+        await executeRecaptcha('staff_auth');
       }
 
       if (authMode === 'login') {
-        await signInWithEmailAndPassword(auth, email, password);
+        await signInWithEmailAndPassword(auth, email.trim(), password);
       } else {
-        let assignedRole = 'customer';
-        if (secretCode === 'admin123') {
-          assignedRole = 'admin';
-        } else if (secretCode === 'tech123') {
-          assignedRole = 'technician';
-        } else if (secretCode === 'customer123' || secretCode === '') {
-          assignedRole = 'customer';
-        } else {
-          throw new Error('Invalid secret code');
+        // Enforce strong password complexity policy
+        const hasUpper = /[A-Z]/.test(password);
+        const hasLower = /[a-z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        if (password.length < 8 || !hasUpper || !hasLower || !hasNumber) {
+          throw new Error('Strong password required: minimum 8 characters with at least one uppercase letter, one lowercase letter, and one number.');
         }
-        
-        const cred = await createUserWithEmailAndPassword(auth, email, password);
-        // Create user document
+
+        const cred = await createUserWithEmailAndPassword(auth, email.trim(), password);
+        try {
+          await sendEmailVerification(cred.user);
+        } catch (ve) {
+          console.warn('Verification email dispatch warning:', ve);
+        }
+
+        // New accounts are strictly initialized as customer role
         await setDoc(doc(db, 'users', cred.user.uid), {
-          email: email,
-          role: assignedRole,
+          email: email.trim().toLowerCase(),
+          role: 'customer',
           createdAt: serverTimestamp()
         });
       }
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message || 'Authentication failed. Please verify credentials.');
     } finally {
+      setPassword(''); // Instantly wipe sensitive credentials from memory
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setError('');
+    setLoading(true);
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+    } catch (err: any) {
+      setError(err.message || 'Google sign-in failed');
+    } finally {
+      setPassword('');
       setLoading(false);
     }
   };
@@ -296,9 +321,24 @@ export default function StaffToolsModal({ isOpen, onClose }: StaffToolsModalProp
     
     try {
       const ticketId = generateTicketId();
+      const sanitizedPayload = {
+        customerName: sanitizeString(newTicket.customerName),
+        customerPhone: sanitizeString(newTicket.mobileNumber),
+        mobileNumber: sanitizeString(newTicket.mobileNumber),
+        city: sanitizeString(newTicket.city),
+        deviceType: sanitizeString(newTicket.deviceType),
+        device: sanitizeString(newTicket.device),
+        imei: sanitizeString(newTicket.imei),
+        issue: sanitizeString(newTicket.issue),
+        price: sanitizeString(newTicket.price),
+        advance: sanitizeString(newTicket.advance),
+        warranty: sanitizeString(newTicket.warranty),
+        notes: sanitizeString(newTicket.notes)
+      };
+
       await setDoc(doc(db, 'tickets', ticketId), {
         ticketId,
-        ...newTicket,
+        ...sanitizedPayload,
         status: 'pending',
         history: [{
           status: 'pending',
@@ -552,17 +592,9 @@ Thank you for your continued trust!`;
                   </div>
                   
                   {authMode === 'register' && (
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Secret Code</label>
-                      <input
-                        type="password"
-                        required
-                        value={secretCode}
-                        onChange={(e) => setSecretCode(e.target.value)}
-                        placeholder="Ask admin for code"
-                        className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-brand-orange outline-none bg-white dark:bg-slate-700 text-gray-900 dark:text-white"
-                      />
-                    </div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      Passwords must be at least 8 characters. Administrator privileges are granted by system administrators.
+                    </p>
                   )}
 
                   {error && <p className="text-red-500 text-sm">{error}</p>}

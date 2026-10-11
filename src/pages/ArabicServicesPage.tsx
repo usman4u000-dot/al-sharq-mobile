@@ -19,7 +19,10 @@ import {
   Sparkles,
   Search,
   Battery,
-  AlertCircle
+  AlertCircle,
+  Hotel,
+  Globe,
+  ExternalLink
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { seoBlogsArabic } from '../data/seoBlogsArabic';
@@ -489,6 +492,56 @@ export default function ArabicServicesPage() {
               <span className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 shrink-0 mr-2">{dist.time}</span>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Dubai Tourist Guide & Hotels Cross-Linking */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="p-8 rounded-3xl bg-gradient-to-r from-amber-950/60 via-slate-900 to-amber-950/40 border border-amber-500/40 shadow-xl">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+            <div className="space-y-3 text-right">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold uppercase">
+                <Hotel className="w-3.5 h-3.5" />
+                <span>دليل سياحة وفنادق دبي 2026</span>
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+                تخطط لزيارة دبي؟ عروض حصرية على فنادق دبي حتى 60% وتجهيزات تقنية ذكية
+              </h2>
+              <p className="text-sm text-slate-300 leading-relaxed max-w-2xl">
+                وفر في إقامتك الفندقية بالقرب من برج خليفة ودبي مول ودبي مارينا مع أفضل الأسعار وإلغاء مجاني عبر Trip.com، وتعرف على أهم 5 تطبيقات للسياحة والمواصلات، بالإضافة لدليل المراجعات التقنية على Evonixtec.com وخدمة الصيانة السريعة خلال 20 دقيقة لدى مختبرنا بالقرب من مطار دبي.
+              </p>
+              <div className="flex flex-wrap items-center justify-end gap-3 pt-2">
+                <Link
+                  to="/blog/arabic-best-hotels-in-dubai-2026-travel-apps-tech-guide"
+                  className="px-4 py-2 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold text-xs hover:bg-amber-500/30 transition-all"
+                >
+                  اقرأ دليل فنادق وتطبيقات دبي بالعربية ←
+                </Link>
+                <a
+                  href="https://evonixtec.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 rounded-xl bg-cyan-950 text-cyan-300 border border-cyan-500/30 font-bold text-xs flex items-center gap-1.5 hover:bg-cyan-900 transition-all"
+                >
+                  <Globe className="w-3.5 h-3.5" />
+                  <span>دليل الأجهزة على Evonixtec.com</span>
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+            </div>
+
+            <div className="shrink-0">
+              <a
+                href="https://www.trip.com/hotels/list?city=220&display=Dubai&optionId=220&optionType=City&optionName=Dubai&Allianceid=10929626&SID=332911573&trip_sub1=&trip_sub3=D20154955"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-4 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-black text-sm uppercase tracking-wide transition-all shadow-xl shadow-amber-500/20 text-center"
+              >
+                <span>👉 احجز فنادق دبي بخصم حتى 60%</span>
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 

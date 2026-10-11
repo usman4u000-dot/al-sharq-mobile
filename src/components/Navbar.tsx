@@ -307,7 +307,16 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                 <span>الخدمات بالعربية</span>
               </Link>
 
-              {/* 6. About */}
+              {/* 7. Dubai Hotels 2026 */}
+              <Link 
+                to="/blog/best-hotels-in-dubai-2026-luxury-budget-burj-khalifa-guide" 
+                className="px-3.5 py-2 text-sm font-semibold text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1.5 rounded-lg bg-amber-950/40 border border-amber-500/30"
+              >
+                <Hotel className="w-3.5 h-3.5 text-amber-400" />
+                <span>{isAr ? 'فنادق دبي (60% خصم)' : 'Dubai Hotels 2026'}</span>
+              </Link>
+
+              {/* 8. About */}
               <Link 
                 to="/about" 
                 className="px-3.5 py-2 text-sm font-semibold text-slate-200 hover:text-white transition-colors rounded-lg"

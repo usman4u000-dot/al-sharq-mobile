@@ -1,6 +1,7 @@
 import express from 'express';
 import compression from 'compression';
 import helmet from 'helmet';
+import cors from 'cors';
 import { createServer as createViteServer } from 'vite';
 import path from 'path';
 import fs from 'fs';
@@ -15,6 +16,7 @@ import {
   globalApiLimiter,
   honeypotMiddleware
 } from './src/middleware/rateLimiter.ts';
+import { sanitizeInputMiddleware } from './src/middleware/sanitizeInput.ts';
 import { legacySeoRedirectMiddleware } from './src/middleware/legacyRedirects.ts';
 
 // Load environment variables
@@ -104,8 +106,55 @@ async function startServer() {
   const app = express();
   const PORT = Number(process.env.PORT) || 3000;
 
+  // Security: Disable X-Powered-By header to obscure server technology
+  app.disable('x-powered-by');
+
   // Trust proxy for reverse proxy rate-limiting accuracy (Cloud Run / AIS Dev server)
   app.set('trust proxy', 1);
+
+  // Security: Block direct HTTP access to sensitive source files, secrets, configs, or rules
+  app.use((req, res, next) => {
+    // Allow Vite internal and source modules in development/preview mode
+    if (req.path.startsWith('/src/') || req.path.startsWith('/@') || req.path.startsWith('/node_modules/')) {
+      return next();
+    }
+    const sensitivePattern = /(\/\.[^/]+|\.env|\.git|\.rules|firebase.*\.json|^\/server\.ts$|\.sql$|\.bak$|\.swp$|\.old$|tsconfig\.json|package\.json|bun\.lock|package-lock\.json|metadata\.json|vercel\.json)/i;
+    if (sensitivePattern.test(req.path)) {
+      console.warn(`[SECURITY ALERT] Blocked access attempt to sensitive resource: ${req.path} from IP: ${req.ip}`);
+      return res.status(404).type('text/plain').send('Not Found');
+    }
+    next();
+  });
+
+  // Strict CORS Configuration with regex domain validation
+  const ALLOWED_ORIGIN_PATTERNS = [
+    /^https?:\/\/localhost(:\d+)?$/,
+    /^https?:\/\/127\.0\.0\.1(:\d+)?$/,
+    /^https:\/\/allsharq\.com$/,
+    /^https:\/\/[a-z0-9-]+\.allsharq\.com$/,
+    /^https:\/\/[a-z0-9.-]+\.run\.app$/,
+    /^https:\/\/[a-z0-9.-]+\.google\.com$/
+  ];
+
+  app.use(
+    cors({
+      origin: (origin, callback) => {
+        // Allow requests with no origin (e.g. mobile apps, curl, or same-origin navigation)
+        if (!origin) return callback(null, true);
+        const isAllowed = ALLOWED_ORIGIN_PATTERNS.some(pattern => pattern.test(origin));
+        if (isAllowed) {
+          callback(null, true);
+        } else {
+          console.warn(`[SECURITY ALERT] Blocked cross-origin request from unauthorized origin: ${origin}`);
+          callback(null, false);
+        }
+      },
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
+      maxAge: 86400
+    })
+  );
 
   // Global Middleware
   app.use(compression());
@@ -167,7 +216,7 @@ async function startServer() {
           objectSrc: ["'none'"],
           baseUri: ["'self'"],
           formAction: ["'self'"],
-          frameAncestors: ["'self'", 'https://*.google.com', 'https://*.run.app', '*'],
+          frameAncestors: ["'self'", 'https://*.google.com', 'https://*.run.app', 'https://*.googleusercontent.com', 'https://aistudio.google.com', '*'],
         },
       },
       // X-Content-Type-Options: nosniff (protects against MIME type sniffing vulnerabilities)
@@ -178,16 +227,33 @@ async function startServer() {
       },
       // Prevent clickjacking while allowing preview inside authorized iframe environments
       frameguard: false,
+      // Allow embedding in AI Studio and Google preview environments without COOP isolation blocks
+      crossOriginOpenerPolicy: false,
       // Disable COEP to allow third-party CDN assets and images without CORP blockers
       crossOriginEmbedderPolicy: false,
       // Allow cross-origin static resource fetching
       crossOriginResourcePolicy: { policy: 'cross-origin' },
       // DNS prefetch control
       dnsPrefetchControl: { allow: true },
+      // Strict-Transport-Security (HSTS)
+      hsts: {
+        maxAge: 31536000,
+        includeSubDomains: true,
+        preload: true
+      }
     })
   );
 
-  app.use(express.json({ limit: '100kb' })); // Limit body payload to prevent DoS
+  // Security: Feature-Policy / Permissions-Policy Header & X-XSS-Protection
+  app.use((_req, res, next) => {
+    res.setHeader('Permissions-Policy', 'camera=(), microphone=(self), geolocation=(), payment=(self)');
+    res.setHeader('X-XSS-Protection', '1; mode=block');
+    next();
+  });
+
+  app.use(express.json({ limit: '50kb' })); // Limit body payload to 50kb to prevent DoS
+  app.use(express.urlencoded({ extended: false, limit: '50kb' }));
+  app.use(sanitizeInputMiddleware); // Deep input sanitization against XSS & Prototype Pollution
 
   // Global API rate limiter across all endpoints
   app.use('/api', globalApiLimiter);
@@ -338,8 +404,8 @@ async function startServer() {
       
       res.json({ id: session.id, url: session.url });
     } catch (error: any) {
-      console.error('Stripe error:', error);
-      res.status(500).json({ error: error.message || 'Payment initiation failed' });
+      console.error('Stripe payment error:', error?.message || error);
+      res.status(500).json({ error: 'Payment session initialization failed. Please contact support.' });
     }
   });
 
@@ -362,8 +428,8 @@ async function startServer() {
       
       res.json({ success: true, messageSid: response.sid });
     } catch (error: any) {
-      console.error('Twilio error:', error);
-      res.status(500).json({ error: error.message || 'SMS dispatch failed' });
+      console.error('Twilio SMS error:', error?.message || error);
+      res.status(500).json({ error: 'SMS dispatch failed. Please try again later.' });
     }
   });
 
@@ -439,13 +505,12 @@ async function startServer() {
 
       res.json({
         success: true,
-        targetEmail,
         refNumber,
-        message: `Booking received and notification queued for ${targetEmail}`
+        message: 'Booking received and notification queued successfully'
       });
     } catch (error: any) {
-      console.error('Booking notification error:', error);
-      res.status(500).json({ error: error.message || 'Notification processing failed' });
+      console.error('Booking notification error:', error?.message || 'Processing error');
+      res.status(500).json({ error: 'Booking notification failed. Please contact support.' });
     }
   });
 
@@ -465,12 +530,7 @@ async function startServer() {
       const targetEmail = process.env.ADMIN_NOTIFY_EMAIL || 'alsharqmobile@gmail.com';
       const estimateRef = refNumber || ('EST-' + Math.random().toString(36).substring(2, 7).toUpperCase());
 
-      console.log(`[REPAIR ESTIMATE INQUIRY -> ${targetEmail}]`);
-      console.log(`Reference: ${estimateRef}`);
-      console.log(`Model: ${model || 'Unknown'}`);
-      console.log(`Issue: ${damage || 'Diagnostic'}`);
-      console.log(`Estimate: ${estimatedPrice || 'Custom quote'}`);
-      console.log(`WhatsApp/Contact: ${whatsapp || 'N/A'}`);
+      console.log(`[REPAIR ESTIMATE INQUIRY] Ref: ${estimateRef} | Model: ${model || 'Device'} | Price: ${estimatedPrice || 'Custom quote'}`);
 
       if (process.env.RESEND_API_KEY) {
         try {
@@ -505,12 +565,11 @@ async function startServer() {
       res.json({
         success: true,
         refNumber: estimateRef,
-        targetEmail,
         message: 'Repair estimate inquiry registered successfully'
       });
     } catch (error: any) {
-      console.error('Repair estimate API error:', error);
-      res.status(500).json({ error: error.message || 'Estimate processing failed' });
+      console.error('Repair estimate API error:', error?.message || 'Processing error');
+      res.status(500).json({ error: 'Repair estimate calculation failed. Please contact us directly.' });
     }
   });
 
@@ -520,10 +579,7 @@ async function startServer() {
       const { name, email, phone, subject, message } = req.body;
       const targetEmail = process.env.ADMIN_NOTIFY_EMAIL || 'alsharqmobile@gmail.com';
 
-      console.log(`[CONTACT INQUIRY -> ${targetEmail}]`);
-      console.log(`From: ${name} (${email} | ${phone || 'N/A'})`);
-      console.log(`Subject: ${subject}`);
-      console.log(`Message: ${message}`);
+      console.log(`[CONTACT INQUIRY] Subject: ${subject} from ${name}`);
 
       if (process.env.RESEND_API_KEY) {
         try {
@@ -555,9 +611,10 @@ async function startServer() {
         }
       }
 
-      res.json({ success: true, targetEmail, message: `Inquiry registered for ${targetEmail}` });
+      res.json({ success: true, message: 'Inquiry registered successfully' });
     } catch (error: any) {
-      res.status(500).json({ error: error.message || 'Inquiry processing failed' });
+      console.error('Contact inquiry error:', error?.message || 'Processing error');
+      res.status(500).json({ error: 'Inquiry submission failed. Please reach us via WhatsApp.' });
     }
   });
 
@@ -567,10 +624,7 @@ async function startServer() {
       const { companyName, contactPerson, email, phone, deviceCount, serviceType, message } = req.body;
       const targetEmail = process.env.ADMIN_NOTIFY_EMAIL || 'alsharqmobile@gmail.com';
 
-      console.log(`[CORPORATE B2B INQUIRY -> ${targetEmail}]`);
-      console.log(`Company: ${companyName} (${contactPerson})`);
-      console.log(`Contact: ${phone} | ${email}`);
-      console.log(`Devices: ${deviceCount} | Type: ${serviceType}`);
+      console.log(`[CORPORATE B2B INQUIRY] Company: ${companyName} (${contactPerson}) | Fleet: ${deviceCount}`);
 
       if (process.env.RESEND_API_KEY) {
         try {
@@ -605,14 +659,31 @@ async function startServer() {
         }
       }
 
-      res.json({ success: true, targetEmail, message: `Corporate inquiry registered for ${targetEmail}` });
+      res.json({ success: true, message: 'Corporate inquiry registered successfully' });
     } catch (error: any) {
-      res.status(500).json({ error: error.message || 'Corporate inquiry processing failed' });
+      console.error('Corporate inquiry error:', error?.message || 'Processing error');
+      res.status(500).json({ error: 'Corporate inquiry processing failed. Please contact us directly.' });
     }
   });
 
+  // Global Secure Error Handler (Turns off debug leak in production)
+  app.use((err: any, req: express.Request, res: express.Response, _next: express.NextFunction) => {
+    const cleanUrl = req.originalUrl.split('?')[0];
+    console.error(`[SERVER ERROR] ${req.method} ${cleanUrl}:`, err?.message || 'Internal processing error');
+    if (res.headersSent) return;
+    if (err?.message && err.message.includes('CORS')) {
+      return res.status(403).json({ error: 'Access forbidden: CORS security policy violation' });
+    }
+    res.status(500).json({
+      error: 'An unexpected processing error occurred. The incident has been securely logged.'
+    });
+  });
+
   // --- Vite Configuration --- //
-  if (process.env.NODE_ENV !== 'production') {
+  const distPath = path.join(process.cwd(), 'dist');
+  const hasDist = fs.existsSync(distPath);
+
+  if (process.env.NODE_ENV !== 'production' || !hasDist) {
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
@@ -620,7 +691,6 @@ async function startServer() {
     app.use(vite.middlewares);
   } else {
     // Production serving with optimized caching
-    const distPath = path.join(process.cwd(), 'dist');
     app.use(express.static(distPath, {
       maxAge: '1y',
       immutable: true,

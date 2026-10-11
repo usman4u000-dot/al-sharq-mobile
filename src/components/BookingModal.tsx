@@ -7,6 +7,7 @@ import emailjs from '@emailjs/browser';
 import confetti from 'canvas-confetti';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { sanitizeString, sanitizeEmail, sanitizePhone } from '../utils/sanitize';
 
 interface BookingModalProps {
   isOpen: boolean;

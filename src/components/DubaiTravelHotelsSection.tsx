@@ -77,6 +77,61 @@ export const DubaiTravelHotelsSection: React.FC = () => {
           </div>
         </div>
 
+        {/* Featured 2026 Travel Infographic Showcase */}
+        <div className="mb-10 overflow-hidden rounded-3xl border border-cyan-500/40 bg-gradient-to-r from-slate-950 via-slate-900 to-cyan-950 shadow-2xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center p-4 sm:p-6">
+            <div className="lg:col-span-7 overflow-hidden rounded-2xl border border-slate-800 shadow-xl group">
+              <Link to="/blog/traveling-to-dubai-2026-essential-mobile-apps-and-accessories">
+                <img
+                  src="/images/dubai-travel-tech-2026.jpg"
+                  alt="Traveling to Dubai in 2026? 5 Essential Mobile Apps and Accessories You Need"
+                  className="w-full h-auto object-cover transform group-hover:scale-105 transition-all duration-500 max-h-[380px]"
+                  referrerPolicy="no-referrer"
+                  loading="lazy"
+                />
+              </Link>
+            </div>
+            <div className="lg:col-span-5 space-y-4">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-950 border border-cyan-500/40 text-cyan-300 text-xs font-bold uppercase tracking-wider">
+                <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
+                <span>{isAr ? 'الدليل التقني الحصري 2026' : 'Featured 2026 Tourist Guide'}</span>
+              </span>
+
+              <h3 className="text-xl sm:text-2xl font-black text-white leading-tight">
+                {isAr
+                  ? 'هل تسافر إلى دبي في 2026؟ 5 تطبيقات وملحقات هواتف لا غنى عنها'
+                  : 'Traveling to Dubai in 2026? 5 Essential Mobile Apps & Accessories'}
+              </h3>
+
+              <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
+                {isAr
+                  ? 'خطط لرحلتك من الشارقة أو باكستان بأمان: أفضل تطبيقات النقل وحجز الفنادق بخصم 30%، باور بانك 20000mAh، ومحولات Type G وحلول حرارة الهاتف.'
+                  : 'Planning a trip from Sharjah or Pakistan? Discover top transport apps, 30% OFF Trip.com hotel bookings, 20000mAh power banks, Type G adapters, and phone cooling.'}
+              </p>
+
+              <div className="flex flex-wrap gap-3 pt-2">
+                <Link
+                  to="/blog/traveling-to-dubai-2026-essential-mobile-apps-and-accessories"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-colors shadow-lg shadow-cyan-500/20"
+                >
+                  <span>{isAr ? 'قراءة الدليل المصور' : 'Read Full Guide'}</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+
+                <a
+                  href={TRIP_COM_DUBAI_HOTELS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-colors"
+                >
+                  <span>{isAr ? 'خصم 30% للفنادق' : '30% OFF Hotels'}</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* 3 Featured Columns */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Column 1: Trip.com Exclusive Hotel Deals */}

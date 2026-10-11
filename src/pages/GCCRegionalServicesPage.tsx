@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'motion/react';
-import { Globe, Plane, Truck, ShieldCheck, CheckCircle2, Phone, MessageCircle, MapPin, Calculator, Package, AlertCircle, Cpu, HardDrive, Laptop, Smartphone, HelpCircle } from 'lucide-react';
+import { Globe, Plane, Truck, ShieldCheck, CheckCircle2, Phone, MessageCircle, MapPin, Calculator, Package, AlertCircle, Cpu, HardDrive, Laptop, Smartphone, HelpCircle, Hotel, ExternalLink } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import ShippingLogistics from '../components/ShippingLogistics';
@@ -958,6 +958,65 @@ export default function GCCRegionalServicesPage({ onBookNow }: GCCRegionalServic
 
           </div>
 
+        </div>
+      </section>
+
+      {/* GCC Travelers to Dubai: Hotels & On-Arrival Express Tech Support */}
+      <section className="py-12 bg-slate-900 border-t border-b border-amber-500/30 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="p-8 rounded-3xl bg-slate-950 border border-slate-800 flex flex-col lg:flex-row items-center justify-between gap-6">
+            <div className="space-y-3 max-w-2xl">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-bold uppercase">
+                <Hotel className="w-3.5 h-3.5" />
+                <span>{isAr ? 'زوار دبي من السعودية والخليج 2026' : 'GCC Visitors Traveling to Dubai 2026'}</span>
+              </span>
+              <h2 className="text-xl sm:text-2xl font-black text-white">
+                {isAr
+                  ? 'قادم في زيارة سياحية أو عمل إلى دبي؟ احجز أفضل الفنادق بخصم حتى 60%'
+                  : 'Traveling to Dubai for Business or Tourism? Save up to 60% on Hotels'}
+              </h2>
+              <p className="text-slate-300 text-sm leading-relaxed">
+                {isAr
+                  ? 'سواء كنت تزور دبي من الرياض أو مسقط أو الدوحة أو الكويت، وفر في حجز فندقك قرب برج خليفة ودبي مول ومارينا عبر Trip.com، وتعرف على أهم تطبيقات السفر الذكية والدليل التقني على Evonixtec.com، مع خدمة صيانة أجهزتك خلال 20 دقيقة في مختبرنا عند وصولك.'
+                  : 'Flying into Dubai from Riyadh, Muscat, Doha, or Kuwait? Get top hotel discounts near Burj Khalifa on Trip.com, read the 5 essential travel apps guide, tech reviews on Evonixtec.com, and drop by Al Sharq for 20-minute express repair.'}
+              </p>
+              <div className="flex flex-wrap gap-3 pt-1">
+                <Link
+                  to="/blog/best-hotels-in-dubai-2026-luxury-budget-burj-khalifa-guide"
+                  className="text-xs font-bold text-amber-400 hover:text-amber-300 inline-flex items-center gap-1"
+                >
+                  <span>🏨 {isAr ? 'دليل فنادق دبي (Trip.com)' : 'Dubai Hotels Guide (Trip.com)'}</span>
+                </Link>
+                <Link
+                  to="/blog/5-best-apps-and-tech-you-need-before-traveling-to-dubai-2026"
+                  className="text-xs font-bold text-cyan-400 hover:text-cyan-300 inline-flex items-center gap-1"
+                >
+                  <span>📱 {isAr ? 'أهم 5 تطبيقات وتقنيات للسائح' : '5 Essential Dubai Travel Apps'}</span>
+                </Link>
+                <a
+                  href="https://evonixtec.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-bold text-slate-300 hover:text-white inline-flex items-center gap-1"
+                >
+                  <span>🌐 Evonixtec.com</span>
+                  <ExternalLink className="w-3 h-3 text-cyan-400" />
+                </a>
+              </div>
+            </div>
+
+            <div className="shrink-0">
+              <a
+                href="https://www.trip.com/hotels/list?city=220&display=Dubai&optionId=220&optionType=City&optionName=Dubai&Allianceid=10929626&SID=332911573&trip_sub1=&trip_sub3=D20154955"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs uppercase tracking-wider transition-all shadow-lg"
+              >
+                <span>{isAr ? 'عروض فنادق دبي (Trip.com)' : 'Check Dubai Hotel Rates'}</span>
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 

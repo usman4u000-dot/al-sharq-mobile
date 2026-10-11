@@ -2,9 +2,13 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Helper functions
+    // Core Authentication & Authorization helpers
     function isAuthenticated() {
       return request.auth != null;
+    }
+
+    function isEmailVerified() {
+      return isAuthenticated() && request.auth.token.email_verified == true;
     }
     
     function isStaff() {
@@ -15,50 +19,70 @@ service cloud.firestore {
 
     function isAdmin() {
       return isAuthenticated() && 
-        ((exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
-          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin') ||
-         (request.auth.token.email == 'usman4u000@gmail.com' && request.auth.token.email_verified == true));
+        ((request.auth.token.email == 'usman4u000@gmail.com' && isEmailVerified()) ||
+         (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'));
     }
 
-    // User collection rules
+    // User collection rules: Strict Self-Read and Admin Management
     match /users/{userId} {
       allow read: if isAuthenticated() && (request.auth.uid == userId || isStaff());
-      allow create: if isAuthenticated() && request.auth.uid == userId;
+      // Users can only create their own profile, strictly restricted to customer role unless verified admin
+      allow create: if isAuthenticated() && request.auth.uid == userId && 
+        (!('role' in request.resource.data) || request.resource.data.role == 'customer' || isAdmin());
+      // Only administrators can promote roles or modify user records
       allow update, delete: if isAdmin();
     }
 
-    // Ticket collection rules
+    // Ticket collection rules: Granular tracking access vs Staff control
     match /tickets/{ticketId} {
-      // Public can read a specific ticket if they know the ID (get), but cannot list all tickets
+      // Public can read an individual ticket with exact ID for tracking, but cannot enumerate/list tickets
       allow get: if true;
       allow list: if isStaff();
       
-      // Only staff can create/update tickets
+      // Only authorized staff can create or update repair tickets
       allow create: if isStaff();
       allow update: if isStaff();
+      // Only full administrators can permanently delete customer repair records
       allow delete: if isAdmin();
     }
     
-    // Inventory collection rules
+    // Inventory collection rules: Internal operational data
     match /inventory/{itemId} {
-      allow read: if isAdmin();
+      allow read: if isStaff();
       allow write: if isAdmin();
     }
 
-    // Public Bookings and Inquiries
+    // Public Bookings: Rate & Payload protected, Staff-only read
     match /bookings/{bookingId} {
-      allow create: if true;
-      allow read, update, delete: if isStaff() || isAdmin();
+      allow create: if (('name' in request.resource.data && request.resource.data.name is string && request.resource.data.name.size() > 0 && request.resource.data.name.size() < 200) ||
+                        ('customerName' in request.resource.data && request.resource.data.customerName is string && request.resource.data.customerName.size() > 0 && request.resource.data.customerName.size() < 200)) &&
+                       (('phone' in request.resource.data && request.resource.data.phone is string && request.resource.data.phone.size() > 0 && request.resource.data.phone.size() < 50) ||
+                        ('customerPhone' in request.resource.data && request.resource.data.customerPhone is string && request.resource.data.customerPhone.size() > 0 && request.resource.data.customerPhone.size() < 50));
+      allow read, list, update, delete: if isStaff();
     }
 
+    // Public Inquiries: Staff-only read
     match /inquiries/{inquiryId} {
-      allow create: if true;
-      allow read, update, delete: if isStaff() || isAdmin();
+      allow create: if (('name' in request.resource.data && request.resource.data.name is string && request.resource.data.name.size() > 0 && request.resource.data.name.size() < 200) ||
+                        ('fullName' in request.resource.data && request.resource.data.fullName is string && request.resource.data.fullName.size() > 0 && request.resource.data.fullName.size() < 200));
+      allow read, list, update, delete: if isStaff();
     }
 
+    // Flash Sale Reservations: Staff-only read
     match /flash_sale_reservations/{reservationId} {
-      allow create: if true;
-      allow read, update, delete: if isStaff() || isAdmin();
+      allow create: if (('fullName' in request.resource.data && request.resource.data.fullName is string && request.resource.data.fullName.size() > 0 && request.resource.data.fullName.size() < 200) ||
+                        ('name' in request.resource.data && request.resource.data.name is string && request.resource.data.name.size() > 0 && request.resource.data.name.size() < 200)) &&
+                       request.resource.data.phone is string &&
+                       request.resource.data.phone.size() > 0 &&
+                       request.resource.data.phone.size() < 50;
+      allow read, list, update, delete: if isStaff();
+    }
+
+    // Default Fallback: Block all unmapped paths
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }
+

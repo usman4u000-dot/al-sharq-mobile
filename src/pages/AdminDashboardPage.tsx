@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'motion/react';
-import { collection, query, onSnapshot, doc, setDoc, updateDoc, deleteDoc, orderBy } from 'firebase/firestore';
+import { collection, query, onSnapshot, doc, getDoc, setDoc, updateDoc, deleteDoc, orderBy } from 'firebase/firestore';
 import { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, User } from 'firebase/auth';
 import { db, auth } from '../firebase';
-import { Ticket, Plus, Search, LogOut, Edit, Trash2, X, Activity, User as UserIcon, Settings, Settings2, CheckCircle2 } from 'lucide-react';
+import { Ticket, Plus, Search, LogOut, Edit, Trash2, X, Activity, User as UserIcon, Settings, Settings2, CheckCircle2, ShieldAlert, Lock, ShieldCheck } from 'lucide-react';
+import { sanitizeString } from '../utils/sanitize';
 
 interface RepairTicket {
   id: string;
@@ -37,6 +38,8 @@ export default function AdminDashboardPage() {
   const [user, setUser] = useState<User | null>(null);
   const [tickets, setTickets] = useState<RepairTicket[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isAuthorized, setIsAuthorized] = useState<boolean | null>(null);
+  const [userRole, setUserRole] = useState<'admin' | 'staff' | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -51,15 +54,53 @@ export default function AdminDashboardPage() {
   });
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (u) => {
+    const unsub = onAuthStateChanged(auth, async (u) => {
       setUser(u);
+      if (!u) {
+        setIsAuthorized(false);
+        setUserRole(null);
+        setLoading(false);
+        return;
+      }
+
+      const email = u.email?.toLowerCase();
+      // Primary Administrator check - strictly requires verified identity (Google Auth or verified email token)
+      const isVerified = u.emailVerified || u.providerData.some(p => p.providerId === 'google.com');
+      if (email === 'usman4u000@gmail.com' && isVerified) {
+        setIsAuthorized(true);
+        setUserRole('admin');
+        setLoading(false);
+        return;
+      }
+
+      // Check role in Firestore users collection
+      try {
+        const userDoc = await getDoc(doc(db, 'users', u.uid));
+        if (userDoc.exists()) {
+          const role = userDoc.data()?.role;
+          if (role === 'admin' || role === 'staff' || role === 'technician') {
+            setIsAuthorized(true);
+            setUserRole(role === 'admin' ? 'admin' : 'staff');
+            setLoading(false);
+            return;
+          }
+        }
+      } catch (err) {
+        console.warn("Authorization verification warning:", err);
+      }
+
+      setIsAuthorized(false);
+      setUserRole(null);
       setLoading(false);
     });
     return () => unsub();
   }, []);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isAuthorized) {
+      setTickets([]);
+      return;
+    }
     
     const q = query(collection(db, 'tickets'), orderBy('createdAt', 'desc'));
     const unsub = onSnapshot(q, (snapshot) => {
@@ -73,7 +114,7 @@ export default function AdminDashboardPage() {
     });
     
     return () => unsub();
-  }, [user]);
+  }, [user, isAuthorized]);
 
   const handleLogin = async () => {
     const provider = new GoogleAuthProvider();
@@ -115,15 +156,27 @@ export default function AdminDashboardPage() {
 
   const handleSaveTicket = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isAuthorized) {
+      alert("Unauthorized: You do not have permission to manage tickets.");
+      return;
+    }
+
     try {
+      const sanitizedPayload = {
+        customerName: sanitizeString(formData.customerName),
+        customerPhone: sanitizeString(formData.customerPhone),
+        deviceType: sanitizeString(formData.deviceType),
+        deviceModel: sanitizeString(formData.deviceModel),
+        issue: sanitizeString(formData.issue),
+        status: sanitizeString(formData.status)
+      };
+
       if (editingTicket) {
-        await updateDoc(doc(db, 'tickets', editingTicket.id), {
-          ...formData
-        });
+        await updateDoc(doc(db, 'tickets', editingTicket.id), sanitizedPayload);
       } else {
         const newId = `T-${Math.floor(10000 + Math.random() * 90000)}`;
         await setDoc(doc(db, 'tickets', newId), {
-          ...formData,
+          ...sanitizedPayload,
           createdAt: Date.now()
         });
       }
@@ -135,12 +188,17 @@ export default function AdminDashboardPage() {
   };
 
   const handleDeleteTicket = async (id: string) => {
-    if (window.confirm("Are you sure you want to delete this ticket?")) {
+    if (userRole !== 'admin') {
+      alert("Permission Denied: Only administrators can delete ticket records.");
+      return;
+    }
+
+    if (window.confirm("Are you sure you want to permanently delete this repair ticket?")) {
       try {
         await deleteDoc(doc(db, 'tickets', id));
       } catch (error) {
         console.error("Error deleting ticket", error);
-        alert("Failed to delete ticket. You may need full admin rights.");
+        alert("Failed to delete ticket. You need full administrator rights.");
       }
     }
   };
@@ -194,6 +252,42 @@ export default function AdminDashboardPage() {
               className="w-full py-3.5 px-4 bg-brand-blue hover:bg-blue-700 text-white rounded-xl font-bold shadow-lg shadow-brand-blue/20 transition-all flex items-center justify-center gap-2"
             >
               Sign In with Google
+            </button>
+          </motion.div>
+        </div>
+      </>
+    );
+  }
+
+  if (!isAuthorized) {
+    return (
+      <>
+        <Helmet>
+          <title>Access Denied | Al Sharq Mobile</title>
+          <meta name="robots" content="noindex, nofollow" />
+        </Helmet>
+        <div className="min-h-screen pt-24 pb-16 bg-slate-50 dark:bg-slate-900 flex items-center justify-center px-4">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="max-w-md w-full bg-white dark:bg-slate-800 p-8 rounded-3xl border border-red-200 dark:border-red-900/50 shadow-2xl text-center"
+          >
+            <div className="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <ShieldAlert className="w-8 h-8 text-red-600 dark:text-red-400" />
+            </div>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Access Denied</h1>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+              Signed in as: <span className="font-semibold text-slate-800 dark:text-slate-200">{user.email}</span>
+            </p>
+            <p className="text-xs text-red-600 dark:text-red-400 mb-8 bg-red-50 dark:bg-red-950/40 p-3 rounded-xl border border-red-100 dark:border-red-900/40">
+              This account does not have administrative or staff privileges. Unauthorized access attempts to customer repair records are restricted and logged.
+            </p>
+            <button 
+              onClick={handleLogout}
+              className="w-full py-3.5 px-4 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2"
+            >
+              <LogOut className="w-4 h-4" />
+              <span>Sign Out & Switch Account</span>
             </button>
           </motion.div>
         </div>

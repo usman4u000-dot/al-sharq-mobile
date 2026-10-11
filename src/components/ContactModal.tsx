@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { sanitizeString, sanitizeEmail } from '../utils/sanitize';
 
 interface ContactModalProps {
   isOpen: boolean;
@@ -75,19 +76,24 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
     setIsSubmitting(true);
     
     try {
+      const sanitizedName = sanitizeString(formData.name);
+      const sanitizedEmail = sanitizeEmail(formData.email);
+      const sanitizedSubject = sanitizeString(formData.subject);
+      const sanitizedMessage = sanitizeString(formData.message);
+
       // Execute reCAPTCHA
-      const token = (executeRecaptcha ? await executeRecaptcha('contact_modal') : 'dummy-token');
-      console.log('reCAPTCHA token:', token);
+      if (executeRecaptcha) {
+        await executeRecaptcha('contact_modal');
+      }
       
       // Save directly to Firestore database
       try {
         await addDoc(collection(db, 'inquiries'), {
           type: 'contact_modal',
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject,
-          message: formData.message,
-          notifyEmail: 'alsharqmobile@gmail.com',
+          name: sanitizedName,
+          email: sanitizedEmail,
+          subject: sanitizedSubject,
+          message: sanitizedMessage,
           status: 'unread',
           createdAt: serverTimestamp()
         });
@@ -95,17 +101,16 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
         console.warn('Firestore contact modal save warning:', dbErr);
       }
 
-      // Notify backend server targeting alsharqmobile@gmail.com
+      // Notify backend server
       try {
         const response = await fetch('/api/contact-inquiry', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            subject: formData.subject,
-            message: formData.message,
-            targetEmail: 'alsharqmobile@gmail.com'
+            name: sanitizedName,
+            email: sanitizedEmail,
+            subject: sanitizedSubject,
+            message: sanitizedMessage
           })
         });
 
