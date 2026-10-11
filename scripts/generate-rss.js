@@ -10,16 +10,10 @@ const BASE_URL = 'https://allsharq.com';
 const BUILD_DATE = new Date().toUTCString();
 
 // Extract all unique blog post metadata
-const blogFiles = [
-  'src/data/blogPosts.tsx',
-  'src/data/blogs.ts',
-  'src/data/seoBlogs1.tsx',
-  'src/data/seoBlogs2.tsx',
-  'src/data/seoBlogs3.tsx',
-  'src/data/seoBlogs4.tsx',
-  'src/data/seoBlogs5.tsx',
-  'src/data/seoBlogsArabic.tsx'
-];
+const dataDir = path.join(rootDir, 'src/data');
+const blogFiles = fs.readdirSync(dataDir)
+  .filter(f => (f.startsWith('seoBlogs') || f.startsWith('blog')) && (f.endsWith('.tsx') || f.endsWith('.ts')))
+  .map(f => path.join('src/data', f));
 
 const items = [];
 const seenIds = new Set();

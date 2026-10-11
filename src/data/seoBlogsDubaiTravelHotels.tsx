@@ -707,5 +707,483 @@ export const seoBlogsDubaiTravelHotels: BlogPost[] = [
         </div>
       </div>
     )
+  },
+  {
+    id: 'best-power-banks-for-dubai-trip',
+    title: 'Best Power Banks for Dubai Trip - Stay Charged in 50°C Heat',
+    excerpt: 'Going to Dubai? In 50°C heat and heavy GPS use, your phone battery drains 2x faster. Discover the best 20000mAh fast-charging power banks from Allsharq Mobile.',
+    date: 'October 11, 2026',
+    author: 'Al Sharq Mobile Lab & Tech Accessories Desk',
+    category: 'Travel Gadgets & Apps',
+    image: '/images/best-power-banks-dubai.jpg',
+    metaTitle: 'Best Power Banks for Dubai Trip 2026 - Stay Charged in 50°C Heat | Allsharq',
+    metaDescription: 'Going to Dubai? Your phone battery will drain fast in heat and GPS use. Here are the best 20000mAh power banks from Allsharq.',
+    content: (
+      <div className="space-y-6 text-slate-300 leading-relaxed font-sans">
+        {/* Featured Image */}
+        <div className="overflow-hidden rounded-3xl border border-amber-500/30 shadow-2xl bg-slate-900 group">
+          <img
+            src="/images/best-power-banks-dubai.jpg"
+            alt="Best Power Banks for Dubai Trip - Stay Charged in 50°C Heat"
+            className="w-full h-auto object-cover max-h-[580px] transition-transform duration-500 group-hover:scale-[1.01]"
+            referrerPolicy="no-referrer"
+            loading="eager"
+          />
+          <div className="px-4 py-2.5 bg-slate-950/90 flex flex-wrap items-center justify-between text-xs text-slate-400 border-t border-slate-800">
+            <span className="font-semibold text-amber-400">High-Capacity 20,000mAh Fast Charging for Dubai Trips</span>
+            <span>Tested in UAE Heat • Al Sharq Mobile Lab</span>
+          </div>
+        </div>
+
+        {/* Hero Card */}
+        <div className="p-6 rounded-2xl bg-gradient-to-r from-amber-950/70 via-slate-900 to-orange-950/60 border border-amber-500/30 shadow-xl space-y-3">
+          <span className="text-amber-400 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
+            <BatteryCharging className="w-4 h-4 text-amber-400" />
+            <span>UAE Heat Battery Advisory • 2026</span>
+          </span>
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">
+            Planning a Trip from Sharjah to Dubai? Stay Charged in 50°C Heat
+          </h2>
+          <p className="text-slate-300 text-sm md:text-base leading-relaxed">
+            Planning a trip from Sharjah to Dubai? In Dubai's 50°C heat, your iPhone and Samsung battery drains 2x faster. Screen brightness automatically hits maximum outdoors, GPS continuously tracks transit, and high ambient temperatures increase internal battery resistance.
+          </p>
+        </div>
+
+        {/* Core Recommendations */}
+        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <h3 className="text-lg font-bold text-white flex items-center gap-2">
+            <Zap className="w-5 h-5 text-amber-400" />
+            <span>Why a 20,000mAh Power Bank is Essential</span>
+          </h3>
+          <p className="text-sm text-slate-300 leading-relaxed">
+            At <strong>Allsharq Mobile Shop Sharjah</strong>, we always recommend a <strong>20000mAh Fast Charging Power Bank</strong> before you travel. It can charge your phone 4 full times, keeping your navigation, Careem rides, and digital boarding passes active all day without hunting for hotel wall plugs.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 space-y-1">
+              <strong className="text-white block font-bold text-sm">⚡ 4x Full Smartphone Recharges:</strong>
+              <span>Enough capacity for multi-day trips, desert safari excursions, and extended photo walks.</span>
+            </div>
+            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 space-y-1">
+              <strong className="text-white block font-bold text-sm">🛡️ Heat-Safe Thermal Cut-Off:</strong>
+              <span>Certified fireproof casing with intelligent temperature management so it doesn't overheat in Dubai sun.</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Pro Tip - Hotel Booking Partner Box */}
+        <div className="p-6 rounded-2xl bg-gradient-to-r from-amber-950/80 via-slate-900 to-orange-950/70 border-2 border-amber-500/50 space-y-4 shadow-2xl">
+          <div className="flex items-center gap-2 text-amber-400 font-extrabold text-lg">
+            <Tag className="w-5 h-5 text-amber-400" />
+            <span>Pro Tip: Don't Forget to Book Your Hotel in Advance!</span>
+          </div>
+          <p className="text-sm text-slate-200">
+            Hotel prices in Deira and Bur Dubai go high on weekends. We found the best deals here with up to 30% discount and free cancellation:
+          </p>
+          <div className="text-center pt-2">
+            <a
+              href="https://www.trip.com/hotels/list?city=220&display=Dubai&optionId=220&optionType=City&optionName=Dubai&Allianceid=10929626&SID=332911573&trip_sub1=powerbank-blog&trip_sub3=D20182731"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-black text-sm md:text-base uppercase tracking-wider shadow-xl shadow-orange-500/30 transition-all transform hover:scale-[1.02]"
+            >
+              <span>&gt;&gt; CHECK DUBAI HOTELS CHEAPEST PRICE ON TRIP.COM - 30% OFF</span>
+              <ExternalLink className="w-5 h-5" />
+            </a>
+          </div>
+        </div>
+
+        {/* Internal Link to Allsharq Shop */}
+        <div className="p-5 rounded-2xl bg-slate-900/90 border border-cyan-500/30 flex flex-wrap items-center justify-between gap-4">
+          <div className="space-y-1">
+            <h4 className="text-base font-bold text-white">Upgrade Your Travel Gear at Allsharq Mobile</h4>
+            <p className="text-xs text-slate-400">
+              Browse our certified power banks collection, Type G chargers, and battery health inspection.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Link
+              to="/shop"
+              className="px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-colors"
+            >
+              Check Power Banks at Allsharq Shop
+            </Link>
+            <Link
+              to="/repairs/battery"
+              className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs border border-slate-700 transition-colors"
+            >
+              Battery Replacement Service
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  },
+  {
+    id: 'iphone-overheating-fix-dubai-uae',
+    title: 'How to Protect Your iPhone from Overheating in Dubai',
+    excerpt: 'iPhone overheating in Dubai? Here is how to fix the iPhone temperature warning, protect battery health, and book stays near Metro stations.',
+    date: 'October 11, 2026',
+    author: 'Al Sharq Apple Hardware Technicians',
+    category: 'Travel Gadgets & Apps',
+    image: '/images/iphone-overheating-dubai.jpg',
+    metaTitle: 'How to Protect Your iPhone from Overheating in Dubai | Temperature Fix 2026',
+    metaDescription: 'iPhone overheating in Dubai? Here is how to fix iPhone temperature warning and protect battery in UAE heat.',
+    content: (
+      <div className="space-y-6 text-slate-300 leading-relaxed font-sans">
+        {/* Featured Image */}
+        <div className="overflow-hidden rounded-3xl border border-rose-500/30 shadow-2xl bg-slate-900 group">
+          <img
+            src="/images/iphone-overheating-dubai.jpg"
+            alt="How to Protect Your iPhone from Overheating in Dubai"
+            className="w-full h-auto object-cover max-h-[580px] transition-transform duration-500 group-hover:scale-[1.01]"
+            referrerPolicy="no-referrer"
+            loading="eager"
+          />
+          <div className="px-4 py-2.5 bg-slate-950/90 flex flex-wrap items-center justify-between text-xs text-slate-400 border-t border-slate-800">
+            <span className="font-semibold text-rose-400">iPhone Temperature Alert Solutions in Dubai Heat</span>
+            <span>Hardware Cooling Guide • Al Sharq Mobile Lab</span>
+          </div>
+        </div>
+
+        {/* Warning Intro */}
+        <div className="p-6 rounded-2xl bg-gradient-to-r from-rose-950/70 via-slate-900 to-amber-950/60 border border-rose-500/30 shadow-xl space-y-3">
+          <span className="text-rose-400 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
+            <ShieldCheck className="w-4 h-4 text-rose-400" />
+            <span>Thermal Warning Troubleshooting</span>
+          </span>
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">
+            Are You Getting the "iPhone Needs to Cool Down" Warning in Dubai?
+          </h2>
+          <p className="text-slate-300 text-sm md:text-base leading-relaxed">
+            Are you getting "iPhone needs to cool down" warning in Dubai? This is very common. The ambient desert heat, intense solar radiation, and heavy 4K camera use frequently push lithium-ion battery temperatures beyond Apple's 45°C safety limit.
+          </p>
+        </div>
+
+        {/* 5-Step Practical Protection Guide */}
+        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <h3 className="text-lg font-bold text-white flex items-center gap-2">
+            <Zap className="w-5 h-5 text-rose-400" />
+            <span>5 Essential Steps to Keep Your iPhone Cool in the UAE</span>
+          </h3>
+
+          <div className="space-y-3">
+            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 flex items-start gap-3">
+              <span className="px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-400 font-bold text-xs shrink-0">1</span>
+              <div>
+                <strong className="text-white text-sm block">Never use phone in direct sunlight at Desert Safari:</strong>
+                <p className="text-xs text-slate-300 mt-0.5">Direct desert sun heats the aluminum and glass chassis within minutes. Keep your device in a breathable bag between photos.</p>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 flex items-start gap-3">
+              <span className="px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-400 font-bold text-xs shrink-0">2</span>
+              <div>
+                <strong className="text-white text-sm block">Remove thick phone cover:</strong>
+                <p className="text-xs text-slate-300 mt-0.5">Bulky shockproof silicone or leather cases trap heat against the back glass. Take the case off while recording outdoors or charging.</p>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 flex items-start gap-3">
+              <span className="px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-400 font-bold text-xs shrink-0">3</span>
+              <div>
+                <strong className="text-white text-sm block">Use a phone cooler fan:</strong>
+                <p className="text-xs text-slate-300 mt-0.5">Clip-on magnetic semiconductor cooling fans actively drop surface temperatures by up to 15°C during outdoor recording.</p>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 flex items-start gap-3">
+              <span className="px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-400 font-bold text-xs shrink-0">4</span>
+              <div>
+                <strong className="text-white text-sm block">Turn on Low Power Mode:</strong>
+                <p className="text-xs text-slate-300 mt-0.5">Reduces CPU clock speed and limits background app refresh, drastically reducing thermal throttling.</p>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 flex items-start gap-3">
+              <span className="px-2.5 py-1 rounded-lg bg-rose-500/20 text-rose-400 font-bold text-xs shrink-0">5</span>
+              <div>
+                <strong className="text-white text-sm block">Replace degraded batteries below 85% Health:</strong>
+                <p className="text-xs text-slate-300 mt-0.5">If your battery health is already below 85%, replace it before your trip from <strong>Allsharq Mobile</strong> to prevent spontaneous shutdowns.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Tourist Hotel Near Metro Partner Box */}
+        <div className="p-6 rounded-2xl bg-gradient-to-r from-amber-950/80 via-slate-900 to-orange-950/70 border-2 border-amber-500/50 space-y-4 shadow-2xl">
+          <div className="flex items-center gap-2 text-amber-400 font-extrabold text-lg">
+            <Hotel className="w-5 h-5 text-amber-400" />
+            <span>Visiting UAE as a Tourist? Stay Near the Metro to Avoid Walking in the Heat</span>
+          </div>
+          <p className="text-sm text-slate-200">
+            Walking long distances between bus stops in 45°C summer heat exhausts you and overheats your electronics. Book your stay within 3 minutes of an air-conditioned Dubai Metro station for seamless comfort:
+          </p>
+          <div className="text-center pt-2">
+            <a
+              href="https://www.trip.com/hotels/list?city=220&display=Dubai&optionId=220&optionType=City&optionName=Dubai&Allianceid=10929626&SID=332911573&trip_sub1=iphone-heat-blog&trip_sub3=D20182731"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-black text-sm md:text-base uppercase tracking-wider shadow-xl shadow-orange-500/30 transition-all transform hover:scale-[1.02]"
+            >
+              <span>&gt;&gt; BOOK YOUR DUBAI HOTEL NEAR METRO STATION HERE</span>
+              <ExternalLink className="w-5 h-5" />
+            </a>
+          </div>
+        </div>
+
+        {/* Internal Link to Allsharq Repairs */}
+        <div className="p-5 rounded-2xl bg-slate-900/90 border border-cyan-500/30 flex flex-wrap items-center justify-between gap-4">
+          <div className="space-y-1">
+            <h4 className="text-base font-bold text-white">Emergency iPhone Diagnostic & Battery Swaps</h4>
+            <p className="text-xs text-slate-400">
+              Visit Al Sharq Mobile Lab in Muwaileh (Fire Station Road). Genuine batteries installed in 20 minutes with warranty.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Link
+              to="/repairs/battery"
+              className="px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-colors"
+            >
+              View Battery Prices
+            </Link>
+            <Link
+              to="/estimate"
+              className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs border border-slate-700 transition-colors"
+            >
+              Instant Repair Estimate
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  },
+  {
+    id: 'dubai-tourist-esim-guide-2026',
+    title: 'Dubai Tourist eSIM Guide 2026 - Best eSIM for Internet',
+    excerpt: 'Complete 2026 Dubai tourist eSIM guide: Airalo, Holafly, Etisalat visitor eSIM, instant 5G activation at DXB airport, and hotels with high-speed WiFi.',
+    date: 'October 11, 2026',
+    author: 'Al Sharq Mobile Travel Tech Desk',
+    category: 'Travel Gadgets & Apps',
+    image: '/images/dubai-tourist-esim.jpg',
+    metaTitle: 'Dubai Tourist eSIM Guide 2026 - Best eSIM for Internet & 5G | Allsharq',
+    metaDescription: 'When you land at Dubai Airport (DXB), you need internet instantly. Discover the best tourist eSIMs (Airalo, Holafly, Etisalat) and hotels with free fast WiFi.',
+    content: (
+      <div className="space-y-6 text-slate-300 leading-relaxed font-sans">
+        {/* Featured Image */}
+        <div className="overflow-hidden rounded-3xl border border-cyan-500/30 shadow-2xl bg-slate-900 group">
+          <img
+            src="/images/dubai-tourist-esim.jpg"
+            alt="Dubai Tourist eSIM Guide 2026 - Best eSIM for Internet"
+            className="w-full h-auto object-cover max-h-[580px] transition-transform duration-500 group-hover:scale-[1.01]"
+            referrerPolicy="no-referrer"
+            loading="eager"
+          />
+          <div className="px-4 py-2.5 bg-slate-950/90 flex flex-wrap items-center justify-between text-xs text-slate-400 border-t border-slate-800">
+            <span className="font-semibold text-cyan-400">Instant 5G Tourist Connectivity at DXB Airport</span>
+            <span>Digital SIM Setup • Al Sharq Mobile Guide</span>
+          </div>
+        </div>
+
+        {/* Intro Card */}
+        <div className="p-6 rounded-2xl bg-gradient-to-r from-cyan-950/70 via-slate-900 to-indigo-950/60 border border-cyan-500/30 shadow-xl space-y-3">
+          <span className="text-cyan-400 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
+            <Wifi className="w-4 h-4 text-cyan-400" />
+            <span>Airport Landing Connectivity</span>
+          </span>
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">
+            When You Land at Dubai Airport (DXB), You Need Internet Instantly
+          </h2>
+          <p className="text-slate-300 text-sm md:text-base leading-relaxed">
+            When you land at Dubai Airport (DXB), you need internet instantly for Careem taxi and Google Maps. Instead of buying expensive physical SIM cards or waiting in 45-minute queues at airport passport control terminals, buy a <strong>Tourist eSIM online</strong>. You can activate it right before your flight takes off.
+          </p>
+        </div>
+
+        {/* Comparison Box */}
+        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <h3 className="text-lg font-bold text-white flex items-center gap-2">
+            <Compass className="w-5 h-5 text-cyan-400" />
+            <span>Best eSIM Providers for Dubai & UAE Visitors</span>
+          </h3>
+          <p className="text-sm text-slate-300">
+            Best eSIMs for Dubai are <strong>Airalo</strong>, <strong>Holafly</strong>, and <strong>Etisalat (e&) Visitor eSIM</strong>.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-1.5">
+              <strong className="text-cyan-300 font-bold text-sm block">1. Airalo (Menalink UAE):</strong>
+              <span className="text-slate-300">Budget-friendly prepaid data packs (1GB to 20GB). Instant QR code activation for unlocked phones.</span>
+            </div>
+            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-1.5">
+              <strong className="text-emerald-300 font-bold text-sm block">2. Holafly Unlimited:</strong>
+              <span className="text-slate-300">Unlimited 5G data packages for digital nomads, live streamers, and remote business travelers.</span>
+            </div>
+            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-1.5">
+              <strong className="text-amber-300 font-bold text-sm block">3. Etisalat Visitor eSIM:</strong>
+              <span className="text-slate-300">Official local telco with maximum UAE population coverage and free local calling minutes included.</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Free WiFi Hotels Partner Box */}
+        <div className="p-6 rounded-2xl bg-gradient-to-r from-amber-950/80 via-slate-900 to-orange-950/70 border-2 border-amber-500/50 space-y-4 shadow-2xl">
+          <div className="flex items-center gap-2 text-amber-400 font-extrabold text-lg">
+            <Hotel className="w-5 h-5 text-amber-400" />
+            <span>Where to Stay with Free High-Speed WiFi?</span>
+          </div>
+          <p className="text-sm text-slate-200">
+            Where to stay with free high-speed WiFi? We have shortlisted hotels in Dubai with the best verified guest WiFi speed reviews so you can work and upload 4K travel videos without buffering:
+          </p>
+          <div className="text-center pt-2">
+            <a
+              href="https://www.trip.com/hotels/list?city=220&display=Dubai&optionId=220&optionType=City&optionName=Dubai&Allianceid=10929626&SID=332911573&trip_sub1=esim-blog&trip_sub3=D20182731"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-black text-sm md:text-base uppercase tracking-wider shadow-xl shadow-orange-500/30 transition-all transform hover:scale-[1.02]"
+            >
+              <span>&gt;&gt; SEE LIST OF HOTELS IN DUBAI WITH FREE WIFI ON TRIP.COM</span>
+              <ExternalLink className="w-5 h-5" />
+            </a>
+          </div>
+        </div>
+
+        {/* Internal Link to Allsharq */}
+        <div className="p-5 rounded-2xl bg-slate-900/90 border border-cyan-500/30 flex flex-wrap items-center justify-between gap-4">
+          <div className="space-y-1">
+            <h4 className="text-base font-bold text-white">Need eSIM Configuration or Device Unlocking?</h4>
+            <p className="text-xs text-slate-400">
+              Our technicians at Al Sharq Mobile can assist with dual SIM settings, network profile configurations, and international adapters.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Link
+              to="/contact"
+              className="px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-colors"
+            >
+              Visit Our Shop in Sharjah
+            </Link>
+            <Link
+              to="/blog/traveling-to-dubai-2026-essential-mobile-apps-and-accessories"
+              className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs border border-slate-700 transition-colors"
+            >
+              5 Essential Dubai Apps Guide
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
+  },
+  {
+    id: 'sharjah-to-dubai-travel-guide-accessories',
+    title: 'From Sharjah to Dubai - Daily Commute & Travel Accessories You Need',
+    excerpt: 'Traveling daily from Sharjah to Dubai for work or tourism? Master your commute with Nol cards, 20000mAh power banks, hands-free audio, and Sayer bus routes.',
+    date: 'October 11, 2026',
+    author: 'Al Sharq Local Commute Editorial Desk',
+    category: 'Travel Gadgets & Apps',
+    image: '/images/sharjah-to-dubai-commute.jpg',
+    metaTitle: 'From Sharjah to Dubai - Daily Commute & Travel Accessories You Need | Allsharq',
+    metaDescription: 'Traveling daily from Sharjah to Dubai? Discover essential commute gear: Nol cards, 20000mAh power banks, Sayer bus tips, and affordable Dubai hotels for family visits.',
+    content: (
+      <div className="space-y-6 text-slate-300 leading-relaxed font-sans">
+        {/* Featured Image */}
+        <div className="overflow-hidden rounded-3xl border border-indigo-500/30 shadow-2xl bg-slate-900 group">
+          <img
+            src="/images/sharjah-to-dubai-commute.jpg"
+            alt="From Sharjah to Dubai - Daily Commute & Travel Accessories You Need"
+            className="w-full h-auto object-cover max-h-[580px] transition-transform duration-500 group-hover:scale-[1.01]"
+            referrerPolicy="no-referrer"
+            loading="eager"
+          />
+          <div className="px-4 py-2.5 bg-slate-950/90 flex flex-wrap items-center justify-between text-xs text-slate-400 border-t border-slate-800">
+            <span className="font-semibold text-indigo-400">Sharjah-to-Dubai Commute Essentials (E11 & Metro Corridor)</span>
+            <span>Local Transit Guide • Al Sharq Mobile</span>
+          </div>
+        </div>
+
+        {/* Hero Card */}
+        <div className="p-6 rounded-2xl bg-gradient-to-r from-indigo-950/70 via-slate-900 to-cyan-950/60 border border-indigo-500/30 shadow-xl space-y-3">
+          <span className="text-indigo-400 font-bold text-xs uppercase tracking-wider flex items-center gap-1.5">
+            <Compass className="w-4 h-4 text-indigo-400" />
+            <span>Daily UAE Commute Survival Guide</span>
+          </span>
+          <h2 className="text-xl md:text-2xl font-extrabold text-white">
+            Traveling Daily from Sharjah to Dubai for Work or Tourism?
+          </h2>
+          <p className="text-slate-300 text-sm md:text-base leading-relaxed">
+            Traveling daily from Sharjah to Dubai for work or tourism? You need 3 things: <strong>Nol Card</strong>, <strong>Power Bank</strong>, and <strong>Hands-free</strong>.
+          </p>
+        </div>
+
+        {/* Commute Breakdown */}
+        <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
+          <h3 className="text-lg font-bold text-white flex items-center gap-2">
+            <Navigation className="w-5 h-5 text-indigo-400" />
+            <span>Bus Routes & Sayer Card Tips</span>
+          </h3>
+          <p className="text-sm text-slate-300 leading-relaxed">
+            Al Qasba and Al Wahda Street to Bur Dubai bus takes 45 mins. Use the <strong>Sayer app</strong> for Sharjah buses and keep your <strong>Silver Nol Card</strong> loaded for the Dubai RTA bus and Metro segments.
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-1.5">
+              <strong className="text-cyan-300 font-bold text-sm block">1. Silver Nol Card:</strong>
+              <span className="text-slate-300">Tap-and-go across Dubai Metro, RTA intercity buses, and parking meters. Keep at least AED 20 balance.</span>
+            </div>
+            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-1.5">
+              <strong className="text-amber-300 font-bold text-sm block">2. Fast Power Bank:</strong>
+              <span className="text-slate-300">Peak hour traffic on Al Ittihad Road can add 30-45 minutes. A 20000mAh battery prevents battery anxiety.</span>
+            </div>
+            <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-1.5">
+              <strong className="text-emerald-300 font-bold text-sm block">3. Noise-Cancelling Earbuds:</strong>
+              <span className="text-slate-300">Block bus engine noise, attend office Teams calls on the go, or enjoy podcasts during the commute.</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Family Visit Partner Box */}
+        <div className="p-6 rounded-2xl bg-gradient-to-r from-amber-950/80 via-slate-900 to-orange-950/70 border-2 border-amber-500/50 space-y-4 shadow-2xl">
+          <div className="flex items-center gap-2 text-amber-400 font-extrabold text-lg">
+            <Hotel className="w-5 h-5 text-amber-400" />
+            <span>Friends or Family Visiting You in Sharjah? Book Their Dubai Stay at Best Price</span>
+          </div>
+          <p className="text-sm text-slate-200">
+            If your friends or family are visiting you in Sharjah, you can book a good hotel for them in Dubai at best price. We recommend this official partner link with up to 30% OFF and free cancellation:
+          </p>
+          <div className="text-center pt-2">
+            <a
+              href="https://www.trip.com/hotels/list?city=220&display=Dubai&optionId=220&optionType=City&optionName=Dubai&Allianceid=10929626&SID=332911573&trip_sub1=sharjah-dubai-blog&trip_sub3=D20182731"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-black text-sm md:text-base uppercase tracking-wider shadow-xl shadow-orange-500/30 transition-all transform hover:scale-[1.02]"
+            >
+              <span>&gt;&gt; BOOK AFFORDABLE HOTELS IN DUBAI FOR FAMILY VISIT - CLICK HERE</span>
+              <ExternalLink className="w-5 h-5" />
+            </a>
+          </div>
+        </div>
+
+        {/* Local Shop Visit */}
+        <div className="p-5 rounded-2xl bg-slate-900/90 border border-cyan-500/30 flex flex-wrap items-center justify-between gap-4">
+          <div className="space-y-1">
+            <h4 className="text-base font-bold text-white">Visit Allsharq Shop in Sharjah Industrial Area</h4>
+            <p className="text-xs text-slate-400">
+              BLDG#1017 - SHOP#2 Fire Station Road, Muwaileh - Industrial Area. Open late until 11:45 PM for all mobile accessories and express repairs.
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <Link
+              to="/shop"
+              className="px-4 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs uppercase tracking-wider transition-colors"
+            >
+              Explore Shop Accessories
+            </Link>
+            <Link
+              to="/contact"
+              className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs border border-slate-700 transition-colors"
+            >
+              Store Location & Directions
+            </Link>
+          </div>
+        </div>
+      </div>
+    )
   }
 ];

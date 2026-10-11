@@ -70,16 +70,10 @@ const routes = [
 
 // Extract all unique blog post IDs from files
 const blogIds = new Set();
-const blogFiles = [
-  'src/data/blogs.ts',
-  'src/data/blogPosts.tsx',
-  'src/data/seoBlogs1.tsx',
-  'src/data/seoBlogs2.tsx',
-  'src/data/seoBlogs3.tsx',
-  'src/data/seoBlogs4.tsx',
-  'src/data/seoBlogs5.tsx',
-  'src/data/seoBlogsArabic.tsx'
-];
+const dataDir = path.join(rootDir, 'src/data');
+const blogFiles = fs.readdirSync(dataDir)
+  .filter(f => (f.startsWith('seoBlogs') || f.startsWith('blog')) && (f.endsWith('.tsx') || f.endsWith('.ts')))
+  .map(f => path.join('src/data', f));
 
 blogFiles.forEach(file => {
   const filePath = path.join(rootDir, file);
