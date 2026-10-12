@@ -99,7 +99,20 @@ const VALID_SPA_ROUTES = new Set([
   '/warranty',
   '/privacy',
   '/admin',
-  '/dashboard'
+  '/dashboard',
+  '/gcc-services',
+  '/international-repair',
+  '/arabic-services',
+  '/arabic',
+  '/sharjah-arabic-repair',
+  '/hardware-test',
+  '/device-lab',
+  '/mobile-tools',
+  '/tools',
+  '/student-discount',
+  '/students',
+  '/corporate-amc',
+  '/ai-cloud-solutions'
 ]);
 
 async function startServer() {
@@ -133,7 +146,9 @@ async function startServer() {
     /^https:\/\/allsharq\.com$/,
     /^https:\/\/[a-z0-9-]+\.allsharq\.com$/,
     /^https:\/\/[a-z0-9.-]+\.run\.app$/,
-    /^https:\/\/[a-z0-9.-]+\.google\.com$/
+    /^https:\/\/[a-z0-9.-]+\.google\.com$/,
+    /^https:\/\/[a-z0-9.-]+\.googleusercontent\.com$/,
+    /^https:\/\/aistudio\.google\.com$/
   ];
 
   app.use(
@@ -666,20 +681,7 @@ async function startServer() {
     }
   });
 
-  // Global Secure Error Handler (Turns off debug leak in production)
-  app.use((err: any, req: express.Request, res: express.Response, _next: express.NextFunction) => {
-    const cleanUrl = req.originalUrl.split('?')[0];
-    console.error(`[SERVER ERROR] ${req.method} ${cleanUrl}:`, err?.message || 'Internal processing error');
-    if (res.headersSent) return;
-    if (err?.message && err.message.includes('CORS')) {
-      return res.status(403).json({ error: 'Access forbidden: CORS security policy violation' });
-    }
-    res.status(500).json({
-      error: 'An unexpected processing error occurred. The incident has been securely logged.'
-    });
-  });
-
-  // --- Vite Configuration --- //
+  // --- Vite & Static Configuration --- //
   const distPath = path.join(process.cwd(), 'dist');
   const hasDist = fs.existsSync(distPath);
 
@@ -705,10 +707,14 @@ async function startServer() {
     }));
     app.get('*', (req, res) => {
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      const cleanPath = req.path.replace(/^\/(en|ar)(\/|$)/, '/').replace(/\/$/, '') || '/';
       const isKnownRoute = 
         VALID_SPA_ROUTES.has(req.path) || 
+        VALID_SPA_ROUTES.has(cleanPath) || 
         req.path.startsWith('/blog/') || 
-        req.path.startsWith('/track-repair');
+        req.path.startsWith('/track-repair') ||
+        req.path.startsWith('/en/') ||
+        req.path.startsWith('/ar/');
 
       if (!isKnownRoute) {
         // Return genuine HTTP 404 and noindex header to completely eliminate Soft 404 errors in Google Search Console
@@ -721,6 +727,29 @@ async function startServer() {
       res.sendFile(path.join(distPath, 'index.html'));
     });
   }
+
+  // Global Secure Error Handler (Turns off debug leak in production and prevents 5xx GSC errors)
+  app.use((err: any, req: express.Request, res: express.Response, _next: express.NextFunction) => {
+    if (res.headersSent) return;
+    const cleanUrl = (req.originalUrl || '').split('?')[0];
+
+    // Return 400 Bad Request for URI encoding errors or malformed payloads (prevents 5xx GSC errors)
+    if (err instanceof URIError || err?.type === 'entity.parse.failed' || err?.status === 400) {
+      return res.status(400).type('text/plain').send('Bad Request: Invalid URL or payload');
+    }
+
+    if (err?.message && err.message.includes('CORS')) {
+      return res.status(403).json({ error: 'Access forbidden: CORS security policy violation' });
+    }
+
+    console.error(`[SERVER ERROR] ${req.method} ${cleanUrl}:`, err?.message || 'Internal processing error');
+    if (req.accepts && req.accepts('html')) {
+      return res.status(500).type('text/html').send(`<!DOCTYPE html><html><head><title>500 Internal Error</title><meta name="robots" content="noindex, nofollow"></head><body style="font-family:sans-serif;text-align:center;padding:50px;"><h1>Server Error</h1><p>Please visit <a href="/">Allsharq.com</a></p></body></html>`);
+    }
+    res.status(500).json({
+      error: 'An unexpected processing error occurred. The incident has been securely logged.'
+    });
+  });
 
   app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server running on http://localhost:${PORT}`);

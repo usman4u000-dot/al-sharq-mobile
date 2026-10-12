@@ -135,9 +135,10 @@ export function legacySeoRedirectMiddleware(req: Request, res: Response, next: N
     return next();
   }
 
-  const rawUrl = req.originalUrl || req.url;
-  const pathOnly = req.path;
-  const pathLower = pathOnly.toLowerCase();
+  try {
+    const rawUrl = req.originalUrl || req.url;
+    const pathOnly = req.path;
+    const pathLower = pathOnly.toLowerCase();
 
   // 0. Explicit pass-through for critical Search Engine discovery assets and Google verification
   if (
@@ -227,38 +228,57 @@ export function legacySeoRedirectMiddleware(req: Request, res: Response, next: N
     return res.redirect(301, '/track-repair');
   }
 
-  // 3. Detect legacy WooCommerce product, category, taxonomy, and add-to-cart query URLs
+  // 3. Detect legacy WooCommerce product, category, taxonomy, and theme CMS block URLs
   const isWooProduct = 
     pathLower.startsWith('/product/') || 
     pathLower.startsWith('/product-category/') || 
     pathLower.startsWith('/product-tag/') || 
     pathLower.startsWith('/brand/') || 
     pathLower.startsWith('/brands/') || 
-    pathLower.startsWith('/item/') ||
-    pathLower.startsWith('/items/') ||
+    pathLower.startsWith('/item/') || 
+    pathLower.startsWith('/items/') || 
+    pathLower.startsWith('/cms_block/') || 
+    pathLower.startsWith('/cms-block/') || 
+    pathLower === '/cms_block' || 
+    pathLower === '/cms-block' || 
     (pathLower.startsWith('/shop/') && pathLower !== '/shop');
     
   const hasLegacyParams = 
+    'cms_block' in req.query || 
     'add-to-cart' in req.query || 
     'orderby' in req.query || 
     'min_price' in req.query || 
     'max_price' in req.query || 
-    'rating_filter' in req.query ||
-    'wc-ajax' in req.query ||
-    rawUrl.includes('add-to-cart=') ||
-    rawUrl.includes('orderby=');
+    'rating_filter' in req.query || 
+    'wc-ajax' in req.query || 
+    'post_type' in req.query || 
+    'page_id' in req.query || 
+    'attachment_id' in req.query || 
+    rawUrl.includes('cms_block') || 
+    rawUrl.includes('sample-menu') || 
+    rawUrl.includes('add-to-cart=') || 
+    rawUrl.includes('orderby=') || 
+    rawUrl.includes('wc-ajax=');
 
   if (isWooProduct) {
+    if (pathLower.includes('cms_block') || pathLower.includes('cms-block')) {
+      res.setHeader('Cache-Control', 'public, max-age=86400');
+      return res.redirect(301, '/');
+    }
     const targetRoute = resolveTargetRepairRoute(pathOnly);
     // Send 301 Permanent Redirect (strip all query parameters like add-to-cart, orderby)
     res.setHeader('Cache-Control', 'public, max-age=86400');
     return res.redirect(301, targetRoute);
   }
 
-  // 4. Clean any other URL that has legacy query parameter pollution (e.g. `/?add-to-cart=1410` or `/?orderby=rating`)
+  // 4. Clean any other URL that has legacy query parameter pollution (e.g. `/?cms_block=1073`, `/?cms_block=footer`, `/?add-to-cart=1410`)
   if (hasLegacyParams) {
-    // Strip query parameters and redirect to canonical clean path
-    const cleanUrl = pathOnly;
+    // If URL contains malformed concatenated URLs or invalid characters, fall back cleanly to homepage
+    let cleanUrl = pathOnly;
+    if (!cleanUrl || cleanUrl.includes('http:') || cleanUrl.includes('https:') || cleanUrl === '') {
+      cleanUrl = '/';
+    }
+    // Strip query parameters and redirect to canonical clean path with 301 Permanent Redirect
     res.setHeader('Cache-Control', 'public, max-age=86400');
     return res.redirect(301, cleanUrl);
   }
@@ -271,4 +291,8 @@ export function legacySeoRedirectMiddleware(req: Request, res: Response, next: N
   }
 
   next();
+  } catch (error) {
+    console.warn('[SEO REDIRECT WARNING] Recovered gracefully from malformed URI/query:', error);
+    next();
+  }
 }
