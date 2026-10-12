@@ -272,22 +272,49 @@ export default function DiagnosticBot({ isOpenExternal, onCloseExternal }: Diagn
 
   return (
     <>
-      {/* Floating Trigger Button (Bottom-Right) */}
+      {/* Eye-Catching Floating AI Diagnostic Tool Button (Flashing & Pulsing Radar) */}
       {!isOpen && (
-        <button
-          onClick={() => setIsOpen(true)}
-          className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-40 bg-gradient-to-r from-brand-blue via-indigo-900 to-slate-900 text-white px-3.5 py-3 sm:px-4 sm:py-3 rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all flex items-center gap-2.5 border-2 border-brand-orange/70 cursor-pointer group"
-          title="Open AI Diagnostic Assistant"
-          aria-label="Open AI Diagnostic Assistant"
-        >
-          <div className="relative">
-            <Cpu className="w-5 h-5 text-amber-400 group-hover:rotate-12 transition-transform" />
-            <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-emerald-500 rounded-full animate-ping" />
+        <div className="fixed bottom-20 sm:bottom-6 left-3.5 sm:left-6 z-40">
+          <div className="relative group">
+            {/* 1. Pulsing & Flashing Multi-Color Neon Aura */}
+            <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-cyan-500 via-indigo-600 to-amber-500 opacity-80 blur-xs group-hover:opacity-100 transition duration-500 animate-pulse" />
+            
+            {/* 2. Concentric Radar Ping Rings */}
+            <span className="absolute -inset-0.5 rounded-full border border-cyan-400/80 animate-ping opacity-60 pointer-events-none" />
+
+            {/* 3. Main Interactive Button */}
+            <button
+              onClick={() => setIsOpen(true)}
+              className="relative bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 hover:from-slate-900 hover:to-indigo-950 text-white pl-2.5 pr-4 py-2 sm:pl-3 sm:pr-5 sm:py-2.5 rounded-full shadow-[0_0_25px_rgba(6,182,212,0.45)] hover:shadow-[0_0_35px_rgba(6,182,212,0.7)] hover:scale-105 active:scale-95 transition-all flex items-center gap-2.5 sm:gap-3 border-2 border-cyan-400 cursor-pointer"
+              title="Open AI Diagnostic Tool - Instant Free Hardware & Cost Check"
+              aria-label="Open AI Diagnostic Tool"
+            >
+              {/* Animated Glowing Chip Icon with Live Ping Indicator */}
+              <div className="relative w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-white shadow-inner shrink-0">
+                <Cpu className="w-4 h-4 sm:w-5 sm:h-5 text-white animate-pulse" />
+                <span className="absolute -top-0.5 -right-0.5 flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-300 opacity-80"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-cyan-400 border border-slate-900"></span>
+                </span>
+              </div>
+
+              {/* Text Block & Live Flash Badge */}
+              <div className="text-left">
+                <div className="flex items-center gap-1.5">
+                  <span className="px-1.5 py-0.5 rounded text-[8px] sm:text-[9px] font-black uppercase tracking-wider bg-cyan-400 text-slate-950 animate-pulse font-mono shadow-xs">
+                    ⚡ LIVE AI TOOL
+                  </span>
+                  <span className="font-black text-xs sm:text-sm text-white tracking-tight drop-shadow-xs">
+                    {isAr ? 'أداة الفحص الذكي' : 'AI Diagnostic Tool'}
+                  </span>
+                </div>
+                <p className="text-[10px] sm:text-[11px] text-cyan-200/90 font-medium leading-tight hidden xs:block">
+                  {isAr ? 'تشخيص فوري للأعطال والتكلفة' : 'Free 30-Sec Hardware & Cost Check'}
+                </p>
+              </div>
+            </button>
           </div>
-          <span className="font-black text-xs uppercase tracking-wide">
-            {isAr ? 'فحص الأعطال الذكي' : 'AI Diagnostic Desk'}
-          </span>
-        </button>
+        </div>
       )}
 
       {/* Interactive AI Diagnostic Modal */}
@@ -353,6 +380,30 @@ export default function DiagnosticBot({ isOpenExternal, onCloseExternal }: Diagn
                     <X className="w-4 h-4 stroke-[3]" />
                     <span className="text-[11px]">{isAr ? 'إغلاق' : 'Close'}</span>
                   </button>
+                </div>
+              </div>
+
+              {/* Diagnostic Suite Tool Switcher Row */}
+              <div className="px-3 py-1.5 bg-slate-950 text-white flex items-center justify-between text-[11px] font-bold border-b border-white/10 shrink-0">
+                <span className="flex items-center gap-1.5 text-cyan-300">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>{isAr ? 'أدوات المختبر:' : 'Lab Diagnostic Tools:'}</span>
+                </span>
+                <div className="flex items-center gap-1.5">
+                  <Link
+                    to="/hardware-test"
+                    onClick={() => setIsOpen(false)}
+                    className="px-2 py-0.5 rounded bg-cyan-900/60 hover:bg-cyan-800 text-cyan-200 border border-cyan-400/40 text-[10px] transition-colors"
+                  >
+                    {isAr ? 'فحص الهاردوير ←' : 'Hardware Test →'}
+                  </Link>
+                  <Link
+                    to="/estimate"
+                    onClick={() => setIsOpen(false)}
+                    className="px-2 py-0.5 rounded bg-orange-900/60 hover:bg-orange-800 text-orange-200 border border-orange-500/40 text-[10px] transition-colors"
+                  >
+                    {isAr ? 'حاسبة التكلفة ←' : 'Cost Calculator →'}
+                  </Link>
                 </div>
               </div>
 

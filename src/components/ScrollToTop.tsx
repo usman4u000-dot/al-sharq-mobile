@@ -66,6 +66,7 @@ export default function ScrollToTop() {
       }
     }
 
+    // Global click handler to ensure clicking internal links or footer links smoothly scrolls to top
     const handleGlobalLinkClick = (event: MouseEvent) => {
       const anchor = (event.target as HTMLElement)?.closest('a');
       if (!anchor) return;
@@ -73,34 +74,33 @@ export default function ScrollToTop() {
       const href = anchor.getAttribute('href');
       if (!href) return;
 
-      // Ignore external or protocol links
+      // Ignore external or protocol links or new tab targets
       if (
         href.startsWith('http://') ||
         href.startsWith('https://') ||
         href.startsWith('mailto:') ||
         href.startsWith('tel:') ||
-        href.startsWith('javascript:')
+        href.startsWith('javascript:') ||
+        anchor.getAttribute('target') === '_blank'
       ) {
         return;
       }
 
-      // If clicked '#', '#top' or link to current page (like clicking current page link in footer)
+      // If clicked '#', '#top' or same page anchor
       if (href === '#' || href === '#top') {
-        event.preventDefault();
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
         return;
       }
 
+      // If clicking same route while scrolled down, smoothly scroll to top
       const cleanTarget = href.split('?')[0].split('#')[0];
       const currentPath = window.location.pathname;
-
       if (cleanTarget === currentPath || cleanTarget === `${currentPath}/`) {
-        // Same route link clicked while scrolled down
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       }
     };
 
-    document.addEventListener('click', handleGlobalLinkClick, { passive: true });
+    document.addEventListener('click', handleGlobalLinkClick);
     return () => {
       document.removeEventListener('click', handleGlobalLinkClick);
     };

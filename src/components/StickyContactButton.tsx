@@ -14,7 +14,7 @@ export default function StickyContactButton({ onClick }: Props) {
       animate={{ opacity: 1, scale: 1 }}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      className="hidden md:flex fixed bottom-8 left-24 z-40 bg-slate-900/90 dark:bg-slate-800/90 text-white p-3.5 rounded-full shadow-xl hover:bg-slate-800 dark:hover:bg-slate-700 transition-colors items-center justify-center group border border-white/10"
+      className="hidden md:flex fixed bottom-24 left-6 z-40 bg-slate-900/90 dark:bg-slate-800/90 text-white p-3 rounded-full shadow-xl hover:bg-slate-800 dark:hover:bg-slate-700 transition-colors items-center justify-center group border border-white/10"
       aria-label="Staff Technician Tools"
     >
       <Settings className="w-5 h-5 relative z-10 text-slate-300 group-hover:text-white transition-colors" />

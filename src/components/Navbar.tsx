@@ -198,81 +198,7 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                 </AnimatePresence>
               </div>
 
-              {/* 2. DeviceLab™ & Diagnostics Dropdown */}
-              <div 
-                className="relative"
-                onMouseEnter={() => { setIsToolsOpen(true); setIsRepairsOpen(false); }}
-                onMouseLeave={() => setIsToolsOpen(false)}
-              >
-                <button 
-                  ref={toolsButtonRef}
-                  className="flex items-center gap-1.5 px-3.5 py-2 text-sm font-semibold text-slate-200 hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-orange rounded-lg"
-                  onClick={() => setIsToolsOpen(!isToolsOpen)}
-                  aria-expanded={isToolsOpen}
-                  aria-label="Diagnostic Tools Menu"
-                >
-                  <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-                  <span>{isAr ? 'مختبر فحص الأجهزة' : 'DeviceLab™ & Tools'}</span>
-                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${isToolsOpen ? 'rotate-180 text-brand-orange' : 'text-slate-400'}`} />
-                </button>
-                
-                <AnimatePresence>
-                  {isToolsOpen && (
-                    <div className="absolute left-0 top-full pt-2 w-[440px] z-50">
-                      <motion.div
-                        initial={{ opacity: 0, y: 8, scale: 0.98 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 4, scale: 0.98 }}
-                        transition={{ duration: 0.2 }}
-                        className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden"
-                      >
-                        <div className="p-3 space-y-1.5">
-                          {navTools.map((tool, index) => {
-                            const Icon = tool.icon;
-                            return (
-                              <Link 
-                                key={index}
-                                to={tool.to} 
-                                className="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors group/item" 
-                                onClick={() => setIsToolsOpen(false)}
-                              >
-                                <div className="w-9 h-9 rounded-xl bg-orange-100 dark:bg-slate-700 flex items-center justify-center shrink-0 group-hover/item:scale-105 transition-transform">
-                                  <Icon className="w-4 h-4 text-[#C2410C] dark:text-orange-400" />
-                                </div>
-                                <div className="flex-1 min-w-0">
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-slate-900 dark:text-white font-bold text-xs">{tool.title}</span>
-                                    {tool.badge && (
-                                      <span className="px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-[#C2410C] text-white">
-                                        {tool.badge}
-                                      </span>
-                                    )}
-                                  </div>
-                                  <div className="text-slate-500 dark:text-slate-400 text-[11px] leading-tight mt-0.5 line-clamp-2">
-                                    {tool.desc}
-                                  </div>
-                                </div>
-                              </Link>
-                            );
-                          })}
-                        </div>
-                        <div className="p-3 bg-slate-50 dark:bg-slate-900/60 border-t border-slate-100 dark:border-slate-700 text-center">
-                          <Link 
-                            to="/hardware-test" 
-                            onClick={() => setIsToolsOpen(false)}
-                            className="text-xs font-bold text-[#C2410C] dark:text-orange-400 hover:underline inline-flex items-center gap-1.5"
-                          >
-                            <span>{isAr ? 'بدء فحص هاردوير الجهاز الآن مجاناً' : 'Launch Full 12-Point Hardware Stress Test'}</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
-                          </Link>
-                        </div>
-                      </motion.div>
-                    </div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              {/* 3. Shop */}
+              {/* 2. Shop */}
               <Link 
                 to="/shop" 
                 className="px-3.5 py-2 text-sm font-semibold text-slate-200 hover:text-white hover:text-brand-orange transition-colors rounded-lg"
@@ -280,7 +206,7 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                 {isAr ? 'المتجر' : 'Shop'}
               </Link>
 
-              {/* 4. GCC Mail-In */}
+              {/* 3. GCC Mail-In Hub */}
               <Link 
                 to="/gcc-services" 
                 className="px-3.5 py-2 text-sm font-semibold text-orange-400 hover:text-orange-300 transition-colors flex items-center gap-1.5 rounded-lg"
@@ -289,23 +215,15 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                 <span>{isAr ? 'دول الخليج (شحن)' : 'GCC Mail-In'}</span>
               </Link>
 
-              {/* 5. Arabic Hub */}
+              {/* 4. Track Repair */}
               <Link 
-                to="/arabic-services" 
-                className="px-3.5 py-2 text-sm font-semibold text-slate-200 hover:text-white transition-colors flex items-center gap-1.5 rounded-lg"
-              >
-                <span>الخدمات بالعربية</span>
-              </Link>
-
-              {/* 6. Blog */}
-              <Link 
-                to="/blog" 
+                to="/track-repair" 
                 className="px-3.5 py-2 text-sm font-semibold text-slate-200 hover:text-white hover:text-brand-orange transition-colors rounded-lg"
               >
-                {isAr ? 'المدونة' : 'Blog'}
+                {isAr ? 'تتبع الإصلاح' : 'Track Repair'}
               </Link>
 
-              {/* 7. About */}
+              {/* 5. About Us */}
               <Link 
                 to="/about" 
                 className="px-3.5 py-2 text-sm font-semibold text-slate-200 hover:text-white transition-colors rounded-lg"
@@ -572,15 +490,6 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                     onClick={() => setIsOpen(false)}
                   >
                     <span>{isAr ? 'المتجر والأجهزة المعتمدة' : 'Shop & Certified Devices'}</span>
-                    <ChevronRight className="w-4 h-4 text-slate-500" />
-                  </Link>
-
-                  <Link 
-                    to="/blog" 
-                    className="text-slate-200 hover:text-white flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <span>{isAr ? 'المدونة ومقالات التقنية' : 'Blog & Travel Tech Guides'}</span>
                     <ChevronRight className="w-4 h-4 text-slate-500" />
                   </Link>
 

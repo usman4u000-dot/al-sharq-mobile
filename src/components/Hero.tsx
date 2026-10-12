@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight, Smartphone, Laptop, Cpu, Settings, Zap } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 import MagneticButton from './MagneticButton';
 
@@ -78,23 +79,38 @@ export default function Hero({ onBookNow }: HeroProps) {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex flex-col sm:flex-row gap-2.5 sm:gap-4"
+            className="flex flex-col sm:flex-row flex-wrap gap-2.5 sm:gap-3.5"
           >
             <MagneticButton 
               onClick={onBookNow}
-              className="w-full sm:w-auto bg-[#C2410C] hover:bg-[#9A3412] text-white px-5 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base md:text-lg transition-all shadow-[0_8px_30px_rgba(194,65,12,0.4)] flex items-center justify-center gap-2 active:scale-95"
+              className="w-full sm:w-auto bg-[#C2410C] hover:bg-[#9A3412] text-white px-5 sm:px-7 py-3 sm:py-3.5 rounded-xl font-bold text-sm sm:text-base transition-all shadow-[0_8px_30px_rgba(194,65,12,0.4)] flex items-center justify-center gap-2 active:scale-95"
               strength={30}
             >
               <span>{isAr ? 'احجز موعد إصلاح' : 'Book a Repair'}</span>
               <ArrowRight className={`h-4 w-4 sm:h-5 sm:w-5 ${isAr ? 'rotate-180' : ''}`} />
             </MagneticButton>
-            <MagneticButton 
-              onClick={onBookNow}
-              className="w-full sm:w-auto bg-white/10 hover:bg-white/15 text-white border border-white/20 px-5 sm:px-8 py-3 sm:py-4 rounded-xl font-bold text-sm sm:text-base md:text-lg transition-all backdrop-blur-md flex items-center justify-center gap-2 active:scale-95"
-              strength={20}
+
+            {/* Live Flashing AI Diagnostic Tool Button */}
+            <button
+              onClick={() => window.dispatchEvent(new CustomEvent('open-diagnostic-bot'))}
+              className="w-full sm:w-auto relative group bg-gradient-to-r from-slate-950 via-blue-950 to-indigo-950 hover:from-blue-900 hover:to-indigo-900 border-2 border-cyan-400 text-white px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl font-bold text-sm sm:text-base transition-all shadow-[0_0_25px_rgba(6,182,212,0.4)] flex items-center justify-center gap-2.5 active:scale-95 cursor-pointer"
+              title="Launch Live AI Hardware & Diagnostic Tool"
             >
-              <span>{isAr ? 'حساب تكلفة الإصلاح' : 'Get Free Estimate'}</span>
-            </MagneticButton>
+              <div className="relative flex h-3 w-3 shrink-0">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-300 opacity-80" />
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-cyan-400" />
+              </div>
+              <span className="text-cyan-200 group-hover:text-white font-extrabold tracking-tight">
+                {isAr ? 'أداة الفحص الذكي (AI)' : '⚡ AI Diagnostic Tool'}
+              </span>
+            </button>
+
+            <Link
+              to="/estimate"
+              className="w-full sm:w-auto bg-white/10 hover:bg-white/15 text-white border border-white/20 px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl font-bold text-sm sm:text-base transition-all backdrop-blur-md flex items-center justify-center gap-2 active:scale-95 text-center"
+            >
+              <span>{isAr ? 'حساب تكلفة الإصلاح' : 'Instant Cost Estimator'}</span>
+            </Link>
           </motion.div>
 
           <motion.div 
