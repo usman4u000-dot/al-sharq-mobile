@@ -1,13 +1,14 @@
 import React from 'react';
-import { Phone, MessageCircle, Wrench, MapPin, Bot } from 'lucide-react';
+import { Phone, MessageCircle, Wrench, MapPin, Search } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { Link } from 'react-router-dom';
 
 interface MobileBottomNavProps {
   onBookNow: () => void;
   onOpenDiagnostic?: () => void;
 }
 
-export default function MobileBottomNav({ onBookNow, onOpenDiagnostic }: MobileBottomNavProps) {
+export default function MobileBottomNav({ onBookNow }: MobileBottomNavProps) {
   const { language } = useLanguage();
   const isAr = language === 'ar';
 
@@ -79,20 +80,19 @@ export default function MobileBottomNav({ onBookNow, onOpenDiagnostic }: MobileB
           </span>
         </a>
 
-        {/* Diagnostic Bot */}
-        <button
-          onClick={onOpenDiagnostic}
+        {/* Track Repair Status */}
+        <Link
+          to="/track-repair"
           className="flex flex-col items-center justify-center py-1 px-2 rounded-xl text-slate-700 dark:text-slate-300 hover:text-brand-orange active:scale-95 transition-all text-center min-w-[58px]"
-          aria-label="AI Diagnostic Bot"
+          aria-label="Track Repair Status"
         >
-          <div className="w-9 h-9 rounded-full bg-blue-50 dark:bg-blue-950/40 flex items-center justify-center mb-0.5 text-brand-blue dark:text-blue-400 relative">
-            <Bot className="w-4 h-4" />
-            <span className="absolute top-0.5 right-0.5 w-2 h-2 rounded-full bg-green-500"></span>
+          <div className="w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-0.5 text-slate-750 dark:text-slate-300">
+            <Search className="w-4 h-4" />
           </div>
           <span className="text-[10px] font-semibold tracking-tight">
-            {isAr ? 'فحص ذكي' : 'AI Help'}
+            {isAr ? 'تتبع' : 'Track'}
           </span>
-        </button>
+        </Link>
 
       </div>
     </div>

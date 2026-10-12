@@ -28,8 +28,7 @@ import {
   Calculator,
   Shield,
   Droplet,
-  Phone,
-  Hotel
+  Phone
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useLocation } from 'react-router-dom';
@@ -290,33 +289,23 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                 <span>{isAr ? 'دول الخليج (شحن)' : 'GCC Mail-In'}</span>
               </Link>
 
-              {/* 5. AI, Chatbot & Cloud Hub */}
-              <Link 
-                to="/ai-cloud-solutions" 
-                className="px-3.5 py-2 text-sm font-semibold text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-1.5 rounded-lg bg-cyan-950/40 border border-cyan-500/30"
-              >
-                <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-                <span>{isAr ? 'الذكاء الاصطناعي والسحابة' : 'AI & Cloud'}</span>
-              </Link>
-
-              {/* 6. Arabic Hub */}
+              {/* 5. Arabic Hub */}
               <Link 
                 to="/arabic-services" 
-                className="px-3.5 py-2 text-sm font-semibold text-emerald-400 hover:text-emerald-300 transition-colors flex items-center gap-1.5 rounded-lg"
+                className="px-3.5 py-2 text-sm font-semibold text-slate-200 hover:text-white transition-colors flex items-center gap-1.5 rounded-lg"
               >
                 <span>الخدمات بالعربية</span>
               </Link>
 
-              {/* 7. Dubai Hotels 2026 */}
+              {/* 6. Blog */}
               <Link 
-                to="/blog/best-hotels-in-dubai-2026-luxury-budget-burj-khalifa-guide" 
-                className="px-3.5 py-2 text-sm font-semibold text-amber-400 hover:text-amber-300 transition-colors flex items-center gap-1.5 rounded-lg bg-amber-950/40 border border-amber-500/30"
+                to="/blog" 
+                className="px-3.5 py-2 text-sm font-semibold text-slate-200 hover:text-white hover:text-brand-orange transition-colors rounded-lg"
               >
-                <Hotel className="w-3.5 h-3.5 text-amber-400" />
-                <span>{isAr ? 'فنادق دبي (60% خصم)' : 'Dubai Hotels 2026'}</span>
+                {isAr ? 'المدونة' : 'Blog'}
               </Link>
 
-              {/* 8. About */}
+              {/* 7. About */}
               <Link 
                 to="/about" 
                 className="px-3.5 py-2 text-sm font-semibold text-slate-200 hover:text-white transition-colors rounded-lg"
@@ -566,18 +555,6 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                   </Link>
 
                   <Link 
-                    to="/ai-cloud-solutions" 
-                    className="text-cyan-300 bg-cyan-950/60 flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold border border-cyan-500/30"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <span className="flex items-center gap-2">
-                      <Cpu className="w-4 h-4 text-cyan-400" />
-                      <span>{isAr ? 'منصات الذكاء الاصطناعي، شات بوت والسحابة' : 'AIP, AI Chatbot, Cloud & Google AI'}</span>
-                    </span>
-                    <span className="text-[10px] uppercase font-extrabold px-1.5 py-0.5 rounded bg-cyan-500 text-slate-950">AI HUB</span>
-                  </Link>
-
-                  <Link 
                     to="/arabic-services" 
                     className="text-emerald-300 bg-emerald-950/40 flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold border border-emerald-500/30"
                     onClick={() => setIsOpen(false)}
@@ -590,23 +567,20 @@ export default function Navbar({ onBookNow, onTrackRepair, isBookingOpen }: Navb
                   </Link>
 
                   <Link 
-                    to="/blog/best-hotels-in-dubai-2026-luxury-budget-burj-khalifa-guide" 
-                    className="text-amber-300 bg-amber-950/40 flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-bold border border-amber-500/30"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <span className="flex items-center gap-2">
-                      <Hotel className="w-4 h-4 text-amber-400" />
-                      <span>{isAr ? 'فنادق دبي 2026 (خصم حتى 60%)' : 'Dubai Hotels Guide 2026 (60% OFF)'}</span>
-                    </span>
-                    <span className="text-[10px] uppercase font-extrabold px-1.5 py-0.5 rounded bg-amber-500 text-slate-950">HOTEL</span>
-                  </Link>
-
-                  <Link 
                     to="/shop" 
                     className="text-slate-200 hover:text-white flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold"
                     onClick={() => setIsOpen(false)}
                   >
                     <span>{isAr ? 'المتجر والأجهزة المعتمدة' : 'Shop & Certified Devices'}</span>
+                    <ChevronRight className="w-4 h-4 text-slate-500" />
+                  </Link>
+
+                  <Link 
+                    to="/blog" 
+                    className="text-slate-200 hover:text-white flex items-center justify-between px-3.5 py-2.5 rounded-xl text-xs font-semibold"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <span>{isAr ? 'المدونة ومقالات التقنية' : 'Blog & Travel Tech Guides'}</span>
                     <ChevronRight className="w-4 h-4 text-slate-500" />
                   </Link>
 
