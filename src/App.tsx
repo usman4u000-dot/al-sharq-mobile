@@ -11,6 +11,7 @@ import StickyContactButton from './components/StickyContactButton';
 import LaunchBanner from './components/LaunchBanner';
 import WhatsAppWidget from './components/WhatsAppWidget';
 import CookieConsent from './components/CookieConsent';
+import ScrollToTop from './components/ScrollToTop';
 import ScrollToTopButton from './components/ScrollToTopButton';
 import ExitIntentPopup from './components/ExitIntentPopup';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -384,6 +385,7 @@ export default function App() {
           }}
         >
           <Router>
+            <ScrollToTop />
             <Analytics />
             <LanguagePathHandler />
             <AppRoutes />
