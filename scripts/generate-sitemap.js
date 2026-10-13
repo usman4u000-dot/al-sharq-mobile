@@ -53,6 +53,8 @@ const routes = [
   { path: '/track-repair', priority: '0.85', changefreq: 'weekly' },
   { path: '/intake-form', priority: '0.85', changefreq: 'weekly' },
   { path: '/shop', priority: '0.85', changefreq: 'weekly' },
+  { path: '/product-category/tablet-accessories', priority: '0.9', changefreq: 'weekly' },
+  { path: '/tablet-accessories', priority: '0.85', changefreq: 'weekly' },
   { path: '/trade-in', priority: '0.85', changefreq: 'weekly' },
   { path: '/corporate', priority: '0.85', changefreq: 'weekly' },
   { path: '/troubleshoot', priority: '0.85', changefreq: 'weekly' },

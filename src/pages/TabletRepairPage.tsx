@@ -278,6 +278,36 @@ export default function TabletRepairPage({ onBookNow }: { onBookNow: (service?: 
             </div>
           </motion.div>
 
+          {/* High-Intent Internal Link to Tablet Accessories Hub (SEO & User Experience) */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="bg-gradient-to-r from-orange-950/60 via-slate-900 to-slate-950 rounded-3xl p-6 sm:p-10 mb-16 border-2 border-brand-orange/40 shadow-xl"
+          >
+            <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="space-y-2 text-center md:text-left">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/20 text-brand-orange text-xs font-black uppercase tracking-wider">
+                  <span>Wholesale Tablet Accessories In Sharjah</span>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-black text-white">
+                  Looking for iPad Cases, Screen Protectors &amp; Stylus Pens?
+                </h3>
+                <p className="text-sm text-slate-300 max-w-2xl leading-relaxed">
+                  Protect your repaired tablet with our shockproof kids EVA cases, 9H military-grade tempered glass (free bubble-free fitting in store), Apple Pencil replacement nibs, and smart magic keyboards 20-40% below mall prices.
+                </p>
+              </div>
+
+              <Link
+                to="/product-category/tablet-accessories"
+                className="px-6 py-4 rounded-xl bg-brand-orange hover:bg-orange-600 text-white font-bold text-sm whitespace-nowrap flex items-center gap-2 transition-all shadow-lg hover:shadow-orange-900/40 hover:-translate-y-0.5 shrink-0"
+              >
+                <span>Browse Tablet Accessories</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </motion.div>
+
           {/* FAQ Section */}
           <div className="mb-20">
             <ServiceFAQ 

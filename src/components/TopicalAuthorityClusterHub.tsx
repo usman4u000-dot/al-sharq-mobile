@@ -135,14 +135,14 @@ export const TOPICAL_PILLARS: TopicalPillar[] = [
     descriptionAr: 'استيراد حاويات مباشر من موانئ الإمارات بأسعار الجملة (خصم 20%) مع شحن سريع ومؤمن لجميع دول الخليج.',
     coreAuthorityServices: [
       'Factory-Sealed Flagships at Port Wholesale Rates',
+      'Tablet & iPad Accessories (Cases, 9H Glass & Nibs)',
       'Tabby & Tamara 4-Month Split Payments',
-      'Saudi Arabia (Riyadh/Jeddah) DHL 24h Express Lane',
-      'Oman, Kuwait, Bahrain & Qatar Customs-Cleared Transit'
+      'Saudi Arabia (Riyadh/Jeddah) DHL 24h Express Lane'
     ],
     featuredArticles: [
+      { title: 'Tablet & iPad Accessories Hub in Sharjah (Wholesale)', url: '/product-category/tablet-accessories' },
       { title: 'Buying Brand-New Phones 20% Below Retail in Sharjah', url: '/blog/buy-brand-new-phones-wholesale-sharjah-20-percent-below-retail-guide' },
-      { title: 'Saudi Arabia Mail-In Repair to Sharjah (Riyadh & Jeddah)', url: '/blog/saudi-arabia-iphone-18-macbook-repair-shipping-sharjah-riyadh-jeddah' },
-      { title: 'Oman Muscat & Sohar Mail-In Repair to Sharjah Lab', url: '/blog/oman-muscat-macbook-iphone-mail-in-repair-sharjah-lab' }
+      { title: 'Saudi Arabia Mail-In Repair to Sharjah (Riyadh & Jeddah)', url: '/blog/saudi-arabia-iphone-18-macbook-repair-shipping-sharjah-riyadh-jeddah' }
     ]
   },
   {

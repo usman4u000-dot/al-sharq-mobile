@@ -128,6 +128,7 @@ export default function Footer({ onOpenTerms }: FooterProps) {
             </h4>
             <ul className="space-y-2.5 text-xs sm:text-sm text-gray-400">
               <li><Link to="/shop" onClick={scrollToTop} className="hover:text-brand-orange transition-colors">Shop &amp; Devices</Link></li>
+              <li><Link to="/product-category/tablet-accessories" onClick={scrollToTop} className="text-brand-orange hover:underline font-bold transition-colors">Tablet &amp; iPad Accessories</Link></li>
               <li><Link to="/estimate" onClick={scrollToTop} className="hover:text-brand-orange transition-colors">Instant Cost Estimator</Link></li>
               <li><Link to="/hardware-test" onClick={scrollToTop} className="hover:text-brand-orange transition-colors">DeviceLab™ Hardware Test</Link></li>
               <li><Link to="/track-repair" onClick={scrollToTop} className="hover:text-brand-orange transition-colors">Track Repair Status</Link></li>
@@ -230,6 +231,7 @@ export default function Footer({ onOpenTerms }: FooterProps) {
               <Link to="/screen-repair" onClick={scrollToTop} className="hover:text-brand-orange transition-colors">cracked screen fix</Link> •
               <Link to="/logic-board-repair" onClick={scrollToTop} className="hover:text-brand-orange transition-colors">micro-soldering</Link> •
               <Link to="/data-recovery" onClick={scrollToTop} className="hover:text-brand-orange transition-colors">data recovery</Link> •
+              <Link to="/product-category/tablet-accessories" onClick={scrollToTop} className="text-brand-orange hover:underline font-semibold">tablet accessories Sharjah</Link> •
               <Link to="/gcc-services" onClick={scrollToTop} className="text-brand-orange hover:underline font-semibold">GCC Saudi Arabia &amp; Oman Mail-In Hub</Link>
             </span>
           </div>

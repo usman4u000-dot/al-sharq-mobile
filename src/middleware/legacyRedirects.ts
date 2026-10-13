@@ -228,6 +228,16 @@ export function legacySeoRedirectMiddleware(req: Request, res: Response, next: N
     return res.redirect(301, '/track-repair');
   }
 
+  // 2.5 Active High-Value E-Commerce Categories: Serve dedicated Tablet Accessories landing page
+  if (
+    pathLower === '/product-category/tablet-accessories' ||
+    pathLower === '/product-category/tablet-accessories/' ||
+    pathLower === '/tablet-accessories' ||
+    pathLower === '/tablet-accessories/'
+  ) {
+    return next();
+  }
+
   // 3. Detect legacy WooCommerce product, category, taxonomy, and theme CMS block URLs
   const isWooProduct = 
     pathLower.startsWith('/product/') || 

@@ -763,6 +763,15 @@ export default function ShopPage() {
                 </button>
               );
             })}
+
+            {/* Direct High-Value Category Link to Tablet Accessories */}
+            <Link
+              to="/product-category/tablet-accessories"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-2xl font-black text-xs sm:text-sm bg-gradient-to-r from-brand-orange via-orange-600 to-amber-500 hover:from-orange-700 hover:to-amber-600 text-white shadow-md hover:shadow-orange-950/20 hover:scale-105 transition-all"
+            >
+              <Shield className="w-4 h-4" />
+              <span>{isAr ? 'كفرات وملحقات التابلت (جديد) ←' : 'Tablet Accessories & Cases Hub →'}</span>
+            </Link>
           </div>
 
           {/* Brand Quick Filters */}

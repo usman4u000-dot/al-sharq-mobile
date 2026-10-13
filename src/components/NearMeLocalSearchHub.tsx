@@ -73,9 +73,12 @@ export default function NearMeLocalSearchHub() {
         { label: 'hard drive data recovery near me', path: '/data-recovery' },
         { label: 'printer repair near me Sharjah', path: '/printer-repair' },
         { label: 'electronics repair shop near me', path: '/services' },
+        { label: 'tablet accessories near me Sharjah', path: '/product-category/tablet-accessories' },
+        { label: 'ipad screen protector near me', path: '/product-category/tablet-accessories' },
         { label: 'water damage repair near me', path: '/liquid-damage-repair' },
         { label: 'fast mobile repair near me', path: '/repair-estimate' },
         { label: 'تصليح سامسونج قريب مني', path: '/samsung-repair' },
+        { label: 'كفرات آيباد واكسسوارات تابلت قريب مني', path: '/product-category/tablet-accessories' },
         { label: 'استعادة بيانات قريب مني', path: '/data-recovery' }
       ]
     }

@@ -83,6 +83,7 @@ const GCCRegionalServicesPage = React.lazy(() => import('./pages/GCCRegionalServ
 const HardwareDiagnosticPage = React.lazy(() => import('./pages/HardwareDiagnosticPage'));
 const ArabicServicesPage = React.lazy(() => import('./pages/ArabicServicesPage'));
 const AICloudSolutionsPage = React.lazy(() => import('./pages/AICloudSolutionsPage'));
+const TabletAccessoriesPage = React.lazy(() => import('./pages/TabletAccessoriesPage'));
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage'));
 
 // Initialize Google Analytics
@@ -263,6 +264,10 @@ function AppRoutes() {
               <Route path="/privacy" element={<PageTransition><PrivacyPolicyPage /></PageTransition>} />
               <Route path="/dashboard" element={<Navigate to="/" replace />} />
               <Route path="/admin" element={<PageTransition><AdminDashboardPage /></PageTransition>} />
+              {/* High-traffic active category from Google Search Console */}
+              <Route path="/product-category/tablet-accessories" element={<PageTransition><TabletAccessoriesPage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/product-category/tablet-accessories/" element={<PageTransition><TabletAccessoriesPage onBookNow={openBooking} /></PageTransition>} />
+              <Route path="/tablet-accessories" element={<PageTransition><TabletAccessoriesPage onBookNow={openBooking} /></PageTransition>} />
               {/* Legacy WooCommerce fallback redirects */}
               <Route path="/product/*" element={<Navigate to="/services" replace />} />
               <Route path="/product-category/*" element={<Navigate to="/services" replace />} />

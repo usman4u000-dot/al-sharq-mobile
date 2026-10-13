@@ -1,6 +1,7 @@
 import React from 'react';
 import { Shield, CheckCircle2, ArrowRight } from 'lucide-react';
 import { motion } from 'motion/react';
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import Breadcrumbs from '../components/Breadcrumbs';
 
@@ -112,6 +113,28 @@ export default function ScreenProtectorPage({ onBookNow }: ScreenProtectorPagePr
                 <li className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400"><CheckCircle2 className="w-4 h-4 text-brand-orange" /> Anti-glare finish</li>
               </ul>
             </motion.div>
+          </div>
+
+          {/* Tablet & iPad Screen Protectors Cross-Link Banner */}
+          <div className="mt-12 bg-gradient-to-r from-slate-900 via-brand-blue to-slate-950 text-white rounded-3xl p-6 sm:p-10 border border-white/10 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+            <div>
+              <span className="px-3 py-1 rounded-full bg-brand-orange/20 text-brand-orange text-xs font-black uppercase tracking-wider mb-2 inline-block">
+                iPad &amp; Tablet Protection
+              </span>
+              <h3 className="text-xl sm:text-2xl font-black text-white mb-2">
+                Need Large-Format Screen Protectors for iPad or Samsung Galaxy Tab?
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
+                Installing large 11" and 13" tablet tempered glass is tricky. Get paper-feel drawing films and 9H tempered glass with 100% free professional, bubble-free installation at our Muwaileh store.
+              </p>
+            </div>
+            <Link
+              to="/product-category/tablet-accessories"
+              className="px-6 py-3.5 rounded-xl bg-brand-orange hover:bg-orange-600 text-white font-bold text-xs sm:text-sm whitespace-nowrap flex items-center gap-2 transition-all shadow-lg shrink-0"
+            >
+              <span>Explore Tablet Accessories Hub</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
 
         </div>
