@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { seoBlogsArabic } from '../data/seoBlogsArabic';
+import ArabicVoiceSearchFAQHub from '../components/ArabicVoiceSearchFAQHub';
 
 export default function ArabicServicesPage() {
   const structuredData = {
@@ -544,6 +545,11 @@ export default function ArabicServicesPage() {
           </div>
         </div>
       </section>
+
+      {/* Bilingual Voice Search & Conversational Arabic FAQ Hub */}
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <ArabicVoiceSearchFAQHub />
+      </div>
 
       {/* Frequently Asked Questions (Arabic FAQ Schema Grounding) */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto border-t border-slate-200 dark:border-slate-800">

@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { useLanguage } from '../contexts/LanguageContext';
+import UniversityStudentDiscountPass from '../components/UniversityStudentDiscountPass';
 
 export default function StudentDiscountPage() {
   const { language } = useLanguage();
@@ -169,6 +170,9 @@ export default function StudentDiscountPage() {
               </form>
             </motion.div>
           </div>
+
+          {/* Interactive University City Student Pass */}
+          <UniversityStudentDiscountPass />
 
           {/* Campus Directions & Map Callout */}
           <div className="bg-gradient-to-r from-slate-900 to-brand-blue text-white rounded-3xl p-8 sm:p-12 shadow-xl my-16 not-prose flex flex-col md:flex-row items-center justify-between gap-8">

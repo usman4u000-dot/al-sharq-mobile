@@ -15,6 +15,8 @@ import { seoBlogsArabic } from './seoBlogsArabic';
 import { seoBlogsDeviceLab } from './seoBlogsDeviceLab';
 import { seoBlogsAIAndCloud } from './seoBlogsAIAndCloud';
 import { seoBlogsDubaiTravelHotels } from './seoBlogsDubaiTravelHotels';
+import { seoBlogsTabletAccessoriesMaster } from './seoBlogsTabletAccessoriesMaster';
+import { seoBlogsGoogleTrendsHardware } from './seoBlogsGoogleTrendsHardware';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, Smartphone, Monitor, ShoppingBag, Plug } from 'lucide-react';
 import iphone18BlogImg from '../assets/images/iphone_18_launch_1789772590090.jpg';
@@ -30,6 +32,9 @@ export interface BlogPost {
   content: React.ReactNode;
   metaTitle?: string;
   metaDescription?: string;
+  readTime?: string;
+  tags?: string[];
+  faqs?: { question: string; answer: string }[];
 }
 
 export const calculateReadTime = (post: BlogPost): string => {
@@ -54,6 +59,8 @@ export const calculateReadTime = (post: BlogPost): string => {
 };
 
 export const blogPosts: BlogPost[] = [
+  ...seoBlogsGoogleTrendsHardware,
+  ...seoBlogsTabletAccessoriesMaster,
   ...seoBlogsDubaiTravelHotels,
   ...seoBlogsAIAndCloud,
   ...seoBlogsDeviceLab,

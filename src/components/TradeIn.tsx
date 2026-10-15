@@ -1,5 +1,6 @@
 import React from 'react';
 import { RefreshCw, DollarSign, ShieldCheck, Smartphone, Laptop, Tablet, MessageCircle, MapPin, CheckCircle2 } from 'lucide-react';
+import InstantTradeInCalculator from './InstantTradeInCalculator';
 
 export default function TradeIn() {
   return (
@@ -14,6 +15,9 @@ export default function TradeIn() {
             Turn Your Old Device into Cash or Credit at Al Sharq Mobile Phone & Computer Trading LLC (Techfix & Gidgets). Why let your old gadgets sit in a drawer? Since 2014, we’ve provided the most transparent and competitive trade-in values in the UAE. Whether you want to sell for cash or upgrade to the latest 2026 flagship, we make the process seamless.
           </p>
         </div>
+
+        {/* Instant Interactive Trade-In Calculator */}
+        <InstantTradeInCalculator />
 
         <div className="grid lg:grid-cols-2 gap-12 mb-16">
           {/* How It Works */}

@@ -18,6 +18,9 @@ import {
   CheckCircle2, 
   Wrench,
   ChevronRight,
+  ChevronDown,
+  ChevronUp,
+  HelpCircle,
   Home,
   Layers,
   Zap,
@@ -267,6 +270,35 @@ export default function BlogPostPage() {
             "item": `https://allsharq.com/blog/${post.id}`
           }
         ]
+      },
+      ...(post.faqs && post.faqs.length > 0 ? [{
+        "@type": "FAQPage",
+        "@id": `https://allsharq.com/blog/${post.id}#faq`,
+        "mainEntity": post.faqs.map(f => ({
+          "@type": "Question",
+          "name": f.question,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": f.answer
+          }
+        }))
+      }] : []),
+      {
+        "@type": "Organization",
+        "@id": "https://allsharq.com/#organization",
+        "name": "Al Sharq Mobile Phone & Computer Trading LLC",
+        "url": "https://allsharq.com",
+        "logo": "https://allsharq.com/logo.png",
+        "sameAs": [
+          "https://maps.app.goo.gl/WRjUv6FxCVTtZCEk8"
+        ],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+971507117043",
+          "contactType": "technical support & repairs",
+          "areaServed": ["AE", "SA", "OM", "KW", "BH", "QA"],
+          "availableLanguage": ["English", "Arabic", "Urdu", "Hindi"]
+        }
       }
     ]
   };
@@ -646,6 +678,64 @@ export default function BlogPostPage() {
                     </Link>
                   </div>
                 </div>
+              )}
+
+              {/* Verified Authoritative FAQs Section for AI Overviews & Readers */}
+              {post.faqs && post.faqs.length > 0 && (
+                <section className="my-10 p-6 sm:p-8 bg-slate-900 border border-slate-800 rounded-3xl shadow-xl text-white">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-10 h-10 rounded-xl bg-brand-orange/20 border border-brand-orange/30 flex items-center justify-center text-brand-orange">
+                      <HelpCircle className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <span className="text-xs font-bold text-brand-orange uppercase tracking-wider">
+                        Expert Q&amp;A • Bench Certified
+                      </span>
+                      <h3 className="text-xl sm:text-2xl font-black text-white">
+                        Frequently Asked Questions
+                      </h3>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    {post.faqs.map((faq, idx) => (
+                      <details 
+                        key={idx} 
+                        className="group bg-slate-850/80 hover:bg-slate-850 rounded-2xl border border-slate-800 p-5 transition-all duration-200 cursor-pointer open:border-brand-orange/40 open:bg-slate-800/90"
+                      >
+                        <summary className="font-bold text-white text-base sm:text-lg flex items-center justify-between gap-4 list-none">
+                          <span className="flex items-center gap-2">
+                            <span className="text-brand-orange text-sm font-mono font-black">Q{idx + 1}.</span>
+                            {faq.question}
+                          </span>
+                          <span className="shrink-0 w-7 h-7 rounded-full bg-slate-800 group-hover:bg-slate-700 flex items-center justify-center text-slate-300 group-open:rotate-180 transition-transform">
+                            <ChevronDown className="w-4 h-4" />
+                          </span>
+                        </summary>
+                        <div className="mt-4 pt-4 border-t border-slate-800/80 text-slate-300 text-sm sm:text-base leading-relaxed pl-6">
+                          <p>{faq.answer}</p>
+                          <div className="mt-3 flex items-center gap-2 text-xs text-emerald-400 font-semibold">
+                            <CheckCircle2 className="w-4 h-4" />
+                            <span>Verified by Al Sharq Master Diagnostics Team</span>
+                          </div>
+                        </div>
+                      </details>
+                    ))}
+                  </div>
+
+                  <div className="mt-6 pt-5 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-400">
+                    <span>Have a specific device failure not answered here?</span>
+                    <a
+                      href="https://wa.me/971507117043?text=Hello%20Al%20Sharq,%20I%20have%20a%20technical%20question%20about%20my%20device."
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-brand-orange font-bold hover:underline flex items-center gap-1"
+                    >
+                      <span>Ask our technician directly</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                </section>
               )}
 
               {/* Automated Device-Specific Related Services Module */}

@@ -16,7 +16,10 @@ import {
   HelpCircle,
   Flame,
   Minus,
-  Maximize2
+  Maximize2,
+  Camera,
+  Image as ImageIcon,
+  CheckCircle2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
@@ -34,6 +37,14 @@ type Message = {
 };
 
 const DIAGNOSTIC_RULES = [
+  {
+    keywords: ['tablet', 'ipad', 'case', 'cover', 'stylus', 'pencil', 'screen protector', 'ايباد', 'جراب', 'كفر', 'قلم', 'تيبلت', 'حماية ايباد'],
+    response: "We stock shockproof kids EVA foam cases, 9H tempered glass (with free bubble-free machine installation in our Muwaileh workshop), paper-feel artist films, and GaN fast chargers at 20% to 40% below mall prices.",
+    actionText: "Browse Tablet Accessories",
+    actionUrl: "/product-category/tablet-accessories",
+    priceBadge: "From AED 25",
+    timeEstimate: "Immediate In-Stock"
+  },
   {
     keywords: ['screen', 'glass', 'shattered', 'crack', 'cracked', 'display', 'شاشة', 'كسر', 'اسکرین'],
     response: "For screen and glass damage: If your OLED touch is working, we can replace just the outer glass via precision OCA optical lamination (saving up to 50%). If the display has black ink or vertical lines, a complete OEM panel replacement takes only 25 minutes with 1-Year Lab Warranty.",
@@ -145,15 +156,14 @@ const DIAGNOSTIC_RULES = [
 ];
 
 const QUICK_DIAGNOSTIC_CHIPS = [
+  { label: '📸 Photo Diagnosis', query: 'I want to analyze damage from photo / visual symptom' },
+  { label: '🛡️ Tablet & iPad Accessories', query: 'Show me tablet accessories, iPad shockproof cases and screen protectors' },
+  { label: '📱 Broken Screen Glass', query: 'My screen is cracked' },
+  { label: '🔋 Battery Drain / Heat', query: 'Battery draining fast' },
+  { label: '📍 Store Location', query: 'Where is your shop located?' },
   { label: '🏨 Dubai Hotels (60% OFF)', query: 'Where can I find the best hotel deals in Dubai near Burj Khalifa?' },
   { label: '✈️ Dubai Travel Apps & Tech', query: 'What apps and tech gadgets do I need before traveling to Dubai?' },
-  { label: '🤖 AI Chatbot (WhatsApp)', query: 'I want to build an AI Chatbot for WhatsApp and website' },
-  { label: '⚡ Enterprise AIP', query: 'Tell me about AIP AI Platform and automation' },
-  { label: '🧠 Google AI / Gemini', query: 'How can we implement Google AI and Gemini in our business?' },
-  { label: '📱 Broken Screen', query: 'My screen is cracked' },
-  { label: '🔋 Battery Drain', query: 'Battery draining fast' },
-  { label: '🛍️ 20% OFF Phones', query: 'Buy phones at 20% discount' },
-  { label: '📍 Store Location', query: 'Where is your shop located?' }
+  { label: '🤖 AI Chatbot (WhatsApp)', query: 'I want to build an AI Chatbot for WhatsApp and website' }
 ];
 
 interface DiagnosticBotProps {
@@ -213,7 +223,34 @@ export default function DiagnosticBot({ isOpenExternal, onCloseExternal }: Diagn
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [showPhotoOptions, setShowPhotoOptions] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const handlePhotoTriageSelect = (symptomTitle: string, labReport: string, priceEst: string, timeEst: string) => {
+    setShowPhotoOptions(false);
+    const userMsg: Message = {
+      id: Date.now().toString(),
+      sender: 'user',
+      text: `📸 [Photo Triage Selected]: ${symptomTitle}`
+    };
+    setMessages(prev => [...prev, userMsg]);
+    setIsTyping(true);
+
+    setTimeout(() => {
+      setIsTyping(false);
+      const botMsg: Message = {
+        id: (Date.now() + 1).toString(),
+        sender: 'bot',
+        text: `🔬 Lab Optical Telemetry for "${symptomTitle}":\n\n${labReport}\n\nOur Muwaileh workshop provides same-day bench service with genuine parts and a 90-Day Lab Warranty. Click below to dispatch your quote directly to WhatsApp!`,
+        isActionable: true,
+        actionText: "Send Quote to WhatsApp",
+        actionUrl: `https://wa.me/971507117043?text=${encodeURIComponent(`Hi Al Sharq, I ran the Photo Diagnostic Scanner for ${symptomTitle}. Estimated cost was ${priceEst}. When can I drop it off at your Sharjah workshop?`)}`,
+        priceBadge: priceEst,
+        timeEstimate: timeEst
+      };
+      setMessages(prev => [...prev, botMsg]);
+    }, 600);
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -509,8 +546,69 @@ export default function DiagnosticBot({ isOpenExternal, onCloseExternal }: Diagn
                 </button>
               </div>
 
+              {/* Photo Diagnosis Triage Drawer */}
+              {showPhotoOptions && (
+                <div className="p-3 bg-slate-900 border-t border-brand-orange/40 text-white shrink-0 animate-in fade-in duration-200">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-[11px] font-bold text-brand-orange flex items-center gap-1.5">
+                      <Camera className="w-3.5 h-3.5" />
+                      <span>{isAr ? 'فحص الصور البصري الفوري' : 'Instant Visual / Photo Damage Triage'}</span>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setShowPhotoOptions(false)}
+                      className="text-slate-400 hover:text-white text-xs cursor-pointer"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                  <div className="grid grid-cols-2 gap-1.5 text-[11px]">
+                    <button
+                      type="button"
+                      onClick={() => handlePhotoTriageSelect('Cracked Screen Glass', 'Outer glass fractured via kinetic impact. Digitizer and OLED remain fully functional. Recommending precision OCA optical de-lamination to preserve original factory panel.', 'AED 150 - 220', '25 Mins')}
+                      className="p-2 rounded-lg bg-white/10 hover:bg-brand-orange text-start font-semibold transition-colors flex items-center gap-1.5 cursor-pointer truncate"
+                    >
+                      <span>📱 Cracked Screen</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handlePhotoTriageSelect('Swollen Battery Bulge', 'High ambient UAE heat caused pouch cell electrolyte expansion. Pushing against display panel. Immediate 0-cycle OEM battery swap recommended.', 'AED 120 - 180', '20 Mins')}
+                      className="p-2 rounded-lg bg-white/10 hover:bg-brand-orange text-start font-semibold transition-colors flex items-center gap-1.5 cursor-pointer truncate"
+                    >
+                      <span>🔋 Swollen Battery</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handlePhotoTriageSelect('Liquid Ingress / Corrosion', 'Electrolyte fluid detected on logic board. Ultrasonic solvent cleaning and galvanic de-oxidation required to prevent short circuits.', 'AED 100 - 250', '45 Mins')}
+                      className="p-2 rounded-lg bg-white/10 hover:bg-brand-orange text-start font-semibold transition-colors flex items-center gap-1.5 cursor-pointer truncate"
+                    >
+                      <span>💧 Liquid Ingress</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handlePhotoTriageSelect('Loose / Damaged Charging Port', 'Damaged internal spring pins or carbon buildup. Fast port replacement with micro-soldering.', 'AED 90 - 140', '20 Mins')}
+                      className="p-2 rounded-lg bg-white/10 hover:bg-brand-orange text-start font-semibold transition-colors flex items-center gap-1.5 cursor-pointer truncate"
+                    >
+                      <span>🔌 Port Damage</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+
               {/* Input Form at Bottom */}
               <form onSubmit={handleSend} className="p-2.5 sm:p-3 bg-slate-50 dark:bg-slate-850 border-t border-slate-200 dark:border-slate-800 flex items-center gap-2 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setShowPhotoOptions(!showPhotoOptions)}
+                  className={`p-2.5 rounded-xl border transition-colors cursor-pointer shrink-0 ${
+                    showPhotoOptions
+                      ? 'bg-brand-orange text-white border-orange-500'
+                      : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-300 dark:border-slate-700 hover:text-brand-orange'
+                  }`}
+                  title="Photo Diagnosis / Visual Triage"
+                >
+                  <Camera className="w-4 h-4" />
+                </button>
                 <input
                   type="text"
                   value={inputValue}

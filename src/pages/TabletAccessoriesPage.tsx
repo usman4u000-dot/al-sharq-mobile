@@ -19,13 +19,18 @@ import {
   Filter,
   Layers,
   Cpu,
-  Monitor
+  Monitor,
+  BookOpen
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Breadcrumbs from '../components/Breadcrumbs';
 import UAEDirhamSymbol from '../components/UAEDirhamSymbol';
 import { useLanguage } from '../contexts/LanguageContext';
 import { BUSINESS_PROVIDER_SCHEMA } from '../data/businessInfo';
+import InstantRepairEstimator from '../components/InstantRepairEstimator';
+import GoogleMapsDirectionsCard from '../components/GoogleMapsDirectionsCard';
+import UniversityStudentDiscountPass from '../components/UniversityStudentDiscountPass';
+import ArabicVoiceSearchFAQHub from '../components/ArabicVoiceSearchFAQHub';
 
 interface TabletAccessoriesPageProps {
   onBookNow: (serviceName?: string) => void;
@@ -302,6 +307,46 @@ export default function TabletAccessoriesPage({ onBookNow }: TabletAccessoriesPa
     }))
   };
 
+  const combinedGraphSchema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      structuredData,
+      faqStructuredData,
+      ...accessoriesList.map((item) => ({
+        "@type": "Product",
+        "@id": `https://allsharq.com/product-category/tablet-accessories/#product-${item.id}`,
+        "name": item.name,
+        "image": item.image,
+        "description": `${item.name} for ${item.compatibleWith}. Features: ${item.features.join('. ')}.`,
+        "category": item.categoryLabel,
+        "brand": {
+          "@type": "Brand",
+          "name": "Al Sharq Mobile Lab"
+        },
+        "offers": {
+          "@type": "Offer",
+          "price": item.priceAED.toString(),
+          "priceCurrency": "AED",
+          "priceValidUntil": "2026-12-31",
+          "availability": "https://schema.org/InStock",
+          "url": "https://allsharq.com/product-category/tablet-accessories/",
+          "seller": {
+            "@type": "LocalBusiness",
+            "@id": "https://allsharq.com/#localbusiness",
+            "name": "Al Sharq Mobile Phone & Computer Trading LLC"
+          }
+        },
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": item.rating.toString(),
+          "reviewCount": item.reviewsCount.toString(),
+          "bestRating": "5",
+          "worstRating": "1"
+        }
+      }))
+    ]
+  };
+
   return (
     <>
       <Helmet>
@@ -328,10 +373,7 @@ export default function TabletAccessoriesPage({ onBookNow }: TabletAccessoriesPa
         
         {/* Schema.org Structured Data */}
         <script type="application/ld+json">
-          {JSON.stringify(structuredData)}
-        </script>
-        <script type="application/ld+json">
-          {JSON.stringify(faqStructuredData)}
+          {JSON.stringify(combinedGraphSchema)}
         </script>
       </Helmet>
 
@@ -450,6 +492,42 @@ export default function TabletAccessoriesPage({ onBookNow }: TabletAccessoriesPa
             </Link>
           </div>
 
+          {/* Deep Technical Guide Callout */}
+          <div className="bg-gradient-to-r from-slate-900 to-slate-950 border border-brand-orange/40 rounded-2xl p-5 mb-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg text-white">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-orange-500/20 text-brand-orange flex items-center justify-center shrink-0 border border-orange-500/30">
+                <BookOpen className="w-5 h-5" />
+              </div>
+              <div>
+                <span className="text-[10px] font-mono uppercase text-brand-orange font-bold tracking-wider block">
+                  Bench Tech Hardware Guide • Sharjah Lab
+                </span>
+                <h3 className="font-extrabold text-sm sm:text-base text-white">
+                  How to Protect Your Tablet Screen from Shattering on UAE Tile Floors
+                </h3>
+                <p className="text-xs text-slate-300">
+                  Read our bench technician's guide on 9H tempered glass physics, paper-feel friction, and preventing battery heat swelling in UAE.
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-2 shrink-0">
+              <Link
+                to="/blog/tablet-accessories-protection-repair-guide-sharjah-uae-2026"
+                className="px-4 py-2 rounded-xl bg-brand-orange hover:bg-orange-600 text-white font-bold text-xs whitespace-nowrap flex items-center gap-1.5 transition-colors shadow-md"
+              >
+                <span>Protection Guide</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+              <Link
+                to="/blog/google-trends-uae-hardware-device-failures-sharjah-guide"
+                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-200 hover:text-white font-semibold text-xs border border-slate-700 whitespace-nowrap flex items-center gap-1.5 transition-colors"
+              >
+                <span>Trends &amp; Failure Analysis</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </div>
+
           {/* Category Filter Pills */}
           <div className="mb-8">
             <div className="flex items-center gap-2 mb-3">
@@ -564,8 +642,11 @@ export default function TabletAccessoriesPage({ onBookNow }: TabletAccessoriesPa
             ))}
           </div>
 
+          {/* 3-Click Instant Repair & Accessory Estimator */}
+          <InstantRepairEstimator />
+
           {/* Free In-Store Screen Fitting Guarantee */}
-          <section className="bg-gradient-to-r from-emerald-950 via-slate-900 to-slate-950 text-white rounded-3xl p-6 sm:p-8 mb-16 border border-emerald-500/30 shadow-xl">
+          <section className="bg-gradient-to-r from-emerald-950 via-slate-900 to-slate-950 text-white rounded-3xl p-6 sm:p-8 mb-12 border border-emerald-500/30 shadow-xl">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
               <div className="md:col-span-2">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold mb-3 border border-emerald-500/30">
@@ -596,8 +677,16 @@ export default function TabletAccessoriesPage({ onBookNow }: TabletAccessoriesPa
             </div>
           </section>
 
+          {/* Live Workshop Location & Transit Map Card */}
+          <div className="mb-12">
+            <GoogleMapsDirectionsCard />
+          </div>
+
+          {/* Bilingual Voice Search & Conversational Arabic FAQ Hub */}
+          <ArabicVoiceSearchFAQHub />
+
           {/* Frequently Asked Questions (FAQ) Section for Search Snippets */}
-          <section className="mb-16">
+          <section className="mb-12">
             <div className="text-center max-w-2xl mx-auto mb-8">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 dark:bg-orange-950/60 text-brand-orange text-xs font-bold mb-2">
                 <HelpCircle className="w-3.5 h-3.5" />
@@ -628,6 +717,9 @@ export default function TabletAccessoriesPage({ onBookNow }: TabletAccessoriesPa
               ))}
             </div>
           </section>
+
+          {/* Sharjah University City Student Pass (15% Discount) */}
+          <UniversityStudentDiscountPass />
 
           {/* Internal Linking & Related Repair Specialties */}
           <section className="bg-slate-100 dark:bg-slate-900/60 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800">

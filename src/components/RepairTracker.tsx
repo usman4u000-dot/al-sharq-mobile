@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Loader2, CheckCircle, AlertCircle, Clock, Wrench, Package, XCircle, Phone, CreditCard } from 'lucide-react';
+import { Search, Loader2, CheckCircle, AlertCircle, Clock, Wrench, Package, XCircle, Phone, CreditCard, MessageCircle, FileText } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { doc, getDoc, onSnapshot, collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -258,6 +258,18 @@ export default function RepairTracker() {
             >
               {status === 'loading' ? <Loader2 className="h-5 w-5 animate-spin" /> : 'Check Status'}
             </button>
+
+            {/* Quick Digital Job Slip Generator Link */}
+            <div className="mt-1 text-center">
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new CustomEvent('open-job-card'))}
+                className="inline-flex items-center gap-1.5 text-xs text-white/80 hover:text-brand-orange font-semibold transition-colors cursor-pointer"
+              >
+                <FileText className="w-3.5 h-3.5 text-brand-orange" />
+                <span>Need a Digital Repair Ticket? <strong>Generate &amp; Share via WhatsApp →</strong></span>
+              </button>
+            </div>
           </form>
 
           <AnimatePresence mode="wait">
@@ -475,6 +487,35 @@ export default function RepairTracker() {
                         })}
                         </div>
                       </div>
+                    </div>
+
+                    {/* Digital Job Slip Action */}
+                    <div className="mt-8 pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
+                      <div>
+                        <span className="text-xs font-bold text-white block">Official Laboratory Digital Intake Slip</span>
+                        <span className="text-[11px] text-slate-300">Share with customer on WhatsApp or print with warranty seal</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          window.dispatchEvent(new CustomEvent('open-job-card', {
+                            detail: {
+                              jobId: ticketId,
+                              customerName: ticketData.customerName || identifier,
+                              phone: ticketData.phone || '',
+                              device: ticketData.device || 'Registered Device',
+                              issue: ticketData.issue || 'Diagnostics & Repair',
+                              estimatedCost: ticketData.price ? `${ticketData.price}` : '250',
+                              estimatedTime: ticketData.estimatedTime || 'Same-Day',
+                              date: ticketData.date || new Date().toLocaleDateString('en-GB')
+                            }
+                          }));
+                        }}
+                        className="px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold text-xs flex items-center gap-2 transition-colors shadow-lg cursor-pointer"
+                      >
+                        <MessageCircle className="w-4 h-4 fill-current" />
+                        <span>View &amp; Send Digital Job Card (WhatsApp)</span>
+                      </button>
                     </div>
                   </div>
                 </div>

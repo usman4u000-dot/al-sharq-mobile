@@ -51,6 +51,9 @@ const GCCAndLocationStrategyHub = lazy(() => import('../components/GCCAndLocatio
 const GCCRegionalSection = lazy(() => import('../components/GCCRegionalSection'));
 const AIAndCloudShowcaseSection = lazy(() => import('../components/AIAndCloudShowcaseSection'));
 const DubaiTravelHotelsSection = lazy(() => import('../components/DubaiTravelHotelsSection'));
+const InstantRepairEstimator = lazy(() => import('../components/InstantRepairEstimator'));
+const GoogleMapsDirectionsCard = lazy(() => import('../components/GoogleMapsDirectionsCard'));
+const GoogleTrendsLiveDemandRadar = lazy(() => import('../components/GoogleTrendsLiveDemandRadar'));
 
 interface HomePageProps {
   onBookNow: (serviceName?: string) => void;
@@ -204,10 +207,34 @@ export default function HomePage({ onBookNow }: HomePageProps) {
         </section>
         <ExpressFixBanner onBookNow={onBookNow} />
         <SupportedBrands />
+        {/* Real-Time Google Trends Live Demand Radar & QDF Intelligence */}
+        <section className="py-8 bg-slate-950">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Suspense fallback={null}>
+              <GoogleTrendsLiveDemandRadar />
+            </Suspense>
+          </div>
+        </section>
+        {/* Instant 3-Click Price & Repair Estimator */}
+        <section className="py-6 bg-slate-900">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Suspense fallback={null}>
+              <InstantRepairEstimator />
+            </Suspense>
+          </div>
+        </section>
       </InViewSection>
 
       <InViewSection minHeight="500px">
         <AdvancedServices2026 onBookNow={onBookNow} />
+        {/* Live Workshop Location & Transit Map Card */}
+        <section className="py-6 bg-slate-950">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Suspense fallback={null}>
+              <GoogleMapsDirectionsCard />
+            </Suspense>
+          </div>
+        </section>
         <Suspense fallback={null}>
           <DeviceAnatomyExplorer />
           <HomepageBeforeAfter />
