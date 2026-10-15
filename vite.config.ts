@@ -11,6 +11,17 @@ export default defineConfig(({mode}) => {
     plugins: [
       react(), 
       tailwindcss(),
+      {
+        name: 'dynamic-canonical-html',
+        transformIndexHtml(html, ctx) {
+          const rawPath = ctx.originalUrl || ctx.path || '/';
+          const cleanPath = rawPath.split('?')[0].replace(/^\/(en|ar)(\/|$)/, '/').replace(/\/$/, '') || '/';
+          const canonicalUrl = `https://allsharq.com${cleanPath === '/' ? '' : cleanPath}`;
+          return html
+            .replace(/<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/i, `<link rel="canonical" href="${canonicalUrl}" />`)
+            .replace(/<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/i, `<meta property="og:url" content="${canonicalUrl}" />`);
+        }
+      },
       VitePWA({
         registerType: 'autoUpdate',
         includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],

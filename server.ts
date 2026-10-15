@@ -112,7 +112,13 @@ const VALID_SPA_ROUTES = new Set([
   '/student-discount',
   '/students',
   '/corporate-amc',
-  '/ai-cloud-solutions'
+  '/ai-cloud-solutions',
+  '/google-ai-cloud',
+  '/aip-chatbot',
+  '/ai-solutions',
+  '/cloud-services',
+  '/product-category/tablet-accessories',
+  '/tablet-accessories'
 ]);
 
 async function startServer() {
@@ -796,6 +802,8 @@ async function startServer() {
         }
       }
     }));
+    let cachedIndexHtml: string | null = null;
+
     app.get('*', (req, res) => {
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
       const cleanPath = req.path.replace(/^\/(en|ar)(\/|$)/, '/').replace(/\/$/, '') || '/';
@@ -803,7 +811,13 @@ async function startServer() {
         VALID_SPA_ROUTES.has(req.path) || 
         VALID_SPA_ROUTES.has(cleanPath) || 
         req.path.startsWith('/blog/') || 
+        cleanPath.startsWith('/blog/') ||
+        req.path.startsWith('/product-category/') ||
+        cleanPath.startsWith('/product-category/') ||
+        req.path.startsWith('/product/') ||
+        cleanPath.startsWith('/product/') ||
         req.path.startsWith('/track-repair') ||
+        cleanPath.startsWith('/track-repair') ||
         req.path.startsWith('/en/') ||
         req.path.startsWith('/ar/');
 
@@ -811,11 +825,31 @@ async function startServer() {
         // Return genuine HTTP 404 and noindex header to completely eliminate Soft 404 errors in Google Search Console
         res.status(404);
         res.setHeader('X-Robots-Tag', 'noindex, nofollow');
-      } else {
-        const canonicalUrl = `https://allsharq.com${req.path === '/' ? '' : req.path}`;
-        res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
+        return res.sendFile(path.join(distPath, 'index.html'));
       }
-      res.sendFile(path.join(distPath, 'index.html'));
+
+      const canonicalPath = cleanPath === '/' ? '' : cleanPath;
+      const canonicalUrl = `https://allsharq.com${canonicalPath}`;
+      res.setHeader('Link', `<${canonicalUrl}>; rel="canonical"`);
+
+      try {
+        if (!cachedIndexHtml) {
+          cachedIndexHtml = fs.readFileSync(path.join(distPath, 'index.html'), 'utf8');
+        }
+        let dynamicHtml = cachedIndexHtml;
+        // Dynamically replace canonical URL and og:url in HTML head to match exact URL requested
+        dynamicHtml = dynamicHtml.replace(
+          /<link\s+rel="canonical"\s+href="[^"]*"\s*\/?>/i,
+          `<link rel="canonical" href="${canonicalUrl}" />`
+        );
+        dynamicHtml = dynamicHtml.replace(
+          /<meta\s+property="og:url"\s+content="[^"]*"\s*\/?>/i,
+          `<meta property="og:url" content="${canonicalUrl}" />`
+        );
+        res.type('html').send(dynamicHtml);
+      } catch (err) {
+        res.sendFile(path.join(distPath, 'index.html'));
+      }
     });
   }
 
