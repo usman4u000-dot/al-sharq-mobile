@@ -22,6 +22,7 @@ import LoadingSpinner from './components/LoadingSpinner';
 import ScrollProgressBar from './components/ScrollProgressBar';
 import NetworkStatus from './components/NetworkStatus';
 import SmartBatteryBanner from './components/SmartBatteryBanner';
+import CanonicalManager from './components/CanonicalManager';
 
 // Lazy load heavy interactive tools and staff consoles to optimize mobile Core Web Vitals
 const BookingModal = React.lazy(() => import('./components/BookingModal'));
@@ -393,6 +394,7 @@ export default function App() {
             <ScrollToTop />
             <Analytics />
             <LanguagePathHandler />
+            <CanonicalManager />
             <AppRoutes />
           </Router>
         </GoogleReCaptchaProvider>

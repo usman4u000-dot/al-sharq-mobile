@@ -3,24 +3,30 @@
 
 User-agent: Googlebot
 Allow: /
+Allow: /api/trends/
 Disallow: /admin
 Disallow: /dashboard
-Disallow: /api/
+Disallow: /api/admin
+Disallow: /api/auth
 
 User-agent: Googlebot-Image
 Allow: /
 
 User-agent: Bingbot
 Allow: /
+Allow: /api/trends/
 Disallow: /admin
 Disallow: /dashboard
-Disallow: /api/
+Disallow: /api/admin
+Disallow: /api/auth
 
 User-agent: Applebot
 Allow: /
+Allow: /api/trends/
 Disallow: /admin
 Disallow: /dashboard
-Disallow: /api/
+Disallow: /api/admin
+Disallow: /api/auth
 
 # AI Search Discovery & Local Business Citations (Gemini, ChatGPT Search, Claude, Perplexity)
 User-agent: Google-Extended
@@ -36,19 +42,22 @@ User-agent: GPTBot
 Allow: /
 Disallow: /admin
 Disallow: /dashboard
-Disallow: /api/
+Disallow: /api/admin
+Disallow: /api/auth
 
 User-agent: ClaudeBot
 Allow: /
 Disallow: /admin
 Disallow: /dashboard
-Disallow: /api/
+Disallow: /api/admin
+Disallow: /api/auth
 
 User-agent: PerplexityBot
 Allow: /
 Disallow: /admin
 Disallow: /dashboard
-Disallow: /api/
+Disallow: /api/admin
+Disallow: /api/auth
 
 # Throttle aggressive third-party SEO bots to conserve crawl bandwidth
 User-agent: AhrefsBot
@@ -62,9 +71,11 @@ Disallow: /
 
 User-agent: *
 Allow: /
+Allow: /api/trends/
 Disallow: /admin
 Disallow: /dashboard
-Disallow: /api/
+Disallow: /api/admin
+Disallow: /api/auth
 
 # Sitemaps
 Sitemap: https://allsharq.com/sitemap.xml
@@ -72,4 +83,3 @@ Sitemap: https://allsharq.com/feed.xml
 # AI Agent Policy & Search Engine Discovery:
 # https://allsharq.com/ai.txt
 # https://allsharq.com/llms.txt
-
