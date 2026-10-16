@@ -24,7 +24,9 @@ export const seoBlogsGoogleTrendsHardware: BlogPost[] = [
     title: 'What Google Trends Reveals About UAE Device Failures: Heat, Tiles, and Fake Chargers from Sharjah to Dubai',
     excerpt: 'An authentic workbench breakdown of why electronics break across the Emirates. From 48°C car cabins to hard tile drops and 15 AED petrol station chargers, our Muwaileh technicians break down real repair cases, thermal data, and practical fixes.',
     date: 'March 29, 2026',
+    lastModified: 'October 16, 2026',
     author: 'Eng. Usman Tariq – Master Hardware Diagnostic Specialist, Al Sharq Technology',
+    authorTitle: 'Senior Hardware Diagnostic Specialist & Lab Lead',
     readTime: '11 min read',
     category: 'Hardware Engineering & Market Trends',
     tags: [

@@ -54,6 +54,7 @@ const DubaiTravelHotelsSection = lazy(() => import('../components/DubaiTravelHot
 const InstantRepairEstimator = lazy(() => import('../components/InstantRepairEstimator'));
 const GoogleMapsDirectionsCard = lazy(() => import('../components/GoogleMapsDirectionsCard'));
 const GoogleTrendsLiveDemandRadar = lazy(() => import('../components/GoogleTrendsLiveDemandRadar'));
+const RapidPageIndexingHub = lazy(() => import('../components/RapidPageIndexingHub'));
 
 interface HomePageProps {
   onBookNow: (serviceName?: string) => void;
@@ -323,6 +324,7 @@ export default function HomePage({ onBookNow }: HomePageProps) {
           <SocialFeed />
           <DeviceRepairRequest />
           <FAQSection />
+          <RapidPageIndexingHub />
           <BlogSection />
         </Suspense>
       </InViewSection>

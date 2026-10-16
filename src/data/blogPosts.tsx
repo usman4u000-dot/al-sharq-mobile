@@ -26,7 +26,10 @@ export interface BlogPost {
   title: string;
   excerpt: string;
   date: string;
+  lastModified?: string;
   author: string;
+  authorTitle?: string;
+  authorBio?: string;
   category: string;
   image: string;
   content: React.ReactNode;

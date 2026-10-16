@@ -241,11 +241,15 @@ for (const file of blogFiles) {
       const excerptMatch = sub.match(/excerpt:\s*['"]([^'"]+)['"]/);
       const dateMatch = sub.match(/date:\s*['"]([^'"]+)['"]/);
       const categoryMatch = sub.match(/category:\s*['"]([^'"]+)['"]/);
+      const authorMatch = sub.match(/author:\s*['"]([^'"]+)['"]/);
+      const lastModifiedMatch = sub.match(/lastModified:\s*['"]([^'"]+)['"]/);
       blogMap.set(id, {
         id,
         title: titleMatch ? titleMatch[1] : id.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
         excerpt: excerptMatch ? excerptMatch[1] : 'Detailed technical breakdown and device repair guide from Al Sharq Mobile Lab on Fire Station Road, Muwaileh, Sharjah.',
         date: dateMatch ? dateMatch[1] : '2026-10-15',
+        lastModified: lastModifiedMatch ? lastModifiedMatch[1] : 'October 16, 2026',
+        author: authorMatch ? authorMatch[1] : 'Eng. Usman Tariq – Master Hardware Diagnostic Specialist',
         category: categoryMatch ? categoryMatch[1] : 'Repair Guide'
       });
     }
@@ -387,11 +391,16 @@ for (const [id, post] of blogMap.entries()) {
     "headline": post.title,
     "description": post.excerpt,
     "datePublished": post.date,
-    "dateModified": new Date().toISOString().split('T')[0],
+    "dateModified": post.lastModified || new Date().toISOString().split('T')[0],
     "author": {
-      "@type": "Organization",
-      "name": "Al Sharq Mobile Technical Engineering Team",
-      "url": BASE_URL
+      "@type": "Person",
+      "name": post.author || "Eng. Usman Tariq",
+      "jobTitle": "Lead Hardware Diagnostic Engineer",
+      "worksFor": {
+        "@type": "LocalBusiness",
+        "name": "Al Sharq Mobile Phone & Computer Trading LLC",
+        "url": BASE_URL
+      }
     },
     "publisher": {
       "@type": "LocalBusiness",
