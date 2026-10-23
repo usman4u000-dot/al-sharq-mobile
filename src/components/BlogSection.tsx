@@ -1,8 +1,22 @@
-import React, { useState } from 'react';
-import { Calendar, User, ArrowRight, BookOpen, Clock, RefreshCw, ShieldCheck, Sparkles, Filter } from 'lucide-react';
+import React, { useState, useMemo } from 'react';
+import { 
+  Calendar, 
+  ArrowRight, 
+  Clock, 
+  RefreshCw, 
+  ShieldCheck, 
+  Sparkles, 
+  Filter, 
+  Zap, 
+  CheckCircle2, 
+  Layers, 
+  Globe, 
+  Timer 
+} from 'lucide-react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { blogPosts, BlogPost, calculateReadTime } from '../data/blogPosts';
+import { getDaysAgo } from '../data/recentPages';
 
 interface BlogSectionProps {
   hideViewAll?: boolean;
@@ -11,9 +25,39 @@ interface BlogSectionProps {
 
 export default function BlogSection({ hideViewAll = false, posts = blogPosts }: BlogSectionProps) {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [filterMode, setFilterMode] = useState<'allRecent' | 'sevenDayBoost'>('allRecent');
 
-  // Grab the 10 most recent posts
-  const top10Posts = posts.slice(0, 10);
+  // Compute freshness metadata for all posts
+  const postsWithFreshness = useMemo(() => {
+    return posts.map(post => {
+      const dateToCheck = post.lastModified || post.date;
+      const daysAgo = getDaysAgo(dateToCheck);
+      const isWithin7Days = daysAgo <= 7;
+      return {
+        ...post,
+        daysAgo,
+        isWithin7Days,
+        displayModifiedDate: post.lastModified || post.date || 'October 16, 2026'
+      };
+    });
+  }, [posts]);
+
+  // Posts inside the 7-day fast-track Google indexing boost window
+  const activeBoostPosts = useMemo(() => {
+    return postsWithFreshness.filter(p => p.isWithin7Days);
+  }, [postsWithFreshness]);
+
+  // Top 10 posts for Homepage display:
+  // Prioritizes active 7-day boost posts first, then seamlessly fills up to 10 with the most recent verified guides
+  // so the layout is always perfectly balanced and never breaks if fewer posts were created this week.
+  const top10Posts = useMemo(() => {
+    if (filterMode === 'sevenDayBoost' && activeBoostPosts.length > 0) {
+      return activeBoostPosts.slice(0, 10);
+    }
+    // Default: Sort by freshness, taking up to 10
+    const sorted = [...postsWithFreshness].sort((a, b) => a.daysAgo - b.daysAgo);
+    return sorted.slice(0, 10);
+  }, [postsWithFreshness, activeBoostPosts, filterMode]);
 
   const categories = ['All', 'Hardware & Trends', 'Phone Announcements', 'Batteries & Heat', 'Repairs & Protection'];
 
@@ -35,7 +79,7 @@ export default function BlogSection({ hideViewAll = false, posts = blogPosts }: 
   });
 
   const featuredPost = filteredPosts[0] || top10Posts[0];
-  const remainingPosts = filteredPosts.filter(p => p.id !== featuredPost?.id).slice(0, 9);
+  const remainingPosts = filteredPosts.filter(p => p.id !== featuredPost?.id);
 
   if (!featuredPost) return null;
 
@@ -43,23 +87,23 @@ export default function BlogSection({ hideViewAll = false, posts = blogPosts }: 
     <section className="py-24 bg-slate-50 dark:bg-slate-950 transition-colors duration-300" id="blog">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header Block */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        {/* Header Block with Freshness Radar Information */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-6">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="max-w-2xl"
+            className="max-w-3xl"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-orange/10 dark:bg-orange-500/10 text-brand-orange dark:text-orange-400 text-xs font-bold uppercase tracking-widest mb-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-brand-orange/10 dark:bg-orange-500/10 text-brand-orange dark:text-orange-400 text-xs font-bold uppercase tracking-widest mb-4 border border-brand-orange/20">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Real-Time Indexing &amp; Freshness Radar</span>
+              <span>Real-Time Indexing Radar • 7-Day Auto-Freshness Boost</span>
             </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight mb-4">
               Recently Published &amp; Updated Technical Guides
             </h2>
             <p className="text-base sm:text-lg text-slate-600 dark:text-slate-400 leading-relaxed">
-              Workbench-verified guides, failure analysis, and price benchmarks direct from our Muwaileh Sharjah electronics lab. Updated regularly for Google QDF and client transparency.
+              Workbench-verified guides, failure analysis, and price benchmarks direct from our Muwaileh Sharjah electronics lab. Newly added guides stay featured on the homepage for <strong>5 to 7 days</strong> for rapid Google indexation, then archive gracefully.
             </p>
           </motion.div>
 
@@ -68,11 +112,11 @@ export default function BlogSection({ hideViewAll = false, posts = blogPosts }: 
               initial={{ opacity: 0, x: 20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              className="shrink-0"
+              className="shrink-0 flex flex-col sm:flex-row items-stretch sm:items-center gap-3"
             >
               <Link 
                 to="/blog" 
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-orange hover:bg-orange-600 text-white font-bold text-sm shadow-md transition-all"
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-brand-orange hover:bg-orange-600 text-white font-bold text-sm shadow-md transition-all"
               >
                 <span>Explore All 246+ Articles</span>
                 <ArrowRight className="w-4 h-4" />
@@ -81,11 +125,48 @@ export default function BlogSection({ hideViewAll = false, posts = blogPosts }: 
           )}
         </div>
 
+        {/* 7-Day Freshness Filter & Counter Bar */}
+        <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-sm mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <div className="text-xs">
+              <span className="font-bold text-slate-900 dark:text-white">Active Crawl Boost Protocol: </span>
+              <span className="text-slate-500 dark:text-slate-400">
+                {activeBoostPosts.length} article{activeBoostPosts.length !== 1 ? 's' : ''} currently within the 7-day priority indexing window
+              </span>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 self-stretch sm:self-auto">
+            <button
+              onClick={() => setFilterMode('allRecent')}
+              className={`flex-1 sm:flex-none px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all ${
+                filterMode === 'allRecent'
+                  ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm'
+                  : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900'
+              }`}
+            >
+              Top 10 Latest
+            </button>
+            <button
+              onClick={() => setFilterMode('sevenDayBoost')}
+              className={`flex-1 sm:flex-none px-3.5 py-1.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${
+                filterMode === 'sevenDayBoost'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100'
+              }`}
+            >
+              <Zap className="w-3 h-3" />
+              <span>7-Day Active Boost ({activeBoostPosts.length})</span>
+            </button>
+          </div>
+        </div>
+
         {/* Category Filters Bar */}
         <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-10 text-xs font-bold scrollbar-none">
           <div className="flex items-center gap-1.5 text-slate-400 mr-2 shrink-0">
             <Filter className="w-3.5 h-3.5" />
-            <span>Filter 10 Latest:</span>
+            <span>Filter Category:</span>
           </div>
           {categories.map((cat) => (
             <button
@@ -120,23 +201,44 @@ export default function BlogSection({ hideViewAll = false, posts = blogPosts }: 
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent lg:hidden"></div>
+                  
+                  {/* Badges on Featured Card */}
                   <div className="absolute top-5 left-5 flex flex-wrap items-center gap-2">
                     <span className="px-3 py-1 bg-brand-orange text-white text-xs font-black uppercase tracking-wider rounded-lg shadow-md">
                       {featuredPost.category}
                     </span>
-                    <span className="px-3 py-1 bg-emerald-600/90 backdrop-blur-md text-white text-xs font-bold rounded-lg shadow-md flex items-center gap-1">
-                      <RefreshCw className="w-3 h-3" />
-                      <span>Updated {featuredPost.lastModified || 'Oct 16, 2026'}</span>
+                    {featuredPost.isWithin7Days ? (
+                      <span className="px-3 py-1 bg-emerald-600 text-white text-xs font-bold rounded-lg shadow-md flex items-center gap-1.5 animate-pulse">
+                        <Zap className="w-3.5 h-3.5" />
+                        <span>Active 7-Day Crawl Boost (Day {featuredPost.daysAgo + 1} of 7)</span>
+                      </span>
+                    ) : (
+                      <span className="px-3 py-1 bg-slate-900/90 backdrop-blur-md text-white text-xs font-bold rounded-lg shadow-md flex items-center gap-1">
+                        <RefreshCw className="w-3 h-3 text-emerald-400" />
+                        <span>Verified Lab Guide</span>
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="absolute bottom-5 left-5 right-5 lg:hidden text-white">
+                    <span className="text-xs font-semibold text-emerald-300">
+                      Last Updated: {featuredPost.displayModifiedDate}
                     </span>
                   </div>
                 </div>
 
                 <div className="lg:col-span-6 p-6 sm:p-10 lg:p-12 flex flex-col justify-between">
                   <div>
+                    {/* Timestamp & Metadata Header */}
                     <div className="flex flex-wrap items-center gap-3 text-xs font-semibold text-slate-500 dark:text-slate-400 mb-4">
                       <span className="flex items-center gap-1.5">
                         <Calendar className="w-3.5 h-3.5 text-slate-400" />
                         <span>Published: {featuredPost.date}</span>
+                      </span>
+                      <span aria-hidden="true" className="text-slate-300 dark:text-slate-700">·</span>
+                      <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-md">
+                        <RefreshCw className="w-3 h-3" />
+                        <span>Last Updated: {featuredPost.displayModifiedDate}</span>
                       </span>
                       <span aria-hidden="true" className="text-slate-300 dark:text-slate-700">·</span>
                       <span className="flex items-center gap-1.5">
@@ -156,12 +258,15 @@ export default function BlogSection({ hideViewAll = false, posts = blogPosts }: 
 
                   <div className="pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                     <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-brand-orange to-amber-500 flex items-center justify-center text-white text-xs font-bold">
+                      <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-brand-orange to-amber-500 flex items-center justify-center text-white text-xs font-black shadow-sm">
                         EU
                       </div>
                       <div className="text-xs">
-                        <div className="font-bold text-slate-900 dark:text-white">{featuredPost.author || 'Eng. Usman Tariq'}</div>
-                        <div className="text-[10px] text-slate-400">Lead Diagnostic Specialist</div>
+                        <div className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                          <span>{featuredPost.author || 'Eng. Usman Tariq'}</span>
+                          <span className="px-1.5 py-0.2 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[9px] font-bold">Author</span>
+                        </div>
+                        <div className="text-[10px] text-slate-400">Senior Hardware Diagnostic Specialist</div>
                       </div>
                     </div>
 
@@ -176,10 +281,9 @@ export default function BlogSection({ hideViewAll = false, posts = blogPosts }: 
           </motion.article>
         )}
 
-        {/* 9-Card Grid of Recent Posts (Completing the 10) */}
+        {/* 9-Card Grid of Recent Posts (Completing the 10 Posts) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {remainingPosts.map((post, index) => {
-            const modifiedDate = post.lastModified || 'Oct 16, 2026';
             return (
               <motion.article 
                 key={post.id}
@@ -201,10 +305,26 @@ export default function BlogSection({ hideViewAll = false, posts = blogPosts }: 
                       {post.category}
                     </span>
                   </div>
+                  
+                  {/* Top-Right Badge: Active 7-day boost or Modified Date */}
+                  <div className="absolute top-4 right-4">
+                    {post.isWithin7Days ? (
+                      <span className="px-2.5 py-1 bg-emerald-600/95 backdrop-blur-md text-white text-[10px] font-black rounded-lg shadow-md flex items-center gap-1 animate-pulse">
+                        <Zap className="w-3 h-3 text-amber-300" />
+                        <span>Day {post.daysAgo + 1} of 7</span>
+                      </span>
+                    ) : (
+                      <span className="px-2 py-0.5 bg-slate-950/70 backdrop-blur-md text-slate-300 text-[10px] font-medium rounded-md shadow-sm">
+                        Verified
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Bottom overlay with Last Updated Date */}
                   <div className="absolute bottom-3 right-3">
-                    <span className="px-2 py-0.5 bg-emerald-600/90 backdrop-blur-md text-white text-[10px] font-bold rounded-md shadow-sm flex items-center gap-1">
+                    <span className="px-2 py-0.5 bg-slate-900/85 backdrop-blur-md text-emerald-400 text-[10px] font-bold rounded-md shadow-sm flex items-center gap-1">
                       <RefreshCw className="w-2.5 h-2.5" />
-                      <span>{modifiedDate}</span>
+                      <span>Updated: {post.displayModifiedDate}</span>
                     </span>
                   </div>
                 </Link>
@@ -236,9 +356,12 @@ export default function BlogSection({ hideViewAll = false, posts = blogPosts }: 
                       <div className="w-6 h-6 rounded-full bg-brand-orange/10 text-brand-orange flex items-center justify-center text-[10px] font-black">
                         AS
                       </div>
-                      <span className="text-xs font-bold text-slate-700 dark:text-slate-300 truncate max-w-[140px]">
-                        {post.author || 'Eng. Usman Tariq'}
-                      </span>
+                      <div className="flex flex-col">
+                        <span className="text-xs font-bold text-slate-700 dark:text-slate-300 truncate max-w-[130px]">
+                          {post.author || 'Eng. Usman Tariq'}
+                        </span>
+                        <span className="text-[9px] text-slate-400">Author</span>
+                      </div>
                     </div>
 
                     <Link 
@@ -260,7 +383,7 @@ export default function BlogSection({ hideViewAll = false, posts = blogPosts }: 
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-bold text-brand-orange uppercase tracking-wider mb-2">
               <ShieldCheck className="w-4 h-4" />
-              <span>Full Sharjah Workbench Archive</span>
+              <span>Full Sharjah Workbench Archive • 7-Day Auto-Rotation Protocol</span>
             </div>
             <h4 className="text-xl sm:text-2xl font-black text-white">
               Looking for a specific device teardown or repair cost breakdown?

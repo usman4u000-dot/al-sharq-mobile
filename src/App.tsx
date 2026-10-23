@@ -269,6 +269,14 @@ function AppRoutes() {
               <Route path="/product-category/tablet-accessories" element={<PageTransition><TabletAccessoriesPage onBookNow={openBooking} /></PageTransition>} />
               <Route path="/product-category/tablet-accessories/" element={<PageTransition><TabletAccessoriesPage onBookNow={openBooking} /></PageTransition>} />
               <Route path="/tablet-accessories" element={<PageTransition><TabletAccessoriesPage onBookNow={openBooking} /></PageTransition>} />
+              {/* Utility & SEO Aliases */}
+              <Route path="/imei-checker" element={<PageTransition><TroubleshootingPage /></PageTransition>} />
+              <Route path="/repair/samsung" element={<Navigate to="/samsung-repair" replace />} />
+              <Route path="/repair/macbook" element={<Navigate to="/macbook-repair" replace />} />
+              <Route path="/repair/logic-board" element={<Navigate to="/logic-board-repair" replace />} />
+              <Route path="/repairs/battery" element={<Navigate to="/battery-repair" replace />} />
+              <Route path="/corporate-services" element={<Navigate to="/corporate" replace />} />
+              <Route path="/warranty-policy" element={<Navigate to="/warranty" replace />} />
               {/* Legacy WooCommerce fallback redirects */}
               <Route path="/product/*" element={<Navigate to="/services" replace />} />
               <Route path="/product-category/*" element={<Navigate to="/services" replace />} />

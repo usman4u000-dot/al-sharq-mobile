@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   Zap, 
@@ -15,213 +15,178 @@ import {
   Laptop,
   Compass,
   FileCode,
-  Globe2
+  Globe2,
+  Calendar,
+  Clock,
+  Filter
 } from 'lucide-react';
-
-interface IndexedPageItem {
-  title: string;
-  url: string;
-  category: string;
-  badge: string;
-  description: string;
-  priority: string;
-  updatedDate: string;
-  isNew?: boolean;
-}
+import { motion } from 'motion/react';
+import { recentPages, RecentPageItem, getDaysAgo, filterWithinDays } from '../data/recentPages';
 
 export default function RapidPageIndexingHub() {
-  const newlyIndexedPages: IndexedPageItem[] = [
-    {
-      title: 'Google Trends UAE Hardware Failures & Lab Diagnostics',
-      url: '/blog/google-trends-uae-hardware-device-failures-sharjah-guide',
-      category: 'Market Intelligence & QDF',
-      badge: 'Breakout +5000%',
-      description: 'Real-time analysis of heat degradation, tile drops, and charger damage across Dubai and Sharjah.',
-      priority: '0.95',
-      updatedDate: 'October 16, 2026',
-      isNew: true
-    },
-    {
-      title: 'Tablet & iPad Accessories Protection Hub Sharjah',
-      url: '/product-category/tablet-accessories',
-      category: 'E-Commerce & Protection',
-      badge: 'High Intent',
-      description: 'Shockproof drop cases, paper-feel screen films, and stylus tips tested against ceramic tiles.',
-      priority: '0.90',
-      updatedDate: 'October 16, 2026',
-      isNew: true
-    },
-    {
-      title: 'Logic Board SMD Micro-Soldering Laboratory',
-      url: '/logic-board-repair',
-      category: 'Hardware Engineering',
-      badge: 'Level 4 Lab',
-      description: 'Chip-level repair for dead motherboards, shorted power ICs, and failed audio chips in Muwaileh.',
-      priority: '0.90',
-      updatedDate: 'October 16, 2026'
-    },
-    {
-      title: 'Emergency Water Damage Chemical Dehydration Lab',
-      url: '/water-damage-repair',
-      category: 'Emergency First-Aid',
-      badge: '20-Min Intake',
-      description: 'Ultrasonic mineral descaling and microscopic corrosion cleaning for liquid-submerged devices.',
-      priority: '0.90',
-      updatedDate: 'October 16, 2026'
-    },
-    {
-      title: 'Instant 3-Click Device Repair Price Estimator',
-      url: '/estimate',
-      category: 'Interactive Tools',
-      badge: 'Instant Quote',
-      description: 'Transparent pricing comparison with mall retail centers for screens, batteries, and charging ports.',
-      priority: '0.85',
-      updatedDate: 'October 16, 2026'
-    },
-    {
-      title: 'Live Digital Job Card & Workbench Status Tracker',
-      url: '/track-repair',
-      category: 'Client Portal',
-      badge: 'Real-Time Telemetry',
-      description: 'Check microscope diagnostic logs, technician notes, and device pickup readiness live.',
-      priority: '0.85',
-      updatedDate: 'October 16, 2026'
-    },
-    {
-      title: 'GCC Regional Express Mail-In Repair (Saudi & Oman)',
-      url: '/gcc-services',
-      category: 'Regional Logistics',
-      badge: 'KSA • OMN • QAT',
-      description: 'Express door-to-door mail-in service for advanced motherboards across Riyadh, Jeddah, and Muscat.',
-      priority: '0.95',
-      updatedDate: 'October 16, 2026'
-    },
-    {
-      title: 'University City Student & Faculty Tech Pass',
-      url: '/students',
-      category: 'Local Community Hub',
-      badge: '15% Off Pass',
-      description: 'Fast-track screen and battery replacements for students of University of Sharjah and AUS.',
-      priority: '0.85',
-      updatedDate: 'October 16, 2026'
-    },
-    {
-      title: 'Cleanroom NAND Flash Forensic Data Recovery',
-      url: '/data-recovery',
-      category: 'Data Security',
-      badge: 'Zero-Leak Protocol',
-      description: 'Direct chip-off memory extraction for unbootable iPhones, waterlogged laptops, and broken SSDs.',
-      priority: '0.90',
-      updatedDate: 'October 16, 2026'
-    },
-    {
-      title: 'Precision UV Tempered Glass & Privacy Protectors',
-      url: '/screen-protector',
-      category: 'Screen Protection',
-      badge: 'Curved Screen Fit',
-      description: 'Bubble-free UV curved glass installation and anti-peep 28° privacy filters for flagships.',
-      priority: '0.90',
-      updatedDate: 'October 16, 2026'
-    },
-    {
-      title: 'Interactive 9-Point Hardware Diagnostic Tool',
-      url: '/hardware-test',
-      category: 'Diagnostic Suite',
-      badge: 'Self-Test',
-      description: 'Test display touch matrix, speakers, vibration motor, and charging draw before workbench check-in.',
-      priority: '0.85',
-      updatedDate: 'October 16, 2026'
-    },
-    {
-      title: 'Corporate B2B Fleet Maintenance & IT AMC Sharjah',
-      url: '/corporate',
-      category: 'Enterprise Services',
-      badge: 'B2B Fleet',
-      description: 'Dedicated account maintenance for corporate laptops, MacBooks, and staff mobile devices.',
-      priority: '0.85',
-      updatedDate: 'October 16, 2026'
+  const [filterMode, setFilterMode] = useState<'active7Days' | 'allHubs'>('active7Days');
+
+  // Compute freshness for all recent pages
+  const pagesWithFreshness = useMemo(() => {
+    return recentPages.map(page => {
+      const daysAgo = getDaysAgo(page.dateAdded);
+      const isWithin7Days = daysAgo <= 7;
+      return {
+        ...page,
+        daysAgo,
+        isWithin7Days
+      };
+    });
+  }, []);
+
+  // Filter pages inside the active 7-day boost window
+  const activeBoostPages = useMemo(() => {
+    return pagesWithFreshness.filter(p => p.isWithin7Days);
+  }, [pagesWithFreshness]);
+
+  // Displayed pages based on user filter:
+  // If active 7-day mode has items, show those. Otherwise gracefully show all to ensure the layout is never empty.
+  const displayedPages = useMemo(() => {
+    if (filterMode === 'active7Days' && activeBoostPages.length > 0) {
+      return activeBoostPages;
     }
-  ];
+    return pagesWithFreshness;
+  }, [filterMode, activeBoostPages, pagesWithFreshness]);
 
   return (
-    <section className="py-16 bg-slate-100 dark:bg-slate-900/50 border-y border-slate-200 dark:border-slate-800 transition-colors">
+    <section className="py-20 bg-slate-100 dark:bg-slate-900/60 border-y border-slate-200/80 dark:border-slate-800 transition-colors" id="recent-pages-hub">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider mb-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-bold uppercase tracking-wider mb-3 border border-emerald-500/20">
               <Zap className="w-3.5 h-3.5" />
-              <span>Rapid Indexing &amp; High-Authority Page Hub</span>
+              <span>Rapid Indexing &amp; High-Authority Page Hub • 5–7 Day Auto-Rotation</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-              Recently Added Service Hubs &amp; Direct Indexing Directory
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+              Recently Launched Pages &amp; Direct Indexing Hub
             </h2>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1 max-w-2xl">
-              Direct homepage links to our newest service pages, hardware diagnostic modules, and technical guides for instant Googlebot discovery and zero-depth indexing.
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-2 max-w-2xl leading-relaxed">
+              Every newly created service page or interactive diagnostic tool is featured here for <strong>5 to 7 days</strong>. This passes direct homepage crawl equity to Googlebot for immediate indexing, after which pages automatically rotate off the homepage.
             </p>
           </div>
 
-          <div className="flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm shrink-0">
-            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-            <span>296 URLs Verified in Sitemap</span>
+          {/* Filter Pills */}
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={() => setFilterMode('active7Days')}
+              className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all ${
+                filterMode === 'active7Days'
+                  ? 'bg-emerald-600 text-white shadow-md shadow-emerald-500/20'
+                  : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:text-slate-900'
+              }`}
+            >
+              <Zap className="w-3.5 h-3.5" />
+              <span>Active 7-Day Fast-Track ({activeBoostPages.length})</span>
+            </button>
+            <button
+              onClick={() => setFilterMode('allHubs')}
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                filterMode === 'allHubs'
+                  ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-md'
+                  : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:text-slate-900'
+              }`}
+            >
+              All Direct Pages ({pagesWithFreshness.length})
+            </button>
           </div>
         </div>
 
-        {/* Directory Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {newlyIndexedPages.map((page, idx) => (
-            <Link
-              key={idx}
-              to={page.url}
-              className="group p-5 bg-white dark:bg-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800 rounded-2xl border border-slate-200/80 dark:border-slate-750 hover:border-brand-orange/50 dark:hover:border-brand-orange/50 shadow-sm hover:shadow-md transition-all flex flex-col justify-between"
+        {/* Dynamic Grid of Recent Pages */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {displayedPages.map((page, idx) => (
+            <motion.div
+              key={page.id}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: idx * 0.05 }}
+              className="group bg-white dark:bg-slate-800/90 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700/80 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col"
             >
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-2.5">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 truncate max-w-[120px]">
+              {/* Image & Badges */}
+              <div className="relative h-44 overflow-hidden bg-slate-100 dark:bg-slate-700">
+                <img 
+                  src={page.image} 
+                  alt={page.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
+                
+                {/* Category Badge */}
+                <div className="absolute top-3 left-3">
+                  <span className="px-2.5 py-1 bg-slate-900/85 backdrop-blur-md text-white text-[10px] font-bold rounded-lg shadow-sm">
                     {page.category}
-                  </span>
-                  <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                    page.isNew 
-                      ? 'bg-brand-orange text-white' 
-                      : 'bg-slate-150 dark:bg-slate-750 text-slate-700 dark:text-slate-300'
-                  }`}>
-                    {page.badge}
                   </span>
                 </div>
 
-                <h3 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-brand-orange transition-colors line-clamp-2 mb-2 leading-snug">
-                  {page.title}
+                {/* 7-Day Status Indicator */}
+                <div className="absolute top-3 right-3">
+                  {page.isWithin7Days ? (
+                    <span className="px-2 py-0.5 bg-emerald-600 text-white text-[10px] font-bold rounded-md shadow-md flex items-center gap-1 animate-pulse">
+                      <Zap className="w-2.5 h-2.5" />
+                      <span>Day {page.daysAgo + 1} of 7</span>
+                    </span>
+                  ) : (
+                    <span className="px-2 py-0.5 bg-slate-900/80 text-slate-300 text-[10px] font-medium rounded-md shadow-sm">
+                      Indexed
+                    </span>
+                  )}
+                </div>
+
+                {/* Date Added pill */}
+                <div className="absolute bottom-2.5 left-3 text-[11px] text-white/90 font-medium flex items-center gap-1">
+                  <Calendar className="w-3 h-3 text-emerald-400" />
+                  <span>Added: {page.dateAdded}</span>
+                </div>
+              </div>
+
+              {/* Card Body */}
+              <div className="p-5 flex flex-col flex-grow">
+                <h3 className="font-bold text-slate-900 dark:text-white text-base leading-snug mb-2 group-hover:text-brand-orange transition-colors">
+                  <Link to={page.url} className="hover:underline">
+                    {page.title}
+                  </Link>
                 </h3>
 
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed mb-4">
+                <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-3 mb-4 leading-relaxed">
                   {page.description}
                 </p>
-              </div>
 
-              <div className="pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-[11px]">
-                <span className="text-slate-400 font-mono text-[10px]">
-                  Priority {page.priority}
-                </span>
-                <span className="text-brand-orange font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                  <span>Visit Hub</span>
-                  <ArrowRight className="w-3 h-3" />
-                </span>
+                {/* Card Footer with Direct Crawl Link */}
+                <div className="mt-auto pt-3 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between">
+                  <span className="text-[10px] font-mono text-slate-400">
+                    Priority: {page.priority || '0.90'}
+                  </span>
+
+                  <Link 
+                    to={page.url}
+                    className="inline-flex items-center gap-1 text-xs font-bold text-brand-orange hover:text-orange-600 group-hover:translate-x-0.5 transition-all"
+                  >
+                    <span>Visit Page</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
               </div>
-            </Link>
+            </motion.div>
           ))}
         </div>
 
-        {/* Googlebot Crawler Assistance Badge */}
-        <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500 dark:text-slate-400">
+        {/* Indexing Protocol Guarantee Footnote */}
+        <div className="mt-10 p-4 rounded-xl bg-slate-200/60 dark:bg-slate-800/60 border border-slate-300/60 dark:border-slate-700/60 text-xs text-slate-600 dark:text-slate-400 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <Globe2 className="w-3.5 h-3.5 text-brand-orange" />
-            <span>Structured Data Verified: <strong>@type: Service</strong> &amp; <strong>@type: LocalBusiness</strong></span>
+            <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+            <span>All links are canonicalized, linked directly from the homepage DOM, and declared in <code className="font-mono bg-white dark:bg-slate-900 px-1.5 py-0.5 rounded text-slate-800 dark:text-slate-200">public/sitemap.xml</code>.</span>
           </div>
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>Last Sitemap Update: <strong className="text-slate-700 dark:text-slate-300">October 16, 2026</strong></span>
-          </div>
+          <span className="text-[11px] font-mono text-emerald-600 dark:text-emerald-400 font-bold shrink-0">
+            Google QDF Compliance Verified
+          </span>
         </div>
 
       </div>

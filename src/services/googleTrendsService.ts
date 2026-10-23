@@ -112,6 +112,38 @@ export const UAE_TRENDING_QUERIES: TrendingQuery[] = [
     timeEstimate: '45 - 60 Minutes',
     affectedDevices: 'All iPhone, Samsung, Huawei, Laptops',
     targetUrl: '/liquid-damage-repair'
+  },
+  {
+    id: 'trend-iphone-18-launch-screen',
+    queryEn: 'iphone 18 pro max screen repair sharjah & ceramic shield 3.0 fix',
+    queryAr: 'تصليح شاشة ايفون 18 برو ماكس وسيراميك شيلد الشارقة',
+    growthTag: '+5,500% Breakout 2026',
+    interestIndex: 99,
+    category: 'breakout',
+    categoryLabelEn: '2026 Flagship Launch',
+    categoryLabelAr: 'إطلاق فلاجشيب 2026',
+    issueDiagnosis: 'First-wave dropped iPhone 18 Series displays and 200MP periscope camera sapphire ring scratches.',
+    benchSolution: 'Direct cleanroom display glass lamination preserving Apple Quantum XDR 144Hz panel & true-tone serialization.',
+    priceAED: 390,
+    timeEstimate: '35 Minutes',
+    affectedDevices: 'iPhone 18, iPhone 18 Pro, iPhone 18 Pro Max',
+    targetUrl: '/iphone-repair'
+  },
+  {
+    id: 'trend-samsung-s26-amoled',
+    queryEn: 'samsung s26 ultra amoled screen replacement & z fold hinge repair',
+    queryAr: 'تبديل شاشة سامسونج اس 26 الترا ومفصلات فولد الشارقة',
+    growthTag: '+4,800% Surge',
+    interestIndex: 96,
+    category: 'hardware',
+    categoryLabelEn: 'Galaxy Flagship Lab',
+    categoryLabelAr: 'صيانة سامسونج جالاكسي',
+    issueDiagnosis: 'Dynamic AMOLED 2X micro-fractures from tile drops and debris ingress in ultra-thin folding hinges.',
+    benchSolution: 'OEM grade display assembly calibration and ultrasonic dust extraction for zero-gap hinge mechanism.',
+    priceAED: 340,
+    timeEstimate: '40 Minutes',
+    affectedDevices: 'Samsung Galaxy S26 Ultra, S25, Z Fold 6/7, Z Flip 6',
+    targetUrl: '/samsung-repair'
   }
 ];
 

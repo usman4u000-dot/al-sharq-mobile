@@ -118,7 +118,14 @@ const VALID_SPA_ROUTES = new Set([
   '/ai-solutions',
   '/cloud-services',
   '/product-category/tablet-accessories',
-  '/tablet-accessories'
+  '/tablet-accessories',
+  '/imei-checker',
+  '/repair/samsung',
+  '/repair/macbook',
+  '/repair/logic-board',
+  '/repairs/battery',
+  '/corporate-services',
+  '/warranty-policy'
 ]);
 
 async function startServer() {

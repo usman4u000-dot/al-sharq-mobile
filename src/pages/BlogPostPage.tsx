@@ -223,8 +223,8 @@ export default function BlogPostPage() {
           },
           "geo": {
             "@type": "GeoCoordinates",
-            "latitude": 25.3048,
-            "longitude": 55.4326
+            "latitude": 25.3123,
+            "longitude": 55.4800
           },
           "openingHoursSpecification": [
             {
@@ -246,8 +246,8 @@ export default function BlogPostPage() {
           "name": "Muwaileh Commercial, Sharjah, United Arab Emirates",
           "geo": {
             "@type": "GeoCoordinates",
-            "latitude": 25.3048,
-            "longitude": 55.4326
+            "latitude": 25.3123,
+            "longitude": 55.4800
           }
         },
         "about": {
@@ -335,8 +335,8 @@ export default function BlogPostPage() {
         {/* Local SEO Geo-Targeting Tags */}
         <meta name="geo.region" content="AE-SH" />
         <meta name="geo.placename" content="Muwaileh, Sharjah, United Arab Emirates" />
-        <meta name="geo.position" content="25.3048;55.4326" />
-        <meta name="ICBM" content="25.3048, 55.4326" />
+        <meta name="geo.position" content="25.3123;55.4800" />
+        <meta name="ICBM" content="25.3123, 55.4800" />
 
         <script type="application/ld+json">
           {JSON.stringify(localSeoSchema)}
@@ -628,6 +628,35 @@ export default function BlogPostPage() {
                     <span>Launch DeviceLab™ Free</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </Link>
+                </div>
+
+                {/* Explicit Article End Metadata: Author & Last Modified Date as requested */}
+                <div className="mx-6 sm:mx-10 mb-6 p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-brand-orange/10 text-brand-orange font-black flex items-center justify-center text-xs shrink-0 border border-brand-orange/20">
+                      EU
+                    </div>
+                    <div>
+                      <div className="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                        <span>Article Author: <strong>{post.author || 'Eng. Usman Tariq'}</strong></span>
+                        <span className="px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-600 dark:text-blue-400 text-[10px] font-bold">Verified Technician</span>
+                      </div>
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                        Senior Hardware Diagnostic Specialist • Al Sharq Mobile Lab Muwaileh Sharjah
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2 text-xs">
+                    <div className="px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 font-semibold flex items-center gap-1.5">
+                      <Calendar className="w-3.5 h-3.5 text-slate-400" />
+                      <span>Published: <time dateTime={safePublishedDate} className="text-slate-800 dark:text-slate-200 font-bold">{post.date}</time></span>
+                    </div>
+                    <div className="px-3 py-1.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 font-bold flex items-center gap-1.5">
+                      <RefreshCw className="w-3.5 h-3.5" />
+                      <span>Last Modified: <time dateTime={safeModifiedDate} className="underline decoration-emerald-500/40">{displayModifiedDate}</time></span>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Local SEO In-Article Proximity & Fast-Contact Module */}

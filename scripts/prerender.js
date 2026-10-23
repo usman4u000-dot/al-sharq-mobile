@@ -42,6 +42,10 @@ const serviceMetadata = {
     title: 'Laptop Repair Sharjah | Dell, HP, Lenovo, ASUS Motherboard Repair | Al Sharq',
     description: 'Fast laptop repairs in Muwaileh, Sharjah. Hinge rebuilding, thermal repasting, GPU repair, Windows optimization, and high-speed NVMe SSD upgrades.'
   },
+  '/computer-repair': {
+    title: 'Computer & PC Repair Sharjah | Desktop & Workstation Tech Lab | Al Sharq',
+    description: 'Expert desktop PC, custom gaming rig, and all-in-one computer repair in Muwaileh, Sharjah. Power supply diagnosis, GPU repair, OS reinstallation, and NVMe SSD upgrades.'
+  },
   '/screen-repair': {
     title: 'Cracked Phone Screen Repair Sharjah | 20-Minute Replacement | Al Sharq',
     description: 'Cracked phone screen replacement in Sharjah. OEM grade OLED and LCD displays for iPhone, Samsung, Google Pixel, and iPad with true-tone calibration.'

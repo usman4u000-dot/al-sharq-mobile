@@ -38,8 +38,8 @@ export default function BlogPage() {
         <meta property="og:type" content="website" />
         <meta name="geo.region" content="AE-SH" />
         <meta name="geo.placename" content="Muwaileh, Sharjah, United Arab Emirates" />
-        <meta name="geo.position" content="25.3048;55.4326" />
-        <meta name="ICBM" content="25.3048, 55.4326" />
+        <meta name="geo.position" content="25.3123;55.4800" />
+        <meta name="ICBM" content="25.3123, 55.4800" />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
@@ -65,8 +65,8 @@ export default function BlogPage() {
                   },
                   "geo": {
                     "@type": "GeoCoordinates",
-                    "latitude": 25.3048,
-                    "longitude": 55.4326
+                    "latitude": 25.3123,
+                    "longitude": 55.4800
                   }
                 }
               },
