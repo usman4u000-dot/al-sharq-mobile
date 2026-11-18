@@ -83,7 +83,7 @@ export default function Hero({ onBookNow }: HeroProps) {
           >
             <MagneticButton 
               onClick={onBookNow}
-              className="w-full sm:w-auto bg-[#C2410C] hover:bg-[#9A3412] text-white px-5 sm:px-7 py-3 sm:py-3.5 rounded-xl font-bold text-sm sm:text-base transition-all shadow-[0_8px_30px_rgba(194,65,12,0.4)] flex items-center justify-center gap-2 active:scale-95"
+              className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white px-5 sm:px-7 py-3 sm:py-3.5 rounded-xl font-bold text-sm sm:text-base transition-all shadow-[0_8px_30px_rgba(220,38,38,0.4)] flex items-center justify-center gap-2 active:scale-95"
               strength={30}
             >
               <span>{isAr ? 'احجز موعد إصلاح' : 'Book a Repair'}</span>

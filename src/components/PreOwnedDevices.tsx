@@ -130,61 +130,62 @@ export default function PreOwnedDevices() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="bg-white dark:bg-slate-950 rounded-2xl overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 group hover:shadow-xl transition-all duration-300 flex flex-col"
+              className="bg-white dark:bg-slate-900 rounded-[32px] overflow-hidden shadow-sm border border-slate-100 dark:border-slate-800 group hover:shadow-xl transition-all duration-300 flex flex-col text-left"
             >
-              <div className="relative aspect-square overflow-hidden bg-slate-100 dark:bg-slate-900">
+              <div className="relative aspect-square overflow-hidden bg-slate-50 dark:bg-slate-900">
                 <img 
                   src={device.image} 
                   alt={device.name} 
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                 />
-                <div className="absolute top-4 left-4 bg-brand-blue text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                <div className="absolute top-4 left-4 bg-slate-900 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
                   {device.condition}
                 </div>
-                <div className="absolute top-4 right-4 bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm text-brand-orange text-xs font-bold px-3 py-1 rounded-full shadow-md border border-brand-orange/20">
+                <div className="absolute top-4 right-4 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm text-red-600 dark:text-red-400 text-xs font-bold px-3 py-1 rounded-full shadow-md border border-red-500/20">
                   {device.stock} in stock
                 </div>
               </div>
               
-              <div className="p-6 flex flex-col flex-grow">
+              <div className="p-6 flex flex-col flex-grow text-left">
                 <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-xl font-bold text-brand-blue dark:text-white">
+                  <h3 className="text-xl font-bold text-[#1E1E1E] dark:text-white text-left">
                     {device.name}
                   </h3>
-                  <span className="text-lg font-bold text-brand-orange">
+                  <span className="text-lg font-black text-red-600 dark:text-red-400">
                     AED {device.price}
                   </span>
                 </div>
                 
-                <div className="text-sm text-gray-500 dark:text-gray-400 mb-4 flex gap-2 flex-wrap">
-                  <span className="bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded">{device.storage}</span>
-                  <span className="bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded">{device.color}</span>
-                  <span className="bg-slate-100 dark:bg-slate-800 px-2 py-1 rounded">Batt: {device.batteryHealth}</span>
+                <div className="text-xs text-slate-500 dark:text-slate-400 mb-4 flex gap-2 flex-wrap">
+                  <span className="bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-lg">{device.storage}</span>
+                  <span className="bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-lg">{device.color}</span>
+                  <span className="bg-slate-100 dark:bg-slate-800 px-2.5 py-1 rounded-lg">Batt: {device.batteryHealth}</span>
                 </div>
 
-                <ul className="space-y-2 mb-6 flex-grow">
+                <ul className="space-y-2 mb-6 flex-grow text-left">
                   {device.features.map((feature, i) => (
-                    <li key={i} className="flex items-center text-sm text-gray-600 dark:text-gray-400">
-                      <CheckCircle className="w-4 h-4 text-green-500 mr-2 shrink-0" />
-                      {feature}
+                    <li key={i} className="flex items-center text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-[1.55]">
+                      <CheckCircle className="w-4 h-4 text-emerald-500 mr-2 shrink-0" />
+                      <span>{feature}</span>
                     </li>
                   ))}
                 </ul>
 
+                {/* Single Primary Action Button Rule: Exactly ONE Vibrant Apple Red Action Button */}
                 <div className="flex gap-3 mt-auto">
                   <button 
-                    className="flex-1 bg-brand-blue text-white py-2 rounded-xl font-medium hover:bg-blue-900 transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2.5 rounded-xl font-bold shadow-md hover:shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <ShoppingCart className="w-4 h-4" />
-                    Buy
+                    <span>Inquire / Buy</span>
                   </button>
                   <button 
                     onClick={() => toggleCompare(device.id)}
-                    className={`px-4 py-2 rounded-xl font-medium border transition-colors ${
+                    className={`px-4 py-2.5 rounded-xl font-semibold border transition-colors cursor-pointer text-xs ${
                       compareList.includes(device.id) 
-                        ? 'bg-brand-orange border-brand-orange text-white' 
-                        : 'border-slate-200 dark:border-slate-700 text-gray-600 dark:text-gray-300 hover:border-brand-orange hover:text-brand-orange'
+                        ? 'bg-slate-900 border-slate-900 text-white' 
+                        : 'border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'
                     }`}
                   >
                     {compareList.includes(device.id) ? 'Added' : 'Compare'}

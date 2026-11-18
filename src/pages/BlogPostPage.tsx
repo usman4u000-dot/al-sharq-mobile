@@ -555,14 +555,14 @@ export default function BlogPostPage() {
                             const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
                             return <h4 id={id} className="text-base sm:text-lg font-semibold text-slate-900 dark:text-white mt-5 mb-2 scroll-mt-24">{children}</h4>;
                           },
-                          p: ({children}) => <p className="text-slate-600 dark:text-slate-300 leading-relaxed mb-6 text-sm sm:text-base">{children}</p>,
-                          ul: ({children}) => <ul className="list-disc pl-6 space-y-2 mb-6 text-slate-600 dark:text-slate-300 text-sm sm:text-base">{children}</ul>,
-                          ol: ({children}) => <ol className="list-decimal pl-6 space-y-2 mb-6 text-slate-600 dark:text-slate-300 text-sm sm:text-base">{children}</ol>,
-                          li: ({children}) => <li className="text-slate-600 dark:text-slate-300">{children}</li>,
+                          p: ({children}) => <p className="text-left text-[#1E1E1E] dark:text-slate-300 leading-[1.55] mb-6 text-sm sm:text-base">{children}</p>,
+                          ul: ({children}) => <ul className="list-disc pl-6 space-y-2 mb-6 text-left text-slate-700 dark:text-slate-300 text-sm sm:text-base leading-[1.55]">{children}</ul>,
+                          ol: ({children}) => <ol className="list-decimal pl-6 space-y-2 mb-6 text-left text-slate-700 dark:text-slate-300 text-sm sm:text-base leading-[1.55]">{children}</ol>,
+                          li: ({children}) => <li className="text-slate-700 dark:text-slate-300 text-left leading-[1.55]">{children}</li>,
                           table: ({children}) => <div className="overflow-x-auto my-6"><table className="w-full text-xs sm:text-sm text-left border-collapse border border-slate-200 dark:border-slate-700">{children}</table></div>,
-                          th: ({children}) => <th className="bg-slate-100 dark:bg-slate-800 p-3 font-bold border border-slate-200 dark:border-slate-700">{children}</th>,
-                          td: ({children}) => <td className="p-3 border border-slate-200 dark:border-slate-700">{children}</td>,
-                          blockquote: ({children}) => <blockquote className="border-l-4 border-brand-orange pl-4 italic my-6 text-slate-700 dark:text-slate-300">{children}</blockquote>,
+                          th: ({children}) => <th className="bg-slate-100 dark:bg-slate-800 p-3 font-bold border border-slate-200 dark:border-slate-700 text-left text-[#1E1E1E] dark:text-white">{children}</th>,
+                          td: ({children}) => <td className="p-3 border border-slate-200 dark:border-slate-700 text-left text-slate-700 dark:text-slate-300 leading-[1.55]">{children}</td>,
+                          blockquote: ({children}) => <blockquote className="border-l-4 border-red-600 pl-4 italic my-6 text-left text-slate-700 dark:text-slate-300 leading-[1.55]">{children}</blockquote>,
                           a: ({href, children, ...props}) => {
                             if (href?.startsWith('/')) {
                               return (
@@ -678,14 +678,14 @@ export default function BlogPostPage() {
                       href="https://maps.app.goo.gl/WRjUv6FxCVTtZCEk8"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-2.5 bg-brand-orange text-white text-xs font-bold rounded-xl flex items-center gap-1.5 hover:bg-orange-600 transition-colors shadow-sm"
+                      className="px-4 py-2.5 bg-red-600 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 hover:bg-red-700 transition-all shadow-md active:scale-95"
                     >
                       <Navigation className="w-3.5 h-3.5" />
                       <span>Google Maps</span>
                     </a>
                     <a
                       href="tel:+971507117043"
-                      className="px-4 py-2.5 bg-slate-900 dark:bg-slate-700 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 hover:bg-slate-800 transition-colors"
+                      className="px-4 py-2.5 bg-transparent border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 text-xs font-semibold rounded-xl flex items-center gap-1.5 transition-colors"
                     >
                       <Phone className="w-3.5 h-3.5" />
                       <span>+971 50 711 7043</span>

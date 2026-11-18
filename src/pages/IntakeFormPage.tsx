@@ -28,7 +28,7 @@ export default function IntakeFormPage() {
         </div>
 
         {/* Printable Form Container */}
-        <div className="bg-white text-black p-8 md:p-12 rounded-2xl shadow-xl print:shadow-none print:p-0 print:rounded-none">
+        <div className="bg-white text-[#1E1E1E] p-8 md:p-12 rounded-[28px] shadow-xl print:shadow-none print:p-0 print:rounded-none">
           
           {/* Header */}
           <div className="text-center border-b-2 border-gray-800 pb-6 mb-8">

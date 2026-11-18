@@ -7,14 +7,14 @@ interface LogoProps {
 }
 
 export default function Logo({ className = "", showSubtext = true, variant = 'light' }: LogoProps) {
-  // Colors
+  // Colors - Apple Crystal White & Red luxury theme (#1E1E1E near black, never pure black)
   const isDark = variant === 'dark';
-  const primaryTextColor = isDark ? 'text-white' : 'text-black';
-  const subtextColor = isDark ? 'text-gray-300' : 'text-gray-900';
+  const primaryTextColor = isDark ? 'text-white' : 'text-[#1E1E1E]';
+  const subtextColor = isDark ? 'text-slate-300' : 'text-slate-700';
   
   // SVG Colors
-  const phoneColor = isDark ? '#333333' : '#1A1A1A';
-  const screenColor = isDark ? '#1A1A1A' : '#FFFFFF';
+  const phoneColor = isDark ? '#333333' : '#1E1E1E';
+  const screenColor = isDark ? '#1E1E1E' : '#FFFFFF';
 
   return (
     <div className={`flex items-center gap-2 sm:gap-3 ${className}`}>

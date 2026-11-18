@@ -1423,8 +1423,8 @@ Thank you for your continued trust!`;
               </div>
             </div>
 
-            <div className="flex justify-center w-full bg-gray-100 rounded-lg p-8 overflow-hidden">
-              <div id="receipt-print-area" className="w-[760px] p-8 text-black bg-white shadow-md border border-gray-100 shrink-0">
+            <div className="flex justify-center w-full bg-slate-100 rounded-lg p-8 overflow-hidden">
+              <div id="receipt-print-area" className="w-[760px] p-8 text-[#1E1E1E] bg-white shadow-md border border-slate-100 shrink-0">
                 <div className="flex justify-between items-start border-b-2 border-gray-200 pb-6 mb-6">
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center shrink-0">

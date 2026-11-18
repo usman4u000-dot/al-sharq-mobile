@@ -410,13 +410,13 @@ export default function TabletAccessoriesPage({ onBookNow }: TabletAccessoriesPa
                   : 'Factory-direct wholesale & retail tablet accessories on Fire Station Road, Muwaileh. Heavy-duty kids shockproof cases, 9H tempered glass with FREE bubble-free installation, active styluses, Apple Pencil replacement nibs, and smart magic keyboards 20-40% below shopping mall retail.'}
               </p>
 
-              {/* Action Buttons */}
+              {/* Action Buttons: Single Primary Apple Red Button Rule */}
               <div className="flex flex-wrap gap-3 items-center">
                 <a
                   href="https://wa.me/971507117043?text=Hello%20Al%20Sharq,%20I%20am%20inquiring%20about%20Tablet%20and%20iPad%20Accessories%20in%20Sharjah."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-5 py-3 rounded-xl bg-[#25D366] hover:bg-[#1EBE5D] text-white font-bold text-xs sm:text-sm flex items-center gap-2 shadow-lg transition-transform active:scale-95"
+                  className="px-5 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs sm:text-sm flex items-center gap-2 shadow-lg shadow-red-600/25 transition-transform active:scale-95"
                 >
                   <MessageCircle className="w-4 h-4 fill-current" />
                   <span>{isAr ? 'استفسر عبر واتساب' : 'WhatsApp Price Inquiry'}</span>
@@ -432,9 +432,9 @@ export default function TabletAccessoriesPage({ onBookNow }: TabletAccessoriesPa
 
                 <Link
                   to="/tablet-repair"
-                  className="px-5 py-3 rounded-xl bg-brand-orange hover:bg-orange-600 text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 transition-colors shadow-md"
+                  className="px-5 py-3 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs sm:text-sm flex items-center gap-1.5 transition-colors"
                 >
-                  <Wrench className="w-4 h-4" />
+                  <Wrench className="w-4 h-4 text-red-400" />
                   <span>{isAr ? 'شاشتك مكسورة؟ صيانة فورية ←' : 'Need Screen Repair? Click Here →'}</span>
                 </Link>
               </div>
@@ -630,7 +630,7 @@ export default function TabletAccessoriesPage({ onBookNow }: TabletAccessoriesPa
 
                     <button
                       onClick={() => handleWhatsAppInquiry(item.name, item.priceAED)}
-                      className="px-3.5 py-2 rounded-xl bg-slate-900 dark:bg-slate-800 hover:bg-[#25D366] hover:text-white text-white font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer border border-white/10"
+                      className="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs flex items-center gap-1.5 transition-all shadow-md active:scale-95 cursor-pointer"
                       title="Reserve on WhatsApp"
                     >
                       <MessageCircle className="w-3.5 h-3.5 fill-current" />

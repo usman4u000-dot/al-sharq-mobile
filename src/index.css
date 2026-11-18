@@ -6,7 +6,12 @@
 @theme {
   --color-brand-blue: #0A192F; /* Deep Navy Blue (Trust) */
   --color-brand-grey: #475569; /* Slate Grey - WCAG AA compliant */
-  --color-brand-orange: #C2410C; /* Deep High-Contrast Orange - 5.2:1 WCAG AA compliant on white */
+  --color-brand-red: #DC2626; /* Apple Crystal Vibrant Red - 4.54:1 contrast ratio */
+  --color-brand-red-hover: #B91C1C;
+  --color-brand-crimson: #E11D48; /* Accent Crimson */
+  --color-brand-orange: #DC2626; /* Aliased to Vibrant Apple Red for instant system-wide cohesion */
+  --color-near-black: #1E1E1E; /* Never pure #000000: Soft near-black for eye comfort & luxury */
+  --color-crystal-white: #FFFFFF;
   --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   
   --animate-infinite-scroll: infinite-scroll 40s linear infinite;
@@ -33,6 +38,46 @@ html, body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Rule 1: Skip Pure Black (#000000) - Soft near-black luxury feel */
+  color: #1E1E1E;
+  /* Rule 1: Line Height (Text Breathing) between 1.4 to 1.6 */
+  line-height: 1.55;
+  background-color: #FFFFFF;
+}
+
+.dark html, .dark body {
+  color: #E2E8F0;
+  background-color: #0F172A;
+}
+
+/* Rule 1: Left-Align Body Text across all paragraphs, descriptions & blog clusters */
+p, .prose p, article p, .blog-body p {
+  text-align: left;
+  line-height: 1.55;
+  color: #1E1E1E;
+}
+
+.dark p, .dark .prose p, .dark article p, .dark .blog-body p {
+  color: #E2E8F0;
+}
+
+/* Rule 3: Nested Radius Formula Helpers
+   Outer Radius = Inner Radius + Padding
+   Example: Inner 16px (rounded-2xl) + 8px padding (p-2) = Outer 24px (rounded-3xl)
+   Example: Inner 12px (rounded-xl) + 16px padding (p-4) = Outer 28px (rounded-[28px])
+   Example: Inner 16px (rounded-2xl) + 24px padding (p-6) = Outer 40px (rounded-[40px])
+*/
+.nested-radius-outer-sm {
+  border-radius: 24px; /* 16px inner + 8px padding */
+}
+.nested-radius-outer-md {
+  border-radius: 28px; /* 12px inner + 16px padding */
+}
+.nested-radius-outer-lg {
+  border-radius: 32px; /* 16px inner + 16px padding */
+}
+.nested-radius-outer-xl {
+  border-radius: 40px; /* 16px inner + 24px padding */
 }
 
 /* ==========================================================================
@@ -44,13 +89,15 @@ html, body {
 /* 1. Universal Web-Safe sRGB Color Fallbacks (prevent black/washed-out screen on old WebKit & Chromium) */
 :root {
   --brand-blue: #0A192F;
-  --brand-orange: #C2410C;
+  --brand-orange: #DC2626; /* Apple Crystal Vibrant Red */
+  --brand-red: #DC2626;
   --brand-grey: #475569;
   --brand-green: #10B981;
   --bg-dark-base: #0F172A;
   --bg-card-base: #1E293B;
   --border-card-base: #334155;
   --text-high-contrast: #FFFFFF;
+  --text-near-black: #1E1E1E;
 }
 
 /* Fallback for browsers that do not support backdrop-filter or lag on older integrated GPUs (Intel HD 2000/3000/4000) */

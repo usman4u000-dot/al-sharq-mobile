@@ -165,9 +165,13 @@ export default function Shop() {
               : getEffectiveStock(product.id, product.stock);
 
             return (
-              <div key={product.id} className="group relative bg-white dark:bg-slate-800 rounded-3xl p-5 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-200 dark:border-slate-700 flex flex-col justify-between">
+              <div 
+                key={product.id} 
+                className="group relative bg-white dark:bg-slate-800 rounded-[40px] p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-100 dark:border-slate-700 flex flex-col justify-between text-left"
+              >
                 <div>
-                  <div className="aspect-square w-full overflow-hidden rounded-2xl bg-gray-100 dark:bg-slate-700 mb-4 relative">
+                  {/* Inner element radius: 16px (rounded-2xl) + 24px padding = 40px outer container radius */}
+                  <div className="aspect-square w-full overflow-hidden rounded-2xl bg-slate-50 dark:bg-slate-700 mb-4 relative">
                     <span className={`absolute top-3 left-3 text-[11px] font-black px-3 py-1 rounded-full z-10 shadow-md ${
                       currentProductStock === 0 ? 'bg-slate-900 text-amber-300 border border-amber-400/50' : 'bg-red-600 text-white'
                     }`}>
@@ -181,20 +185,20 @@ export default function Shop() {
                     />
                   </div>
                   
-                  <h3 className="text-base font-black text-brand-blue dark:text-white group-hover:text-brand-orange transition-colors line-clamp-1 mb-1">
+                  <h3 className="text-base font-black text-[#1E1E1E] dark:text-white group-hover:text-red-600 transition-colors line-clamp-1 mb-1 text-left">
                     {product.name}
                   </h3>
                   
-                  {/* 20% Discounted Pricing Box with Dirham Symbol */}
-                  <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-750 border border-slate-100 dark:border-slate-700 mb-3">
-                    <div className="text-xs text-gray-400 line-through font-semibold">
+                  {/* 20% Discounted Pricing Box: 16px padding + 12px inner = 28px outer radius */}
+                  <div className="p-4 rounded-[28px] bg-slate-50 dark:bg-slate-750 border border-slate-100 dark:border-slate-700 mb-3 text-left">
+                    <div className="text-xs text-slate-400 line-through font-semibold">
                       Mall Price: AED {product.marketPrice}
                     </div>
                     <div className="flex items-baseline gap-2">
                       <div className="flex items-center gap-1 text-xl font-black text-emerald-600 dark:text-emerald-400">
                         <UAEDirhamSymbol size={18} className="text-emerald-600 dark:text-emerald-400" />
                         <span>{product.price}</span>
-                        <span className="text-[10px] font-mono text-gray-400 uppercase">AED</span>
+                        <span className="text-[10px] font-mono text-slate-400 uppercase">AED</span>
                       </div>
                       <span className="text-[10px] font-extrabold text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-950/50 px-2 py-0.5 rounded-full">
                         -20%
@@ -203,7 +207,7 @@ export default function Shop() {
 
                     {/* Dynamic Realistic Stock Status */}
                     <div className="mt-2 pt-2 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between text-[10px] font-bold">
-                      <span className="text-amber-800 dark:text-amber-300">⚡ Online Only</span>
+                      <span className="text-amber-800 dark:text-amber-300">⚡ Online Deal</span>
                       {currentProductStock === 0 ? (
                         <span className="text-red-600 dark:text-red-400 font-black flex items-center gap-1 bg-red-100 dark:bg-red-950/70 px-1.5 py-0.5 rounded">
                           <span className="w-1.5 h-1.5 rounded-full bg-red-600"></span>
@@ -223,7 +227,9 @@ export default function Shop() {
                     </div>
                   </div>
 
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mb-3 line-clamp-2">{product.description}</p>
+                  <p className="text-xs text-slate-600 dark:text-slate-400 mb-3 line-clamp-2 text-left leading-[1.55]">
+                    {product.description}
+                  </p>
                 </div>
 
                 <div>
@@ -234,16 +240,16 @@ export default function Shop() {
                         className="h-3 w-3 text-amber-400 fill-amber-400"
                       />
                     ))}
-                    <span className="text-[10px] text-gray-400 font-semibold ml-1">(5.0 Rating • Sealed)</span>
+                    <span className="text-[10px] text-slate-400 font-semibold ml-1">(5.0 Rating • Sealed)</span>
                   </div>
 
-                  {/* Primary Button Triggering The Scarcity Booking System */}
+                  {/* Single Primary Action Button Rule: Exactly ONE Vibrant Apple Red Action Button */}
                   <button
                     onClick={() => handleOpenFlashScarcity(product)}
-                    className={`w-full py-2.5 mb-2 font-black text-xs rounded-xl flex items-center justify-center gap-1.5 shadow-md transition-transform active:scale-95 cursor-pointer ${
+                    className={`w-full py-2.5 mb-2 font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 shadow-md hover:shadow-lg transition-all active:scale-95 cursor-pointer ${
                       currentProductStock === 0
                         ? 'bg-slate-900 hover:bg-slate-800 text-amber-300 border border-amber-500/40 shadow-slate-900/20'
-                        : 'bg-gradient-to-r from-red-600 via-brand-orange to-amber-600 hover:from-red-700 hover:to-orange-700 text-white shadow-orange-500/20'
+                        : 'bg-red-600 hover:bg-red-700 text-white shadow-red-600/20'
                     }`}
                   >
                     <Lock className="w-3.5 h-3.5" />
@@ -254,17 +260,18 @@ export default function Shop() {
                     </span>
                   </button>
 
+                  {/* Secondary Subtle Ghost Actions */}
                   <div className="grid grid-cols-2 gap-2">
                     <a
                       href="tel:+971507117043"
-                      className="py-2 bg-slate-900 dark:bg-slate-750 hover:bg-slate-800 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1 transition-colors text-center"
+                      className="py-2 bg-transparent hover:bg-slate-100 dark:hover:bg-slate-700/60 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-xs rounded-xl flex items-center justify-center gap-1 transition-colors text-center"
                     >
                       <Phone className="w-3 h-3" />
                       <span>Call Store</span>
                     </a>
                     <button
                       onClick={() => handleOpenFlashScarcity(product)}
-                      className="py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1 transition-colors shadow-sm cursor-pointer"
+                      className="py-2 bg-transparent hover:bg-slate-100 dark:hover:bg-slate-700/60 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-semibold text-xs rounded-xl flex items-center justify-center gap-1 transition-colors cursor-pointer"
                     >
                       <MessageCircle className="w-3 h-3" />
                       <span>WhatsApp</span>
